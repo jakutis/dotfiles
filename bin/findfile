@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+OPENER="$3"
+FOLDERS="$1"
+if ! [ -e "$FOLDERS" ]
+then
+    echo "File "$FOLDERS" must exist with a space separated list of paths to directories"
+    echo "Example:"
+    echo "$2"
+    exit 1
+fi
+FOLDERS="$(cat "$FOLDERS")"
+
+
+GREPS=""
+for A in "$@"
+do
+    GREPS="$GREPS | grep -i "$A""
+done
+
+function updateIndex {
+    echo "Updating index "$1.index""
+    find "$1" > "$1.index"
+}
+
+for F in $FOLDERS
+do
+    echo "---------- $F"
+    echo
+    if ! [ -e "$F" ]
+    then
+        echo "Folder does not exist"
+        exit 1
+    fi
+    if ! [ -e "$F.index" ]
+    then
+        updateIndex "$F"
+    fi
+    eval "find "$F" $GREPS" | (
+        while read FILE
+        do
+            echo "$OPENER \"$FILE\""
+            ls -lha "$FILE"
+            echo
+        done
+    )
+done

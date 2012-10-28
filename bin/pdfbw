@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+IN="$1"
+INT="$(mktemp)"
+OUT="$2"
+
+if [ -z "$IN" ]
+then
+  echo "Please specify input file."
+  exit
+fi
+
+if ! [ -e "$IN" ]
+then
+  echo "Input file "$IN" does not exist"
+  exit
+fi
+
+if [ -z "$OUT" ]
+then
+  echo "Output file was not specified. Do you want to overwrite the input file?"
+  read ANSWER
+  if [ "$ANSWER" = "yes" ]
+  then
+    OUT="$IN"
+  else
+    exit
+  fi
+else
+  if [ -e "$OUT" ]
+  then
+    echo "Output file "$OUT" already exists"
+    exit
+  fi
+fi
+
+gs -sOutputFile="$INT" -sDEVICE=pdfwrite -sColorConversionStrategy=Gray -dProcessColorModel=/DeviceGray -dCompatibilityLevel=1.4 "$IN" < /dev/null
+mv "$INT" "$OUT"

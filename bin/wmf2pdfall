@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if [ -z "$(which svg2pdf 2>/dev/null)" ]
+then
+    echo "Please ensure that svg2pdf is in your PATH"
+    echo "Get it from http://cgit.freedesktop.org/~cworth/svg2pdf/"
+    exit 1
+fi
+
+if [ -n "$1" ]
+then
+  cd "$1"
+fi
+
+for A in $(ls *.wmf)
+do
+  B=$(basename "$A" .wmf)
+  wmf2svg "$B.wmf" "$B.svg"
+  svg2pdf "$B.svg" "$B.pdf"
+  rm "$B.svg";
+done
+

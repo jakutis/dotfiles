@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+IP="$1"
+MAC="$2"
+
+if [ -n "$(which wol 2>/dev/null)" ]
+then
+	wol -p 9 -h "$IP" "$MAC" 
+elif [ -n "$(which WolCmd 2>/dev/null)" ]
+then
+	WolCmd "$(echo "$MAC"|tr -d ":")" "$IP" 255.255.255.255 9
+else
+	wakeonlan -i "$IP" "$MAC"
+fi

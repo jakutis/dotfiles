@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+if [ -z "$(which ttf2eot 2>/dev/null)" ]
+then
+    echo "Please add to your path ttf2eot from http://code.google.com/p/ttf2eot/"
+    exit 1
+fi
+
+if [ -z "$(which sfnt2woff 2>/dev/null)" ]
+then
+    echo "Please add to your path sfnt2woff from http://people.mozilla.com/~jkew/woff/woff-code-latest.zip"
+    exit 1
+fi
+
+for F in "$@"
+do
+   echo "Converting $F"
+   ttf2eot "$F" > "$(basename "$F" .ttf).eot"
+   ttf2svg "$F" "$(basename "$F" .ttf).svg"
+   sfnt2woff "$F"
+done

@@ -1,0 +1,39 @@
+!black
+URxvt*color0:  rgb:16/16/16
+URxvt*color8:  rgb:85/7B/6F
+!red
+URxvt*color1:  rgb:e5/78/6d
+URxvt*color9:  rgb:9d/2a/3a
+!green
+URxvt*color2:  rgb:ca/e6/82
+URxvt*color10: rgb:8b/be/34
+!brown/yellow
+URxvt*color3:  rgb:ff/e1/61
+URxvt*color11: rgb:ff/c4/42
+!blue
+URxvt*color4:  rgb:52/83/d7
+URxvt*color12: rgb:3b/5d/9a
+!magenta
+URxvt*color5:  rgb:b6/98/d9
+URxvt*color13: rgb:a5/7a/c4
+!cyan
+URxvt*color6:  rgb:a8/c6/f2
+URxvt*color14: rgb:5d/a7/e1
+!white
+URxvt*color7:  rgb:f6/f3/e8
+URxvt*color15: rgb:d3/d7/cf
+
+URxvt*font:        xft:Source Code Pro-11
+URxvt*scrollBar:   false
+URxvt*urlLauncher: ~/bin/www
+URxvt*transparent: false
+URxvt*fading:      40
+URxvt*foreground:  #e3e0d7
+URxvt*background:  #1c1c1c
+URxvt.perl-ext-common: default,clipboard
+URxvt.perl-ext: default,clipboard
+URxvt*perl-ext-common: default,clipboard
+URxvt*perl-ext: default,clipboard
+
+URxvt*letterSpace: -1
+

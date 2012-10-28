@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+CFG="$HOME/.mediaplayer"
+
+if ! [ -e "$CFG" ]
+then
+    echo "Please create a config file "$CFG""
+    echo "Example:"
+    echo "sansasd"
+    echo "/mnt/media/music"
+    echo "MUS /albums-flac/1957 - Ella Fitzgerald, Billie Holiday, And Carmen McRae at Newport"
+    echo "POD /podcasts/somafm"
+    echo "MUS /albums-flac/Wild Nothing - Nocturne (2012) [FLAC]"
+    exit 1
+fi
+
+DAYS="$1"
+if [ -z "$DAYS" ]
+then
+    echo "Error: please specify a number of days old tracks should not be copied" >&2
+    exit 1
+fi
+
+
+cat "$CFG" | (
+I=0
+while read ITEM
+do
+    I=$(($I + 1))
+    if [ "$I" = "1" ]
+    then
+        NAME="$ITEM"
+        mymount "$NAME" || echo "Cannot mount media player" && exit 1
+        continue
+    fi
+    if [ "$I" = "2" ]
+    then
+        SOURCE="$ITEM"
+        if ! [ -d "$SOURCE" ]
+        then
+            echo "Source directory "$SOURCE" does not exist"
+            exit 1
+        fi
+        continue
+    fi
+    echo $ITEM
+
+    DIR="${ITEM:4}"
+    TYPE="${ITEM:0:3}"
+    BASENAME="/$(basename "$DIR")"
+    if [ "$TYPE" = "MUS" ]
+    then
+        TARGET="/MUSIC"
+    elif [ "$TYPE" = "POD" ]
+    then
+        TARGET="/MUSIC/PODCASTS"
+    fi
+
+    cd "$SOURCE$DIR"
+    /usr/bin/find . -mtime "-$DAYS" | (while read FILE
+    do
+        if [ -d "$FILE" ]
+        then
+            /bin/mkdir -p "/mnt/$NAME$TARGET$BASENAME/$FILE"
+        elif [ -f "$FILE" ]
+        then
+            /bin/cp -uv "$FILE" "/mnt/$NAME$TARGET$BASENAME/$FILE"
+        fi
+    done)
+done
+mymount "$NAME"
+)
+

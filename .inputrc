@@ -1,0 +1,19 @@
+set bell-style none
+
+set editing-mode vi
+
+set keymap vi-command
+# these are for vi-command mode
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+"\e[7~": beginning-of-line
+"\e[8~": end-of-line
+"\ep": yank-last-arg
+
+set keymap vi-insert
+# these are for vi-insert mode
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+"\e[7~": beginning-of-line
+"\e[8~": end-of-line
+Control-l: clear-screen

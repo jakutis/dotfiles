@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+MAXVOL=$(amixer -c 0 sget "Master"|grep Limits|sed 's/  Limits: Playback 0 - //ig')
+STEP=$(($MAXVOL / 10))
+CURVOL=$(amixer -c 0 cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
+if [[ $1 == "increase" ]]
+then
+    if [ "$CURVOL" -lt "$MAXVOL" ]
+    then
+        CURVOL=$(($CURVOL + $STEP))
+    fi
+fi
+if [[ $1 == "decrease" ]]
+then
+    if [ "$CURVOL" -gt "0" ]
+    then
+        CURVOL=$(($CURVOL - $STEP))
+    fi
+fi
+
+amixer -c 0 sset Master $CURVOL

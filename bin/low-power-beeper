@@ -1,0 +1,240 @@
+#!/usr/bin/env bash
+
+# 1000 = 1mAh
+CHARGE_TRESHOLD="200000"
+POLL_INTERVAL="5"
+BAT="$(cat "$HOME/.varia/bat")"
+COMPLAIN="write a complaint to vytautas@jakut.is"
+BEEP="$(which beep)"
+
+function rl {
+  local TARGET_FILE=$1
+  cd "$(dirname "$TARGET_FILE")"
+  TARGET_FILE=$(basename "$TARGET_FILE")
+  while [ -L "$TARGET_FILE" ]
+  do
+    TARGET_FILE=$(readlink "$TARGET_FILE")
+    cd "$(dirname "$TARGET_FILE")"
+    TARGET_FILE=$(basename "$TARGET_FILE")
+  done
+  echo "$(pwd -P)/$TARGET_FILE"
+}
+SELF="$(rl "$0")"
+
+if ! [ -r "/sys/class/power_supply/$BAT/status" ]
+then
+  echo "Could not read your battery status, please $COMPLAIN"
+  exit 1
+fi
+function status {
+  cat "/sys/class/power_supply/$BAT/status"
+}
+if ! [ -r "/sys/class/power_supply/$BAT/energy_now" ]
+then
+  echo "Could not read your battery charge, please $COMPLAIN"
+  exit 1
+fi
+function charge {
+  cat "/sys/class/power_supply/$BAT/energy_now"
+}
+function vmset {
+  amixer cset name="$1 Playback Switch" "$2" 2>/dev/null >&2
+}
+function vmget {
+  amixer cget name="$1 Playback Switch"|grep ": values"|sed 's/  : values=//ig' 2>/dev/null
+}
+function vset {
+  amixer cset name="$1 Playback Volume" "$2" 2>/dev/null >&2
+}
+function vget {
+  amixer cget name="$1 Playback Volume"|grep ": values"|sed 's/  : values=//ig' 2>/dev/null
+}
+function vmax {
+  vmset "$1" on
+  amixer sset "$1" "$(amixer sget "$1"|grep Limits|sed 's/  Limits: Playback 0 - //ig')" 2>/dev/null >&2
+}
+CONTROLS="$(amixer scontrols|sed "s/Simple mixer control '//gi"|sed "s/',0$//gi")"
+if [ -n "$(which paplay 2>/dev/null)" ]
+then
+  PLAYWAV="paplay"
+elif [ -n "$(which mplayer 2>/dev/null)" ]
+then
+  PLAYWAV="mplayer"
+elif [ -n "$(which aplay 2>/dev/null)" ]
+then
+  PLAYWAV="aplay"
+elif [ -n "$(which cvlc 2>/dev/null)" ]
+then
+  PLAYWAV="clvc --play-and-exit"
+elif [ -n "$(which artsplay 2>/dev/null)" ]
+then
+  PLAYWAV="artsplay"
+elif [ -n "$(which ossplay 2>/dev/null)" ]
+then
+  PLAYWAV="ossplay"
+elif [ -n "$(which esdplay 2>/dev/null)" ]
+then
+  PLAYWAV="esdplay"
+else
+  echo "Could not play audio file, please install package "beep" or $COMPLAIN"
+  exit 1
+fi
+if [ -z "$BEEP" ]
+then
+    if [ -z "$(which mktemp 2>/dev/null)" ]
+    then
+      echo "Command "mktemp" not found, please install package "beep" or $COMPLAIN"
+      exit 1
+    fi
+    if [ -z "$(which uudecode 2>/dev/null)" ]
+    then
+      echo "Command "uudecode" not found, please install package "beep" or install shar-utils package or $COMPLAIN"
+      exit 1
+    fi
+fi
+function beep {
+  if [ -n "$BEEP" ]
+  then
+    $BEEP
+    return
+  fi
+  declare -A VOL
+  declare -A VOLM
+  for C in $CONTROLS
+  do
+    VOL[$C]="$(vget "$C")"
+    VOLM[$C]="$(vmget "$C")"
+    vmax "$C"
+  done
+
+  local BEEP="$(mktemp)"
+  uudecode -o "$BEEP" "$SELF"
+  "$PLAYWAV" "$BEEP" >/dev/null 2>&1
+  rm "$BEEP"
+
+  for C in $CONTROLS
+  do
+    vset "$C" "${VOL[$C]}"
+    vmset "$C" "${VOLM[$C]}"
+  done
+}
+
+if [ "$1" = "-d" ]
+then
+  while true
+  do
+    if [ "$(charge)" -lt "$CHARGE_TRESHOLD" ]
+    then
+      echo "Below treshold"
+      if [ "$(status)" != "Charging" ]
+      then
+        echo "Not charging"
+        beep
+      fi
+    fi
+    sleep "$POLL_INTERVAL"
+  done
+else
+  if [ -z "$(which nohup 2>/dev/null)" ]
+  then
+    echo "Could not execute command "nohup", please install package "coreutils" or $COMPLAIN"
+    exit 1
+  fi
+  nohup "$SELF" -d >/dev/null </dev/null 2>/dev/null &
+  echo "OK, low-power-beeper is now running in background"
+fi
+
+exit 0
+
+begin-base64 644 a.sh
+UklGRq4PAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YYoPAACA
+gIGBgYKBgoFwZ3SCsOPDd0EuO05cleDZjlhSXFtbkNnQh1RSXF1lpO7ag0ZC
+UFNdoOnXg0hGVVZdm97Ngk9QX11ko+HIfExNW1tlp+HFekxQXVxlp9/AdUxR
+X11pq+C9c0xTXlxqrd66cE1VYF1ssOC3bklNWVhsvO66ZT9JWFhvwvO9Z0RS
+Xllut+K0bFBcYlpvttemYEdUXlt1vdunZE1ZYl55wdynZlFdZF96wdmhYU9a
+YFx5wNScXU1bYFx8yNydWUVRWlmE2+ygU0FSWlmF2+qfVEhbX1qBydaYW1Fg
+YVyEx8uLUkpbYGCN0NCPWFFgZGOQ0s6NWVRiZGOR0MiFU1FfX2CQzsSBUlJg
+YGKa3Ml8SEhZXGSn8dd/RkZWV16j69J8SFBgXGKc18N7UVdjXmWg1LhyS1Jh
+X2up2rp1UFdkYm2r2bdzUllkYW6r1bBtTlhiX26s06tpT1lkYHK846xeP0xb
+W3bL9rhhQE1YVXDE7LFgR1pkXHS52adjTl1iXHi80p1dSlliYH7D1Z5gT15l
+YoDE05tfUV9lYoHDz5RaUF5iYILDy5BZUF5iYIvW14tKQVNdX5Tn5pRORFVZ
+WY7c241PTmJiYI3OyodTUmFgYZLOwoBQUGBiZ5rUxIJVVWNkaZzTwH5UV2Nj
+aJ3RunhRVWFgaJ7QtnVRVWBga6/mvWo/RVdabLr2ynFES1lWZ7HnvWxKWmZf
+bavVr2pMWGJdb7DTqWdMV2NhdrfXqWlRXGdkebnUpWZRXWVheLjQnmFPXGJf
+ebrOm2BPWWBfgdDgmlI/T1tdh9ztolZFVVtYgdDcmFZPYmRfhMXLjlVOXmBf
+icnIilVQX2Rlkc/Ki1lVY2Znk87FhldVYWJlk8u/f1NUYGBkls6/flNRXF5m
+pujJdkJDVVpmrvPUfEhMWlhipd/Cdk5aZmBoo9KzbktUYF1sqtSwbk5XY2Jy
+sdewcFNcZ2R0stWqa1FbY2BzsdCjZU9aYl51ttOjZU5VXV18zOalWUBOWluA
+1e+qXEdWXVl8x9ueXVFiZF5/wMuRV0xcYGCGx8yRWlBfZWWNzM2QXVZkZ2aP
+zMiKWFRhYmOOycKDVVNgYWOT0MSDU05ZXGOj6dF9RkVWWmSo79aASk5dW2Kf
+2sN7UlpmX2afz7NwS1NgXmyp1bRyUFhkY3Kv17NzVV1nZXSw1KxsUVpjX3Kv
+z6VnUFpiX3S31qZmTFJcXHvN6qlcQk9aWn7S7atdR1deWnvD2J9gUmJkXn6/
+yZFXTFthYYfHzZJcUmBlZY3MzJFeVmRnZ4/Lx4lYVGBiY47IwYNVU2BhY5bU
+xoJQS1ZaY6Xr039IR1daZKnu035KT15bZJ/XwHtTWmVeZ6HOsG5LU2BfbqzW
+s3FRWWVjc7HXsHFVXWdkdbLTqWpRWmJfc7HOomVQWmJfd73ZpGFIUFpbf9Lr
+qFxEUVtagdTppVpIWV9bfsTTm19TYWJegsHGjFVMXGFijcvLj1tUYWVmkc7J
+jFtXY2Vnk83Cg1ZUYGBjk8q9flRVYGBlndrEe0tIVVllre/Pe0hKWVlmru3K
+dklSYFxnpda5dVJbY11qp86qaUpUYV9zs9eublJbZmN3t9apa1ReZmJ4t9Gh
+ZFBbYV54t8ybYVFcYV5+x9mcWkVQWVuH2+mgWEZUW1uI2eKZVEpdYF2GyM6R
+WlRhYF+Kx8GEUk5eYWWW0caHWFZjZWia0sKDWFhkZGibz7t6U1VhX2aczbZ3
+U1ZgXmmr4LxwRkhWWGy788ZxR05bWGy46rxrSVdiXG2u1a1rUFthW3GyzqBi
+S1dhYHy+1aNnU19mZIDA0p5kVF9lYYDAzJVdUV1gX4G/yJFdUlxgX4vT1Y9R
+RFJZXpXl4ZJRSFhbXZTf1olOTmFgYJLOxINUVWFeYpfNuXlPUmBha6PVvHxV
+WWVkbqfVt3dVWmRhbafRr29RWGFebanPq21SV19ccr3jrmJCSldYd8zytmRH
+U1xYdsXkqmBLXWNdebvQnV9OW2Bcfb/LlFtNXGJiiMnPlV9VYmZljMvLj1xU
+YWNijMjDhlZSX19hj8nBhFdTXV5jnuDKfUlGVFlkqu/UgExNW1ljpuPFdktW
+ZF5oo9K1ck5WYVxrqdGsbE5XYmB0tNatblRdZ2N3t9SnalNdZGB3t86eY1Bb
+YV55uc6cY1FZXlyC0d+aVEFOWFqK3+qfV0lYXFqH09mTVlBiYl6Ix8eJVE9d
+Xl+Py8KEVFFgYmea08SEWVhlZWqd0r59VldiYGedzrV1UVZgXmii0LR1U1Rd
+W2y25rhqQ0lXWHDB8b9sSFJbV2+64a9mTV1kXXO10KBhTFlfW3m8z5tgTltj
+YYPF0ZpiVWFmZIbGzZNeU19iYIfExYtYUl5gX4vJxolZUFlbX5ni0oJJQ1NY
+YKLs2YZOTlxaYJzbxnxQV2ReZJ3PtnRNUl9caKXSs3JQV2NhcK/XsnNVXGZj
+c7HTq2xSWmJecrHOomZQWmFddbfRomVPVlxbfs/koVhCT1lZhNnrpFpIV1tY
+gszWllpSYmJdhsXGiVROXF5fj8zFh1ZSYGJml9HFhlpYZGRom9G+flVWYWBm
+m822d1JWYV5notO3dlFQWllqt+u9bENJV1huvvDBb0tVX1lts9uvaU9cY1xy
+s8+hYktXX1x5vNGgZFFdZWKBw9KdZFVhZmOExM2VXlJeYV+EwsaNWlJfYWCL
+y8qMWE5XW1+Y49eHTEVVWV+f6tmHTU1cWl+b2MV/VFllX2SdzrVzTVJfXWqo
+1LRzUlhjYXCv1rFyVV1mY3Sy06lrUlpiXnOyzqFlUFpiXXe81aFiS1JaWYDU
+6KJYQ1BaWoTX6KNcTVteWoHH0ZVbUmBhXYbFxYlUTVxfYZDNx4lZVWJkZ5fS
+xYZaWGRkZ5rQvX1UVWFfZZvNtndTV2JfaKXYuXVOT1lZa7jtwG5FTFlYbb7v
+vmtIVF5ZbrTZrmtSXmRcc7TNnWBLWGBefMDSnmNRXWRig8XRmmNVYWZjhsXL
+kVxSXmFfh8TEillTX2Bgj9LLh1NJVFhfnunYhUtIV1phoOfVhVBSX1xhmtO/
+fFJXYl1ln8+zck1TYF5sqta1dFRaZWNysNawcVVcZWFzstKnaVFaYV1zss2g
+ZVFbYl55wdmhX0hQWVmC1umjWkVSWlmF2OWdV0laXluEyNCUXFViYF6JxsKF
+U05dX2OV0caGWFViZGib0sKCWmh6bmVugI6Jh5SUh4B/e3Zzcnh+gISHg316
+eHl8fHt9fn1/g4eLi4iGhYB9foGCgYGBgH16e318e3p5eHd4e4CCg4ODgoGB
+goSFhYWEgoGBgoKBgH59fHt8fH1+fXx8e3x9foCBgYGBgIB/f4CAgICBgoKC
+goODgYB+fn5+f4GCgoGAf317e3x8fHx8fX1+f4CBgYKCgYGBgoOEhIOCgYB/
+f4CAgIB+fXx8fH1+f359fX1+f4CAgoKBf39/gIGBgoKBf3+AgICAgIB/fXx9
+fn+AgYKAfn1+fn5+f4B/fn5/gICAgoKBf39/gICAgYGAfn5/f3+AgIB/fn5+
+f39/gIB/fn5/gICBgoF/fX19fX5/gYGAgIGBgYGBgYF/foCCg4KCgoF+fHt7
+fHt8fn59fX5/gICBgoKBgIGCg4KDg4OBgICAgH9/f399fX1+fX1+fn5+fn+A
+gICBgYGAgICAgICBgYGAgIGBgH9/f35+foCAgICAgH9+fn9/fn5/f39/f4CB
+gICAgYB/gIGBgICAgIB/f4CAf39/f39+f39/f35/f39/gIGBgICAf359fX5+
+fn+AgYGBgoKBgH+AgICBgoOCgYB/fn18fHx8fH1+fn5/f4CAgICBgYGBgoKC
+goKCgYGAgIB/fn5+fn19fn5+fn5+fn5/gICBgYGBgYCAgICAgICBgYCAgIB/
+f39/f39/gICAf39/fn5+f39/f3+AgICAgICAgICAgICAgICAgICAgIB/f39/
+fn9/f39/f39/f39/gICBgYGAf39+fn1+fn9/gIGBgYGBgYB/f4CBgoKCgoF/
+fn19fHx9fX19fn5/f4CAgICAgYGBgoKCgoKBgYGBgIB/f39+fn5+fn5+fn5+
+fn9/f4CAgYGAgICAgICAgICAgIGAgICAf39+f3+AgICAgH9/fn5+fn5/f39/
+gICAgICAgICAgICAgICAgICAgIB/f39/f39/f39/f39/f39/f4CAgIGBgIB/
+fn59fn5/gICBgYGBgYCAgICBgoKCgYGAf359fXx8fX5+fn5/f39/gICAgIGB
+gYKBgoKCgYGBgIB/f39/fn5+fn5+fn5+fn5/f4CAgIGBgICAgICAgICAgICB
+gYCAf39/f39/gICAgIB/f35+fn5+f3+AgICAgICAgICAgICAgICAgICAgIB/
+f39/f39/f39/f39/f39/f3+AgICBgYCAf35+fn5+f4CAgYGBgYCAgICAgYKC
+gYGAf39+fX19fX1+fn5/f39/gICAgIGBgYGCgoKCgYGBgICAf39/f35+fn5+
+fn5+fn9/f3+AgICBgICAgH9/gICAgICBgYCAgH9/f39/gICAgH9/f39+fn5+
+f39/gICAgICAgICAgICAgICAgICAgICAf39/f39/f39/f39/f39/f3+AgICB
+gYCAf39+fn5+f3+AgIGBgYGAgICAgYGCgoGBgH9+fn19fX19fn5/f39/f4CA
+gICBgYGBgYGBgYGBgYCAf39/f35+fn5+fn5+fn5/f39/gICAgYCAgH9/f4CA
+gICBgYCAgIB/f39/gICAgIB/f39+fn5+fn9/f4CAgICAgICAgICAgICAgICA
+gICAf39/f39/f39/f39/f39/f39/gICAgYGAgH9/fn5+fn9/gICBgYGAgICA
+gIGCgoGBgH9/fn19fX19fn5+f39/f3+AgICAgYGBgYGBgYGBgYCAgH9/f35+
+fn5+fn5+fn5+f39/gICAgYCAgH9/f3+AgICAgYGAgIB/f39/f4CAgIB/f39+
+fn5+fn9/f3+AgICAgICAgICAgICAgICAgICAgH9/f39/f39/f39/f39/f39/
+f4CAgIGBgIB/fn5+fn5/gICBgYGAgIB/gIGBgoGBgYB/fn59fX19fn5+f39/
+f3+AgICAgIGBgYGBgYGBgYCAgH9/f39+fn5+fn5+fn5+f39/f4CAgICAgIB/
+f39/gICAgIGBgICAf39/f4CAgICAf39/fn5+fn5/f39/gICAgICAgICAgICA
+gICAgICAgH9/f39/f39/f39/f39/f39/f3+AgIGBgIB/f35+fn5/f4CAgYGB
+gICAgICBgoKBgYB/f35+fX0=
+====

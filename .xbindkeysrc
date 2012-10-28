@@ -1,0 +1,48 @@
+# To find out a key sequence definition, run xbindkeys -mk
+
+# Sleep
+"sudo systemd suspend"
+  m:0x0 + c:150
+
+# Sleep
+"sudo systemd suspend"
+  m:0x40 + c:150
+
+# Sleep
+"sudo systemd suspend"
+  m:0x50 + c:127
+
+# Sleep
+"sudo systemd suspend"
+  m:0x0 + c:124
+
+# Sleep
+"sudo systemd suspend"
+  m:0x10 + c:124
+
+# Screensaver
+"blank"
+  m:0x0 + c:160
+
+# Win+PageUp
+"volume increase"
+  m:0x40 + c:112
+
+# Win+PageDown
+"volume decrease"
+  m:0x40 + c:117
+
+# Win+S
+"xkbswitch"
+  m:0x50 + c:39
+
+# Print Screen
+"ksnapshot"
+  m:0x0 + c:107
+
+# Win+Left Alt
+# m:0x58 + c:64
+
+# Win+Shift
+# m:0x51 + c:50
+

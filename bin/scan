@@ -1,0 +1,20 @@
+#!/bin/bash
+
+SCANNER="$HOME/.scanner"
+
+if ! [ -e "$SCANNER" ]
+then
+    echo "Please ensure that file "$SCANNER" exists"
+    echo "It must contain options to scanimage utility from package 'sane'"
+    echo "Example:"
+    echo " --wait-for-button=yes -d epkowa"
+    exit 1
+fi
+
+if [ -z "$1" ]
+then
+    echo please specify output filename
+    exit
+fi
+
+scanimage --format=tiff --batch="$1-%d.tiff" --resolution 150 --mode Color -pv $(cat "$SCANNER") $2

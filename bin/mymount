@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+    echo "Please specify the mount"
+    exit 1
+fi
+
+DIR="/mnt/$1"
+
+if [ -z "$(mount | grep " $DIR ")" ]
+then
+    echo "Mounting $DIR"
+    su -c "mkdir -p "$DIR";mount "$DIR""
+else
+    echo "Unmounting $DIR"
+    su -c "umount "$DIR""
+fi

@@ -1,0 +1,5 @@
+[ui]
+username = Vytautas Jakutis <vytautas@jakut.is>
+verbose = True
+ssh = ssh-wrapper
+

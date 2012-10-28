@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+sleep 1
+xset s blank
+xset s activate
+xset s noblank

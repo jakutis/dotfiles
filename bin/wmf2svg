@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+WMF2SVG="$HOME/opt/wmf2svg/wmf2svg.jar"
+if ! [ -e "$WMF2SVG" ]
+then
+    echo "Please ensure that file "$WMF2SVG" exists"
+    echo "Get it from http://code.google.com/p/wmf2svg/"
+    exit 1
+fi
+
+java -jar "$WMF2SVG"  "$1" "$2"

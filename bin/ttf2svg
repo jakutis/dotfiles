@@ -1,0 +1,11 @@
+#!/bin/bash
+
+TTF2SVG="$HOME/opt/batik-1.7/batik-ttf2svg.jar"
+
+if ! [ -e "$TTF2SVG" ]
+then
+    echo "Please ensure that $TTF2SVG exists"
+    exit 1
+fi
+
+java -jar "$TTF2SVG" "$1" -id font -o "$2"

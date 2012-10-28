@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+findfile "$HOME/.bookfolders" "/mnt/space/books /mnt/room/books" acroread

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+MESSAGE="$1"
+
+if [ -z "$MESSAGE" ]
+then
+  MESSAGE="update"
+fi
+
+git add . && git ci -am "$MESSAGE" && git push

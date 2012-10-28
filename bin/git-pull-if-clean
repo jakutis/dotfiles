@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+T="$(mktemp)"
+echo "---- $(pwd)"
+git status > "$T" || exit 1
+if [ -z "$(diff ~/bin/gitsynced.txt "$T")" ]
+then
+    git pull --rebase || exit 1
+    git submodule update --init || exit 1
+    git submodule foreach git-pull-if-clean || exit 1
+else
+    cat "$T"
+fi
+rm "$T"

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+NEWVERSION="$1"
+
+if [ -z "$NEWVERSION" ]
+then
+    echo "Please specify version" >&2
+    exit 1
+fi
+
+PACKAGES="$HOME/.nodepackages"
+if ! [ -e "$PACKAGES" ]
+then
+    echo "Please create a file "$PACKAGES" with a list of global packages to install"
+    exit 1
+fi
+
+source "$HOME/.nvm/nvm.sh"
+
+nvm install "v$NEWVERSION"
+
+for PACKAGE in $(cat "$PACKAGES")
+do
+    npm install -g $PACKAGE
+done
