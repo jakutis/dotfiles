@@ -30,7 +30,7 @@ do
     if [ "$I" = "1" ]
     then
         NAME="$ITEM"
-        mymount "$NAME" || echo "Cannot mount media player" && exit 1
+        mymount "$NAME" || exit 1
         continue
     fi
     if [ "$I" = "2" ]
