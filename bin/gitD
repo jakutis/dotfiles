@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "======= Now syncing Desktop"
+
 cd "$HOME/Desktop"
 for A in $(ls -t)
 do
@@ -10,8 +12,10 @@ done
 if [ -e "$HOME/.varia/irssi" ]
 then
     cd "$HOME/.varia/irssi"
-    git annex sync && git annex get . || echo ".varia/irssi sync failed" && exit 1
+    git annex sync && git annex get . || exit 1
 fi
+
+echo "======= Now syncing custom directories"
 
 for A in .varia/albums .varia/gajim .Skype bin Maildir .osmo .gnupg .winetrickscache .varia/minecraft .varia/albums .varia/dokuwiki .varia/ejabberd .varia/log .varia/maildir .varia/wiki.lanparty.lt etc/gitolite-admin .varia/ssl .varia/gramps .varia/zotero-dav .varia/wordpress .varia/linklog etc/latex .varia/thinkup .varia/zotero-main .varia/zotero-dataserver etc/r etc/blog etc/base etc/wiki .varia/piwigo etc/gitolite-admin-codingsummit.com
 do
