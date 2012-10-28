@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+JAR="$HOME/opt/JDownloader/JDownloader.jar"
+if ! [ -e "$JAR" ]
+then
+    echo "Please ensure that "$JAR" exists."
+    echo "Get it from http://jdownloader.org"
+    exit 1
+fi
+
+java -jar "$JAR" "$@"
