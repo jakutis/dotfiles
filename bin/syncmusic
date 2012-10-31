@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+CFG="$1"
+if ! [ -e "$CFG" ]
+then
+    echo Config file "$CFG" does not exist
+    exit 1
+fi
+
+export HOME="$(cat "$CFG" | awk 'NR==1{print;exit}')"
+PODCASTDIR="$(cat "$CFG" | awk 'NR==2{print;exit}')"
+SOUNDCLOUD="$(cat "$CFG" | awk 'NR==3{print;exit}')"
+
+[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
+nvm use default 1>/dev/null
+
+export PYTHONBREW_ROOT="$HOME/.pythonbrew"
+[[ -s "$PYTHONBREW_ROOT/etc/bashrc" ]] && source "$PYTHONBREW_ROOT/etc/bashrc"
+pythonbrew use 2.6 1>/dev/null
+
+#export PATH="/home/tahu/.bin:$PATH"
+
+function fix_podcast_album {
+    PODCAST="$1"
+    pythonbrew off
+    ls $PODCASTDIR/$PODCAST/*.mp3 | (
+        while read FILE
+        do
+            ALBUM="$(audiotools info "$FILE" | awk 'NR==3{print;exit}')"
+            if [ "$ALBUM" != "$PODCAST" ]
+            then
+                id3tag --album="$PODCAST" "$FILE"
+            fi
+        done
+    )
+    pythonbrew use 2.6
+}
+
+for PODCAST in $SOUNDCLOUD
+do
+    DIR="$PODCASTDIR/$PODCAST"
+    mkdir "$DIR" -p
+    echo "scsync $PODCAST"
+    scsync --directory="$DIR" -m 1000 --page="/$PODCAST/tracks" 2>/dev/null 1>/dev/null
+    echo "tag $PODCAST"
+    fix_podcast_album "$PODCAST" 2>/dev/null 1>/dev/null
+done
+
+cat "$HOME/.varia/podcasts" | (
+    while read PODCAST
+    do
+        URL="${PODCAST#* }"
+        PODCAST="${PODCAST%% *}"
+        DIR="$PODCASTDIR/$PODCAST"
+        echo "podcatcher $PODCAST"
+        mkdir "$DIR" -p
+        podcatcher -d "$HOME/.podcatcher" -D "$DIR" --no-perfeed -s 0 -S chron -m 0 -f 0 "$URL"
+        echo "tag $PODCAST"
+        fix_podcast_album "$PODCAST" 2>/dev/null 1>/dev/null
+    done
+)
