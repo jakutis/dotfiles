@@ -21,6 +21,7 @@
     "couch" : false,
     "devel" : false,
     "dojo" : false,
+    "evil" : false,
     "jquery" : false,
     "mootools" : false,
     "nonstandard" : false,
