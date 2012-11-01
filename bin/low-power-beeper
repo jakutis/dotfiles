@@ -5,11 +5,11 @@ BAT="$(cat "$HOME/.varia/bat")"
 COMPLAIN="write a complaint to vytautas@jakut.is"
 BEEP="$(which beep)"
 
-if [ -e "/sys/class/power_supply/$BAT/alarm" ]
+if ! [ -z "$1" ]
 then
-    CHARGE_THRESHOLD="$(cat "/sys/class/power_supply/$BAT/alarm")"
+    CHARGE_THRESHOLD="$1"
 else
-    if [ -z "$1" ]
+    if ! [ -e "/sys/class/power_supply/$BAT/alarm" ]
     then
         echo "/sys/class/power_supply/$BAT/alarm does not exist"
         echo "please provide charge alarm threshold as an argument to this program"
@@ -17,7 +17,7 @@ else
         echo "your last full charge is: $(cat "/sys/class/power_supply/$BAT/energy_full")"
         exit 1
     fi
-    CHARGE_THRESHOLD="$1"
+    CHARGE_THRESHOLD="$(cat "/sys/class/power_supply/$BAT/alarm")"
 fi
 echo "charge alarm threshold: $CHARGE_THRESHOLD"
 
@@ -133,7 +133,7 @@ function beep {
   done
 }
 
-if [ "$1" = "-d" ]
+if [ "$2" = "-d" ]
 then
   while true
   do
@@ -154,7 +154,7 @@ else
     echo "Could not execute command "nohup", please install package "coreutils" or $COMPLAIN"
     exit 1
   fi
-  nohup "$SELF" -d >/dev/null </dev/null 2>/dev/null &
+  nohup "$SELF" "$CHARGE_THRESHOLD" -d >/dev/null </dev/null 2>/dev/null &
   echo "OK, low-power-beeper is now running in background"
 fi
 
