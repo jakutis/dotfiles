@@ -1,11 +1,25 @@
 #!/usr/bin/env bash
 
-# 1000 = 1mAh
-CHARGE_TRESHOLD="200000"
 POLL_INTERVAL="5"
 BAT="$(cat "$HOME/.varia/bat")"
 COMPLAIN="write a complaint to vytautas@jakut.is"
 BEEP="$(which beep)"
+
+if [ -e "/sys/class/power_supply/$BAT/alarm" ]
+then
+    CHARGE_THRESHOLD="$(cat "/sys/class/power_supply/$BAT/alarm")"
+else
+    if [ -z "$1" ]
+    then
+        echo "/sys/class/power_supply/$BAT/alarm does not exist"
+        echo "please provide charge alarm threshold as an argument to this program"
+        echo "your current charge is: $(cat "/sys/class/power_supply/$BAT/energy_now")"
+        echo "your last full charge is: $(cat "/sys/class/power_supply/$BAT/energy_full")"
+        exit 1
+    fi
+    CHARGE_THRESHOLD="$1"
+fi
+echo "charge alarm threshold: $CHARGE_THRESHOLD"
 
 function rl {
   local TARGET_FILE=$1
@@ -123,9 +137,9 @@ if [ "$1" = "-d" ]
 then
   while true
   do
-    if [ "$(charge)" -lt "$CHARGE_TRESHOLD" ]
+    if [ "$(charge)" -lt "$CHARGE_THRESHOLD" ]
     then
-      echo "Below treshold"
+      echo "Below threshold"
       if [ "$(status)" != "Charging" ]
       then
         echo "Not charging"
