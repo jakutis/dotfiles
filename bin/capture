@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+    echo "Please specify output file"
+    exit 1
+fi
+
+ffmpeg -f alsa -i hw:0,0 -f x11grab -r 25 -s 1366x768 -i :0.0 -acodec copy -preset ultrafast -vcodec libx264 -ac 2 "$1"
