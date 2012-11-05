@@ -26,11 +26,8 @@ function fix_podcast_album {
     ls $PODCASTDIR/$PODCAST/*.mp3 | (
         while read FILE
         do
-            ALBUM="$(audiotools info "$FILE" | awk 'NR==3{print;exit}')"
-            if [ "$ALBUM" != "$PODCAST" ]
-            then
-                id3tag --album="$PODCAST" "$FILE"
-            fi
+            eyeD3 --remove-all "$FILE"
+            id3tag --album="$PODCAST" "$FILE"
         done
     )
     pythonbrew use 2.6
