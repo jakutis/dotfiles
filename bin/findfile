@@ -22,8 +22,8 @@ do
 done
 
 function updateIndex {
-    echo "Updating index "$1.index""
-    find "$1" > "$1.index"
+    echo "Updating index "$1.7z""
+    find "$1" | 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on -si "$1.7z"
 }
 
 for F in $FOLDERS
@@ -35,11 +35,11 @@ do
         echo "Folder does not exist"
         exit 1
     fi
-    if ! [ -e "$F.index" ]
+    if ! [ -e "$F.7z" ]
     then
         updateIndex "$F"
     fi
-    eval "cat "$F.index" $GREPS" | (
+    eval "7z x -so "$F.7z" $GREPS" | (
         while read FILE
         do
             echo "$OPENER \"$FILE\""
