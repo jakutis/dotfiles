@@ -11,6 +11,9 @@ then
 fi
 FOLDERS="$(cat "$FOLDERS")"
 
+shift
+shift
+shift
 
 GREPS=""
 for A in "$@"
@@ -36,7 +39,7 @@ do
     then
         updateIndex "$F"
     fi
-    eval "find "$F" $GREPS" | (
+    eval "cat "$F.index" $GREPS" | (
         while read FILE
         do
             echo "$OPENER \"$FILE\""
