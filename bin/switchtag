@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+date >> /home/tahu/.taglog
+echo "$1" >> /home/tahu/.taglog
