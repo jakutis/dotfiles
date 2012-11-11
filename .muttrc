@@ -6,6 +6,9 @@ set record="+.Sent"
 set postponed="+.Drafts"
 set spoolfile="~/Maildir"
 
+auto_view text/html
+alternative_order text/plain text/html
+
 set from="vytautas@jakut.is"
 set signature="~/.signature"
 set hostname="jakut.is"
