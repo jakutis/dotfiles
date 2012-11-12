@@ -67,7 +67,9 @@ function vmax {
   vmset "$1" on
   amixer sset "$1" "$(amixer sget "$1"|grep Limits|sed 's/  Limits: Playback 0 - //ig')" 2>/dev/null >&2
 }
-CONTROLS="$(amixer scontrols|sed "s/Simple mixer control '//gi"|sed "s/',0$//gi")"
+function controls {
+  amixer scontrols|sed "s/Simple mixer control '//gi"|sed "s/',0$//gi"
+}
 if [ -n "$(which paplay 2>/dev/null)" ]
 then
   PLAYWAV="paplay"
@@ -107,30 +109,31 @@ then
     fi
 fi
 function beep {
-  if [ -n "$BEEP" ]
-  then
-    $BEEP
-    return
-  fi
   declare -A VOL
   declare -A VOLM
-  for C in $CONTROLS
+
+  while read C
   do
     VOL[$C]="$(vget "$C")"
     VOLM[$C]="$(vmget "$C")"
     vmax "$C"
-  done
+  done < <(controls)
 
-  local BEEP="$(mktemp)"
-  uudecode -o "$BEEP" "$SELF"
-  "$PLAYWAV" "$BEEP" >/dev/null 2>&1
-  rm "$BEEP"
+  if [ -n "$BEEP" ]
+  then
+    $BEEP
+  else
+    local BEEP="$(mktemp)"
+    uudecode -o "$BEEP" "$SELF"
+    "$PLAYWAV" "$BEEP" >/dev/null 2>&1
+    rm "$BEEP"
+  fi
 
-  for C in $CONTROLS
+  while read C
   do
     vset "$C" "${VOL[$C]}"
     vmset "$C" "${VOLM[$C]}"
-  done
+  done < <(controls)
 }
 
 if [ "$2" = "-d" ]
