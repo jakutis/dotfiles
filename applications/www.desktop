@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=www
+Icon=konqueror
+Name=WWW
+Categories=System;
+NoDisplay=true
