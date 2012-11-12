@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+mkdir -p "$HOME/.local/share/applications"
+cd "$HOME/.local/share/applications"
+
+for APP in www kfmtab konquerorsu
+do
+    rm "$APP.desktop"
+    ln -s "$HOME/Desktop/DOTFILES/applications/$APP.desktop"
+done
+
+rm "mimeapps.list"
+ln -s "$HOME/Desktop/DOTFILES/mimeapps.list"
+rm "defaults.list"
+ln -s "mimeapps.list" "defaults.list"
+
+cd "$HOME"
+echo TODO link various dotfiles, e.g. .xinitrc, .gitconfig, etc.
