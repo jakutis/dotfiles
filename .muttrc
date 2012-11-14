@@ -2,8 +2,8 @@ set mbox_type=Maildir
 set folder="~/Maildir"
 set mask="!^\\.[^.]"
 set mbox="~/Maildir"
-set record="+.Sent"
-set postponed="+.Drafts"
+set record="~/Maildir"
+set postponed="~/Maildir"
 set spoolfile="~/Maildir"
 
 auto_view text/html
