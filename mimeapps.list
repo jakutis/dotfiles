@@ -1,7 +1,6 @@
 [Added Associations]
-application/pdf=kfmtab.desktop
-x-scheme-handler/http=www.desktop
-
+application/pdf=kfmtab.desktop;
+x-scheme-handler/http=www.desktop;
 [Default Applications]
-application/pdf=kfmtab.desktop
-x-scheme-handler/http=www.desktop
+application/pdf=kfmtab.desktop;
+x-scheme-handler/http=www.desktop;
