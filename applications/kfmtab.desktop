@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=kfmclient newTab
+Exec=kfmclient newTab %U
 Icon=konqueror
 Name=File Manager
 Categories=Qt;KDE;System;X-KDE-More;
