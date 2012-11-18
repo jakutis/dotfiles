@@ -13,6 +13,7 @@ rm "mimeapps.list"
 ln -s "$HOME/Desktop/DOTFILES/mimeapps.list"
 rm "defaults.list"
 ln -s "mimeapps.list" "defaults.list"
+xdg-mime default kfmtab.desktop application/pdf
 
 cd "$HOME"
 echo TODO link various dotfiles, e.g. .xinitrc, .gitconfig, etc.
