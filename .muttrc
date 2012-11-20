@@ -3,7 +3,7 @@ set folder="~/Maildir"
 set mask="!^\\.[^.]"
 set mbox="~/Maildir"
 set record="~/Maildir"
-set postponed="~/Maildir"
+set postponed=""
 set spoolfile="~/Maildir"
 
 auto_view text/html
