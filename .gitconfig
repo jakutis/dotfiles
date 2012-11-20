@@ -54,3 +54,5 @@
     tool = vimdiff
 [push]
     default = matching
+[http]
+	sslVerify = true
