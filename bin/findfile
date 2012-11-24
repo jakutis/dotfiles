@@ -43,7 +43,7 @@ do
         while read FILE
         do
             echo "$OPENER \"$FILE\""
-            ls -lha "$FILE"
+            ls -lha "$F/$FILE"
             echo
         done
     )
