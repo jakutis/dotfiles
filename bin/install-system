@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+PACMAN="$(which pacman 2>/dev/null)"
+APTGET="$(which apt-get 2>/dev/null)"
+
+if [ -n "$PACMAN" ]
+then
+    "$PACMAN" psmisc git vim
+elif [ -n "$APTGET" ]
+then
+    "$APTGET" psmisc git vim
+else
+    echo "Unknown package manager, only pacman and apt-get are supported"
+    exit 1
+fi
