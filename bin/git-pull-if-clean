@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
+if ! [ -e "$HOME/.gitsynced.txt" ]
+then
+    echo "Please create "$HOME/.gitsynced.txt", for example symlink to DOTFILES/.gitsynced-1.7.txt"
+    exit 1
+fi
+
 T="$(mktemp)"
 echo "---- $(pwd)"
 git status > "$T" || exit 1
-if [ -z "$(diff ~/bin/gitsynced.txt "$T")" ]
+if [ -z "$(diff "$HOME/.gitsynced.txt" "$T")" ]
 then
     git pull --rebase || exit 1
     git submodule update --init || exit 1
