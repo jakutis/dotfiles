@@ -5,10 +5,10 @@ APTGET="$(which apt-get 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
-    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils
+    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop
 elif [ -n "$APTGET" ]
 then
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop
 else
     echo "Unknown package manager, only pacman and apt-get are supported"
     exit 1
