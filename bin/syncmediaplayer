@@ -19,10 +19,15 @@ then
     exit 1
 fi
 
-NAME="$2"
-if [ -z "$NAME" ]
+ROOT="$2"
+if [ -z "$ROOT" ]
 then
-    echo "Error: please specify the media player name (must be mounted on /mnt/<name>)" >&2
+    echo "Error: please specify the directory on which the media player is mounted" >&2
+    exit 1
+fi
+if ! [ -d "$ROOT" ]
+then
+    echo "Error: media player directory $ROOT does not exist" >&2
     exit 1
 fi
 
@@ -38,8 +43,6 @@ then
     echo "Error: the specified root directory of files does not exist: $SOURCE"
     exit 1
 fi
-
-mymount "$NAME" || exit 1
 
 cat "$CFG" | (
 while read ITEM
@@ -69,13 +72,12 @@ do
     do
         if [ -d "$FILE" ]
         then
-            /bin/mkdir -p "/mnt/$NAME$TARGET$BASENAME/$FILE"
+            /bin/mkdir -p "$ROOT$TARGET$BASENAME/$FILE"
         elif [ -f "$FILE" ]
         then
-            /bin/cp -uv "$FILE" "/mnt/$NAME$TARGET$BASENAME/$FILE"
+            /bin/cp -uv "$FILE" "$ROOT$TARGET$BASENAME/$FILE"
         fi
     done)
 done
-mymount "$NAME"
 )
 
