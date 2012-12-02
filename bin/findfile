@@ -2,7 +2,7 @@
 
 OPENER="$2"
 FOLDERS="$1"
-if ! [ -e "$FOLDERS" ]
+if [ -z "$FOLDERS" ]
 then
     echo "First argument must be a space separated list of paths to directories" 1>&2
     exit 1
