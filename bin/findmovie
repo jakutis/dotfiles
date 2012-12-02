@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-findfile "$HOME/.moviefolders" "/mnt/data/movies /mnt/room/movies /mnt/space/movies /mnt/store/movies /mnt/volume/movies" mplayer "$@"
+findfile "$(cat "$HOME/.moviefolders")" mplayer "$@"
