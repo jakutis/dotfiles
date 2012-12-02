@@ -10,7 +10,6 @@ fi
 
 shift
 shift
-shift
 
 GREPS=""
 for A in "$@"
