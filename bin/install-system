@@ -8,40 +8,71 @@ then
     "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2
 elif [ -n "$APTGET" ]
 then
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack lame ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info
     ARCH="$(dpkg --print-architecture)"
 
-    wget http://www.deb-multimedia.org/pool/main/m/mp4v2/libmp4v2-1_1.9.1-0.1_$ARCH.deb
-    dpkg -i libmp4v2-1_1.9.1-0.1_$ARCH.deb
-    rm libmp4v2-1_1.9.1-0.1_$ARCH.deb
+    if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/m/mp4v2/libmp4v2-1_1.9.1-0.1_$ARCH.deb
+        dpkg -i libmp4v2-1_1.9.1-0.1_$ARCH.deb
+        rm libmp4v2-1_1.9.1-0.1_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/f/faac/libfaac0_1.28-0.3_$ARCH.deb
-    dpkg -i libfaac0_1.28-0.3_$ARCH.deb
-    rm libfaac0_1.28-0.3_$ARCH.deb
+    if ! dpkg-query --status libfaac0 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/f/faac/libfaac0_1.28-0.3_$ARCH.deb
+        dpkg -i libfaac0_1.28-0.3_$ARCH.deb
+        rm libfaac0_1.28-0.3_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/f/faac/faac_1.28-0.3_$ARCH.deb
-    dpkg -i faac_1.28-0.3_$ARCH.deb
-    rm faac_1.28-0.3_$ARCH.deb
+    if ! dpkg-query --status faac 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/f/faac/faac_1.28-0.3_$ARCH.deb
+        dpkg -i faac_1.28-0.3_$ARCH.deb
+        rm faac_1.28-0.3_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/m/monkeys-audio/libmac2_3.99-u4-b5-0.1_$ARCH.deb
-    dpkg -i libmac2_3.99-u4-b5-0.1_$ARCH.deb
-    rm libmac2_3.99-u4-b5-0.1_$ARCH.deb
+    if ! dpkg-query --status libmac2 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/m/monkeys-audio/libmac2_3.99-u4-b5-0.1_$ARCH.deb
+        dpkg -i libmac2_3.99-u4-b5-0.1_$ARCH.deb
+        rm libmac2_3.99-u4-b5-0.1_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/m/monkeys-audio/monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
-    dpkg -i monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
-    rm monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
+    if ! dpkg-query --status monkeys-audio 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/m/monkeys-audio/monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
+        dpkg -i monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
+        rm monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/libmpeg4ip-0_1.6-0.9_$ARCH.deb
-    dpkg -i libmpeg4ip-0_1.6-0.9_$ARCH.deb
-    rm libmpeg4ip-0_1.6-0.9_$ARCH.deb
+    if ! dpkg-query --status libmpeg4ip-0 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/libmpeg4ip-0_1.6-0.9_$ARCH.deb
+        dpkg -i libmpeg4ip-0_1.6-0.9_$ARCH.deb
+        rm libmpeg4ip-0_1.6-0.9_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/libmp4v2-0_1.6-0.9_$ARCH.deb
-    dpkg -i libmp4v2-0_1.6-0.9_$ARCH.deb
-    rm libmp4v2-0_1.6-0.9_$ARCH.deb
+    if ! dpkg-query --status libmp4v2-0 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/libmp4v2-0_1.6-0.9_$ARCH.deb
+        dpkg -i libmp4v2-0_1.6-0.9_$ARCH.deb
+        rm libmp4v2-0_1.6-0.9_$ARCH.deb
+    fi
 
-    wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/mpeg4ip-utils_1.6-0.9_$ARCH.deb
-    dpkg -i mpeg4ip-utils_1.6-0.9_$ARCH.deb
-    rm mpeg4ip-utils_1.6-0.9_$ARCH.deb
+    if ! dpkg-query --status mpeg4ip-utils 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/mpeg4ip-utils_1.6-0.9_$ARCH.deb
+        dpkg -i mpeg4ip-utils_1.6-0.9_$ARCH.deb
+        rm mpeg4ip-utils_1.6-0.9_$ARCH.deb
+    fi
+
+    if ! dpkg-query --status lame 2>&1 1>/dev/null
+    then
+        wget http://deb-multimedia.org/pool/main/l/lame/lame_3.98.4-0.0_$ARCH.deb
+        dpkg -i lame_3.98.4-0.0_$ARCH.deb
+        rm lame_3.98.4-0.0_$ARCH.deb
+    fi
 else
     echo "Unknown package manager, only pacman and apt-get are supported"
     exit 1
