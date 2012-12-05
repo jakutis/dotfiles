@@ -16,8 +16,12 @@ function fix_podcast_album {
     ls $PODCASTDIR/$PODCAST/*.mp3 | (
         while read FILE
         do
-            eyeD3 --remove-all "$FILE"
-            id3tag --album="$PODCAST" "$FILE"
+            INFO="$(audiotools info "$FILE")"
+            if ! [ "$(echo "$INFO" | awk 'NR==3{print;exit}')" = "$PODCAST" -a "$(echo "$INFO" | grep '^..*$')" = "$PODCAST" ]
+            then
+                eyeD3 --remove-all "$FILE"
+                id3tag --album="$PODCAST" "$FILE"
+            fi
         done
     )
 }
