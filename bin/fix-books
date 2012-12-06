@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+DIR="$1"
+
+if ! [ -d "$DIR" ]
+then
+    echo "Error: directory "$DIR" does not exist" >&2
+    exit 1
+fi
+
+find "$DIR" | grep '\.djv$' | (
+    while read FILE
+    do
+        echo mv "$FILE"
+
+        FDIR="$(dirname "$FILE")"
+        FILE="$(basename "$FILE" ".djv")"
+        mv "$FDIR/$FILE.djv" "$FDIR/$FILE.djvu"
+    done
+)
+
+find "$DIR" | grep '\.djvu$' | (
+    while read FILE
+    do
+        echo djvu2pdf "$FILE"
+
+        pushd .
+        FDIR="$(dirname "$FILE")"
+        FILE="$(basename "$FILE")"
+        cd "$FDIR"
+        djvu2pdf "$FILE"
+        rm "$FILE"
+        popd
+    done
+)
