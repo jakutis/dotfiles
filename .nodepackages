@@ -1,4 +1,5 @@
 jshint
+pathcap
 instant-markdown-d
 smoosh
 mocha
