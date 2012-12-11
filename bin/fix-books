@@ -8,6 +8,40 @@ then
     exit 1
 fi
 
+find "$DIR" | grep '\.rar$' | (
+    while read FILE
+    do
+        echo unrar "$FILE"
+
+        pushd .
+        FDIR="$(dirname "$FILE")"
+        FILE="$(basename "$FILE" .rar)"
+        cd "$FDIR"
+        mkdir "$FILE"
+        cd "$FILE"
+        rar x "../$FILE.rar"
+        rm "../$FILE.rar"
+        popd
+    done
+)
+
+find "$DIR" | grep '\.zip$' | (
+    while read FILE
+    do
+        echo unzip "$FILE"
+
+        pushd .
+        FDIR="$(dirname "$FILE")"
+        FILE="$(basename "$FILE" .zip)"
+        cd "$FDIR"
+        mkdir "$FILE"
+        cd "$FILE"
+        unzip "../$FILE.zip"
+        rm "../$FILE.zip"
+        popd
+    done
+)
+
 find "$DIR" | grep '\.djv$' | (
     while read FILE
     do
@@ -33,3 +67,19 @@ find "$DIR" | grep '\.djvu$' | (
         popd
     done
 )
+
+find "$DIR" | grep '\.ps$' | (
+    while read FILE
+    do
+        echo ps2pdf "$FILE"
+
+        pushd .
+        FDIR="$(dirname "$FILE")"
+        FILE="$(basename "$FILE")"
+        cd "$FDIR"
+        ps2pdf "$FILE"
+        rm "$FILE"
+        popd
+    done
+)
+
