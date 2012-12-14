@@ -24,12 +24,19 @@ if [ -n "$BASH_VERSION" ]; then
   . "$HOME/.bashrc"
 fi
 
-PATH="$HOME/.cabal/bin:$HOME/opt/haskell-platform/bin:$HOME/opt/ghc/bin:$HOME/.rvm/bin:$CUDA_HOME/bin:$GOROOT/bin:$HOME/.bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+PATH="/usr/bin/core_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
+
+PATH="$HOME/.cabal/bin:$HOME/opt/haskell-platform/bin:$HOME/opt/ghc/bin:$PATH"
+PATH="$HOME/.rvm/bin:$PATH"
+PATH="$GOROOT/bin:$PATH"
+PATH="$HOME/opt/erlang/bin:$PATH"
+
+PATH="$HOME/opt/matlab/bin:$PATH"
+PATH="$CUDA_HOME/bin:$PATH"
 PATH="$JAVA_HOME/bin:$PATH"
 PATH="$HOME/repos/depot_tools:$PATH"
-PATH="$HOME/opt/erlang/bin:$PATH"
-PATH="$HOME/opt/matlab/bin:$PATH"
-PATH="/usr/bin/core_perl:$PATH"
+
+PATH="$HOME/.bin:$HOME/bin:$PATH"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
