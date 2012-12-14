@@ -5,10 +5,10 @@ APTGET="$(which apt-get 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
-    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2
+    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most
 elif [ -n "$APTGET" ]
 then
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full
     ARCH="$(dpkg --print-architecture)"
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
