@@ -1,6 +1,8 @@
 [Added Associations]
-application/pdf=kfmtab.desktop;
+application/pdf=qpdfview.desktop;
+text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
+
 [Default Applications]
-application/pdf=kfmtab.desktop;
+application/pdf=qpdfview.desktop
 x-scheme-handler/http=www.desktop;
