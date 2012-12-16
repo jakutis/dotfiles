@@ -96,13 +96,13 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 mybatterywidget = widget({ type = "textbox" })
 
 mymemwidget = widget({ type = "textbox" })
-vicious.register(mymemwidget, vicious.widgets.mem, " RAM: $2 ", 1)
+vicious.register(mymemwidget, vicious.widgets.mem, " $2 ", 1)
 
 mydiowidget = widget({ type = "textbox" })
-vicious.register(mydiowidget, vicious.widgets.dio, ' <span color="red">Write: ${sda1 write_mb}</span> <span color="green">Read: ${sda1 read_mb}</span> ', 1)
+vicious.register(mydiowidget, vicious.widgets.dio, ' <span color="red">${sda1 write_mb}</span> <span color="green">${sda1 read_mb}</span> ', 1)
 
 mycpuwidget = widget({ type = "textbox" })
-vicious.register(mycpuwidget, vicious.widgets.cpu, " CPU: $1% ", 1)
+vicious.register(mycpuwidget, vicious.widgets.cpu, " $1% ", 1)
 
 -- }}}
 
