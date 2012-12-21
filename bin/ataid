@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+ATAID="$1"
+echo "ATA id: $ATAID"
+
+HOSTID="0"
+while true
+do
+    if ! [ -e "/sys/class/scsi_host/host$HOSTID/unique_id" ]
+    then
+        echo "ATA ID not found" >&2
+        exit 1
+    fi
+    if [ "$(cat "/sys/class/scsi_host/host$HOSTID/unique_id")" = "$ATAID" ]
+    then
+        break
+    fi
+
+    HOSTID=$(($HOSTID + 1))
+done
+echo "Host id: $HOSTID"
+
+BLOCKID="$(ls /sys/class/scsi_host/host$HOSTID/device/target*/*/block/)"
+echo "Block id: $BLOCKID"
+hdparm -i "/dev/$BLOCKID"
