@@ -1,19 +1,82 @@
 #!/usr/bin/env bash
 
+DOTFILES="$(realpath "$1")"
+VARIA="$(realpath "$2")"
+
+if ! [ -e "$DOTFILES" ]
+then
+    echo "DOTFILES at "$DOTFILES" does not exist" 1>&2
+    exit 1
+fi
+if ! [ -e "$VARIA" ]
+then
+    echo "VARIA at "$VARIA" does not exist" 1>&2
+    exit 1
+fi
+
 mkdir -p "$HOME/.local/share/applications"
 cd "$HOME/.local/share/applications"
 
-for APP in www kfmtab konquerorsu
+for APP in www qpdfview
 do
     rm "$APP.desktop"
-    ln -s "$HOME/Desktop/DOTFILES/applications/$APP.desktop"
+    ln -s "$DOTFILES/applications/$APP.desktop"
 done
 
 rm "mimeapps.list"
-ln -s "$HOME/Desktop/DOTFILES/mimeapps.list"
+ln -s "$DOTFILES/mimeapps.list"
 rm "defaults.list"
 ln -s "mimeapps.list" "defaults.list"
-xdg-mime default kfmtab.desktop application/pdf
 
 cd "$HOME"
-echo TODO link various dotfiles, e.g. .xinitrc, .gitconfig, etc.
+mkdir -p ".bin"
+
+mkdir -p ".newsbeuter"
+cd ".newsbeuter"
+rm "config"
+ln -s "$DOTFILES/.newsbeuter/config"
+rm "urls"
+ln -s "$VARIA/news.txt" urls
+cd ..
+
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .xinitrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .signature .xbindkeysrc
+do
+    rm "$RC"
+    ln -s "$DOTFILES/$RC"
+done
+
+mkdir -p .vimtmp .vimbackup
+if ! [ -e ".vim" ]
+then
+    git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
+    vim +BundleInstall +qall
+fi
+
+if ! [ -e "$HOME/opt/mosh-1.2.3" ]
+then
+    cd "$HOME"
+    wget https://github.com/downloads/keithw/mosh/mosh-1.2.3.tar.gz
+    tar xf mosh-1.2.3.tar.gz
+    cd mosh-1.2.3
+    ./configure --prefix=$HOME/opt/mosh-1.2.3
+    make && make install
+    cd ../opt
+    ln -s mosh-1.2.3 mosh
+    rm -rf ../mosh-1.2.3 ../mosh-1.2.3.tar.gz
+fi
+
+if ! [ -e "$HOME/opt/newsbeuter-2.5" ]
+then
+    cd "$HOME"
+    wget http://www.newsbeuter.org/downloads/newsbeuter-2.5.tar.gz
+    tar xf newsbeuter-2.5.tar.gz
+    cd newsbeuter-2.5
+    ./config.sh
+    make prefix=$HOME/opt/newsbeuter-2.5 && make prefix=$HOME/opt/newsbeuter-2.5 install
+    cd ../opt
+    rm newsbeuter
+    ln -s newsbeuter-2.5 newsbeuter
+    rm -rf ../newsbeuter-2.5 ../newsbeuter-2.5.tar.gz
+    cd ../.bin
+    ln -s ../opt/newsbeuter/bin/newsbeuter
+fi
