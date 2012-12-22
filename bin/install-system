@@ -15,13 +15,13 @@ then
     cd -
     rm -rf "$DIR"
 
-    yaourt -S qpdfview-bzr thttpd
+    yaourt -S qpdfview-bzr thttpd git-annex-bin
 elif [ -n "$APTGET" ]
 then
     apt-add-repository ppa:adamreichold/qpdfview-dailydeb
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     "$APTGET" update
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted qpdfview ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted qpdfview ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex
     ARCH="$(dpkg --print-architecture)"
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
