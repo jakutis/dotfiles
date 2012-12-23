@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+PYTHONV="2.7.3"
+GHCV="7.4.2"
+NEWSBEUTERV="2.5"
+MOSHV="1.2.3"
+HASKELLPLATFORMV="2012.4.0.0"
+NODEV="0.8.16"
+ERLANGV="R15B03"
+
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
 
@@ -52,31 +60,90 @@ then
     vim +BundleInstall +qall
 fi
 
-if ! [ -e "$HOME/opt/mosh-1.2.3" ]
+if ! [ -e ".bin/kerl" ]
 then
-    cd "$HOME"
-    wget https://github.com/downloads/keithw/mosh/mosh-1.2.3.tar.gz
-    tar xf mosh-1.2.3.tar.gz
-    cd mosh-1.2.3
-    ./configure --prefix=$HOME/opt/mosh-1.2.3
-    make && make install
-    cd ../opt
-    ln -s mosh-1.2.3 mosh
-    rm -rf ../mosh-1.2.3 ../mosh-1.2.3.tar.gz
+    curl -O https://raw.github.com/spawngrid/kerl/master/kerl
+    chmod +x kerl
+    mv kerl .bin
+    kerl build "$ERLANGV" "$ERLANGV"
+    kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV"
+    cd opt
+    ln -s "erlang-$ERLANGV" "erlang"
+    cd ..
 fi
 
-if ! [ -e "$HOME/opt/newsbeuter-2.5" ]
+if ! [ -e ".nvm" ]
+then
+    git clone https://github.com/creationix/nvm .nvm
+    source .nvm/nvm.sh
+    ln -s "$DOTFILES/.nodepackages"
+    nodeup "$NODEV"
+fi
+
+if ! [ -e ".rvm" ]
+then
+    curl -L https://get.rvm.io | bash -s stable --ruby
+    source .rvm/scripts/rvm
+    gem install jekyll rdiscount
+fi
+
+if ! [ -e ".pythonbrew" ]
+then
+    curl -kL http://xrl.us/pythonbrewinstall | bash
+    source .pythonbrew/etc/bashrc
+    pythonbrew install "$PYTHONV"
+    pythonbrew switch "$PYTHONV"
+fi
+
+if ! [ -e "opt/ghc" ]
+then
+    wget http://www.haskell.org/ghc/dist/$GHCV/ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
+    tar xf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
+    cd ghc-$GHCV
+    ./configure --prefix="$HOME/opt/ghc-$GHCV" && make install
+    cd ../opt
+    ln -s ghc-$GHCV ghc
+    cd ..
+fi
+
+if ! [ -e "opt/haskell-platform" ]
+then
+    wget http://lambda.haskell.org/platform/download/$HASKELLPLATFORMV/haskell-platform-$HASKELLPLATFORMV.tar.gz
+    tar xf haskell-platform-$HASKELLPLATFORMV.tar.gz
+    cd haskell-platform-$HASKELLPLATFORMV
+    ./configure --prefix="$HOME/opt/haskell-platform-$HASKELLPLATFORMV"
+    make && make install
+    cd ../opt
+    ln -s haskell-platform-$HASKELLPLATFORMV haskell-platform
+    cabal update
+    cd ..
+fi
+
+if ! [ -e "$HOME/opt/mosh-$MOSHV" ]
 then
     cd "$HOME"
-    wget http://www.newsbeuter.org/downloads/newsbeuter-2.5.tar.gz
-    tar xf newsbeuter-2.5.tar.gz
-    cd newsbeuter-2.5
+    wget https://github.com/downloads/keithw/mosh/mosh-$MOSHV.tar.gz
+    tar xf mosh-$MOSHV.tar.gz
+    cd mosh-$MOSHV
+    ./configure --prefix=$HOME/opt/mosh-$MOSHV
+    make && make install
+    cd ../opt
+    ln -s mosh-$MOSHV mosh
+    rm -rf ../mosh-$MOSHV ../mosh-$MOSHV.tar.gz
+fi
+
+if ! [ -e "$HOME/opt/newsbeuter-$NEWSBEUTERV" ]
+then
+    cd "$HOME"
+    wget http://www.newsbeuter.org/downloads/newsbeuter-$NEWSBEUTERV.tar.gz
+    tar xf newsbeuter-$NEWSBEUTERV.tar.gz
+    cd newsbeuter-$NEWSBEUTERV
     ./config.sh
-    make prefix=$HOME/opt/newsbeuter-2.5 && make prefix=$HOME/opt/newsbeuter-2.5 install
+    make prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV && make prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV install
     cd ../opt
     rm newsbeuter
-    ln -s newsbeuter-2.5 newsbeuter
-    rm -rf ../newsbeuter-2.5 ../newsbeuter-2.5.tar.gz
+    ln -s newsbeuter-$NEWSBEUTERV newsbeuter
+    rm -rf ../newsbeuter-$NEWSBEUTERV ../newsbeuter-$NEWSBEUTERV.tar.gz
     cd ../.bin
     ln -s ../opt/newsbeuter/bin/newsbeuter
 fi
