@@ -18,6 +18,7 @@ fi
 source "$HOME/.nvm/nvm.sh"
 
 nvm install "v$NEWVERSION"
+nvm use $NEWVERSION
 
 for PACKAGE in $(cat "$PACKAGES")
 do
