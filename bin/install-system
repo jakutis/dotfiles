@@ -3,13 +3,15 @@
 PHPV="5.4.10"
 CGITV="0.9.0.3"
 NGINXV="1.2.6"
+HAPROXYV="1.4.22"
+HAPROXYURL="http://haproxy.1wt.eu/download/1.4/src/haproxy-1.4.22.tar.gz"
 
 PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
-    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre yaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted
+    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre yaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt
 
     DIR="$(mktemp -d)"
     cd "$DIR"
@@ -19,13 +21,12 @@ then
     cd -
     rm -rf "$DIR"
 
-    yaourt -S qpdfview-bzr thttpd git-annex-bin
+    yaourt -S thttpd git-annex-bin
 elif [ -n "$APTGET" ]
 then
-    apt-add-repository ppa:adamreichold/qpdfview-dailydeb
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     "$APTGET" update
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted qpdfview ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev
     ARCH="$(dpkg --print-architecture)"
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
@@ -127,3 +128,14 @@ then
     cd php-$PHPV
     ./configure --prefix=/opt/varia-php --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data && make && make install
 fi
+
+if ! [ -e "/opt/varia-haproxy" ]
+then
+    mkdir -p /opt
+    cd /opt
+    wget "$HAPROXYURL"
+    tar xf haproxy-$HAPROXYV.tar.gz
+    cd haproxy-$HAPROXYV
+    make PREFIX=/opt/varia-haproxy install
+fi
+
