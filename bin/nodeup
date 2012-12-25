@@ -18,7 +18,8 @@ fi
 source "$HOME/.nvm/nvm.sh"
 
 nvm install "v$NEWVERSION"
-nvm use $NEWVERSION
+nvm alias default $NEWVERSION
+nvm use default
 
 for PACKAGE in $(cat "$PACKAGES")
 do
