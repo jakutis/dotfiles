@@ -27,7 +27,6 @@ alias mount-slave-ssh='wake "$(cat "$HOME/.varia/slave/network/ip-wake")" "$(cat
 
 alias server='ssh-wrapper -p 22 tahu@jakut.is'
 alias mount-server-ssh='mkdir -p $HOME/mnt/server-ssh;sshfs -o reconnect tahu@jakut.is:/ $HOME/mnt/server-ssh'
-alias mount-server-ftp='mkdir -p $HOME/mnt/server-ftp;curlftpfs -o user=tahu,ssl,tlsv1 jakut.is $HOME/mnt/server-ftp'
 
 alias joyent='ssh-wrapper -p 22 node@8.19.40.202'
 
