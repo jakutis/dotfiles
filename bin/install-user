@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 PYTHONV="2.7.3"
+QPDFVIEWV="0.3.7beta2"
 GHCV="7.4.2"
 NEWSBEUTERV="2.5"
 MOSHV="1.2.3"
@@ -22,21 +23,21 @@ then
     exit 1
 fi
 
-mkdir -p "$HOME/.local/share/applications"
-cd "$HOME/.local/share/applications"
+cd "$HOME"
 
+mkdir -p ".local/share/applications"
+cd ".local/share/applications"
 for APP in www qpdfview
 do
     rm "$APP.desktop"
     ln -s "$DOTFILES/applications/$APP.desktop"
 done
-
 rm "mimeapps.list"
 ln -s "$DOTFILES/mimeapps.list"
 rm "defaults.list"
 ln -s "mimeapps.list" "defaults.list"
-
 cd "$HOME"
+
 mkdir -p ".bin"
 
 mkdir -p ".newsbeuter"
@@ -104,6 +105,7 @@ then
     cd ../opt
     ln -s ghc-$GHCV ghc
     cd ..
+    rm -rf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2 ghc-$GHCV
 fi
 
 if ! [ -e "opt/haskell-platform" ]
@@ -117,11 +119,11 @@ then
     ln -s haskell-platform-$HASKELLPLATFORMV haskell-platform
     cabal update
     cd ..
+    rm -rf haskell-platform-$HASKELLPLATFORMV.tar.gz haskell-platform-$HASKELLPLATFORMV
 fi
 
-if ! [ -e "$HOME/opt/mosh-$MOSHV" ]
+if ! [ -e "opt/mosh-$MOSHV" ]
 then
-    cd "$HOME"
     wget https://github.com/downloads/keithw/mosh/mosh-$MOSHV.tar.gz
     tar xf mosh-$MOSHV.tar.gz
     cd mosh-$MOSHV
@@ -129,12 +131,12 @@ then
     make && make install
     cd ../opt
     ln -s mosh-$MOSHV mosh
-    rm -rf ../mosh-$MOSHV ../mosh-$MOSHV.tar.gz
+    cd ..
+    rm -rf mosh-$MOSHV mosh-$MOSHV.tar.gz
 fi
 
-if ! [ -e "$HOME/opt/newsbeuter-$NEWSBEUTERV" ]
+if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
 then
-    cd "$HOME"
     wget http://www.newsbeuter.org/downloads/newsbeuter-$NEWSBEUTERV.tar.gz
     tar xf newsbeuter-$NEWSBEUTERV.tar.gz
     cd newsbeuter-$NEWSBEUTERV
@@ -147,3 +149,16 @@ then
     cd ../.bin
     ln -s ../opt/newsbeuter/bin/newsbeuter
 fi
+
+if ! [ -e "opt/qpdfview-$QPDFVIEWV" ]
+then
+    wget "https://launchpad.net/qpdfview/trunk/$QPDFVIEWV/+download/qpdfview-$QPDFVIEWV.tar.gz"
+    tar xf "qpdfview-$QPDFVIEWV.tar.gz"
+    cd "qpdfview-$QPDFVIEWV"
+    qmake && make && make INSTALL_ROOT=/home/tahu/opt/qpdfview-$QPDFVIEWV install
+    cd ../opt
+    ln -s qpdfview-$QPDFVIEWV qpdfview
+    cd ..
+    rm -rf qpdfview-$QPDFVIEWV.tar.gz qpdfview-$QPDFVIEWV
+fi
+
