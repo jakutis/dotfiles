@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 PHPV="5.4.10"
+APCV="3.1.13"
 CGITV="0.9.0.3"
 NGINXV="1.2.6"
 HAPROXYV="1.4.22"
@@ -125,8 +126,15 @@ then
     cd /opt
     wget http://lt1.php.net/get/php-$PHPV.tar.bz2/from/this/mirror
     tar xf mirror
+    rm mirror
     cd php-$PHPV
-    ./configure --prefix=/opt/varia-php --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data && make && make install
+    wget http://pecl.php.net/get/APC-$APCV.tgz
+    tar xf APC-$APCV.tgz
+    rm APC-$APCV.tgz
+    mv APC-$APCV ext/apc
+    rm configure
+    ./buildconf --force
+    ./configure --prefix=/opt/varia-php --with-pdo-mysql --enable-apc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install
 fi
 
 if ! [ -e "/opt/varia-haproxy" ]
