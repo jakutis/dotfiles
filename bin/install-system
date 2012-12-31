@@ -21,12 +21,12 @@ then
     cd -
     rm -rf "$DIR"
 
-    yaourt -S thttpd git-annex-bin rar
+    yaourt -S thttpd git-annex-bin rar pan
 elif [ -n "$APTGET" ]
 then
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     "$APTGET" update
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan
     ARCH="$(dpkg --print-architecture)"
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
