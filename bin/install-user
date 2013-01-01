@@ -42,6 +42,9 @@ cd "$HOME"
 
 mkdir -p ".bin"
 
+mkdir -p Downloads/rtorrent
+mkdir -p .rtorrent.session
+
 mkdir -p ".newsbeuter"
 cd ".newsbeuter"
 rm "config"
@@ -50,7 +53,7 @@ rm "urls"
 ln -s "$VARIA/news.txt" urls
 cd ..
 
-for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .xinitrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .signature .xbindkeysrc .vimrc
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .xinitrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .signature .xbindkeysrc .vimrc .rtorrent.rc
 do
     rm "$RC"
     ln -s "$DOTFILES/$RC"
@@ -157,11 +160,14 @@ then
     wget "https://launchpad.net/qpdfview/trunk/$QPDFVIEWV/+download/qpdfview-$QPDFVIEWV.tar.gz"
     tar xf "qpdfview-$QPDFVIEWV.tar.gz"
     cd "qpdfview-$QPDFVIEWV"
-    qmake && make && make INSTALL_ROOT=/home/tahu/opt/qpdfview-$QPDFVIEWV install
+    qmake && make && make INSTALL_ROOT=$HOME/opt/qpdfview-$QPDFVIEWV install
     cd ../opt
     ln -s qpdfview-$QPDFVIEWV qpdfview
     cd ..
     rm -rf qpdfview-$QPDFVIEWV.tar.gz qpdfview-$QPDFVIEWV
+    cd .bin
+    ln -s ../opt/qpdfview/usr/bin/qpdfview
+    cd ..
 fi
 
 if ! [ -e "opt/rtorrent-$RTORRENTV" ]
@@ -169,11 +175,14 @@ then
     wget "http://libtorrent.rakshasa.no/downloads/libtorrent-${LIBTORRENTV}.tar.gz" -O - | tar zxf -
     wget "http://libtorrent.rakshasa.no/downloads/rtorrent-${RTORRENTV}.tar.gz" -O - | tar zxf -
     cd libtorrent-${LIBTORRENTV}
-    ./configure --prefix=opt/rtorrent-$RTORRENTV && make && make install
+    ./configure --prefix=$HOME/opt/rtorrent-$RTORRENTV && make && make install
     cd ../rtorrent-${RTORRENTV}
-    ./configure --prefix=opt/rtorrent-$RTORRENTV && make && make install
+    PKG_CONFIG_PATH=$HOME/opt/rtorrent-$RTORRENTV/lib/pkgconfig ./configure --prefix=$HOME/opt/rtorrent-$RTORRENTV && make && make install
     cd ../opt
     ln -s rtorrent-$RTORRENTV rtorrent
     cd ..
     rm -rf rtorrent-${RTORRENTV} libtorrent-${LIBTORRENTV}
+    cd .bin
+    ln -s ../opt/rtorrent/bin/rtorrent
+    cd ..
 fi
