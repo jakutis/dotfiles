@@ -156,9 +156,9 @@ then
     then
         if [ "$(cat /sys/class/power_supply/$BAT/status)" = "Charging" ]
         then
-          echo "${AWESOME}.text='<span color=\"red\">$(charge)</span>'" | su -c awesome-client "$USER"
+            echo "${AWESOME}:set_markup('<span color=\"red\">$(charge)</span>')" | su -c awesome-client "$USER"
         else
-          echo "${AWESOME}.text='<span color=\"green\">$(charge)</span>'" | su -c awesome-client "$USER"
+            echo "${AWESOME}:set_markup('<span color=\"green\">$(charge)</span>')" | su -c awesome-client "$USER"
         fi
     fi
     if [ "$(charge)" -lt "$CHARGE_THRESHOLD" ]
