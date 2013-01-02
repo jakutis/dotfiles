@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PYTHONV="2.7.3"
-QPDFVIEWV="0.3.7beta2"
+QPDFVIEWV="0.3.7"
 GHCV="7.4.2"
 NEWSBEUTERV="2.5"
 MOSHV="1.2.3"
@@ -96,7 +96,7 @@ then
     pythonbrew switch "$PYTHONV"
 fi
 
-if ! [ -e "opt/ghc" ]
+if ! [ -e "opt/ghc-$GHCV" ]
 then
     wget http://www.haskell.org/ghc/dist/$GHCV/ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
     tar xf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
@@ -108,7 +108,7 @@ then
     rm -rf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2 ghc-$GHCV
 fi
 
-if ! [ -e "opt/haskell-platform" ]
+if ! [ -e "opt/haskell-platform-$HASKELLPLATFORMV" ]
 then
     wget http://lambda.haskell.org/platform/download/$HASKELLPLATFORMV/haskell-platform-$HASKELLPLATFORMV.tar.gz
     tar xf haskell-platform-$HASKELLPLATFORMV.tar.gz
