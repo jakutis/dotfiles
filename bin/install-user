@@ -82,19 +82,21 @@ if ! [ -e ".nvm" ]
 then
     git clone https://github.com/creationix/nvm .nvm
     source .nvm/nvm.sh
+    rm .nodepackages
     ln -s "$DOTFILES/.nodepackages"
-    nodeup "$NODEV"
+    "$DOTFILES/bin/nodeup" "$NODEV"
 fi
 
 if ! [ -e ".rvm" ]
 then
-    curl -L https://get.rvm.io | bash -s stable --ruby
+    curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
     source .rvm/scripts/rvm
     gem install jekyll rdiscount
 fi
 
 if ! [ -e ".pythonbrew" ]
 then
+    export PYTHONBREW_ROOT=$HOME/.pythonbrew
     curl -kL http://xrl.us/pythonbrewinstall | bash
     source .pythonbrew/etc/bashrc
     pythonbrew install "$PYTHONV"
@@ -145,6 +147,56 @@ then
     wget http://www.newsbeuter.org/downloads/newsbeuter-$NEWSBEUTERV.tar.gz
     tar xf newsbeuter-$NEWSBEUTERV.tar.gz
     cd newsbeuter-$NEWSBEUTERV
+echo "
+diff -ru a/src/controller.cpp b/src/controller.cpp
+--- a/src/controller.cpp	2012-01-06 16:41:13.000000000 +0200
++++ b/src/controller.cpp	2013-01-02 15:32:58.935471087 +0200
+@@ -1,3 +1,4 @@
++#include <unistd.h>
+ #include <config.h>
+ #include <view.h>
+ #include <controller.h>
+diff -ru a/src/google_api.cpp b/src/google_api.cpp
+--- a/src/google_api.cpp	2012-01-06 16:41:13.000000000 +0200
++++ b/src/google_api.cpp	2013-01-02 15:32:37.378796594 +0200
+@@ -1,3 +1,4 @@
++#include <unistd.h>
+ #include <vector>
+ #include <cstring>
+ #include <iostream>
+diff -ru a/src/pb_controller.cpp b/src/pb_controller.cpp
+--- a/src/pb_controller.cpp	2012-01-06 16:41:13.000000000 +0200
++++ b/src/pb_controller.cpp	2013-01-02 15:32:25.912134360 +0200
+@@ -1,3 +1,4 @@
++#include <unistd.h>
+ #include <pb_controller.h>
+ #include <pb_view.h>
+ #include <poddlthread.h>
+diff -ru a/src/queueloader.cpp b/src/queueloader.cpp
+--- a/src/queueloader.cpp	2012-01-06 16:41:13.000000000 +0200
++++ b/src/queueloader.cpp	2013-01-02 15:32:14.942135309 +0200
+@@ -1,3 +1,4 @@
++#include <unistd.h>
+ #include <stflpp.h>
+ #include <utils.h>
+ #include <queueloader.h>
+diff -ru a/src/reloadthread.cpp b/src/reloadthread.cpp
+--- a/src/reloadthread.cpp	2012-01-06 16:41:13.000000000 +0200
++++ b/src/reloadthread.cpp	2013-01-02 15:32:48.212132179 +0200
+@@ -1,3 +1,4 @@
++#include <unistd.h>
+ #include <reloadthread.h>
+ #include <logger.h>
+
+diff -ru a/src/utils.cpp b/src/utils.cpp
+--- a/src/utils.cpp	2012-01-06 16:41:13.000000000 +0200
++++ b/src/utils.cpp	2013-01-02 15:33:07.515464038 +0200
+@@ -1,3 +1,4 @@
++#include <unistd.h>
+ #include <utils.h>
+ #include <logger.h>
+ #include <config.h>
+ " | patch -p1
     ./config.sh
     make prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV && make prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV install
     cd ../opt
@@ -153,6 +205,7 @@ then
     rm -rf ../newsbeuter-$NEWSBEUTERV ../newsbeuter-$NEWSBEUTERV.tar.gz
     cd ../.bin
     ln -s ../opt/newsbeuter/bin/newsbeuter
+    cd ..
 fi
 
 if ! [ -e "opt/qpdfview-$QPDFVIEWV" ]
@@ -186,3 +239,4 @@ then
     ln -s ../opt/rtorrent/bin/rtorrent
     cd ..
 fi
+
