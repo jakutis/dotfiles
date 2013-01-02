@@ -22,8 +22,8 @@ alias osmo='osmo --config=$HOME/.osmo'
 alias umount-ssh='sudo umount -a -t fuse.sshfs'
 alias mount-code-ssh='mkdir -p $HOME/mnt/code.fmf.ktu.lt;sshfs -o reconnect tahu@code.fmf.ktu.lt:/ $HOME/mnt/code.fmf.ktu.lt'
 
-alias slave='wake "$(cat "$HOME/.varia/slave/network/ip-wake")" "$(cat "$HOME/.varia/slave/network/mac")";ssh-wrapper -p "$(cat "$HOME/.varia/slave/network/port")" "$(cat "$HOME/.varia/slave/network/user")@$(cat "$HOME/.varia/slave/network/ip")"'
-alias mount-slave-ssh='wake "$(cat "$HOME/.varia/slave/network/ip-wake")" "$(cat "$HOME/.varia/slave/network/mac")";mkdir -p $HOME/mnt/slave-ssh;sshfs -o reconnect -p "$(cat "$HOME/.varia/slave/network/port")" "$(cat "$HOME/.varia/slave/network/user")@$(cat "$HOME/.varia/slave/network/ip"):/" $HOME/mnt/slave-ssh'
+alias desktop='wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")";ssh-wrapper -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip")"'
+alias mount-desktop-ssh='wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")";mkdir -p $HOME/mnt/desktop-ssh;sshfs -o reconnect -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip"):/" $HOME/mnt/desktop-ssh'
 
 alias server='ssh-wrapper -p 22 tahu@jakut.is'
 alias mount-server-ssh='mkdir -p $HOME/mnt/server-ssh;sshfs -o reconnect tahu@jakut.is:/ $HOME/mnt/server-ssh'
