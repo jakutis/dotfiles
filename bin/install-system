@@ -12,17 +12,37 @@ APTGET="$(which apt-get 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
-    "$PACMAN" -S psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre yaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++
+    "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl
 
-    DIR="$(mktemp -d)"
-    cd "$DIR"
-    wget https://aur.archlinux.org/packages/ya/yaourt/PKGBUILD
-    makepkg --asroot
-    pacman -U *.pkg.tar.xz
-    cd -
-    rm -rf "$DIR"
+    if ! "$PACMAN" -Ql package-query 1>/dev/null 2>&1
+    then
+        DIR="$(mktemp -d)"
+        cd "$DIR"
+        wget https://aur.archlinux.org/packages/pa/package-query/PKGBUILD
+        makepkg --asroot
+        pacman -U *.pkg.tar.xz
+        cd -
+        rm -rf "$DIR"
+    fi
 
-    yaourt -S thttpd git-annex-bin rar pan ttf-ms-fonts
+    if ! "$PACMAN" -Ql yaourt 1>/dev/null 2>&1
+    then
+        DIR="$(mktemp -d)"
+        cd "$DIR"
+        wget https://aur.archlinux.org/packages/ya/yaourt/PKGBUILD
+        makepkg --asroot
+        pacman -U *.pkg.tar.xz
+        cd -
+        rm -rf "$DIR"
+    fi
+
+    for PKG in gmp4 thttpd git-annex-bin rar pan ttf-ms-fonts
+    do
+        if ! "$PACMAN" -Ql "$PKG" 1>/dev/null 2>&1
+        then
+            yaourt -S "$PKG"
+        fi
+    done
 elif [ -n "$APTGET" ]
 then
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
@@ -96,9 +116,6 @@ else
     echo "Unknown package manager, only pacman and apt-get are supported"
     exit 1
 fi
-
-mkdir -p /var/log/nginx
-chown www-data: /var/log/nginx
 
 if ! [ -e "/opt/varia-nginx" ]
 then
