@@ -9,11 +9,8 @@ do
   git-pull-if-clean || exit 1
 done
 
-if [ -e "$HOME/.varia/irssi" ]
-then
-    cd "$HOME/.varia/irssi"
-    git annex sync && git annex get . || exit 1
-fi
+cd "$HOME/etc/storage"
+git annex sync || exit 1
 
 echo "======= Now syncing custom directories"
 
