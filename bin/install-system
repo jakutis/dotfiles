@@ -12,7 +12,7 @@ APTGET="$(which apt-get 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
-    "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha
+    "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha ethtool wol
 
     if ! "$PACMAN" -Ql package-query 1>/dev/null 2>&1
     then
@@ -47,7 +47,7 @@ elif [ -n "$APTGET" ]
 then
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     "$APTGET" update
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan
     # TODO add pragha when it is in official repositories
     ARCH="$(dpkg --print-architecture)"
 
