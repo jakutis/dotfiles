@@ -48,7 +48,7 @@ ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
 cd ..
 
-for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .xinitrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .signature .xbindkeysrc .vimrc .rtorrent.rc
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .xinitrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .xbindkeysrc .vimrc .rtorrent.rc
 do
     ln -nsf "$DOTFILES/$RC"
 done
