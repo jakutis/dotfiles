@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FLAGS="--incognito --user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist"
+FLAGS="--user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist"
 
 BROWSER="$(which chromium-browser 2>/dev/null)"
 if [ -z "$BROWSER" ]
