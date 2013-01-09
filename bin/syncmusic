@@ -31,7 +31,7 @@ do
     DIR="$PODCASTDIR/$PODCAST"
     mkdir "$DIR" -p
     echo "scsync $PODCAST"
-    scsync --directory="$DIR" -m 1000 --page="/$PODCAST/tracks" 2>/dev/null 1>/dev/null
+    scsync --directory="$DIR" --artist="$PODCAST" 2>/dev/null 1>/dev/null
     echo "tag $PODCAST"
     fix_podcast_album "$PODCAST" 2>/dev/null 1>/dev/null
 done
