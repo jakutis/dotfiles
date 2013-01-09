@@ -10,6 +10,8 @@ NODEV="0.8.16"
 ERLANGV="R15B03"
 RTORRENTV="0.9.2"
 LIBTORRENTV="0.13.2"
+PODCATCHERV="3.1.6"
+PODCATCHERURL="http://rubyforge.org/frs/download.php/76053/podcatcher-3.1.6.tar.gz"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -85,6 +87,17 @@ then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
     source .rvm/scripts/rvm
     gem install jekyll rdiscount
+fi
+
+if ! [ -e "opt/podcatcher-$PODCATCHERV" ]
+then
+    curl -L "$PODCATCHERURL" | tar zxf -
+    mv podcatcher opt/podcatcher-$PODCATCHERV
+    cd opt
+    ln -nsf podcatcher-$PODCATCHERV podcatcher
+    cd ../.bin
+    ln -nsf ../opt/podcatcher/bin/podcatcher
+    cd ..
 fi
 
 if ! [ -e ".pythonbrew" ]
