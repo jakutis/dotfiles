@@ -18,7 +18,7 @@
     summary = log --oneline
     staged = diff --cached
     d = difftool
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %ar) %C(bold blue)<%an>%Creset' --abbrev-commit --
 
 [web]
     browser = opera
