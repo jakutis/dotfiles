@@ -12,6 +12,7 @@ RTORRENTV="0.9.2"
 LIBTORRENTV="0.13.2"
 PODCATCHERV="3.1.6"
 PODCATCHERURL="http://rubyforge.org/frs/download.php/76053/podcatcher-3.1.6.tar.gz"
+MCABBERV="0.10.2"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -226,6 +227,19 @@ then
     cd .bin
     ln -nsf ../opt/qpdfview/usr/bin/qpdfview
     cd ..
+fi
+
+if ! [ -e "opt/mcabber-$MCABBERV" ]
+then
+    curl -L "http://mcabber.com/files/mcabber-${MCABBERV}.tar.bz2" | tar jxf -
+    cd mcabber-$MCABBERV
+    ./configure --prefix=$HOME/opt/mcabber-$MCABBERV && make && make install
+    cd ../opt
+    ln -nsf mcabber-$MCABBERV mcabber
+    cd ../.bin
+    ln -nsf ../opt/mcabber/bin/mcabber
+    cd ..
+    rm -rf mcabber-$MCABBERV
 fi
 
 if ! [ -e "opt/rtorrent-$RTORRENTV" ]
