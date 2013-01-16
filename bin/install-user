@@ -224,9 +224,6 @@ then
     ln -nsf qpdfview-$QPDFVIEWV qpdfview
     cd ..
     rm -rf qpdfview-$QPDFVIEWV.tar.gz qpdfview-$QPDFVIEWV
-    cd .bin
-    ln -nsf ../opt/qpdfview/usr/bin/qpdfview
-    cd ..
 fi
 
 if ! [ -e "opt/mcabber-$MCABBERV" ]
