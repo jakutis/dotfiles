@@ -269,5 +269,7 @@ then
     ln -nsf "svg2pdf-$SVG2PDFV" svg2pdf
     cd ../.bin
     ln -nsf "../opt/svg2pdf-$SVG2PDFV/svg2pdf"
+    cd ..
+    rm -rf "svg2pdf"
 fi
 
