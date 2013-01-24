@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+FILE="$1"
+
+if [ -z "$FILE" ]
+then
+    echo "Error: please specify a filename" >&2
+    exit 1
+fi
+
+REALFILE="$(realpath "$FILE")"
+
+if [ -b "$REALFILE" ]
+then
+    lsblk "$REALFILE" | less
+elif [ -f "$REALFILE" ]
+then
+    MIME="$(file --dereference --brief --mime-type "$FILE")"
+    case "$MIME" in
+        "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
+            less "$FILE"
+            ;;
+        "text/html")
+            www "$FILE"
+            ;;
+        "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv")
+            mplayer "$FILE"
+            ;;
+        "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop")
+            mirage "$FILE"
+            ;;
+        "application/x-font-ttf")
+            kfontview "$FILE"
+            ;;
+        "application/x-bittorrent")
+            transmission-show "$FILE"
+            ;;
+        "application/pdf" | "image/vnd.djvu")
+            okular "$FILE"
+            ;;
+        "application/msword")
+            libreoffice "$FILE"
+            ;;
+        "application/x-bzip2" | "application/x-gzip")
+            ls -lha "$FILE"
+            ;;
+        "application/vnd.ms-cab-compressed")
+            cabextract -l "$FILE"
+            ;;
+        "application/x-rar")
+            rar v "$FILE"
+            ;;
+        "application/x-7z-compressed")
+            7z l "$FILE"
+            ;;
+        "application/zip")
+            zip --show-just-unicode --verbose --show-files "$FILE"
+            ;;
+        "application/octet-stream" | "application/x-dosexec")
+            hexdump -C "$FILE"
+            ;;
+        *)
+            echo "Error: unknown mime type "$MIME"" >&2
+            exit 1
+            ;;
+    esac
+elif [ -d "$REALFILE" ]
+then
+    find "$REALFILE" | less
+elif ! [ -e "$REALFILE" ]
+then
+    echo "Error: file "$REALFILE" does not exist" >&2
+    exit 1
+else
+    ls -lha "$REALFILE" | less
+fi
