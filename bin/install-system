@@ -36,7 +36,7 @@ then
         rm -rf "$DIR"
     fi
 
-    for PKG in gmp4 thttpd git-annex-bin rar pan ttf-ms-fonts graphicsmagick-imagemagick-compat
+    for PKG in gmp4 thttpd git-annex-bin rar pan ttf-ms-fonts graphicsmagick-imagemagick-compat gdk-pixbuf-psd transmission-cli
     do
         if ! "$PACMAN" -Ql "$PKG" 1>/dev/null 2>&1
         then
@@ -47,8 +47,8 @@ elif [ -n "$APTGET" ]
 then
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     "$APTGET" update
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick graphicsmagick-imagemagick-compat zip sshfs libimage-exiftool-perl libloudmouth1-dev librsvg2-dev lftp
-    # TODO add pragha when it is in official repositories
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick graphicsmagick-imagemagick-compat zip sshfs libimage-exiftool-perl libloudmouth1-dev librsvg2-dev lftp transmission-cli
+    # TODO add when these are in official repositories: pragha, gdk-pixbuf-psd
     ARCH="$(dpkg --print-architecture)"
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
