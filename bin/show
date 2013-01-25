@@ -57,7 +57,7 @@ then
             zip --show-just-unicode --verbose --show-files "$FILE"
             ;;
         "application/octet-stream" | "application/x-dosexec")
-            hexdump -C "$FILE"
+            hexdump -C "$FILE" | less
             ;;
         *)
             echo "Error: unknown mime type "$MIME"" >&2
