@@ -273,3 +273,15 @@ then
     rm -rf "svg2pdf"
 fi
 
+if ! [ -e ".bin/sfnt2woff" -a -e ".bin/woff2sfnt" ]
+then
+    mkdir sfnt2woff
+    cd sfnt2woff
+    wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip
+    unzip woff-code-latest.zip
+    make
+    cp woff2sfnt ../.bin
+    cp sfnt2woff ../.bin
+    cd ..
+    rm -rf sfnt2woff
+fi
