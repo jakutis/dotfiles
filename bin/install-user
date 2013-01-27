@@ -42,6 +42,8 @@ ln -nsf "mimeapps.list" "defaults.list"
 cd "$HOME"
 
 mkdir -p ".bin"
+ln -nsf "$VARIA/gitac" ".bin/gitac"
+ln -nsf "$VARIA/gitD" ".bin/gitD"
 
 mkdir -p Downloads/rtorrent
 mkdir -p .rtorrent.session
