@@ -12,7 +12,7 @@ APTGET="$(which apt-get 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
-    "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha ethtool wol duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick zip sshfs perl-image-exiftool loudmouth librsvg lftp
+    "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome chromium rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha ethtool wol duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick zip sshfs perl-image-exiftool loudmouth librsvg lftp flex bison intltool
 
     if ! "$PACMAN" -Ql package-query 1>/dev/null 2>&1
     then
@@ -47,9 +47,19 @@ elif [ -n "$APTGET" ]
 then
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     "$APTGET" update
-    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick graphicsmagick-imagemagick-compat zip sshfs libimage-exiftool-perl libloudmouth1-dev librsvg2-dev lftp transmission-cli
+    "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks git-annex openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick graphicsmagick-imagemagick-compat zip sshfs libimage-exiftool-perl libloudmouth1-dev librsvg2-dev lftp transmission-cli flex bison intltool
+    # TODO add these rygel dependencies also to pacman
+    "$APTGET" libp11-dev libicu-dev libdbus-glib-1-dev libogg-dev libasound2-dev libvorbis-dev libtheora-dev libwavpack-dev libdv-dev libjpeg-dev libpulse-dev libshout-dev libavcodec-dev libbz2-dev libcdaudio-dev libcelt-dev libdirac-dev libdca-dev libfaad-dev flite-dev libgme-dev libopenjpeg-dev libkate-dev ladspa-sdk-dev libmms-dev libslv2-dev libmimic-dev libmodplug-dev libmpeg2-4-dev libmusicbrainz-dev libneon27-gnutls-dev libofa0-dev libopenal-dev libopus-dev librtmp-dev libschroedinger-dev libsoundtouch-dev libspandsp-dev timidity libvo-amrwbenc-dev libvo-aacenc-dev libvpx-dev libwildmidi-dev libxvidcore-dev libzbar-dev libmp3lame-dev libtwolame-dev liba52-dev libopencore-amrnb-dev libopencore-amrwb-dev libcdio-dev libdvdread-dev libmad0-dev libsidplay1-dev libsidplay2-dev libsidutils-dev libx264-dev
     # TODO add when these are in official repositories: pragha, gdk-pixbuf-psd
     ARCH="$(dpkg --print-architecture)"
+
+
+    if ! dpkg-query --status libfaac-dev 2>&1 1>/dev/null
+    then
+        wget http://www.deb-multimedia.org/pool/main/f/faac/libfaac-dev_1.28-0.3_$ARCH.deb
+        dpkg -i libfaac-dev_1.28-0.3_$ARCH.deb
+        rm libfaac-dev_1.28-0.3_$ARCH.deb
+    fi
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
     then
