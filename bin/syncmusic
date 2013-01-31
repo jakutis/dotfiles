@@ -11,16 +11,17 @@ PODCASTLIST="$(cat "$CFG" | awk 'NR==1{print;exit}')"
 PODCASTDIR="$(cat "$CFG" | awk 'NR==2{print;exit}')"
 SOUNDCLOUD="$(cat "$CFG" | awk 'NR==3{print;exit}')"
 
-function fix_podcast_album {
+function fix_podcast_tags {
     PODCAST="$1"
     ls $PODCASTDIR/$PODCAST/*.mp3 | (
         while read FILE
         do
             INFO="$(audiotools info "$FILE")"
-            if ! [ "$(echo "$INFO" | awk 'NR==3{print;exit}')" = "$PODCAST" -a "$(echo "$INFO" | grep '^..*$')" = "$PODCAST" ]
+            TITLE="$(basename "$FILE" .mp3)"
+            if ! [ "$(echo "$INFO" | awk 'NR==1{print;exit}')" = "$PODCAST" -a "$(echo "$INFO" | awk 'NR==2{print;exit}')" = "$TITLE" -a "$(echo "$INFO" | awk 'NR==3{print;exit}')" = "$PODCAST" ]
             then
                 eyeD3 --remove-all "$FILE"
-                id3tag --album="$PODCAST" "$FILE"
+                id3tag --artist="$PODCAST" --song="$TITLE" --album="$PODCAST" "$FILE"
             fi
         done
     )
@@ -33,7 +34,7 @@ do
     echo "scsync $PODCAST"
     scsync --directory="$DIR" --artist="$PODCAST"
     echo "tag $PODCAST"
-    fix_podcast_album "$PODCAST" 2>/dev/null 1>/dev/null
+    fix_podcast_tags "$PODCAST"
 done
 
 cat "$PODCASTLIST" | (
@@ -46,6 +47,6 @@ cat "$PODCASTLIST" | (
         mkdir "$DIR" -p
         podcatcher -d "$PODCASTDIR/.podcatcher" -D "$DIR" --no-perfeed -s 0 -S chron -m 0 -f 0 "$URL"
         echo "tag $PODCAST"
-        fix_podcast_album "$PODCAST" 2>/dev/null 1>/dev/null
+        fix_podcast_tags "$PODCAST"
     done
 )
