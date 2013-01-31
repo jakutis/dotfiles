@@ -96,6 +96,8 @@ then
     gem install jekyll rdiscount
 fi
 
+install-user-rygel || exit 1
+
 if ! [ -e "opt/podcatcher-$PODCATCHERV" ]
 then
     curl -L "$PODCATCHERURL" | tar zxf -
