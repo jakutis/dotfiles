@@ -96,7 +96,10 @@ then
     gem install jekyll rdiscount
 fi
 
-install-user-rygel || exit 1
+if [ -z "$(which rygel 2>/dev/null)" ]
+then
+    install-user-rygel || exit 1
+fi
 
 if ! [ -e "opt/podcatcher-$PODCATCHERV" ]
 then
