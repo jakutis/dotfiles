@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cat "$1" | grep -v '^#' | (
+    PDFS=()
+    while read PDF
+    do
+        PDFS=("${PDFS[@]}" "$PDF.pdf")
+    done
+    cd "$HOME/etc/storage/books"
+    /usr/bin/qpdfview "${PDFS[@]}"
+)
