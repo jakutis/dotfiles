@@ -30,6 +30,7 @@ PATH="$HOME/.cabal/bin:$HOME/opt/haskell-platform/bin:$HOME/opt/ghc/bin:$PATH"
 PATH="$HOME/.rvm/bin:$PATH"
 PATH="$GOROOT/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
+PATH="$HOME/.Renv/bin:$HOME/.Renv/shims:$PATH"
 
 PATH="$HOME/opt/matlab/bin:$PATH"
 PATH="$CUDA_HOME/bin:$PATH"
