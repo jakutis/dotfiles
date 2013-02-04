@@ -38,7 +38,7 @@ then
         "application/pdf" | "image/vnd.djvu")
             okular "$FILE"
             ;;
-        "application/msword")
+        "application/msword" | "application/vnd.ms-excel")
             libreoffice "$FILE"
             ;;
         "application/x-bzip2" | "application/x-gzip")
