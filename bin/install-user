@@ -14,6 +14,7 @@ PODCATCHERV="3.1.6"
 PODCATCHERURL="http://rubyforge.org/frs/download.php/76053/podcatcher-3.1.6.tar.gz"
 MCABBERV="0.10.2"
 SVG2PDFV="301dd48"
+RV="2.15.2"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -87,6 +88,16 @@ then
     source .nvm/nvm.sh
     ln -nsf "$DOTFILES/.nodepackages"
     "$DOTFILES/bin/nodeup" "$NODEV"
+fi
+
+if ! [ -e ".Renv" ]
+then
+    git clone https://github.com/viking/Renv .Renv
+    mkdir -p .Renv/plugins
+    cd .Renv/plugins
+    git clone https://github.com/viking/R-build
+    cd ../..
+    Renv install ${RV}
 fi
 
 if ! [ -e ".rvm" ]
