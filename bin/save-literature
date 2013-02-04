@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+    echo "Error: literature file not specified." >&2
+    exit 1
+fi
+
+LITERATURE="$(realpath "$1")"
+
+if ! [ -e "$LITERATURE" ]
+then
+    echo "Error: literature file \"$LITERATURE\" does not exist." >&2
+    exit 1
+fi
+
+if [ -z "$2" ]
+then
+    echo "Error: literature destination directory not specified." >&2
+    exit 1
+fi
+
+DIR="$(realpath "$2")"
+
+if ! [ -e "$DIR" ]
+then
+    echo "Error: literature destination directory \"$DIR\" does not exist." >&2
+    exit 1
+fi
+
+cat "$LITERATURE" | grep -v '^#' | (
+    PDFS=()
+    while read PDF
+    do
+        PDFS=("${PDFS[@]}" "$PDF.pdf")
+    done
+    cd "$HOME/etc/storage/books"
+    cp -L "${PDFS[@]}" "$DIR"
+)
