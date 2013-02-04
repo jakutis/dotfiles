@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PYTHONV="2.7.3"
-QPDFVIEWV="0.3.7"
+QPDFVIEWV="0.4beta1"
 GHCV="7.4.2"
 NEWSBEUTERV="2.5"
 MOSHV="1.2.3"
@@ -227,14 +227,20 @@ fi
 
 if ! [ -e "opt/qpdfview-$QPDFVIEWV" ]
 then
-    wget "https://launchpad.net/qpdfview/trunk/$QPDFVIEWV/+download/qpdfview-$QPDFVIEWV.tar.gz"
-    tar xf "qpdfview-$QPDFVIEWV.tar.gz"
+    curl -L "https://launchpad.net/qpdfview/trunk/$QPDFVIEWV/+download/qpdfview-$QPDFVIEWV.tar.gz" | tar zxf -
     cd "qpdfview-$QPDFVIEWV"
-    qmake && make && make INSTALL_ROOT=$HOME/opt/qpdfview-$QPDFVIEWV install
+    echo "
+isEmpty(TARGET_INSTALL_PATH):TARGET_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/bin
+isEmpty(PLUGIN_INSTALL_PATH):PLUGIN_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/lib/qpdfview
+isEmpty(DATA_INSTALL_PATH):DATA_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/share/qpdfview
+isEmpty(LAUNCHER_INSTALL_PATH):LAUNCHER_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/share/applications
+isEmpty(MANUAL_INSTALL_PATH):MANUAL_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/share/man/man1
+    " > qpdfview.pri
+    qmake qpdfview.pro && make && make install
     cd ../opt
     ln -nsf qpdfview-$QPDFVIEWV qpdfview
     cd ..
-    rm -rf qpdfview-$QPDFVIEWV.tar.gz qpdfview-$QPDFVIEWV
+    rm -rf qpdfview-$QPDFVIEWV
 fi
 
 if ! [ -e "opt/mcabber-$MCABBERV" ]
