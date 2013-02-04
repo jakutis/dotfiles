@@ -168,7 +168,7 @@ fi
 
 if ! [ -e "$HOME/opt/p11-kit-$P11KITV/lib/pkgconfig/p11-kit-1.pc" ]
 then
-    curl -L "http://p11-glue.freedesktop.org/releases/p11-kit-$P11KITV.tar.gz" | tar jxf -
+    curl -L "http://p11-glue.freedesktop.org/releases/p11-kit-$P11KITV.tar.gz" | tar zxf -
     cd "p11-kit-$P11KITV"
     ./configure --prefix="$HOME/opt/p11-kit-$P11KITV" && make && make install || exit 1
     cd ..
@@ -197,7 +197,7 @@ if ! [ -e "$HOME/opt/libsoup-$LIBSOUPV/lib/pkgconfig/libsoup-2.4.pc" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/libsoup/$LIBSOUPMV/libsoup-$LIBSOUPV.tar.xz" | tar Jxf -
     cd "libsoup-$LIBSOUPV"
-    LD_LIBRARY_PATH="$HOME/opt/glib-$GLIBV/lib" PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/libsoup-$LIBSOUPV" && make && make install || exit 1
+    LD_LIBRARY_PATH="$HOME/opt/glib-$GLIBV/lib" PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/libsoup-$LIBSOUPV" && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make install || exit 1
     cd ..
     rm -rf "libsoup-$LIBSOUPV"
 fi
@@ -219,7 +219,7 @@ diff -ru tracker-0.15.1-a/src/libtracker-common/tracker-sched.c tracker-0.15.1-b
  //LCOV_EXCL_START
  			const gchar *str = g_strerror (errno);
 " | patch -p1
-    LD_LIBRARY_PATH="$HOME/opt/glib-$GLIBV/lib" PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/tracker-$TRACKERV" && make && make install || exit 1
+    LD_LIBRARY_PATH="$HOME/opt/glib-$GLIBV/lib" PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/tracker-$TRACKERV" && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make install || exit 1
     cd ..
     rm -rf "tracker-$TRACKERV"
 fi
