@@ -7,5 +7,5 @@ cat "$1" | grep -v '^#' | (
         PDFS=("${PDFS[@]}" "$PDF.pdf")
     done
     cd "$HOME/etc/storage/books"
-    /usr/bin/qpdfview "${PDFS[@]}"
+    "$HOME/opt/qpdfview/usr/bin/qpdfview" "${PDFS[@]}"
 )
