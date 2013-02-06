@@ -1,0 +1,15 @@
+#!/bin/bash
+
+NAME="$2"
+PREFIX="$1"
+I="0"
+while [ "$I" != "100" ]
+do
+    if [ "$(cat "$PREFIX$I/name" 2>/dev/null)" = "$NAME" ]
+   then
+      echo "$PREFIX$I"
+      exit
+   else
+      I=$(($I + 1))
+   fi
+done

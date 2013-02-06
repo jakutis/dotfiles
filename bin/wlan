@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+if [ "$(id -u)" != "0" ]
+then
+  sudo $0 "$@"
+  exit
+fi
+
+function rl {
+  local TARGET_FILE=$1
+  cd "$(dirname "$TARGET_FILE")"
+  TARGET_FILE=$(basename "$TARGET_FILE")
+  while [ -L "$TARGET_FILE" ]
+  do
+    TARGET_FILE=$(readlink "$TARGET_FILE")
+    cd "$(dirname "$TARGET_FILE")"
+    TARGET_FILE=$(basename "$TARGET_FILE")
+  done
+  echo "$(pwd -P)/$TARGET_FILE"
+}
+SELF="$(rl "$0")"
+
+if ! [ -e "$HOME/.wlan" ]
+then
+    echo "Error: file $HOME/.wlan does not exist. It must contain the name of wlan rfkill device" >&2
+    exit 1
+fi
+
+FILE="$(sysname "/sys/class/rfkill/rfkill" "$(cat "$HOME/.wlan")")/state"
+echo "RF-KILL: $FILE"
+if [ -z "$1" ]
+then
+    V=$(cat $FILE)
+    if [ "$V" = "1" ]
+    then
+       echo "on"
+    elif [ "$V" = "0" ]
+    then
+       echo "off"
+    else
+       echo "Unknown: $V"
+    fi
+elif [ "$1" = "off" ]
+then
+    echo 0 > $FILE
+elif [ "$1" = "on" ]
+then
+    echo 1 > $FILE
+else
+    echo $1 > $FILE
+fi
