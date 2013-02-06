@@ -38,6 +38,7 @@ Bundle 'Syntastic'
 Bundle 'JSON.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Command-T'
+Bundle 'Valloric/YouCompleteMe'
 "Bundle 'localvimrc'
 Bundle 'Solarized'
 "Bundle 'Vim-R-plugin'
@@ -225,3 +226,5 @@ endfunction
 " to replace with. Press enter and then confirm each change you agree with 'y'
 " or decline with 'n'.
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+set guifont=Source\ Code\ Pro\ 11
