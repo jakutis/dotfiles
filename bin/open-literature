@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cat "$1" | grep -v '^#' | (
+cat "$1" | grep -v '^#' | grep -v '^$' | (
     PDFS=()
     while read PDF
     do
