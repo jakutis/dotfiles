@@ -33,7 +33,7 @@ then
             kfontview "$FILE"
             ;;
         "application/x-bittorrent")
-            transmission-show "$FILE"
+            transmissioncli --info "$FILE"
             ;;
         "application/pdf" | "image/vnd.djvu")
             okular "$FILE"
