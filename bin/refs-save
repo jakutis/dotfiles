@@ -2,21 +2,21 @@
 
 if [ -z "$1" ]
 then
-    echo "Error: literature file not specified." >&2
+    echo "Error: references file not specified." >&2
     exit 1
 fi
 
-LITERATURE="$(realpath "$1")"
+REFERENCES="$(realpath "$1")"
 
-if ! [ -e "$LITERATURE" ]
+if ! [ -e "$REFERENCES" ]
 then
-    echo "Error: literature file \"$LITERATURE\" does not exist." >&2
+    echo "Error: references file \"$REFERENCES\" does not exist." >&2
     exit 1
 fi
 
 if [ -z "$2" ]
 then
-    echo "Error: literature destination directory not specified." >&2
+    echo "Error: references destination directory not specified." >&2
     exit 1
 fi
 
@@ -24,11 +24,11 @@ DIR="$(realpath "$2")"
 
 if ! [ -e "$DIR" ]
 then
-    echo "Error: literature destination directory \"$DIR\" does not exist." >&2
+    echo "Error: references destination directory \"$DIR\" does not exist." >&2
     exit 1
 fi
 
-cat "$LITERATURE" | grep -v '^#' | (
+cat "$REFERENCES" | grep -v '^#' | (
     PDFS=()
     while read PDF
     do
