@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+    echo "Error: references file not specified." >&2
+    exit 1
+fi
+
+REFS="$(realpath "$1")"
+
+if ! [ -e "$REFS" ]
+then
+    echo "Error: references file \"$REFS\" does not exist." >&2
+    exit 1
+fi
+
+cat "$REFS" | grep -v '^#' | while read REF
+do
+    cat "$HOME/etc/storage/books/${REF}.bib"
+    echo
+done
