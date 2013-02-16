@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+NZBGETV="9.1"
 PYTHONV="2.7.3"
 QPDFVIEWV="0.4beta1"
 GHCV="7.4.2"
@@ -123,6 +124,20 @@ fi
 if [ -z "$(which rygel 2>/dev/null)" ]
 then
     install-user-rygel || exit 1
+fi
+
+if ! [ -e "opt/nzbget-$NZBGETV" ]
+then
+    curl -L "http://sourceforge.net/projects/nzbget/files/nzbget-${NZBGETV}.tar.gz" | tar zxf -
+    cd "nzbget-${NZBGETV}"
+    ./configure --prefix="$HOME/opt/nzbget-${NZBGETV}" && make && make install || exit 1
+    cd ..
+    rm -rf "nzbget-${NZBGETV}"
+    cd opt
+    ln -nsf "nzbget-${NZBGETV}" "nzbget"
+    cd ../.bin
+    ln -nsf "../opt/nzbget/bin/nzbget"
+    cd ..
 fi
 
 if ! [ -e "opt/calcurse-$CALCURSEV" ]
