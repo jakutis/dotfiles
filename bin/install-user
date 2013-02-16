@@ -150,8 +150,8 @@ then
     cd opt
     ln -nsf "calcurse-${CALCURSEV}" "calcurse"
     cd ../.bin
-    ln -nsf "../opt/calcurse-${CALCURSEV}/bin/calcurse"
-    ln -nsf "../opt/calcurse-${CALCURSEV}/bin/calcurse-upgrade"
+    ln -nsf "../opt/calcurse/bin/calcurse"
+    ln -nsf "../opt/calcurse/bin/calcurse-upgrade"
     cd ..
 fi
 
