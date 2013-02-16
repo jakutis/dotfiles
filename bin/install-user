@@ -137,7 +137,7 @@ if ! [ -e "opt/nzbget-$NZBGETV" ]
 then
     curl -L "http://sourceforge.net/projects/nzbget/files/nzbget-${NZBGETV}.tar.gz" | tar zxf -
     cd "nzbget-${NZBGETV}"
-    ./configure --prefix="$HOME/opt/nzbget-${NZBGETV}" && make && make install || exit 1
+    ./configure --disable-libpar2-bugfixes-check --prefix="$HOME/opt/nzbget-${NZBGETV}" && make && make install || exit 1
     cd ..
     rm -rf "nzbget-${NZBGETV}"
     cd opt
