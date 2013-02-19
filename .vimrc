@@ -95,7 +95,7 @@ set guioptions-=l  "remove left-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar when vsp
 
 syntax on
-set background=dark
+set background=light
 colorscheme solarized
 
 function! EnableColorColumn()
