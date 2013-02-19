@@ -17,3 +17,6 @@ jamjs
 serve
 browserify
 codingscene
+grunt-cli
+grunt-init
+bower
