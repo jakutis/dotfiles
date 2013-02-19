@@ -115,14 +115,14 @@ mytextclock = awful.widget.textclock()
 
 mybatterywidget = wibox.widget.textbox()
 
-mymemwidget = wibox.widget.textbox()
-vicious.register(mymemwidget, vicious.widgets.mem, " $2 ", 1)
+--mymemwidget = wibox.widget.textbox()
+--vicious.register(mymemwidget, vicious.widgets.mem, " $2 ", 1)
 
-mydiowidget = wibox.widget.textbox()
-vicious.register(mydiowidget, vicious.widgets.dio, ' <span color="red">${sda1 write_mb}</span> <span color="green">${sda1 read_mb}</span> ', 1)
+--mydiowidget = wibox.widget.textbox()
+--vicious.register(mydiowidget, vicious.widgets.dio, ' <span color="red">${sda1 write_mb}</span> <span color="green">${sda1 read_mb}</span> ', 1)
 
-mycpuwidget = wibox.widget.textbox()
-vicious.register(mycpuwidget, vicious.widgets.cpu, " $1% ", 1)
+--mycpuwidget = wibox.widget.textbox()
+--vicious.register(mycpuwidget, vicious.widgets.cpu, " $1% ", 1)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -201,9 +201,9 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(mydiowidget)
-    right_layout:add(mycpuwidget)
-    right_layout:add(mymemwidget)
+--    right_layout:add(mydiowidget)
+--    right_layout:add(mycpuwidget)
+--    right_layout:add(mymemwidget)
     right_layout:add(mybatterywidget)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
