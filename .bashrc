@@ -23,6 +23,8 @@ else
   fi
 fi
 
+export GPG_TTY="$(tty)"
+
 export TERMCAP="$HOME/.termcap"
 function settitle() {
         echo -ne "\e]2;$@\a\e]1;$@\a";
