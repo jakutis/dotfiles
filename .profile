@@ -16,7 +16,7 @@ export JAVA_HOME="$HOME/opt/jdk"
 export GOROOT="$HOME/opt/go"
 export R_LIBS_USER="$HOME/opt/r-site-library"
 export CUDA_HOME="$HOME/opt/cuda"
-export BROWSER="$HOME/bin/www"
+export BROWSER="firefox"
 export TEXINPUTS="$TEXINPUTS:$HOME/opt/r/lib/R/share/texmf/tex/latex"
 export PYTHONBREW_ROOT="$HOME/.pythonbrew"
 
