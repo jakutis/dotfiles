@@ -2,20 +2,36 @@
 
 if [ -z "$1" ]
 then
-    echo "Error: references file not specified." >&2
+    echo "Error: file with references list not specified." >&2
     exit 1
 fi
 
-REFS="$(realpath "$1")"
+REFLIST="$(realpath "$1")"
 
-if ! [ -e "$REFS" ]
+if ! [ -f "$REFLIST" ]
 then
-    echo "Error: references file \"$REFS\" does not exist." >&2
+    echo "Error: file with references list \"$REFLIST\" does not exist." >&2
     exit 1
 fi
 
-cat "$REFS" | grep -v '^#' | while read REF
+if [ -z "$2" ]
+then
+    echo "Error: directory with references not specified." >&2
+    exit 1
+fi
+
+REFDIR="$(realpath "$2")"
+
+if ! [ -d "$REFDIR" ]
+then
+    echo "Error: directory with references \"$REFDIR\" does not exist." >&2
+    exit 1
+fi
+
+REFDIR="$(realpath "$2")"
+
+cat "$REFLIST" | grep -v '^#' | while read REF
 do
-    cat "$HOME/etc/storage/books/${REF}.bib"
+    cat "$REFDIR/${REF}.bib"
     echo
 done
