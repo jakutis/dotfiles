@@ -72,6 +72,8 @@ let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
+let g:Powerline_symbols = 'fancy'
+
 let vimrplugin_term = 'urxvt'
 let vimrplugin_term_cmd = 'urxvt -e'
 let vimrplugin_rnowebchunk = 0
