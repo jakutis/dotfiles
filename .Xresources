@@ -28,7 +28,7 @@ URxvt*scrollBar:   false
 URxvt*urlLauncher: ~/bin/www
 URxvt*transparent: false
 URxvt*fading:      40
-URxvt*background:  #e3e0d7
+URxvt*background:  #feffd7
 URxvt*foreground:  #1c1c1c
 URxvt.perl-ext-common: default,clipboard
 URxvt.perl-ext: default,clipboard
