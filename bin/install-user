@@ -7,7 +7,7 @@ GHCV="7.4.2"
 NEWSBEUTERV="2.5"
 MOSHV="1.2.3"
 HASKELLPLATFORMV="2012.4.0.0"
-NODEV="0.8.20"
+NODEV="0.8.21"
 ERLANGV="R15B03"
 RTORRENTV="0.9.3"
 LIBTORRENTV="0.13.3"
@@ -18,6 +18,7 @@ SVG2PDFV="301dd48"
 RV="2.15.2"
 GOV="1.0.3"
 CALCURSEV="3.1.2"
+YOUTUBEDLV="2013.02.25"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -131,6 +132,17 @@ fi
 if [ -z "$(which rygel 2>/dev/null)" ]
 then
     install-user-rygel || exit 1
+fi
+
+if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
+then
+    curl -L "http://youtube-dl.org/downloads/$YOUTUBEDLV/youtube-dl" > "opt/youtube-dl-$YOUTUBEDLV"
+    chmod +x "opt/youtube-dl-$YOUTUBEDLV"
+    cd opt
+    ln -nsf "youtube-dl-$YOUTUBEDLV" "youtube-dl"
+    cd ../.bin
+    ln -nsf "../opt/youtube-dl"
+    cd ..
 fi
 
 if ! [ -e "opt/nzbget-$NZBGETV" ]
