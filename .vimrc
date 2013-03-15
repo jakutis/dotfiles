@@ -43,6 +43,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'Solarized'
 "Bundle 'Vim-R-plugin'
 Bundle 'ctrlp.vim'
+Bundle 'git://github.com/airblade/vim-gitgutter'
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'
 "Bundle 'git://github.com/ervandew/screen.git'
@@ -81,8 +82,10 @@ let vimrplugin_underscore = 0
 let maplocalleader = ","
 
 au! BufRead,BufNewFile *.json set filetype=json
-
 " ------------------ end VUNDLE -------------------------
+
+runtime macros/matchit.vim
+
 set number
 set autochdir
 set nofoldenable
@@ -117,6 +120,10 @@ set statusline=%t%r\ %y\ format:\ %{&ff};\ [%l,%c=%b]
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
+augroup filetypedetect
+  au! BufRead,BufNewFile *.m set filetype=octave
+augroup END
 
 "{{{ Paste Toggle
 let paste_mode = 0 " 0 = normal, 1 = paste
@@ -173,6 +180,7 @@ nnoremap <F12> <Esc>:tabn<CR>
 nnoremap <F11> <Esc>:tabnew<CR>
 cmap w!! %!sudo tee > /dev/null %
 nnoremap <CR> :noh<CR><CR>
+nnoremap <silent> <F5> :!xelatex -shell-escape paper<CR>
 " Paste Mode!  Dang! <F9>
 nnoremap <silent> <F9> :call Paste_on_off()<CR>
 nnoremap <silent> <F8> :call system('xclip -selection clipboard', @0)<CR>
@@ -230,3 +238,12 @@ endfunction
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 set guifont=Source\ Code\ Pro\ 11
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+autocmd Filetype octave set omnifunc=syntaxcomplete#Complete
