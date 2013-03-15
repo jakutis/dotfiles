@@ -2,9 +2,9 @@
 
 if [ "$(cat "$HOME/.xkblayout")" = "de" ]
 then
-  setxkbmap -layout lt -variant us -symbols "pc+lt(us)+inet(evdev)"
-  echo lt > "$HOME/.xkblayout"
+    update-xinput
+    echo lt > "$HOME/.xkblayout"
 else
-  setxkbmap -layout de
-  echo de > "$HOME/.xkblayout"
+    setxkbmap -layout de
+    echo de > "$HOME/.xkblayout"
 fi
