@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+DIR="$HOME/repos"
+CFG="$HOME/.repos-up"
+
+for TYPE in $(ls "$DIR")
+do
+    mkdir -p "$CFG/$TYPE"
+    for REPO in $(ls "$DIR/$TYPE")
+    do
+        echo "# $TYPE/$REPO"
+        cd "$DIR/$TYPE/$REPO"
+        case "$TYPE" in
+            "svn")
+                svn update 1>/dev/null 2>/dev/null || exit 1
+                ls tags | diff -ru "$CFG/$TYPE/$REPO" -
+                ls tags > "$CFG/$TYPE/$REPO"
+                ;;
+            "bzr")
+                bzr update 1>/dev/null 2>/dev/null || exit 1
+                bzr tags | diff -ru "$CFG/$TYPE/$REPO" -
+                bzr tags > "$CFG/$TYPE/$REPO"
+                ;;
+            "hg")
+                hg update 1>/dev/null 2>&1 || exit 1
+                hg tags | diff -ru "$CFG/$TYPE/$REPO" -
+                hg tags > "$CFG/$TYPE/$REPO"
+                ;;
+            "git")
+                git fetch --all --tags 1>/dev/null 2>&1 || exit 1
+                git tag | diff -ru "$CFG/$TYPE/$REPO" -
+                git tag > "$CFG/$TYPE/$REPO"
+                ;;
+            *)
+                echo "Error: unknown repo type "$TYPE"" >&2
+                exit 1
+                ;;
+        esac
+    done
+done
