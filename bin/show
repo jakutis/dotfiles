@@ -33,7 +33,12 @@ then
             kfontview "$FILE"
             ;;
         "application/x-bittorrent")
-            transmissioncli --info "$FILE"
+            if [ -n "$(which transmission-show 2>/dev/null)" ]
+            then
+                transmission-show "$FILE"
+            else
+                transmissioncli --info "$FILE"
+            fi
             ;;
         "application/pdf" | "image/vnd.djvu")
             okular "$FILE"
