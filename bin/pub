@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+scp -r "$@" tahu@jakut.is:/opt/varia-nginx/html/jakut.is/files
