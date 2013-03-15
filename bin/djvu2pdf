@@ -28,10 +28,24 @@ then
     exit 1
 fi
 
+if [ -n "$3" ]
+then
+    PAGESTART="$3"
+else
+    PAGESTART="1"
+fi
+
+if [ -n "$4" ]
+then
+    PAGEFINISH="$4"
+else
+    PAGEFINISH="$(djvused "$DJVU" -e 'n')"
+fi
+
 DIR="$(mktemp --directory)"
 mkdir -p "$DIR"
 cd "$DIR"
-for PAGE in $(seq --equal-width 1 $(djvused "$DJVU" -e 'n'))
+for PAGE in $(seq --equal-width "$PAGESTART" "$PAGEFINISH")
 do
     echo "Page $PAGE"
     mkdir "page-$PAGE"
