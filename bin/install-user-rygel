@@ -4,16 +4,16 @@ RYGELMV="0.16"
 RYGELV="$RYGELMV.4"
 GLIBMV="2.34"
 GLIBV="$GLIBMV.3"
-GUPNPMV="0.18"
-GUPNPV="$GUPNPMV.4"
-GSSDPMV="0.12"
-GSSDPV="$GSSDPMV.2"
-LIBGEEMV="0.6"
-LIBGEEV="$LIBGEEMV.7"
-GUPNPAVMV="0.10"
-GUPNPAVV="$GUPNPAVMV.3"
-GUPNPDLNAMV="0.6"
-GUPNPDLNAV="$GUPNPDLNAMV.6"
+GUPNPMV="0.20"
+GUPNPV="$GUPNPMV.0"
+GSSDPMV="0.14"
+GSSDPV="$GSSDPMV.1"
+LIBGEEMV="0.8"
+LIBGEEV="$LIBGEEMV.5"
+GUPNPAVMV="0.12"
+GUPNPAVV="$GUPNPAVMV.0"
+GUPNPDLNAMV="0.8"
+GUPNPDLNAV="$GUPNPDLNAMV.0"
 GSTREAMERMV="0.10"
 GSTREAMERV="$GSTREAMERMV.36"
 GSTPLUGINSBASEMV="0.10"
@@ -35,7 +35,7 @@ GLIBNETWORKINGV="$GLIBNETWORKINGMV.2"
 NETTLEV="2.6"
 P11KITV="0.14"
 GNUTLSMV="3.1"
-GNUTLSV="$GNUTLSMV.8"
+GNUTLSV="$GNUTLSMV.9"
 ORCV="0.4.16"
 
 if ! [ -e "$HOME/opt/glib-$GLIBV/lib/pkgconfig/glib-2.0.pc" ]
@@ -54,15 +54,6 @@ then
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gssdp-$GSSDPV" && make && make install || exit 1
     cd ..
     rm -rf "gssdp-$GSSDPV"
-fi
-
-if ! [ -e "$HOME/opt/gupnp-$GUPNPV/lib/pkgconfig/gupnp-1.0.pc" ]
-then
-    curl -L "http://ftp.gnome.org/pub/GNOME/sources/gupnp/$GUPNPMV/gupnp-$GUPNPV.tar.xz" | tar Jxf -
-    cd "gupnp-$GUPNPV"
-    PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gssdp-$GSSDPV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gupnp-$GUPNPV" && make && make install || exit 1
-    cd ..
-    rm -rf "gupnp-$GUPNPV"
 fi
 
 if ! [ -e "$HOME/opt/gupnp-$GUPNPV/lib/pkgconfig/gupnp-1.0.pc" ]
