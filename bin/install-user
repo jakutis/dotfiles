@@ -8,7 +8,7 @@ NEWSBEUTERV="2.5"
 MOSHV="1.2.3"
 HASKELLPLATFORMV="2012.4.0.0"
 NODEV="0.8.21"
-ERLANGV="R15B03"
+ERLANGV="R16"
 RTORRENTV="0.9.3"
 LIBTORRENTV="0.13.3"
 PODCATCHERV="3.1.6"
@@ -17,7 +17,6 @@ MCABBERV="0.10.2"
 SVG2PDFV="301dd48"
 RV="2.15.2"
 GOV="1.0.3"
-CALCURSEV="3.1.2"
 YOUTUBEDLV="2013.02.25"
 
 DOTFILES="$(realpath "$1")"
@@ -156,21 +155,6 @@ then
     ln -nsf "nzbget-${NZBGETV}" "nzbget"
     cd ../.bin
     ln -nsf "../opt/nzbget/bin/nzbget"
-    cd ..
-fi
-
-if ! [ -e "opt/calcurse-$CALCURSEV" ]
-then
-    curl -L "http://calcurse.org/files/calcurse-${CALCURSEV}.tar.gz" | tar zxf -
-    cd "calcurse-${CALCURSEV}"
-    ./configure --prefix="$HOME/opt/calcurse-$CALCURSEV" && make && make install
-    cd ..
-    rm -rf "calcurse-${CALCURSEV}"
-    cd opt
-    ln -nsf "calcurse-${CALCURSEV}" "calcurse"
-    cd ../.bin
-    ln -nsf "../opt/calcurse/bin/calcurse"
-    ln -nsf "../opt/calcurse/bin/calcurse-upgrade"
     cd ..
 fi
 
