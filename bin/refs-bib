@@ -28,8 +28,6 @@ then
     exit 1
 fi
 
-REFDIR="$(realpath "$2")"
-
 cat "$REFLIST" | grep -v '^#' | while read REF
 do
     cat "$REFDIR/${REF}.bib"
