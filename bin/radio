@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+NAME="$1"
+
+grep "$NAME" "$HOME/etc/wiki/radios" | while read URL
+do
+    mplayer $URL
+done
