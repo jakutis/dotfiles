@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+if [ "$(id -u)" != "0" ]
+then
+  sudo $0 "$@"
+  exit
+fi
+
+CMD="$1"
+
+function help {
+    echo "Available commands: help suspend poweroff reboot net"
+}
+
+if [ -z "$CMD" ]
+then
+    echo "Error: no command given" 1>&2
+    help 1>&2
+    exit 1
+fi
+
+case "$CMD" in
+    "net")
+        CFG="$2"
+        if ! [ -e "/home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh" ]
+        then
+            echo "Error: no such network configuration \"$CFG\" exists" 1>&2
+            echo "Available:" 1>&2
+            ls "/home/tahu/Desktop/VARIA/networks" | grep "^cfg-" | sed "s/^cfg\-/    /" | sed "s/\\.sh\$//" 1>&2
+            exit 1
+        fi
+        /home/tahu/Desktop/VARIA/laptop/rc.local.start
+        /home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh
+        ;;
+    "reboot" | "restart")
+        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        systemctl reboot
+        ;;
+    "poweroff" | "shutdown")
+        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        systemctl poweroff
+        ;;
+    "suspend")
+        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        systemctl suspend
+        ;;
+    "help")
+        help
+        ;;
+    *)
+        echo "Error: unknown command given" 1>&2
+        help 1>&2
+        exit 1
+        ;;
+esac
