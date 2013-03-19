@@ -4,16 +4,16 @@ RYGELMV="0.16"
 RYGELV="$RYGELMV.4"
 GLIBMV="2.34"
 GLIBV="$GLIBMV.3"
-GUPNPMV="0.20"
-GUPNPV="$GUPNPMV.0"
+GUPNPMV="0.18"
+GUPNPV="$GUPNPMV.4"
 GSSDPMV="0.14"
 GSSDPV="$GSSDPMV.1"
-LIBGEEMV="0.8"
-LIBGEEV="$LIBGEEMV.5"
-GUPNPAVMV="0.12"
-GUPNPAVV="$GUPNPAVMV.1"
-GUPNPDLNAMV="0.8"
-GUPNPDLNAV="$GUPNPDLNAMV.0"
+LIBGEEMV="0.6"
+LIBGEEV="$LIBGEEMV.7"
+GUPNPAVMV="0.10"
+GUPNPAVV="$GUPNPAVMV.3"
+GUPNPDLNAMV="0.6"
+GUPNPDLNAV="$GUPNPDLNAMV.6"
 GSTREAMERMV="0.10"
 GSTREAMERV="$GSTREAMERMV.36"
 GSTPLUGINSBASEMV="0.10"
@@ -26,8 +26,8 @@ GSTPLUGINSUGLYMV="0.10"
 GSTPLUGINSUGLYV="$GSTPLUGINSUGLYMV.19"
 GSTFFMPEGMV="0.10"
 GSTFFMPEGV="$GSTFFMPEGMV.13"
-TRACKERMV="0.16"
-TRACKERV="$TRACKERMV.0"
+TRACKERMV="0.14"
+TRACKERV="$TRACKERMV.5"
 LIBSOUPMV="2.40"
 LIBSOUPV="$LIBSOUPMV.3"
 GLIBNETWORKINGMV="2.34"
@@ -38,10 +38,15 @@ GNUTLSMV="3.1"
 GNUTLSV="$GNUTLSMV.9"
 ORCV="0.4.16"
 
+function vcd {
+    echo "--------- cd $(realpath "$1")"
+    cd "$1"
+}
+
 if ! [ -e "$HOME/opt/glib-$GLIBV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/glib/$GLIBMV/glib-$GLIBV.tar.xz" | tar Jxf -
-    cd "glib-$GLIBV"
+    vcd "glib-$GLIBV"
     ./configure --prefix="$HOME/opt/glib-$GLIBV" && make && make install || exit 1
     cd ..
     rm -rf "glib-$GLIBV"
@@ -51,7 +56,7 @@ fi
 if ! [ -e "$HOME/opt/gssdp-$GSSDPV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gssdp/$GSSDPMV/gssdp-$GSSDPV.tar.xz" | tar Jxf -
-    cd "gssdp-$GSSDPV"
+    vcd "gssdp-$GSSDPV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gssdp-$GSSDPV" && make && make install || exit 1
     cd ..
     rm -rf "gssdp-$GSSDPV"
@@ -61,7 +66,7 @@ fi
 if ! [ -e "$HOME/opt/gupnp-$GUPNPV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gupnp/$GUPNPMV/gupnp-$GUPNPV.tar.xz" | tar Jxf -
-    cd "gupnp-$GUPNPV"
+    vcd "gupnp-$GUPNPV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gssdp-$GSSDPV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gupnp-$GUPNPV" && make && make install || exit 1
     cd ..
     rm -rf "gupnp-$GUPNPV"
@@ -71,7 +76,7 @@ fi
 if ! [ -e "$HOME/opt/libgee-$LIBGEEV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/libgee/$LIBGEEMV/libgee-$LIBGEEV.tar.xz" | tar Jxf -
-    cd "libgee-$LIBGEEV"
+    vcd "libgee-$LIBGEEV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/libgee-$LIBGEEV" && make && make install || exit 1
     cd ..
     rm -rf "libgee-$LIBGEEV"
@@ -81,7 +86,7 @@ fi
 if ! [ -e "$HOME/opt/gupnp-av-$GUPNPAVV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gupnp-av/$GUPNPAVMV/gupnp-av-$GUPNPAVV.tar.xz" | tar Jxf -
-    cd "gupnp-av-$GUPNPAVV"
+    vcd "gupnp-av-$GUPNPAVV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gupnp-$GUPNPV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gupnp-av-$GUPNPAVV" && make && make install || exit 1
     cd ..
     rm -rf "gupnp-av-$GUPNPAVV"
@@ -91,7 +96,7 @@ fi
 if ! [ -e "$HOME/opt/gstreamer-$GSTREAMERV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gstreamer/$GSTREAMERMV/gstreamer-$GSTREAMERV.tar.xz" | tar Jxf -
-    cd "gstreamer-$GSTREAMERV"
+    vcd "gstreamer-$GSTREAMERV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gstreamer-$GSTREAMERV" && make && make install || exit 1
     cd ..
     rm -rf "gstreamer-$GSTREAMERV"
@@ -101,7 +106,7 @@ fi
 if ! [ -e "$HOME/opt/orc-$ORCV" ]
 then
     curl -L "http://code.entropywave.com/download/orc/orc-$ORCV.tar.gz" | tar zxf -
-    cd "orc-$ORCV"
+    vcd "orc-$ORCV"
     ./configure --prefix="$HOME/opt/orc-$ORCV" && make && make install || exit 1
     cd ..
     rm -rf "orc-$ORCV"
@@ -111,7 +116,7 @@ fi
 if ! [ -e "$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gst-plugins-base/$GSTPLUGINSBASEMV/gst-plugins-base-$GSTPLUGINSBASEV.tar.xz" | tar Jxf -
-    cd "gst-plugins-base-$GSTPLUGINSBASEV"
+    vcd "gst-plugins-base-$GSTPLUGINSBASEV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/orc-$ORCV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV" || exit 1
     make && make install || exit 1
     cd ..
@@ -122,7 +127,7 @@ fi
 if ! [ -e "$HOME/opt/gst-plugins-good-$GSTPLUGINSGOODV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gst-plugins-good/$GSTPLUGINSGOODMV/gst-plugins-good-$GSTPLUGINSGOODV.tar.xz" | tar Jxf -
-    cd "gst-plugins-good-$GSTPLUGINSGOODV"
+    vcd "gst-plugins-good-$GSTPLUGINSGOODV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib/pkgconfig:$HOME/opt/orc-$ORCV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gst-plugins-good-$GSTPLUGINSGOODV" || exit 1
     make && make install || exit 1
     cd ..
@@ -133,7 +138,7 @@ fi
 if ! [ -e "$HOME/opt/gst-plugins-bad-$GSTPLUGINSBADV" ]
 then
     curl -L "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-$GSTPLUGINSBADV.tar.xz" | tar Jxf -
-    cd "gst-plugins-bad-$GSTPLUGINSBADV"
+    vcd "gst-plugins-bad-$GSTPLUGINSBADV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib/pkgconfig:$HOME/opt/orc-$ORCV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gst-plugins-bad-$GSTPLUGINSBADV" || exit 1
     PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" LD_LIBRARY_PATH="$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib" make && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make install || exit 1
     cd ..
@@ -144,7 +149,7 @@ fi
 if ! [ -e "$HOME/opt/gst-ffmpeg-$GSTFFMPEGV" ]
 then
     curl -L "http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-$GSTFFMPEGV.tar.bz2" | tar jxf -
-    cd "gst-ffmpeg-$GSTFFMPEGV"
+    vcd "gst-ffmpeg-$GSTFFMPEGV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib/pkgconfig:$HOME/opt/orc-$ORCV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gst-ffmpeg-$GSTFFMPEGV" || exit 1
     PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" LD_LIBRARY_PATH="$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib" make && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make install || exit 1
     cd ..
@@ -155,7 +160,7 @@ fi
 if ! [ -e "$HOME/opt/gst-plugins-ugly-$GSTPLUGINSUGLYV" ]
 then
     curl -L "http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-$GSTPLUGINSUGLYV.tar.xz" | tar Jxf -
-    cd "gst-plugins-ugly-$GSTPLUGINSUGLYV"
+    vcd "gst-plugins-ugly-$GSTPLUGINSUGLYV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib/pkgconfig:$HOME/opt/orc-$ORCV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gst-plugins-ugly-$GSTPLUGINSUGLYV" || exit 1
     PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" LD_LIBRARY_PATH="$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib" make && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make install || exit 1
     cd ..
@@ -166,7 +171,7 @@ fi
 if ! [ -e "$HOME/opt/gupnp-dlna-$GUPNPDLNAV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/gupnp-dlna/$GUPNPDLNAMV/gupnp-dlna-$GUPNPDLNAV.tar.xz" | tar Jxf -
-    cd "gupnp-dlna-$GUPNPDLNAV"
+    vcd "gupnp-dlna-$GUPNPDLNAV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gupnp-dlna-$GUPNPDLNAV" && make && make install || exit 1
     cd ..
     rm -rf "gupnp-dlna-$GUPNPDLNAV"
@@ -176,7 +181,7 @@ fi
 if ! [ -e "$HOME/opt/nettle-$NETTLEV" ]
 then
     curl -L "http://www.lysator.liu.se/~nisse/archive/nettle-$NETTLEV.tar.gz" | tar zxf -
-    cd "nettle-$NETTLEV"
+    vcd "nettle-$NETTLEV"
     ./configure --prefix="$HOME/opt/nettle-$NETTLEV" && make && make install || exit 1
     cd ..
     rm -rf "nettle-$NETTLEV"
@@ -186,7 +191,7 @@ fi
 if ! [ -e "$HOME/opt/p11-kit-$P11KITV" ]
 then
     curl -L "http://p11-glue.freedesktop.org/releases/p11-kit-$P11KITV.tar.gz" | tar zxf -
-    cd "p11-kit-$P11KITV"
+    vcd "p11-kit-$P11KITV"
     ./configure --prefix="$HOME/opt/p11-kit-$P11KITV" && make && make install || exit 1
     cd ..
     rm -rf "p11-kit-$P11KITV"
@@ -196,7 +201,7 @@ fi
 if ! [ -e "$HOME/opt/gnutls-$GNUTLSV" ]
 then
     curl -L "ftp://ftp.gnutls.org/gcrypt/gnutls/v$GNUTLSMV/gnutls-$GNUTLSV.tar.xz" | tar Jxf -
-    cd "gnutls-$GNUTLSV"
+    vcd "gnutls-$GNUTLSV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/p11-kit-$P11KITV/lib/pkgconfig" ./configure --prefix="$HOME/opt/gnutls-$GNUTLSV" --with-libnettle-prefix="$HOME/opt/nettle-$NETTLEV" && make && make install || exit 1
     cd ..
     rm -rf "gnutls-$GNUTLSV"
@@ -206,7 +211,7 @@ fi
 if ! [ -e "$HOME/opt/glib-networking-$GLIBNETWORKINGV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/glib-networking/$GLIBNETWORKINGMV/glib-networking-$GLIBNETWORKINGV.tar.xz" | tar Jxf -
-    cd "glib-networking-$GLIBNETWORKINGV"
+    vcd "glib-networking-$GLIBNETWORKINGV"
     LD_LIBRARY_PATH="$HOME/opt/glib-$GLIBV/lib" PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gnutls-$GNUTLSV/lib/pkgconfig:$HOME/opt/p11-kit-$P11KITV/lib/pkgconfig" ./configure --prefix="$HOME/opt/glib-networking-$GLIBNETWORKINGV" && make && make install || exit 1
     cd ..
     rm -rf "glib-networking-$GLIBNETWORKINGV"
@@ -215,7 +220,7 @@ fi
 if ! [ -e "$HOME/opt/libsoup-$LIBSOUPV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/libsoup/$LIBSOUPMV/libsoup-$LIBSOUPV.tar.xz" | tar Jxf -
-    cd "libsoup-$LIBSOUPV"
+    vcd "libsoup-$LIBSOUPV"
     LD_LIBRARY_PATH="$HOME/opt/glib-$GLIBV/lib" PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig" ./configure --prefix="$HOME/opt/libsoup-$LIBSOUPV" --without-gnome && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make && PATH="$HOME/opt/glib-$GLIBV/bin:$PATH" make install || exit 1
     cd ..
     rm -rf "libsoup-$LIBSOUPV"
@@ -225,7 +230,7 @@ fi
 if ! [ -e "$HOME/opt/tracker-$TRACKERV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/tracker/$TRACKERMV/tracker-$TRACKERV.tar.xz" | tar Jxf -
-    cd "tracker-$TRACKERV"
+    vcd "tracker-$TRACKERV"
     echo "
 diff -ru tracker-0.15.1-a/src/libtracker-common/tracker-sched.c tracker-0.15.1-b/src/libtracker-common/tracker-sched.c
 --- tracker-0.15.1-a/src/libtracker-common/tracker-sched.c	2012-08-07 22:05:10.000000000 +0300
@@ -248,7 +253,7 @@ fi
 if ! [ -e "$HOME/opt/rygel-$RYGELV" ]
 then
     curl -L "http://ftp.gnome.org/pub/GNOME/sources/rygel/$RYGELMV/rygel-$RYGELV.tar.xz" | tar Jxf -
-    cd "rygel-$RYGELV"
+    vcd "rygel-$RYGELV"
     PKG_CONFIG_PATH="$HOME/opt/glib-$GLIBV/lib/pkgconfig:$HOME/opt/gssdp-$GSSDPV/lib/pkgconfig:$HOME/opt/gupnp-$GUPNPV/lib/pkgconfig:$HOME/opt/libgee-$LIBGEEV/lib/pkgconfig:$HOME/opt/gupnp-av-$GUPNPAVV/lib/pkgconfig:$HOME/opt/gupnp-dlna-$GUPNPDLNAV/lib/pkgconfig:$HOME/opt/gst-plugins-base-$GSTPLUGINSBASEV/lib/pkgconfig:$HOME/opt/gstreamer-$GSTREAMERV/lib/pkgconfig:$HOME/opt/libsoup-$LIBSOUPV/lib/pkgconfig:$HOME/opt/tracker-$TRACKERV/lib/pkgconfig" ./configure --prefix="$HOME/opt/rygel-$RYGELV" && make && make install || exit 1
     cd ..
     rm -rf "rygel-$RYGELV"
