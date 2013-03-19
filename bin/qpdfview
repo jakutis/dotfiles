@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-$HOME/opt/qpdfview/usr/bin/qpdfview --unique "$@"
