@@ -9,7 +9,7 @@ fi
 CMD="$1"
 
 function help {
-    echo "Available commands: help suspend poweroff reboot net"
+    echo "Available commands: help suspend poweroff reboot net powersave"
 }
 
 if [ -z "$CMD" ]
@@ -31,6 +31,9 @@ case "$CMD" in
         fi
         /home/tahu/Desktop/VARIA/laptop/rc.local.start
         /home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh
+        ;;
+    "powersave")
+        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         ;;
     "reboot" | "restart")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
