@@ -1,7 +1,5 @@
 jshint
 pathcap
-instant-markdown-d
-smoosh
 mocha
 jsontool
 npmedge
@@ -13,10 +11,7 @@ uglify-js
 forever
 supervisor
 jsonlint
-jamjs
 serve
-browserify
-codingscene
 grunt-cli
 grunt-init
 bower
