@@ -6,12 +6,23 @@ then
     exit 1
 fi
 
-DIR="/mnt/$1"
+MOUNT="$1"
+DIR="/mnt/$MOUNT"
 
 if [ -z "$(mount | grep " $DIR ")" ]
 then
     echo "Mounting $DIR"
-    su -c "mkdir -p "$DIR";mount "$DIR""
+    su -c "mkdir -p "$DIR";chown $USER: "$DIR""
+    if [ "$MOUNT" = "desktop" ]
+    then
+        wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")"
+        sshfs -o reconnect -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip"):/" "$DIR"
+    elif [ "$MOUNT" = "server" ]
+    then
+        sshfs -o reconnect jakut.is:/ "$DIR"
+    else
+        su -c "mount "$DIR""
+    fi
 else
     echo "Unmounting $DIR"
     su -c "umount "$DIR""
