@@ -19,11 +19,9 @@ alias m='matlab -nodisplay'
 
 alias osmo='osmo --config=$HOME/.osmo'
 
-alias desktop='wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")";ssh-wrapper -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip")"'
+alias desktop='wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")";bash ssh-wrapper -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip")"'
 
-alias server='ssh-wrapper -p 22 tahu@jakut.is'
-
-alias joyent='ssh-wrapper -p 22 node@8.19.40.202'
+alias server='bash ssh-wrapper -p 22 tahu@jakut.is'
 
 function settitle() {
         echo -ne "\e]2;$@\a\e]1;$@\a";
