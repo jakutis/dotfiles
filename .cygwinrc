@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+PATH="/usr/sbin:/usr/bin:/sbin:/bin"
+MANPATH=""
+INFOPATH=""
+HOSTNAME="key64"
+USER="tahu"
+HOME="$(pwd)"
+if [ "$(ls -lhand "$HOME"|cut -d ' ' -f 3)" = "0" ]
+then
+  SSH_KEY="/tmp/id_rsa"
+else
+  SSH_KEY="$HOME/.ssh/id_rsa"
+fi
+cat "$HOME/bin/ssh-wrapper" > /tmp/ssh-wrapper
+chmod +x /tmp/ssh-wrapper
+GIT_SSH="/tmp/ssh-wrapper"
+cp -Lr "$HOME/opt/git" /tmp/git
+chmod -R +x /tmp/git
+DISPLAY=":0"
+export PATH MANPATH INFOPATH HOSTNAME USER HOME PS1 TERM SSH_KEY GIT_SSH DISPLAY
+
+if [ -z "$(mount|grep google-chrome)" ]
+then
+    mount -t tmpfs tmpfs $HOME/.cache/google-chrome
+fi
+
+source ".profile"
+PS1="$USER@$HOSTNAME:\w$ "
+TERM="xterm"
+PATH="$PATH:/tmp/git/bin:/tmp/git/libexec/git-core"
