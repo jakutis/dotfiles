@@ -1,11 +1,45 @@
 #!/usr/bin/env bash
 
-cat "$1" | grep -v '^#' | grep -v '^$' | (
+if [ -z "$1" ]
+then
+    echo "Error: file with references list not specified." >&2
+    exit 1
+fi
+
+REFLIST="$(realpath "$1")"
+
+if ! [ -f "$REFLIST" ]
+then
+    echo "Error: file with references list \"$REFLIST\" does not exist." >&2
+    exit 1
+fi
+
+if [ -z "$2" ]
+then
+    REFDIR="$HOME/etc/storage/books"
+    echo "Info: directory with references not specified, using ${REFDIR}." >&2
+else
+    REFDIR="$(realpath "$2")"
+fi
+
+if ! [ -d "$REFDIR" ]
+then
+    echo "Error: directory with references \"$REFDIR\" does not exist." >&2
+    exit 1
+fi
+
+if ! [ -d "$REFDIR" ]
+then
+    echo "Error: directory with references \"$REFDIR\" does not exist." >&2
+    exit 1
+fi
+
+cd "$REFDIR"
+cat "$REFLIST" | grep -v '^#' | grep -v '^$' | (
     PDFS=()
     while read PDF
     do
         PDFS=("${PDFS[@]}" "$PDF.pdf")
     done
-    cd "$HOME/etc/storage/books"
     qpdfview "${PDFS[@]}"
 )
