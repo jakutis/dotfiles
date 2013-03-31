@@ -2,10 +2,10 @@
 
 NZBGETV="9.1"
 PYTHONV="2.7.3"
-QPDFVIEWV="0.4.1beta1"
+QPDFVIEWV="0.4.1"
 GHCV="7.4.2"
 NEWSBEUTERV="2.6"
-MOSHV="1.2.3"
+MOSHV="1.2.4"
 HASKELLPLATFORMV="2012.4.0.0"
 NODEV="0.8.21"
 ERLANGV="R16"
@@ -183,7 +183,7 @@ then
     wget http://www.haskell.org/ghc/dist/$GHCV/ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
     tar xf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
     cd ghc-$GHCV
-    ./configure --prefix="$HOME/opt/ghc-$GHCV" && make install
+    ./configure --prefix="$HOME/opt/ghc-$GHCV" && make install || exit 1
     cd ../opt
     ln -nsf ghc-$GHCV ghc
     cd ..
@@ -195,8 +195,7 @@ then
     wget http://lambda.haskell.org/platform/download/$HASKELLPLATFORMV/haskell-platform-$HASKELLPLATFORMV.tar.gz
     tar xf haskell-platform-$HASKELLPLATFORMV.tar.gz
     cd haskell-platform-$HASKELLPLATFORMV
-    ./configure --prefix="$HOME/opt/haskell-platform-$HASKELLPLATFORMV"
-    make && make install
+    ./configure --prefix="$HOME/opt/haskell-platform-$HASKELLPLATFORMV" && make && make install || exit 1
     cd ../opt
     ln -nsf haskell-platform-$HASKELLPLATFORMV haskell-platform
     cabal update
@@ -206,11 +205,10 @@ fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
 then
-    wget https://github.com/downloads/keithw/mosh/mosh-$MOSHV.tar.gz
+    wget "http://mosh.mit.edu/mosh-${MOSHV}.tar.gz"
     tar xf mosh-$MOSHV.tar.gz
     cd mosh-$MOSHV
-    ./configure --prefix=$HOME/opt/mosh-$MOSHV
-    make && make install
+    ./configure --prefix=$HOME/opt/mosh-$MOSHV && make && make install || exit 1
     cd ../opt
     ln -nsf mosh-$MOSHV mosh
     cd ..
@@ -293,7 +291,7 @@ isEmpty(DATA_INSTALL_PATH):DATA_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr
 isEmpty(LAUNCHER_INSTALL_PATH):LAUNCHER_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/share/applications
 isEmpty(MANUAL_INSTALL_PATH):MANUAL_INSTALL_PATH = $HOME/opt/qpdfview-$QPDFVIEWV/usr/share/man/man1
     " > qpdfview.pri
-    qmake qpdfview.pro && make && make install
+    qmake qpdfview.pro && make && make install || exit 1
     cd ../opt
     ln -nsf qpdfview-$QPDFVIEWV qpdfview
     cd ..
@@ -304,7 +302,7 @@ if ! [ -e "opt/mcabber-$MCABBERV" ]
 then
     curl -L "http://mcabber.com/files/mcabber-${MCABBERV}.tar.bz2" | tar jxf -
     cd mcabber-$MCABBERV
-    ./configure --prefix=$HOME/opt/mcabber-$MCABBERV && make && make install
+    ./configure --prefix=$HOME/opt/mcabber-$MCABBERV && make && make install || exit 1
     cd ../opt
     ln -nsf mcabber-$MCABBERV mcabber
     cd ../.bin
@@ -318,7 +316,7 @@ then
     wget "http://libtorrent.rakshasa.no/downloads/libtorrent-${LIBTORRENTV}.tar.gz" -O - | tar zxf -
     wget "http://libtorrent.rakshasa.no/downloads/rtorrent-${RTORRENTV}.tar.gz" -O - | tar zxf -
     cd libtorrent-${LIBTORRENTV}
-    ./configure --prefix=$HOME/opt/rtorrent-$RTORRENTV && make && make install
+    ./configure --prefix=$HOME/opt/rtorrent-$RTORRENTV && make && make install || exit 1
     cd ../rtorrent-${RTORRENTV}
     PKG_CONFIG_PATH=$HOME/opt/rtorrent-$RTORRENTV/lib/pkgconfig ./configure --prefix=$HOME/opt/rtorrent-$RTORRENTV && make && make install
     cd ../opt
@@ -352,7 +350,7 @@ then
     cd sfnt2woff
     wget http://people.mozilla.com/~jkew/woff/woff-code-latest.zip
     unzip woff-code-latest.zip
-    make
+    make || exit 1
     cp woff2sfnt ../.bin
     cp sfnt2woff ../.bin
     cd ..
