@@ -158,6 +158,19 @@ then
     cd ..
 fi
 
+if ! [ -e "opt/xwinlogger" ]
+then
+    curl -L "https://github.com/emilis/xwinlogger/archive/master.tar.gz" | tar zxf -
+    mkdir -p "opt/xwinlogger/lib" "opt/xwinlogger/bin"
+    cd "xwinlogger-master"
+    INSTALL_DIR="$HOME/opt/xwinlogger/lib" BIN_DIR="$HOME/opt/xwinlogger/bin" ./install.sh || exit 1
+    cd ..
+    rm -rf "xwinlogger-master"
+    cd .bin
+    ln -nsf "../opt/xwinlogger/bin/xwinlogger"
+    cd ..
+fi
+
 if ! [ -e "opt/podcatcher-$PODCATCHERV" ]
 then
     curl -L "$PODCATCHERURL" | tar zxf -
