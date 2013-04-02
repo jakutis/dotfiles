@@ -7,6 +7,12 @@ then
 fi
 
 MOUNT="$1"
+if [[ "$MOUNT" =~ : ]]
+then
+    SUBMOUNT="${MOUNT#*:}"
+    MOUNT="${MOUNT%:*}"
+fi
+
 DIR="/mnt/$MOUNT"
 
 if [ -z "$(mount | grep " $DIR ")" ]
@@ -20,6 +26,9 @@ then
     elif [ "$MOUNT" = "server" ]
     then
         sshfs -o reconnect jakut.is:/ "$DIR"
+    elif [ "$MOUNT" = "ipad" ]
+    then
+        ifuse --appid "$SUBMOUNT" "$DIR"
     else
         su -c "mount "$DIR""
     fi
