@@ -29,6 +29,12 @@ then
     elif [ "$MOUNT" = "ipad" ]
     then
         ifuse --appid "$SUBMOUNT" "$DIR"
+    elif [ "$MOUNT" = "floppy" ]
+    then
+        ls -t /dev/sd* | (
+            read MOUNT
+            su -c "mount "$MOUNT" "$DIR""
+        )
     else
         su -c "mount "$DIR""
     fi
