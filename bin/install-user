@@ -50,9 +50,6 @@ ln -nsf "$VARIA/gitac" ".bin/gitac"
 ln -nsf "$VARIA/gitD" ".bin/gitD"
 
 mkdir -p Downloads/rtorrent
-mkdir -p Downloads/rygel/music
-mkdir -p Downloads/rygel/video
-mkdir -p Downloads/rygel/pictures
 mkdir -p .rtorrent.session
 
 mkdir -p ".newsbeuter"
@@ -126,11 +123,6 @@ then
     cd ../..
     ln -nsf "go-$GOV" go
     cd ..
-fi
-
-if [ -z "$(which rygel 2>/dev/null)" ]
-then
-    install-user-rygel || exit 1
 fi
 
 if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
