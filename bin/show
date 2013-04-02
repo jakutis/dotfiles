@@ -43,7 +43,7 @@ then
         "application/pdf" | "image/vnd.djvu" | "application/epub+zip")
             okular "$FILE"
             ;;
-        "application/msword" | "application/vnd.ms-excel")
+        "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
             libreoffice "$FILE"
             ;;
         "application/x-bzip2" | "application/x-gzip")
