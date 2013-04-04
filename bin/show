@@ -62,7 +62,12 @@ then
             zip --show-just-unicode --verbose --show-files "$FILE"
             ;;
         "application/octet-stream" | "application/x-dosexec")
-            hexdump -C "$FILE" | less
+            if [ "$(file --brief "$FILE")" = "MS Windows HtmlHelp Data" ]
+            then
+                xchm "$FILE"
+            else
+                hexdump -C "$FILE" | less
+            fi
             ;;
         *)
             echo "Error: unknown mime type "$MIME"" >&2
