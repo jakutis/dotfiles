@@ -9,7 +9,7 @@ fi
 CMD="$1"
 
 function help {
-    echo "Available commands: help suspend poweroff reboot net powersave"
+    echo "Available commands: help hibernate poweroff reboot net powersave"
 }
 
 if [ -z "$CMD" ]
@@ -43,9 +43,8 @@ case "$CMD" in
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         systemctl poweroff
         ;;
-    "suspend")
-        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
-        systemctl suspend
+    "hibernate")
+        systemctl hibernate
         ;;
     "help")
         help
