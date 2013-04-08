@@ -24,7 +24,7 @@ then
   OPTS="$2"
 fi
 
-PDFS=""
+PDFS=()
 while read FILE
 do
   if [ "$FILE" = ".." ]
@@ -39,8 +39,8 @@ do
   convert "$FILE" $OPTS "$FILE.jpg"
   convert "$FILE.jpg" "$FILE.pdf"
   rm "$FILE.jpg"
-  PDFS="$PDFS "$FILE.pdf""
+  PDFS+=("${FILE}.pdf")
 done
 
-pdftk $PDFS cat output "$1"
-rm $PDFS
+pdftk "${PDFS[@]}" cat output "$1"
+rm "${PDFS[@]}"
