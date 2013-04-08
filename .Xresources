@@ -23,7 +23,7 @@ URxvt*color14: rgb:5d/a7/e1
 URxvt*color7:  rgb:f6/f3/e8
 URxvt*color15: rgb:d3/d7/cf
 
-URxvt*font:        xft:Source Code Pro for Powerline-11
+URxvt*font:        xft:Source Code Pro for Powerline-9
 URxvt*scrollBar:   false
 URxvt*urlLauncher: ~/bin/www
 URxvt*transparent: false
