@@ -9,7 +9,6 @@ export LC_NUMERIC="$LANG"
 export LC_TIME="$LANG"
 export LC_MESSAGES="$LANG"
 export LC_ALL="$LANG"
-export EDITOR="/usr/bin/vim"
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"
 export JAVA_HOME="$HOME/opt/jdk"
@@ -38,6 +37,8 @@ PATH="$JAVA_HOME/bin:$PATH"
 PATH="$HOME/repos/depot_tools:$PATH"
 
 PATH="$HOME/.bin:$HOME/bin:$PATH"
+
+export EDITOR="$(which vim)"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
