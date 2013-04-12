@@ -132,7 +132,7 @@ if ! [ -e "opt/vim-$VIMV" ]
 then
     hg clone https://vim.googlecode.com/hg/ vim || exit 1
     cd vim
-    hg checkout "$VIMV" && ./configure --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    hg checkout "$VIMV" && ./configure --enable-pythoninterp=yes --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
     cd ../opt
     ln -nsf "vim-$VIMV" "vim"
     cd ../.bin
