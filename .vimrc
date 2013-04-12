@@ -39,7 +39,7 @@ Bundle 'JSON.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Command-T'
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'The-NERD-tree'
+"Bundle 'The-NERD-tree'
 Bundle 'The-NERD-Commenter'
 "Bundle 'localvimrc'
 Bundle 'Solarized'
@@ -85,8 +85,8 @@ let mapleader = ","
 
 au! BufRead,BufNewFile *.json set filetype=json
 
-autocmd vimenter * NERDTree
-autocmd vimenter * wincmd l
+"autocmd vimenter * NERDTree
+"autocmd vimenter * wincmd l
 " ------------------ end VUNDLE -------------------------
 
 runtime macros/matchit.vim
