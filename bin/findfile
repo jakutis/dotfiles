@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+PREFIX="$3"
 OPENER="$2"
 FOLDERS="$1"
 if [ -z "$FOLDERS" ]
@@ -8,6 +9,7 @@ then
     exit 1
 fi
 
+shift
 shift
 shift
 
@@ -42,7 +44,7 @@ do
     eval "7z x -so "$F.7z" $GREPS" 2>/dev/null | (
         while read FILE
         do
-            echo "$OPENER \"$F/$FILE\""
+            echo "$OPENER \"$PREFIX$F/$FILE\""
             ls -lha "$F/$FILE"
             echo
         done
