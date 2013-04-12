@@ -138,6 +138,8 @@ then
     cd ../.bin
     ln -nsf "../opt/vim/bin/vim"
     ln -nsf "../opt/vim/bin/vimdiff"
+    cd ..
+    rm -rf vim
 fi
 
 if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
