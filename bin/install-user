@@ -18,6 +18,7 @@ SVG2PDFV="301dd48"
 RV="2.15.3"
 GOV="1.0.3"
 YOUTUBEDLV="2013.03.29"
+VIMV="v7-3-887"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -125,6 +126,18 @@ then
     cd ../..
     ln -nsf "go-$GOV" go
     cd ..
+fi
+
+if ! [ -e "opt/vim-$VIMV" ]
+then
+    hg clone https://vim.googlecode.com/hg/ vim || exit 1
+    cd vim
+    hg checkout "$VIMV" && ./configure --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    cd ../opt
+    ln -nsf "vim-$VIMV" "vim"
+    cd ../.bin
+    ln -nsf "../opt/vim/bin/vim"
+    ln -nsf "../opt/vim/bin/vimdiff"
 fi
 
 if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
