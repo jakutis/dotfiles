@@ -30,17 +30,25 @@ case "$CMD" in
             exit 1
         fi
         /home/tahu/Desktop/VARIA/laptop/rc.local.start
+        /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
         /home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh
         ;;
     "powersave")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
         ;;
     "reboot" | "restart")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
         systemctl reboot
         ;;
     "poweroff" | "shutdown")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
         systemctl poweroff
         ;;
     "hibernate")
