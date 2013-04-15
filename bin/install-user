@@ -15,7 +15,8 @@ PODCATCHERV="3.1.6"
 PODCATCHERURL="http://rubyforge.org/frs/download.php/76053/podcatcher-3.1.6.tar.gz"
 MCABBERV="0.10.2"
 SVG2PDFV="301dd48"
-RV="2.15.3"
+RMV="3"
+RV="${RMV}.0.0"
 GOV="1.0.3"
 YOUTUBEDLV="2013.04.11"
 VIMV="v7-3-887"
@@ -98,16 +99,6 @@ then
     "$DOTFILES/bin/nodeup" "$NODEV"
 fi
 
-if ! [ -e ".Renv" ]
-then
-    git clone https://github.com/viking/Renv .Renv
-    mkdir -p .Renv/plugins
-    cd .Renv/plugins
-    git clone https://github.com/viking/R-build
-    cd ../..
-    Renv install ${RV}
-fi
-
 if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
@@ -126,6 +117,19 @@ then
     cd ../..
     ln -nsf "go-$GOV" go
     cd ..
+fi
+
+if ! [ -e "opt/r-$RV" ]
+then
+    curl -L "http://stat.ethz.ch/CRAN/src/base/R-$RMV/R-${RV}.tar.gz" | tar zxf - || exit 1
+    cd "R-${RV}"
+    ./configure --prefix="$HOME/opt/r-$RV" && make && make install || exit 1
+    cd ../opt
+    ln -s "r-$RV" "r"
+    cd ../.bin
+    ln -nsf "../opt/r-$RV/bin/R"
+    cd ..
+    rm -rf "R-${RV}"
 fi
 
 if ! [ -e "opt/vim-$VIMV" ]
