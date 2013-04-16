@@ -39,7 +39,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init("/home/tahu/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
@@ -84,7 +84,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "M", "DSA", "SEIS", "ATOA", 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ "M", "DSA", "SEIS", "ATOA", 5, 6, 7, "NRMS", "VARIA" }, s, layouts[1])
 end
 -- }}}
 
@@ -371,7 +371,18 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
+    { rule = { instance = "M" },
+      properties = { tag = tags[1][1], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "DSA" },
+      properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "SEIS" },
+      properties = { tag = tags[1][3], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "ATOA" },
+      properties = { tag = tags[1][4], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "NRMS" },
+      properties = { tag = tags[1][8], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "VARIA" },
+      properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true } },
     { rule = { name = "gst-launch-0.10" },
       properties = { sticky = true, floating = true } }
 }
