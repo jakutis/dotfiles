@@ -22,6 +22,14 @@ else
     REFDIR="$(realpath "$2")"
 fi
 
+if [ -z "$3" ]
+then
+    VIEWER="$(which qpdfview)"
+    echo "Info: viewer not specified, using ${VIEWER}." >&2
+else
+    VIEWER="$3"
+fi
+
 if ! [ -d "$REFDIR" ]
 then
     echo "Error: directory with references \"$REFDIR\" does not exist." >&2
@@ -41,5 +49,5 @@ cat "$REFLIST" | grep -v '^#' | grep -v '^$' | (
     do
         PDFS=("${PDFS[@]}" "$PDF.pdf")
     done
-    qpdfview "${PDFS[@]}"
+    "$VIEWER" "${PDFS[@]}"
 )
