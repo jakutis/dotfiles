@@ -382,3 +382,17 @@ then
     cd ..
     rm -rf sfnt2woff
 fi
+
+function mkinstance {
+    mkdir -p ".varia/instances/$1"
+    for TAG in M DSA SEIS ATOA NRMS VARIA
+    do
+        ln -nsf "$(which "$1")" ".varia/instances/$1/$TAG"
+    done
+}
+
+rm -rf ".varia/instances"
+mkinstance qpdfview
+mkinstance firefox
+mkinstance urxvt
+mkinstance google-chrome
