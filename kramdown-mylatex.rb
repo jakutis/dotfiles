@@ -70,8 +70,8 @@ module Kramdown
       end
 
       def convert_p(el, opts)
-        if el.children.size == 1 && el.children.first.type == :img && !(img = convert_img(el.children.first, opts)).empty?
-          convert_standalone_image(el, opts, img)
+        if el.children.size == 1 && el.children.first.type == :img
+          convert_standalone_image(el, opts)
         else
           "#{latex_link_target(el)}#{inner(el, opts)}\n\n"
         end
@@ -79,9 +79,10 @@ module Kramdown
 
       # Helper method used by +convert_p+ to convert a paragraph that only contains a single :img
       # element.
-      def convert_standalone_image(el, opts, img)
-        attrs = attribute_list(el)
-        "\\begin{figure}#{attrs}\n\\begin{center}\n#{img}\n\\end{center}\n\\caption{#{escape(el.children.first.attr['alt'])}}\n#{latex_link_target(el, true)}\n\\end{figure}#{attrs}\n"
+      def convert_standalone_image(el, opts)
+        src = el.children.first.attr['src']
+        width = el.attr.has_key?('latexwidth') ? el.attr['latexwidth'] : '\\textwidth'
+        "\\myfigure{#{src}}{#{width}}{#{escape(el.children.first.attr['alt'])}}\n"
       end
 
       def convert_codeblock(el, opts)
@@ -210,19 +211,6 @@ module Kramdown
           "\\hyperlink{#{url[1..-1]}}{#{inner(el, opts)}}"
         else
           "\\href{#{url}}{#{inner(el, opts)}}"
-        end
-      end
-
-      def convert_img(el, opts)
-        if el.attr['src'] =~ /^(https?|ftps?):\/\//
-          warning("Cannot include non-local image")
-          ''
-        elsif !el.attr['src'].empty?
-          @data[:packages] << 'graphicx'
-          "#{latex_link_target(el)}\\includegraphics{#{el.attr['src']}}"
-        else
-          warning("Cannot include image with empty path")
-          ''
         end
       end
 
