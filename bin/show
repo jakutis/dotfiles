@@ -40,10 +40,10 @@ then
                 transmissioncli --info "$FILE"
             fi
             ;;
-        "application/pdf" | "image/vnd.djvu" | "application/epub+zip")
+        "application/pdf" | "image/vnd.djvu" | "application/epub+zip" | "application/postscript")
             okular "$FILE"
             ;;
-        "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-powerpoint")
             libreoffice "$FILE"
             ;;
         "application/x-bzip2" | "application/x-gzip")
