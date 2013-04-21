@@ -202,6 +202,7 @@ then
     source .pythonbrew/etc/bashrc
     pythonbrew install "$PYTHONV"
     pythonbrew switch "$PYTHONV"
+    pip install jsbeautifier
 fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
