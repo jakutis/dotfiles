@@ -46,11 +46,15 @@ Bundle 'Solarized'
 "Bundle 'Vim-R-plugin'
 Bundle 'ctrlp.vim'
 Bundle 'git://github.com/airblade/vim-gitgutter'
+Bundle 'Chiel92/vim-autoformat'
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'
 "Bundle 'git://github.com/ervandew/screen.git'
 " ...
 filetype plugin indent on
+
+let g:formatprg_html = "tidy"
+let g:formatprg_args_html = "-xml --quiet yes --indent yes --indent-spaces 4"
 
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
