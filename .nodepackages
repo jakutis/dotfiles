@@ -1,4 +1,5 @@
 jshint
+js-beautify
 pathcap
 mocha
 jsontool
