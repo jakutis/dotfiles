@@ -18,12 +18,12 @@ REFDIR="/home/tahu/etc/storage/books"
 
 cd /home/tahu/Desktop/MAGISTRINIS
 refs-open /home/tahu/Desktop/MAGISTRINIS/literature "$REFDIR" "$QPDFVIEW/M" &
-"$URXVT/M" &
+"$URXVT/M" -e vim -S &
 cd
 
 cd /home/tahu/Desktop/DAUGIAMATESTATISTINEANALIZE
 refs-open /home/tahu/Desktop/DAUGIAMATESTATISTINEANALIZE/literature "$REFDIR" "$QPDFVIEW/DSA" &
-"$URXVT/DSA" &
+"$URXVT/DSA" -e vim -S &
 cd /home/tahu/etc/storage/repositories/DAUGIAMATESTATISTINEANALIZE
 "$URXVT/DSA" &
 "$QPDFVIEW/DSA" *.pdf &
@@ -31,7 +31,7 @@ cd
 
 cd /home/tahu/Desktop/STOCHASTINIAIEKSTREMUMAIIRSUMOS
 refs-open /home/tahu/Desktop/STOCHASTINIAIEKSTREMUMAIIRSUMOS/literature "$REFDIR" "$QPDFVIEW/SEIS" &
-"$URXVT/SEIS" &
+"$URXVT/SEIS" -e vim -S &
 cd /home/tahu/etc/storage/repositories/STOCHASTINIAIEKSTREMUMAIIRSUMOS
 "$URXVT/SEIS" &
 "$QPDFVIEW/SEIS" *.pdf &
@@ -39,7 +39,7 @@ cd
 
 cd /home/tahu/Desktop/ALGEBRINETIESINIUOPERATORIUANALIZE
 refs-open /home/tahu/Desktop/ALGEBRINETIESINIUOPERATORIUANALIZE/literature "$REFDIR" "$QPDFVIEW/ATOA" &
-"$URXVT/ATOA" &
+"$URXVT/ATOA" -e vim -S &
 cd /home/tahu/etc/storage/repositories/ALGEBRINETIESINIUOPERATORIUANALIZE
 "$URXVT/ATOA" &
 "$QPDFVIEW/ATOA" *.pdf &
@@ -51,4 +51,8 @@ cd
 "$GOOGLECHROME/NRMS" &
 
 "$URXVT/VARIA" -e mosh --server=/home/tahu/opt/mosh/bin/mosh-server jakut.is ./.bin/tmuxcom &
+cd "$HOME/etc/wiki"
+"$URXVT/VARIA" -e vim -S &
+cd
+
 awesome
