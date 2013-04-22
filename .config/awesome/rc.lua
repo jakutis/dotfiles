@@ -381,6 +381,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][4], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { instance = "NRMS" },
       properties = { tag = tags[1][8], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { class = "VirtualBox" },
+      properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true } },
     { rule = { instance = "VARIA" },
       properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true } },
     { rule = { name = "gst-launch-0.10" },
