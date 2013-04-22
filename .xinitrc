@@ -9,6 +9,8 @@ noblank
 #xflux -l 54.9279 -g 23.8774 -k 2000
 LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
+laptop net "$(zenity --entry --text="laptop net ?")"
+
 QPDFVIEW="/home/tahu/.varia/instances/qpdfview"
 URXVT="/home/tahu/.varia/instances/urxvt"
 FIREFOX="/home/tahu/.varia/instances/firefox"
