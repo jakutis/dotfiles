@@ -523,11 +523,7 @@ module Kramdown
       def convert_math(el, opts)
         @data[:packages] += %w[amssymb amsmath amsthm amsfonts]
         if el.options[:category] == :block
-          if el.value =~ /\A\s*\\begin\{/
-            el.value
-          else
-            latex_environment('displaymath', el, el.value)
-          end
+          el.value
         else
           "$#{el.value}$"
         end
