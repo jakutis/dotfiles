@@ -203,6 +203,12 @@ then
     pythonbrew install "$PYTHONV"
     pythonbrew switch "$PYTHONV"
     pip install jsbeautifier
+    pip install pygments
+    git clone https://github.com/wetneb/pygments_maple
+    cd pygments_maple
+    python setup.py install
+    cd ..
+    rm -rf pygments_maple
 fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
