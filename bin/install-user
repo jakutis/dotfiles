@@ -72,7 +72,7 @@ else
     ln -nsf "$DOTFILES/.xinitrc"
 fi
 
-mkdir -p .vimtmp .vimbackup
+mkdir -p .vimtmp .vimbackup .vimsession
 if ! [ -e ".vim" ]
 then
     git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
