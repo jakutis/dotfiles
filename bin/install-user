@@ -403,3 +403,4 @@ mkinstance qpdfview
 mkinstance firefox
 mkinstance urxvt
 mkinstance google-chrome
+mkinstance osmo
