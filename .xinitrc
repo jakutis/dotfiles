@@ -21,12 +21,12 @@ REFDIR="/home/tahu/etc/storage/books"
 
 cd /home/tahu/Desktop/MAGISTRINIS
 refs-open /home/tahu/Desktop/MAGISTRINIS/literature "$REFDIR" "$QPDFVIEW/M" &
-"$URXVT/M" -e vim -S &
+"$URXVT/M" -e vim -S "$HOME/.vimsession/MAGISTRINIS.vim" &
 cd
 
 cd /home/tahu/Desktop/DAUGIAMATESTATISTINEANALIZE
 refs-open /home/tahu/Desktop/DAUGIAMATESTATISTINEANALIZE/literature "$REFDIR" "$QPDFVIEW/DSA" &
-"$URXVT/DSA" -e vim -S &
+"$URXVT/DSA" -e vim -S "$HOME/.vimsession/DAUGIAMATESTATISTINEANALIZE.vim" &
 cd /home/tahu/etc/storage/repositories/DAUGIAMATESTATISTINEANALIZE
 "$URXVT/DSA" &
 "$QPDFVIEW/DSA" *.pdf &
@@ -34,7 +34,7 @@ cd
 
 cd /home/tahu/Desktop/STOCHASTINIAIEKSTREMUMAIIRSUMOS
 refs-open /home/tahu/Desktop/STOCHASTINIAIEKSTREMUMAIIRSUMOS/literature "$REFDIR" "$QPDFVIEW/SEIS" &
-"$URXVT/SEIS" -e vim -S &
+"$URXVT/SEIS" -e vim -S "$HOME/.vimsession/STOCHASTINIAIEKSTREMUMAIIRSUMOS.vim" &
 cd /home/tahu/etc/storage/repositories/STOCHASTINIAIEKSTREMUMAIIRSUMOS
 "$URXVT/SEIS" &
 "$QPDFVIEW/SEIS" *.pdf &
@@ -42,7 +42,7 @@ cd
 
 cd /home/tahu/Desktop/ALGEBRINETIESINIUOPERATORIUANALIZE
 refs-open /home/tahu/Desktop/ALGEBRINETIESINIUOPERATORIUANALIZE/literature "$REFDIR" "$QPDFVIEW/ATOA" &
-"$URXVT/ATOA" -e vim -S &
+"$URXVT/ATOA" -e vim -S "$HOME/.vimsession/ALGEBRINETIESINIUOPERATORIUANALIZE.vim" &
 cd /home/tahu/etc/storage/repositories/ALGEBRINETIESINIUOPERATORIUANALIZE
 "$URXVT/ATOA" &
 "$QPDFVIEW/ATOA" *.pdf &
@@ -56,7 +56,7 @@ cd
 "$VARIA/osmo" &
 "$URXVT/VARIA" -e mosh --server=/home/tahu/opt/mosh/bin/mosh-server jakut.is ./.bin/tmuxcom &
 cd "$HOME/etc/wiki"
-"$URXVT/VARIA" -e vim -S &
+"$URXVT/VARIA" -e vim -S "$HOME/.vimsession/VARIA.vim" &
 sudo VBoxManage startvm xp-0 &
 cd
 
