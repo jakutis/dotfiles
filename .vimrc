@@ -47,6 +47,7 @@ Bundle 'Solarized'
 Bundle 'ctrlp.vim'
 Bundle 'git://github.com/airblade/vim-gitgutter'
 Bundle 'Chiel92/vim-autoformat'
+Bundle 'https://github.com/xolox/vim-session'
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'
 "Bundle 'git://github.com/ervandew/screen.git'
@@ -91,6 +92,10 @@ au! BufRead,BufNewFile *.json set filetype=json
 
 "autocmd vimenter * NERDTree
 "autocmd vimenter * wincmd l
+
+let g:session_directory = '~/.vimsession'
+let g:session_autosave = 'yes'
+
 " ------------------ end VUNDLE -------------------------
 
 runtime macros/matchit.vim
