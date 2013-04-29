@@ -11,6 +11,7 @@ LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
 laptop net "$(zenity --entry --text="laptop net ?")"
 
+OSMO="/home/tahu/.varia/instances/osmo"
 QPDFVIEW="/home/tahu/.varia/instances/qpdfview"
 URXVT="/home/tahu/.varia/instances/urxvt"
 FIREFOX="/home/tahu/.varia/instances/firefox"
@@ -52,6 +53,7 @@ cd /home/tahu/Desktop/NRMS/apps/nrms_web/priv/js
 cd
 "$GOOGLECHROME/NRMS" &
 
+"$VARIA/osmo" &
 "$URXVT/VARIA" -e mosh --server=/home/tahu/opt/mosh/bin/mosh-server jakut.is ./.bin/tmuxcom &
 cd "$HOME/etc/wiki"
 "$URXVT/VARIA" -e vim -S &
