@@ -40,5 +40,5 @@ then
     fi
 else
     echo "Unmounting $DIR"
-    su -c "umount "$DIR""
+    su -c "umount -f "$DIR""
 fi
