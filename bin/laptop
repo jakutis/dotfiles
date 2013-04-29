@@ -52,9 +52,6 @@ case "$CMD" in
         systemctl poweroff
         ;;
     "hibernate")
-        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
-        /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
-        /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
         systemctl hibernate
         ;;
     "help")
