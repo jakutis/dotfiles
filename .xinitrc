@@ -49,7 +49,7 @@ cd /home/tahu/etc/storage/repositories/ALGEBRINETIESINIUOPERATORIUANALIZE
 cd
 
 cd /home/tahu/Desktop/NRMS/apps/nrms_web/priv/js
-"$URXVT/NRMS" &
+"$URXVT/NRMS" -e vim -S "$HOME/.vimsession/NRMS.vim" &
 cd
 "$GOOGLECHROME/NRMS" &
 
