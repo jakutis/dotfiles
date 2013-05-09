@@ -9,6 +9,8 @@ set spoolfile="~/Maildir"
 auto_view text/html
 alternative_order text/plain text/html
 
+auto_view application/ics
+
 set from="vytautas@jakut.is"
 set hostname="jakut.is"
 set envelope_from=yes
