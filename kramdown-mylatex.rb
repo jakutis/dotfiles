@@ -522,10 +522,14 @@ module Kramdown
 
       def convert_math(el, opts)
         @data[:packages] += %w[amssymb amsmath amsthm amsfonts]
-        if el.options[:category] == :block
-          el.value
+        if el.attr.has_key?('figure_caption')
+            "\\begin{figure}[H]\\begin{center}#{el.value}\\captionsetup{style=ktupav}\\caption{#{el.attr['figure_caption']}}\\label{fig:#{el.attr['figure_ref']}}\\end{center}\\end{figure}"
         else
-          "$#{el.value}$"
+            if el.options[:category] == :block
+              el.value
+            else
+              "$#{el.value}$"
+            end
         end
       end
 
