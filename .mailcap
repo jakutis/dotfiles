@@ -1,2 +1,4 @@
 text/html;                      elinks %s; nametemplate=%s.html
 text/html;                      elinks -dump %s; nametemplate=%s.html; copiousoutput
+text/calendar;                  mutt-ics; copiousoutput
+application/ics;                mutt-ics; copiousoutput
