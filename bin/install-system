@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PHPV="5.4.14"
+PHPV="5.4.15"
 APCV="3.1.13"
 CGITV="0.9.1"
 NGINXV="1.4.0"
@@ -162,7 +162,7 @@ then
     mv APC-$APCV ext/apc
     rm configure
     ./buildconf --force
-    ./configure --prefix=/opt/varia-php --with-pdo-mysql --enable-apc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install
+    ./configure --prefix=/opt/varia-php --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install
 fi
 
 if ! [ -e "/opt/varia-haproxy" ]
