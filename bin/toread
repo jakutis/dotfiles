@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-rsync -av --progress /home/tahu/Downloads/toread/ tahu@jakut.is:/opt/varia-nginx/html/jakut.is/files/toread/
