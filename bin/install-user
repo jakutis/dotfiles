@@ -72,6 +72,11 @@ else
     ln -nsf "$DOTFILES/.xinitrc"
 fi
 
+mkdir -p .varia/desktop
+cd .varia/desktop
+ln -nsf ../../Desktop/VARIA/desktop/network
+cd ../..
+
 mkdir -p .vimtmp .vimbackup .vimsession
 if ! [ -e ".vim" ]
 then
