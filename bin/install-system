@@ -10,6 +10,20 @@ HAPROXYURL="http://haproxy.1wt.eu/download/1.4/src/haproxy-1.4.22.tar.gz"
 PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
 
+DOTFILES="$(realpath "$1")"
+VARIA="$(realpath "$2")"
+
+if ! [ -e "$DOTFILES" ]
+then
+    echo "DOTFILES at "$DOTFILES" does not exist" 1>&2
+    exit 1
+fi
+if ! [ -e "$VARIA" ]
+then
+    echo "VARIA at "$VARIA" does not exist" 1>&2
+    exit 1
+fi
+
 if [ -n "$PACMAN" ]
 then
     "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha ethtool wol duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip graphicsmagick zip sshfs perl-image-exiftool loudmouth librsvg lftp flex bison intltool python2-cheetah python2-pyopenssl par2cmdline rygel xorg-xdm yasm xorg-xclock xorg-xinput xdotool libpar2 libspectre tidyhtml astyle ack wget xorg vicious firefox virtualbox
