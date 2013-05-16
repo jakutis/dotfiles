@@ -22,10 +22,8 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 "
 " original repos on github
-"Bundle 'tpope/vim-fugitive'
 "Bundle 'Lokaltog/vim-easymotion'
 "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-"Bundle 'tpope/vim-rails.git'
 " vim-scripts repos
 "Bundle 'L9'
 "Bundle 'FuzzyFinder'
@@ -46,13 +44,10 @@ Bundle 'The-NERD-Commenter'
 Bundle 'Solarized'
 Bundle 'Vim-R-plugin'
 Bundle 'ctrlp.vim'
-Bundle 'git://github.com/airblade/vim-gitgutter'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'Chiel92/vim-autoformat'
-Bundle 'https://github.com/xolox/vim-session'
-" non github repos
-"Bundle 'git://git.wincent.com/command-t.git'
-"Bundle 'git://github.com/ervandew/screen.git'
-" ...
+Bundle 'xolox/vim-session'
+
 filetype plugin indent on
 
 let g:session_autoload = 'no'
