@@ -55,6 +55,8 @@ Bundle 'https://github.com/xolox/vim-session'
 " ...
 filetype plugin indent on
 
+let g:session_autoload = 'no'
+
 let g:formatprg_html = "tidy"
 let g:formatprg_args_html = "-xml --quiet yes --indent yes --indent-spaces 4"
 
