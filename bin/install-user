@@ -16,8 +16,8 @@ PODCATCHERURL="http://rubyforge.org/frs/download.php/76053/podcatcher-3.1.6.tar.
 MCABBERV="0.10.2"
 SVG2PDFV="301dd48"
 RMV="3"
-RV="${RMV}.0.0"
-GOV="1.0.3"
+RV="${RMV}.0.1"
+GOV="1.1"
 YOUTUBEDLV="2013.05.07"
 VIMV="v7-3-887"
 
