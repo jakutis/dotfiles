@@ -81,7 +81,7 @@ cd ..
 
 mkdir -p .varia/desktop
 cd .varia/desktop
-ln -nsf ../../Desktop/VARIA/desktop/network
+ln -nsf "$VARIA/desktop/network"
 cd ../..
 
 mkdir -p .vimtmp .vimbackup .vimsession
