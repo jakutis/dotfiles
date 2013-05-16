@@ -84,13 +84,6 @@ cd .varia/desktop
 ln -nsf "$VARIA/desktop/network"
 cd ../..
 
-mkdir -p .vimtmp .vimbackup .vimsession
-if ! [ -e ".vim" ]
-then
-    git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
-    vim +BundleInstall +qall
-fi
-
 if ! [ -e ".bin/kerl" ]
 then
     curl -O https://raw.github.com/spawngrid/kerl/master/kerl
@@ -160,6 +153,17 @@ then
     ln -nsf "../opt/vim/bin/vimdiff"
     cd ..
     rm -rf vim
+fi
+
+mkdir -p .vimtmp .vimbackup .vimsession
+if ! [ -e ".vim" ]
+then
+    git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
+    vim +BundleInstall +qall
+    cd .vim/bundle/YouCompleteMe/cpp
+    cmake -g "Unix Makefiles"
+    make
+    cd ../../../..
 fi
 
 if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
