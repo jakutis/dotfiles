@@ -47,6 +47,8 @@ ln -nsf "$DOTFILES/mimeapps.list"
 ln -nsf "mimeapps.list" "defaults.list"
 cd "$HOME"
 
+mkdir -p "opt"
+
 mkdir -p ".bin"
 ln -nsf "$VARIA/gitac" ".bin/gitac"
 ln -nsf "$VARIA/gitD" ".bin/gitD"
