@@ -74,6 +74,11 @@ else
     ln -nsf "$DOTFILES/.xinitrc"
 fi
 
+mkdir -p .config
+cd .config
+ln -nsf "$DOTFILES/.config/awesome"
+cd ..
+
 mkdir -p .varia/desktop
 cd .varia/desktop
 ln -nsf ../../Desktop/VARIA/desktop/network
