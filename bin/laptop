@@ -54,6 +54,9 @@ case "$CMD" in
     "hibernate")
         systemctl hibernate
         ;;
+    "suspend")
+        systemctl suspend
+        ;;
     "help")
         help
         ;;
