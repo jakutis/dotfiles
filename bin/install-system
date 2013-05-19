@@ -25,18 +25,21 @@ then
     exit 1
 fi
 
-pushd .
-cd /etc
-ln -nsf "$VARIA/wpa_supplicant.conf"
-popd
+if [ "$(hostname)" = "laptop" ]
+then
+    pushd .
+    cd /etc
+    ln -nsf "$VARIA/wpa_supplicant.conf"
+    popd
 
-pushd .
-cd /etc/modules-load.d
-for A in $(ls "$VARIA/laptop/modules-load.d")
-do
-    ln -nsf "$VARIA/laptop/modules-load.d/$A"
-done
-popd
+    pushd .
+    cd /etc/modules-load.d
+    for A in $(ls "$VARIA/laptop/modules-load.d")
+    do
+        ln -nsf "$VARIA/laptop/modules-load.d/$A"
+    done
+    popd
+fi
 
 if [ -n "$PACMAN" ]
 then
