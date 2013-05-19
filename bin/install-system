@@ -6,6 +6,7 @@ CGITV="0.9.1"
 NGINXV="1.4.1"
 HAPROXYV="1.4.22"
 HAPROXYURL="http://haproxy.1wt.eu/download/1.4/src/haproxy-1.4.22.tar.gz"
+DARKHTTPDV="1.9"
 
 PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
@@ -190,3 +191,13 @@ then
     make PREFIX=/opt/varia-haproxy install
 fi
 
+if ! [ -e "/opt/varia-darkhttpd" ]
+then
+    mkdir -p /opt
+    cd /opt
+    curl -L "http://unix4lyfe.org/darkhttpd/darkhttpd-${DARKHTTPDV}.tar.bz2" | tar jxf - || exit 1
+    cd darkhttpd-$DARKHTTPDV
+    make
+    mkdir -p /opt/varia-darkhttpd/bin
+    cp darkhttpd /opt/varia-darkhttpd/bin
+fi
