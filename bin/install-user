@@ -422,5 +422,4 @@ rm -rf ".varia/instances"
 mkinstance qpdfview
 mkinstance firefox
 mkinstance urxvt
-mkinstance google-chrome
 mkinstance osmo
