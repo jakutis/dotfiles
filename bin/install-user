@@ -108,7 +108,7 @@ if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
     source .rvm/scripts/rvm
-    gem install jekyll kramdown
+    gem install jekyll kramdown pdfbeads rmagick iconv hpricot
     KRAMDOWN="$(gem which kramdown)"
     $(which cp) "$DOTFILES/kramdown-mylatex.rb" "${KRAMDOWN%.rb}/converter/latex.rb"
 fi
