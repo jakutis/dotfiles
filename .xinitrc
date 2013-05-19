@@ -15,7 +15,6 @@ OSMO="/home/tahu/.varia/instances/osmo"
 QPDFVIEW="/home/tahu/.varia/instances/qpdfview"
 URXVT="/home/tahu/.varia/instances/urxvt"
 FIREFOX="/home/tahu/.varia/instances/firefox"
-GOOGLECHROME="/home/tahu/.varia/instances/google-chrome"
 
 REFDIR="/home/tahu/etc/storage/books"
 
@@ -51,7 +50,6 @@ cd
 cd /home/tahu/Desktop/NRMS/apps/nrms_web/priv/js
 "$URXVT/NRMS" -e vim -S "$HOME/.vimsession/NRMS.vim" &
 cd
-"$GOOGLECHROME/NRMS" &
 
 "$VARIA/osmo" &
 "$URXVT/VARIA" -e mosh --server=/home/tahu/opt/mosh/bin/mosh-server jakut.is ./.bin/tmuxcom &
