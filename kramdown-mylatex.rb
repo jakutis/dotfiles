@@ -525,7 +525,7 @@ module Kramdown
         if el.attr.has_key?('figure_caption')
             "\\begin{figure}[H]\\begin{center}#{el.value}\\captionsetup{style=ktupav}\\caption{#{el.attr['figure_caption']}}\\label{fig:#{el.attr['figure_ref']}}\\end{center}\\end{figure}"
         else
-            if el.options[:category] == :block
+            if el.options[:category] == :block and opts[:parent].type != :li
               el.value
             else
               "$#{el.value}$"
