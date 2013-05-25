@@ -28,6 +28,11 @@ fi
 if [ "$(hostname)" = "laptop" ]
 then
     pushd .
+    cd /etc/systemd
+    ln -nsf "$VARIA/laptop/logind.conf"
+    popd
+
+    pushd .
     cd /etc
     ln -nsf "$VARIA/wpa_supplicant.conf"
     popd
