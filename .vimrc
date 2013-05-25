@@ -55,6 +55,7 @@ let g:session_autoload = 'no'
 let g:formatprg_html = "tidy"
 let g:formatprg_args_html = "-xml --quiet yes --indent yes --indent-spaces 4"
 
+let g:syntastic_tex_chktex_args = "--nowarn 8"
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_enable_signs = 1
