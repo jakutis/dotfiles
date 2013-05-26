@@ -4,9 +4,9 @@ NZBGETV="10.1"
 PYTHONV="2.7.3"
 QPDFVIEWV="0.4.2beta1"
 GHCV="7.4.2"
+CABALINSTALLV="1.16.0.2"
 NEWSBEUTERV="2.6"
 MOSHV="1.2.4"
-HASKELLPLATFORMV="2012.4.0.0"
 NODEV="0.10.8"
 ERLANGV="R16"
 RTORRENTV="0.9.3"
@@ -233,27 +233,18 @@ fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
-    wget http://www.haskell.org/ghc/dist/$GHCV/ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
-    tar xf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2
+    curl -L "http://www.haskell.org/ghc/dist/$GHCV/ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - || exit 1
     cd ghc-$GHCV
     ./configure --prefix="$HOME/opt/ghc-$GHCV" && make install || exit 1
     cd ../opt
     ln -nsf ghc-$GHCV ghc
     cd ..
-    rm -rf ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2 ghc-$GHCV
-fi
-
-if ! [ -e "opt/haskell-platform-$HASKELLPLATFORMV" ]
-then
-    wget http://lambda.haskell.org/platform/download/$HASKELLPLATFORMV/haskell-platform-$HASKELLPLATFORMV.tar.gz
-    tar xf haskell-platform-$HASKELLPLATFORMV.tar.gz
-    cd haskell-platform-$HASKELLPLATFORMV
-    ./configure --prefix="$HOME/opt/haskell-platform-$HASKELLPLATFORMV" && make && make install || exit 1
-    cd ../opt
-    ln -nsf haskell-platform-$HASKELLPLATFORMV haskell-platform
-    cabal update
-    cd ..
-    rm -rf haskell-platform-$HASKELLPLATFORMV.tar.gz haskell-platform-$HASKELLPLATFORMV
+    rm -rf ghc-$GHCV
+    rm -rf .cabal .ghc
+    curl -L "http://hackage.haskell.org/packages/archive/cabal-install/$CABALINSTALLV/cabal-install-${CABALINSTALLV}.tar.gz" | tar zxf - || exit 1
+    cd "cabal-install-${CABALINSTALLV}"
+    sh bootstrap.sh && cabal update || exit 1
+    cabal install git-annex || exit 1
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
