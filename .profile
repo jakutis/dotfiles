@@ -25,7 +25,7 @@ fi
 
 PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
-PATH="$HOME/.cabal/bin:$HOME/opt/haskell-platform/bin:$HOME/opt/ghc/bin:$PATH"
+PATH="$HOME/.cabal/bin:$HOME/opt/ghc/bin:$PATH"
 PATH="$HOME/.rvm/bin:$PATH"
 PATH="$GOROOT/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
