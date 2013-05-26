@@ -244,7 +244,10 @@ then
     curl -L "http://hackage.haskell.org/packages/archive/cabal-install/$CABALINSTALLV/cabal-install-${CABALINSTALLV}.tar.gz" | tar zxf - || exit 1
     cd "cabal-install-${CABALINSTALLV}"
     sh bootstrap.sh && cabal update || exit 1
+    cabal install c2hs || exit 1
     cabal install git-annex || exit 1
+    cd ..
+    rm -rf "cabal-install-${CABALINSTALLV}"
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
