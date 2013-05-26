@@ -33,7 +33,7 @@ then
     then
         ls -t /dev/sd* | (
             read MOUNT
-            su -c "mount "$MOUNT" "$DIR""
+            su -c "mount -o uid=$(id -u) "$MOUNT" "$DIR""
         )
     else
         su -c "mount "$DIR""
