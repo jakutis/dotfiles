@@ -38,6 +38,14 @@ then
     popd
 
     pushd .
+    cd /etc/modprobe.d
+    for A in $(ls "$VARIA/laptop/modprobe.d")
+    do
+        ln --no-dereference --force --symbolic "$VARIA/laptop/modprobe.d/$A"
+    done
+    popd
+
+    pushd .
     cd /etc/modules-load.d
     for A in $(ls "$VARIA/laptop/modules-load.d")
     do
