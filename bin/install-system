@@ -29,19 +29,19 @@ if [ "$(hostname)" = "laptop" ]
 then
     pushd .
     cd /etc/systemd
-    ln -nsf "$VARIA/laptop/logind.conf"
+    ln --no-dereference --force --symbolic "$VARIA/laptop/logind.conf"
     popd
 
     pushd .
     cd /etc
-    ln -nsf "$VARIA/wpa_supplicant.conf"
+    ln --no-dereference --force --symbolic "$VARIA/wpa_supplicant.conf"
     popd
 
     pushd .
     cd /etc/modules-load.d
     for A in $(ls "$VARIA/laptop/modules-load.d")
     do
-        ln -nsf "$VARIA/laptop/modules-load.d/$A"
+        ln --no-dereference --force --symbolic "$VARIA/laptop/modules-load.d/$A"
     done
     popd
 fi
@@ -57,34 +57,34 @@ WantedBy=multi-user.target
 " > /etc/systemd/system/jakutis.service
     ln --symbolic /etc/systemd/system/jakutis.service /etc/systemd/system/multi-user.target.wants/jakutis.service
 
-    "$PACMAN" -S --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha ethtool wol duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip imagemagick zip sshfs perl-image-exiftool loudmouth librsvg lftp flex bison intltool python2-cheetah python2-pyopenssl par2cmdline rygel xorg-xdm yasm xorg-xclock xorg-xinput xdotool libpar2 libspectre tidyhtml astyle ack wget xorg vicious firefox virtualbox osmo phpmyadmin apache php php-apache mariadb sudo ebtables dhclient wpa_supplicant beep xbindkeys zenity wmname cmake bzr subversion wvdial sage-mathematics gimp libreoffice sane mirage leafpad gnome-alsamixer skype skype-call-recorder ifuse python2-lxml pandoc wireless_tools patch pkgfile automake libtool dosfstools vpnc tmux pwgen gsasl dos2unix happy alex gtkmm poppler-glib
+    "$PACMAN" --sync --needed psmisc git vim kdebase-konqueror kdegraphics-okular awesome rxvt-unicode mplayer-vaapi vlc ffmpeg openssh cups octave coreutils powertop libxslt wavpack lame flac bchunk mp3splt cuetools python2-eyed3 id3lib mp3info faac mac libmp4v2 samba ethtool mercurial texlive-most parted kdegraphics-ksnapshot smartmontools htop dstat dnsmasq protobuf zlib libutempter pkg-config openssl ncurses curl sqlite libxml2 stfl json-c gettext bzip2 markdown pcre libyaml elinks openvpn bridge-utils fetchmail postfix unzip gmp mesa freeglut hdparm parted qt libcups poppler-qt ebtables lsb-release alsa-utils mc smbclient autoconf libsigc++ yajl ntp pragha ethtool wol duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip imagemagick zip sshfs perl-image-exiftool loudmouth librsvg lftp flex bison intltool python2-cheetah python2-pyopenssl par2cmdline rygel xorg-xdm yasm xorg-xclock xorg-xinput xdotool libpar2 libspectre tidyhtml astyle ack wget xorg vicious firefox virtualbox osmo phpmyadmin apache php php-apache mariadb sudo ebtables dhclient wpa_supplicant beep xbindkeys zenity wmname cmake bzr subversion wvdial sage-mathematics gimp libreoffice sane mirage leafpad gnome-alsamixer skype skype-call-recorder ifuse python2-lxml pandoc wireless_tools patch pkgfile automake libtool dosfstools vpnc tmux pwgen gsasl dos2unix happy alex gtkmm poppler-glib
 
-    if ! "$PACMAN" -Ql package-query 1>/dev/null 2>&1
+    if ! "$PACMAN" --query --list package-query 1>/dev/null 2>&1
     then
-        DIR="$(mktemp -d)"
+        DIR="$( mktemp --directory )"
         cd "$DIR"
         wget https://aur.archlinux.org/packages/pa/package-query/PKGBUILD
         makepkg --asroot
-        pacman -U *.pkg.tar.xz
+        pacman --upgrade *.pkg.tar.xz
         cd -
-        rm -rf "$DIR"
+        rm --recursive "$DIR"
     fi
 
     if ! "$PACMAN" -Ql yaourt 1>/dev/null 2>&1
     then
-        DIR="$(mktemp -d)"
+        DIR="$( mktemp --directory )"
         cd "$DIR"
         wget https://aur.archlinux.org/packages/ya/yaourt/PKGBUILD
         makepkg --asroot
-        pacman -U *.pkg.tar.xz
+        pacman --upgrade *.pkg.tar.xz
         cd -
-        rm -rf "$DIR"
+        rm --recursive "$DIR"
     fi
 
     # TODO add this when fixed: thttpd
     for PKG in rar pan ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 google-chrome urxvt-clipboard qpdfview ideviceinstaller-git ocrodjvu pdftk-bin yed fuse-google-drive-git gmp4
     do
-        if ! "$PACMAN" -Ql "$PKG" 1>/dev/null 2>&1
+        if ! "$PACMAN" --query --list "$PKG" 1>/dev/null 2>&1
         then
             yaourt --sync --noconfirm "$PKG"
         fi
@@ -92,7 +92,7 @@ WantedBy=multi-user.target
 elif [ -n "$APTGET" ]
 then
     apt-get install wget
-    wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+    wget --quiet http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc --output-document=- | sudo apt-key add -
     "$APTGET" update
     # TODO add when these are in official repositories: pragha gdk-pixbuf-psd autopep8 vicious sage-mathematics libreoffice skype skype-call-recorder urxvt-clipboard qpdfview ideviceinstaller yed fuse-google-drive-git
     "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libcurl4-openssl-dev libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip imagemagick zip sshfs libimage-exiftool-perl libloudmouth1-dev librsvg2-dev lftp transmission-cli flex bison intltool pandoc python-cheetah python-yenc python-pyopenssl par2 p7zip-full p7zip-rar xdm yasm x11-apps xinput xdotool libpar2-0-dev libspectre-dev pdfgrep libcups2-dev tidy astyle gfortran libreadline-dev ack wget iceweasel virtualbox osmo phpmyadmin mysql-server sudo ebtables isc-dhcp-client wpasupplicant beep xbindkeys zenity wmname cmake bzr subversion wvdial python-lxml gimp sane mirage leafpad gnome-alsamixer ifuse pandoc ocrodjvu pdftk ifrename patch dosfstools tmux pwgen libgsasl7-dev dos2unix happy alex libgtkmm-2.4 libpoppler-glib4
@@ -104,70 +104,70 @@ then
     if ! dpkg-query --status libfaac-dev 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/f/faac/libfaac-dev_1.28-0.3_$ARCH.deb
-        dpkg -i libfaac-dev_1.28-0.3_$ARCH.deb
+        dpkg --install libfaac-dev_1.28-0.3_$ARCH.deb
         rm libfaac-dev_1.28-0.3_$ARCH.deb
     fi
 
     if ! dpkg-query --status libmp4v2-1 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/m/mp4v2/libmp4v2-1_1.9.1-0.1_$ARCH.deb
-        dpkg -i libmp4v2-1_1.9.1-0.1_$ARCH.deb
+        dpkg --install libmp4v2-1_1.9.1-0.1_$ARCH.deb
         rm libmp4v2-1_1.9.1-0.1_$ARCH.deb
     fi
 
     if ! dpkg-query --status libfaac0 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/f/faac/libfaac0_1.28-0.3_$ARCH.deb
-        dpkg -i libfaac0_1.28-0.3_$ARCH.deb
+        dpkg --install libfaac0_1.28-0.3_$ARCH.deb
         rm libfaac0_1.28-0.3_$ARCH.deb
     fi
 
     if ! dpkg-query --status faac 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/f/faac/faac_1.28-0.3_$ARCH.deb
-        dpkg -i faac_1.28-0.3_$ARCH.deb
+        dpkg --install faac_1.28-0.3_$ARCH.deb
         rm faac_1.28-0.3_$ARCH.deb
     fi
 
     if ! dpkg-query --status libmac2 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/m/monkeys-audio/libmac2_3.99-u4-b5-0.1_$ARCH.deb
-        dpkg -i libmac2_3.99-u4-b5-0.1_$ARCH.deb
+        dpkg --install libmac2_3.99-u4-b5-0.1_$ARCH.deb
         rm libmac2_3.99-u4-b5-0.1_$ARCH.deb
     fi
 
     if ! dpkg-query --status monkeys-audio 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/m/monkeys-audio/monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
-        dpkg -i monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
+        dpkg --install monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
         rm monkeys-audio_3.99-u4-b5-0.1_$ARCH.deb
     fi
 
     if ! dpkg-query --status libmpeg4ip-0 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/libmpeg4ip-0_1.6-0.9_$ARCH.deb
-        dpkg -i libmpeg4ip-0_1.6-0.9_$ARCH.deb
+        dpkg --install libmpeg4ip-0_1.6-0.9_$ARCH.deb
         rm libmpeg4ip-0_1.6-0.9_$ARCH.deb
     fi
 
     if ! dpkg-query --status libmp4v2-0 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/libmp4v2-0_1.6-0.9_$ARCH.deb
-        dpkg -i libmp4v2-0_1.6-0.9_$ARCH.deb
+        dpkg --install libmp4v2-0_1.6-0.9_$ARCH.deb
         rm libmp4v2-0_1.6-0.9_$ARCH.deb
     fi
 
     if ! dpkg-query --status mpeg4ip-utils 2>&1 1>/dev/null
     then
         wget http://www.deb-multimedia.org/pool/main/m/mpeg4ip/mpeg4ip-utils_1.6-0.9_$ARCH.deb
-        dpkg -i mpeg4ip-utils_1.6-0.9_$ARCH.deb
+        dpkg --install mpeg4ip-utils_1.6-0.9_$ARCH.deb
         rm mpeg4ip-utils_1.6-0.9_$ARCH.deb
     fi
 
     if ! dpkg-query --status lame 2>&1 1>/dev/null
     then
         wget http://deb-multimedia.org/pool/main/l/lame/lame_3.98.4-0.0_$ARCH.deb
-        dpkg -i lame_3.98.4-0.0_$ARCH.deb
+        dpkg --install lame_3.98.4-0.0_$ARCH.deb
         rm lame_3.98.4-0.0_$ARCH.deb
     fi
 else
@@ -177,7 +177,7 @@ fi
 
 if ! [ -e "/opt/varia-nginx" ]
 then
-    mkdir -p /opt
+    mkdir --parents /opt
     cd /opt
     wget http://nginx.org/download/nginx-$NGINXV.tar.gz
     tar xf nginx-$NGINXV.tar.gz
@@ -187,7 +187,7 @@ fi
 
 if ! [ -e "/opt/varia-cgit" ]
 then
-    mkdir -p /opt
+    mkdir --parents /opt
     cd /opt
     wget http://hjemli.net/git/cgit/snapshot/cgit-$CGITV.tar.gz
     tar xf cgit-$CGITV.tar.gz
@@ -197,7 +197,7 @@ fi
 
 if ! [ -e "/opt/varia-php" ]
 then
-    mkdir -p /opt
+    mkdir --parents /opt
     cd /opt
     wget http://lt1.php.net/get/php-$PHPV.tar.bz2/from/this/mirror
     tar xf mirror
@@ -214,7 +214,7 @@ fi
 
 if ! [ -e "/opt/varia-haproxy" ]
 then
-    mkdir -p /opt
+    mkdir --parents /opt
     cd /opt
     wget "$HAPROXYURL"
     tar xf haproxy-$HAPROXYV.tar.gz
@@ -224,11 +224,11 @@ fi
 
 if ! [ -e "/opt/varia-darkhttpd" ]
 then
-    mkdir -p /opt
+    mkdir --parents /opt
     cd /opt
-    curl -L "http://unix4lyfe.org/darkhttpd/darkhttpd-${DARKHTTPDV}.tar.bz2" | tar jxf - || exit 1
+    curl --location "http://unix4lyfe.org/darkhttpd/darkhttpd-${DARKHTTPDV}.tar.bz2" | tar jxf - || exit 1
     cd darkhttpd-$DARKHTTPDV
     make
-    mkdir -p /opt/varia-darkhttpd/bin
+    mkdir --parents /opt/varia-darkhttpd/bin
     cp darkhttpd /opt/varia-darkhttpd/bin
 fi
