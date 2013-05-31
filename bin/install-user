@@ -135,7 +135,7 @@ then
     ln -nsf "../opt/r-$RV/bin/R"
     cd ..
     rm -rf "R-${RV}"
-    echo 'install.packages(c("knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2"), repos=c("http://cran.us.r-project.org"))' | R --no-save
+    echo 'install.packages(c("gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2"), repos=c("http://cran.us.r-project.org"))' | R --no-save
     wget "http://www.lepem.ufc.br/jaa/colorout_1.0-0.tar.gz"
     echo 'install.packages(c("colorout_1.0-0.tar.gz"), type="source", repos=NULL)' | R --no-save
     rm colorout_1.0-0.tar.gz
