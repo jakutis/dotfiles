@@ -16,6 +16,7 @@ then
 elif [ -f "$REALFILE" ]
 then
     MIME="$(file --dereference --brief --mime-type "$FILE")"
+    EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
     case "$MIME" in
         "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
             less "$FILE"
@@ -59,7 +60,12 @@ then
             7z l "$FILE"
             ;;
         "application/zip")
-            zip --show-just-unicode --verbose --show-files "$FILE"
+            if [ "$EXT" == "cbz" ]
+            then
+                okular "$FILE"
+            else
+                zip --show-just-unicode --verbose --show-files "$FILE"
+            fi
             ;;
         "application/octet-stream" | "application/x-dosexec")
             if [ "$(file --brief "$FILE")" = "MS Windows HtmlHelp Data" ]
