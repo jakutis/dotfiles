@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+    echo "Error: please specify cbr file" >&1
+    exit 1
+fi
+
+CBR="$(realpath "$1")"
+
+if ! [ -f "$CBR" ]
+then
+    echo "Error: specified cbr file "$CBR" does not exist" >&1
+    exit 1
+fi
+
+if [ -z "$2" ]
+then
+    echo "Error: please specify pdf file" >&1
+    exit 1
+fi
+
+PDF="$(realpath "$2")"
+
+if [ -e "$PDF" ]
+then
+    echo "Error: specified pdf file "$PDF" already exists" >&1
+    exit 1
+fi
+
+DIR="$(mktemp --directory)"
+cd "$DIR"
+unzip "$CBR"
+ls|images2pdf "$PDF"
+rm --recursive "$DIR"
