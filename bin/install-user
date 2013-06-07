@@ -391,6 +391,13 @@ then
     rm -rf "svg2pdf"
 fi
 
+if ! [ -e ".bin/text2pdf" ]
+then
+    wget http://www.eprg.org/pdfcorner/text2pdf/text2pdf.c
+    gcc -o .bin/text2pdf text2pdf.c
+    rm text2pdf.c
+fi
+
 if ! [ -e ".bin/sfnt2woff" -a -e ".bin/woff2sfnt" ]
 then
     mkdir sfnt2woff
