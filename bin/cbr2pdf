@@ -20,7 +20,7 @@ then
     exit 1
 fi
 
-PDF="$(realpath "$2")"
+PDF="$(realpath --strip "$2")"
 
 if [ -e "$PDF" ]
 then
@@ -28,8 +28,35 @@ then
     exit 1
 fi
 
-DIR="$(mktemp --directory)"
+echo "Will convert from "$CBR" to "$PDF""
+
+DIR="$( mktemp --directory )"
 cd "$DIR"
-unzip "$CBR"
-ls|images2pdf "$PDF"
+
+MIME="$( file --dereference --brief --mime-type "$CBR" )"
+if [ "$MIME" = "application/zip" ]
+then
+    unzip "$CBR"
+elif [ "$MIME" = "application/x-rar" ]
+then
+    rar x "$CBR"
+else
+    echo "Could not recognize CBR compression" 1>&2
+    exit 1
+fi
+find -type f | ( while read FILE
+do
+    MIME="$( file --dereference --mime-type --brief "$FILE" )"
+    if [ "${MIME#image/}" = "$MIME" ]
+    then
+        rm "$FILE"
+    fi
+    OLDNAME="$(basename "$FILE")"
+    NEWNAME="$(echo "$OLDNAME"|tr '[:upper:]' '[:lower:]'|sed 's/[^a-z0-9_-\.\/]/_/g')"
+    if [ "$NEWNAME" != "$OLDNAME" ]
+    then
+        mv "$(dirname "$FILE")/$OLDNAME" "$(dirname "$FILE")/$NEWNAME"
+    fi
+done )
+find -type f|sort|images2pdf "$PDF"
 rm --recursive "$DIR"
