@@ -99,7 +99,7 @@ let g:session_autosave = 'yes'
 
 runtime macros/matchit.vim
 
-set number
+set relativenumber
 set autochdir
 set nofoldenable
 
@@ -127,6 +127,9 @@ function! EnableColorColumn()
 endfunction
 
 autocmd BufRead,BufWrite COMMIT_EDITMSG,*.py,*.js,*.c,*.go,*.html,*.R call EnableColorColumn()
+
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
 
 set laststatus=2
 set statusline=%t%r\ %y\ format:\ %{&ff};\ [%l,%c=%b]
