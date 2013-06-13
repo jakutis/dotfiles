@@ -416,6 +416,26 @@ then
     rm -rf sfnt2woff
 fi
 
+if ! [ -e ".bin/mutt-ics" ]
+then
+    cd "$HOME/opt"
+    git clone https://github.com/dmedvinsky/mutt-ics || exit 1
+    cd mutt-ics
+    pip install -r requirements.txt || exit 1
+    chmod +x src/main.py
+    cd ../../.bin
+    ln -s ../opt/mutt-ics/src/main.py mutt-ics
+    cd ..
+fi
+
+if ! [ -e "opt/calibre" ]
+then
+    python -c "import sys; py3 = sys.version_info[0] > 2; u = __import__('urllib.request' if py3 else 'urllib', fromlist=1); exec(u.urlopen('http://status.calibre-ebook.com/linux_installer').read()); main(install_dir='$HOME/opt')"
+    cd .bin
+    ln -s ../opt/calibre/calibre
+    cd ..
+fi
+
 function mkinstance {
     mkdir -p ".varia/instances/$1"
     for TAG in M DSA SEIS ATOA NRMS VARIA
