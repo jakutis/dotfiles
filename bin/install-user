@@ -223,8 +223,10 @@ then
     source .pythonbrew/etc/bashrc
     pythonbrew install "$PYTHONV"
     pythonbrew switch "$PYTHONV"
-    pip install jsbeautifier
-    pip install pygments
+    for PACKAGE in lxml jsbeautifier pygments
+    do
+        pip install "$PACKAGE"
+    done
     git clone https://github.com/wetneb/pygments_maple
     cd pygments_maple
     python setup.py install
