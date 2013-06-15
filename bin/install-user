@@ -75,6 +75,13 @@ else
     ln -nsf "$DOTFILES/.xinitrc"
 fi
 
+if [ "$(hostname)" = "desktop" ]
+then
+    mkdir --parents .recoll
+    cd .recoll
+    ln -nsf "$VARIA/desktop/recoll.conf"
+fi
+
 mkdir -p .config
 cd .config
 ln -nsf "$DOTFILES/.config/awesome"
