@@ -98,6 +98,7 @@ then
     curl -O https://raw.github.com/spawngrid/kerl/master/kerl
     chmod +x kerl
     mv kerl .bin
+    kerl update releases
     kerl build "$ERLANGV" "$ERLANGV"
     kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV"
     cd opt
