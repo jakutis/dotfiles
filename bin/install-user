@@ -80,6 +80,7 @@ then
     mkdir --parents .recoll
     cd .recoll
     ln -nsf "$VARIA/desktop/recoll.conf"
+    cd ..
 fi
 
 mkdir -p .config
