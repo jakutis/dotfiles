@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
 
-echo "$(date --rfc-3339=seconds --utc)" "$@" >> "$HOME/etc/wiki/log.md"
+if [ -z "$1" ]
+then
+    echo "Error: list name unspecified" 1>&2
+    exit 1
+fi
+
+if [ -z "$2" ]
+then
+    cat "$HOME/etc/wiki/lists/$1"
+else
+    if [ -n "$(cat "$HOME/etc/wiki/lists/$1"|grep -i "$2")" ]
+    then
+        echo "Warning: given reference already exists in given list" 1>&2
+        exit
+    fi
+    echo "$2" >> "$HOME/etc/wiki/lists/$1"
+fi
