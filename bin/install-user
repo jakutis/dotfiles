@@ -21,6 +21,7 @@ GOV="1.1"
 YOUTUBEDLV="2013.06.21"
 VIMV="v7-3-887"
 COLOROUTV="1.0-1"
+TMUXV="1.8"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -63,7 +64,7 @@ ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
 cd ..
 
-for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf
 do
     ln -nsf "$DOTFILES/$RC"
 done
@@ -186,6 +187,21 @@ then
     ln -nsf "../opt/youtube-dl"
     cd ..
 fi
+
+if ! [ -e "opt/tmux-$TMUXV" ]
+then
+    curl -L "http://downloads.sourceforge.net/tmux/tmux-${TMUXV}.tar.gz" | tar zxf -
+    cd "tmux-$TMUXV"
+    ./configure --prefix="$HOME/opt/tmux-$TMUXV" && make && make install || exit 1
+    cd ..
+    rm -rf "tmux-$TMUXV"
+    cd opt
+    ln -nsf "tmux-$TMUXV" "tmux"
+    cd ../.bin
+    ln -nsf "../opt/tmux/bin/tmux"
+    cd ..
+fi
+
 
 if ! [ -e "opt/nzbget-$NZBGETV" ]
 then
