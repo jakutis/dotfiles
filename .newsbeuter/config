@@ -5,4 +5,4 @@ bind-key         j     down
 bind-key         k     prev
 bind-key         j     next
 auto-reload      yes
-reload-time      30
+reload-time      720
