@@ -31,7 +31,6 @@ cd
 "$URXVT/VARIA" -e mosh --server=/home/tahu/opt/mosh/bin/mosh-server jakut.is ./.bin/tmuxcom &
 cd "$HOME/etc/wiki"
 "$URXVT/VARIA" -e vim -S "$HOME/.vimsession/VARIA.vim" &
-sudo VBoxManage startvm xp-0 &
 cd
 
 awesome
