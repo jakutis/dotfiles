@@ -1,5 +1,13 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
+# Turn to powersaving mode
+"laptop powersave"
+  m:0x0 + c:220
+
+# Switch network
+"switch-net"
+  m:0x0 + c:246
+
 # Sleep
 "sudo systemd suspend"
   m:0x0 + c:150
