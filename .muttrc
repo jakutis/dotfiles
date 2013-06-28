@@ -32,3 +32,9 @@ bind index \' next-unread
 
 ignore *
 unignore date: from: to: subject: cc:
+
+set beep=yes
+set beep_new=yes
+set check_new=yes
+set mail_check=5
+set timeout=5
