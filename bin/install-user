@@ -202,7 +202,7 @@ if ! [ -e "opt/tmux-$TMUXV" ]
 then
     curl -L "http://downloads.sourceforge.net/tmux/tmux-${TMUXV}.tar.gz" | tar zxf -
     cd "tmux-$TMUXV"
-    LDFLAGS="-Wl,-rpath,$HOME/opt/libevent-$LIBEVENT/lib" PKG_CONFIG_PATH="$HOME/opt/libevent-$LIBEVENTV/lib/pkgconfig" ./configure --prefix="$HOME/opt/tmux-$TMUXV" && make && make install || exit 1
+    LDFLAGS="-Wl,-rpath,$HOME/opt/libevent-$LIBEVENTV/lib" PKG_CONFIG_PATH="$HOME/opt/libevent-$LIBEVENTV/lib/pkgconfig" ./configure --prefix="$HOME/opt/tmux-$TMUXV" && make && make install || exit 1
     cd ..
     rm -rf "tmux-$TMUXV"
     cd opt
