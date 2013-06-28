@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+FILE="$1"
+FROM="$2"
+TO="$3"
+
+function load {
+    tail --lines=+${FROM} "$FILE" | head --lines "$(($TO - $FROM + 1))" | (
+        while read LINE
+        do
+            echo "$LINE" | cut --fields=3 --delimiter='|' | cut --fields=2 --delimiter=' '
+        done
+    )
+}
+
+SUM="0"
+for TERM in $(load)
+do
+    SUM="$SUM + $TERM"
+done
+
+echo "$SUM" | bc
