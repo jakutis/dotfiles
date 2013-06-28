@@ -37,3 +37,5 @@ URxvt*perl-ext: default,clipboard
 
 URxvt*letterSpace: -1
 
+XTerm*bellIsUrgent: true
+URxvt.urgentOnBell: true
