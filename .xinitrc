@@ -23,30 +23,6 @@ refs-open /home/tahu/Desktop/MAGISTRINIS/literature "$REFDIR" "$QPDFVIEW/M" &
 "$URXVT/M" -e vim -S "$HOME/.vimsession/MAGISTRINIS.vim" &
 cd
 
-cd /home/tahu/Desktop/DAUGIAMATESTATISTINEANALIZE
-refs-open /home/tahu/Desktop/DAUGIAMATESTATISTINEANALIZE/literature "$REFDIR" "$QPDFVIEW/DSA" &
-"$URXVT/DSA" -e vim -S "$HOME/.vimsession/DAUGIAMATESTATISTINEANALIZE.vim" &
-cd /home/tahu/etc/storage/repositories/DAUGIAMATESTATISTINEANALIZE
-"$URXVT/DSA" &
-"$QPDFVIEW/DSA" *.pdf &
-cd
-
-cd /home/tahu/Desktop/STOCHASTINIAIEKSTREMUMAIIRSUMOS
-refs-open /home/tahu/Desktop/STOCHASTINIAIEKSTREMUMAIIRSUMOS/literature "$REFDIR" "$QPDFVIEW/SEIS" &
-"$URXVT/SEIS" -e vim -S "$HOME/.vimsession/STOCHASTINIAIEKSTREMUMAIIRSUMOS.vim" &
-cd /home/tahu/etc/storage/repositories/STOCHASTINIAIEKSTREMUMAIIRSUMOS
-"$URXVT/SEIS" &
-"$QPDFVIEW/SEIS" *.pdf &
-cd
-
-cd /home/tahu/Desktop/ALGEBRINETIESINIUOPERATORIUANALIZE
-refs-open /home/tahu/Desktop/ALGEBRINETIESINIUOPERATORIUANALIZE/literature "$REFDIR" "$QPDFVIEW/ATOA" &
-"$URXVT/ATOA" -e vim -S "$HOME/.vimsession/ALGEBRINETIESINIUOPERATORIUANALIZE.vim" &
-cd /home/tahu/etc/storage/repositories/ALGEBRINETIESINIUOPERATORIUANALIZE
-"$URXVT/ATOA" &
-"$QPDFVIEW/ATOA" *.pdf &
-cd
-
 cd /home/tahu/Desktop/NRMS/apps/nrms_web/priv/js
 "$URXVT/NRMS" -e vim -S "$HOME/.vimsession/NRMS.vim" &
 cd
