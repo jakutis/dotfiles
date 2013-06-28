@@ -113,6 +113,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 --mytextclock = awful.widget.textclock()
 
+mynetwidget = wibox.widget.textbox()
+
 mybatterywidget = wibox.widget.textbox()
 
 --mymemwidget = wibox.widget.textbox()
@@ -204,6 +206,7 @@ for s = 1, screen.count() do
 --    right_layout:add(mydiowidget)
 --    right_layout:add(mycpuwidget)
 --    right_layout:add(mymemwidget)
+    right_layout:add(mynetwidget)
     right_layout:add(mybatterywidget)
 --    right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
