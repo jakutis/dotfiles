@@ -19,42 +19,85 @@ then
     exit 1
 fi
 
+LAST="/home/tahu/.varia/net-last"
+PREFERRED="/home/tahu/.varia/net-preferred"
+
 case "$CMD" in
     "net")
         CFG="$2"
-        if ! [ -e "/home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh" ]
+        #ALL="$(ls /home/tahu/Desktop/VARIA/networks/cfg-*.sh)"
+        ALL="/home/tahu/Desktop/VARIA/networks/cfg-client-omnitel.sh /home/tahu/Desktop/VARIA/networks/cfg-client-eth.sh /home/tahu/Desktop/VARIA/networks/cfg-client-wifi.sh /home/tahu/Desktop/VARIA/networks/cfg-client-vpnc-ktu-wifi.sh"
+        if [ "$CFG" = "next" ]
         then
-            echo "Error: no such network configuration \"$CFG\" exists" 1>&2
-            echo "Available:" 1>&2
-            ls "/home/tahu/Desktop/VARIA/networks" | grep "^cfg-" | sed "s/^cfg\-/    /" | sed "s/\\.sh\$//" 1>&2
-            exit 1
+            FOUNDLAST="0"
+            for NET in $ALL
+            do
+                if [ "$FOUNDLAST" = "1" ]
+                then
+                    CFG="$NET"
+                    break
+                fi
+                if [ "$NET" = "$(cat "$LAST")" ]
+                then
+                    FOUNDLAST="1"
+                fi
+            done
+            if [ "$CFG" = "next" ]
+            then
+                if ! [ -e "$PREFERRED" ]
+                then
+                    echo /home/tahu/Desktop/VARIA/networks/cfg-client-wifi.sh > "$PREFERRED"
+                fi
+                if [ "$FOUNDLAST" = "1" ]
+                then
+                    CFG="${ALL%%.sh*}.sh"
+                else
+                    CFG="$(cat "$PREFERRED")"
+                fi
+            fi
+        else
+            if ! [ -e "/home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh" ]
+            then
+                echo "Error: no such network configuration \"$CFG\" exists" 1>&2
+                echo "Available:" 1>&2
+                ls "/home/tahu/Desktop/VARIA/networks" | grep "^cfg-" | sed "s/^cfg\-/    /" | sed "s/\\.sh\$//" 1>&2
+                exit 1
+            fi
+            CFG="/home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh"
         fi
+        echo "$CFG"
+        echo "$CFG" > "$LAST"
+        echo "$CFG" > "$PREFERRED"
         /home/tahu/Desktop/VARIA/laptop/rc.local.start
         /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
-        /home/tahu/Desktop/VARIA/networks/cfg-${CFG}.sh
+        nohup $CFG 1>/home/tahu/.varia/net.log 2>&1 &
         ;;
     "powersave")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
+        rm "$LAST"
         ;;
     "reboot" | "restart")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
+        rm "$LAST"
         systemctl reboot
         ;;
     "poweroff" | "shutdown")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
+        rm "$LAST"
         systemctl poweroff
         ;;
     "hibernate")
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
+        rm "$LAST"
         systemctl hibernate
         ;;
     "help")
