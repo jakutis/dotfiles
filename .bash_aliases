@@ -2,6 +2,7 @@ alias less='less -R'
 alias cp='cp -i'
 alias mv='mv -i'
 alias ll='ls -Llha'
+alias l1='ls -La1'
 
 alias charge='cat /sys/class/power_supply/$(cat ~/.varia/bat)/energy_now;cat /sys/class/power_supply/$(cat ~/.varia/bat)/status'
 alias charge-percent='echo $((($(cat /sys/class/power_supply/$(cat ~/.varia/bat)/energy_now) * 100) / $(cat /sys/class/power_supply/$(cat ~/.varia/bat)/energy_full)))'
