@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+CURRENT_DISPLAY="$(cat "$HOME/.varia/display")"
+
+if [ "$CURRENT_DISPLAY" = "VGA1" ]
+then
+    xrandr --output LVDS1 --auto --output VGA1 --off
+    echo LVDS1 > "$HOME/.varia/display"
+else
+    xrandr --output LVDS1 --off --output VGA1 --auto
+    echo VGA1 > "$HOME/.varia/display"
+fi
