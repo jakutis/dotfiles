@@ -31,7 +31,10 @@ then
     fi
     CHARGE_THRESHOLD="$(cat "/sys/class/power_supply/$BAT/alarm")"
 fi
+CHARGE_WARN_THRESHOLD=$((CHARGE_THRESHOLD*3))
+
 echo "charge alarm threshold: $CHARGE_THRESHOLD"
+echo "charge warning alarm threshold: $CHARGE_WARN_THRESHOLD"
 
 function rl {
   local TARGET_FILE=$1
@@ -160,6 +163,23 @@ then
         else
             echo "${AWESOME}:set_markup('<span color=\"green\">$(charge)</span>')" | su -c awesome-client "$USER"
         fi
+    fi
+    if [ "$(status)" = "Charging" ]
+    then
+      rm -f "$HOME/.varia/bat_warned"
+    fi
+    if [ "$(charge)" -lt "$CHARGE_WARN_THRESHOLD" ]
+    then
+      echo "Below warning threshold"
+      if ! [ -e "$HOME/.varia/bat_warned" ]
+      then
+        if [ "$(status)" != "Charging" ]
+        then
+            echo "Not warned"
+            touch "$HOME/.varia/bat_warned"
+            beep
+        fi
+      fi
     fi
     if [ "$(charge)" -lt "$CHARGE_THRESHOLD" ]
     then
