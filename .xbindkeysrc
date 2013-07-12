@@ -4,6 +4,10 @@
 "laptop powersave"
   m:0x0 + c:220
 
+# Switch display
+"switch-display"
+  m:0x0 + c:235
+
 # Switch network
 "switch-net"
   m:0x0 + c:246
