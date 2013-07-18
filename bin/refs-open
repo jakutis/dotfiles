@@ -10,6 +10,11 @@ REFLIST="$(realpath "$1")"
 
 if ! [ -f "$REFLIST" ]
 then
+    REFLIST="$HOME/etc/wiki/lists/$1"
+fi
+
+if ! [ -f "$REFLIST" ]
+then
     echo "Error: file with references list \"$REFLIST\" does not exist." >&2
     exit 1
 fi
