@@ -3,6 +3,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ll='ls --dereference --all --human-readable -l'
 alias l1='ls --almost-all --dereference -1'
+alias duf='ls -goR | grep -v ^d | awk "{sum += \$3} END{print sum}"'
 
 alias charge='cat /sys/class/power_supply/$(cat ~/.varia/bat)/energy_now;cat /sys/class/power_supply/$(cat ~/.varia/bat)/status'
 alias charge-percent='echo $((($(cat /sys/class/power_supply/$(cat ~/.varia/bat)/energy_now) * 100) / $(cat /sys/class/power_supply/$(cat ~/.varia/bat)/energy_full)))'
