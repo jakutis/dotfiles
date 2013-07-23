@@ -25,6 +25,9 @@ then
     exit 1
 fi
 
+cd /etc/cron.weekly
+ln --no-dereference --force --symbolic "$VARIA/scrub-md"
+
 if [ "$(hostname)" = "laptop" -o "$(hostname)" = "desktop" ]
 then
     pushd .
