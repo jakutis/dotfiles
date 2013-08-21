@@ -22,7 +22,7 @@ do
                 bzr tags > "$CFG/$TYPE/$REPO"
                 ;;
             "hg")
-                hg update 1>/dev/null 2>&1 || exit 1
+                hg update || exit 1
                 hg tags | diff -ru "$CFG/$TYPE/$REPO" -
                 hg tags > "$CFG/$TYPE/$REPO"
                 ;;
