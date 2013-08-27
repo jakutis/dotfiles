@@ -6,3 +6,4 @@ bind-key         k     prev
 bind-key         j     next
 auto-reload      yes
 reload-time      720
+browser          elinks
