@@ -11,26 +11,25 @@ LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
 laptop net $(zenity --entry --text="laptop net ?")
 
-OSMO="/home/tahu/.varia/instances/osmo"
 QPDFVIEW="/home/tahu/.varia/instances/qpdfview"
 URXVT="/home/tahu/.varia/instances/urxvt"
-FIREFOX="/home/tahu/.varia/instances/firefox"
 
 REFDIR="/home/tahu/etc/storage/books"
 
-cd /home/tahu/Desktop/MAGISTRINIS
-refs-open /home/tahu/Desktop/MAGISTRINIS/literature "$REFDIR" "$QPDFVIEW/M" &
-"$URXVT/M" -e vim -S "$HOME/.vimsession/MAGISTRINIS.vim" &
-cd
-
-cd /home/tahu/Desktop/NRMS/apps/nrms_web/priv/js
-"$URXVT/NRMS" -e vim -S "$HOME/.vimsession/NRMS.vim" &
-cd
+cd "Desktop"
+for SPACE in 1M-MAGISTRINIS 2PT-PATIKIMUMOTEORIJA 3SPT-SPRENDIMUPRIEMIMOTEORIJA 4KO-KOMBINATORINISOPTIMIZAVIMAS 5LEA-LAIKOEILUCIUANALIZE 6H-HTTPINVOKE 7V-VOYERL 8NRMS-NRMS 9V-VARIA
+do
+    TAG="$(echo "$SPACE"|sed 's/-.*//')"
+    REPO="$(echo "$SPACE"|sed 's/.*-//')"
+    cd "$REPO"
+    if [ -e "literature" ]
+    then
+        refs-open "literature" "$REFDIR" "$QPDFVIEW/$TAG" &
+    fi
+    "$URXVT/$TAG" -e vim -S "$HOME/.vimsession/${REPO}.vim" &
+    cd ".."
+done
+cd ".."
 
 "$VARIA/osmo" &
-"$URXVT/VARIA" -e mosh --server=/home/tahu/opt/mosh/bin/mosh-server jakut.is ./.bin/tmuxcom &
-cd "$HOME/etc/wiki"
-"$URXVT/VARIA" -e vim -S "$HOME/.vimsession/VARIA.vim" &
-cd
-
 awesome

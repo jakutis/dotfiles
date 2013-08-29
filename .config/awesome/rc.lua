@@ -84,7 +84,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "M", 2, 3, 4, 5, 6, 7, "NRMS", "VARIA" }, s, layouts[1])
+    tags[s] = awful.tag({ "1M", "2PT", "3SPT", "4KO", "5LEA", "6H", "7V", "8NRMS", "9V" }, s, layouts[1])
 end
 -- }}}
 
@@ -374,19 +374,25 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    { rule = { instance = "M" },
+    { rule = { instance = "1M" },
       properties = { tag = tags[1][1], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "DSA" },
+    { rule = { instance = "2PT" },
       properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "SEIS" },
+    { rule = { instance = "3SPT" },
       properties = { tag = tags[1][3], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "ATOA" },
+    { rule = { instance = "4KO" },
       properties = { tag = tags[1][4], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "NRMS" },
+    { rule = { instance = "5LEA" },
+      properties = { tag = tags[1][5], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "6H" },
+      properties = { tag = tags[1][6], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "7V" },
+      properties = { tag = tags[1][7], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "8NRMS" },
       properties = { tag = tags[1][8], maximized_vertical = true, maximized_horizontal = true  } },
+    { rule = { instance = "9V" },
+      properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { class = "VirtualBox" },
-      properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true } },
-    { rule = { instance = "VARIA" },
       properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true } },
     { rule = { name = "gst-launch-0.10" },
       properties = { sticky = true, floating = true } }
