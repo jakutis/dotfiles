@@ -1,0 +1,3 @@
+set format_playlist=%y - %a - %l - %n. %t %{path}%=%d
+set output_plugin=alsa
+
