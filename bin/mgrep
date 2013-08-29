@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+KEYWORDS="$1"
+FILES="$2"
+RESULTFILES=""
+
+for KEYWORD in $KEYWORDS
+do
+    if [ "$RESULTFILES" = "" ]
+    then
+        RESULTFILES="$(grep -ril "$KEYWORD" $FILES)"
+    else
+        RESULTFILES="$(grep -ril "$KEYWORD" $RESULTFILES)"
+    fi
+    echo "Files after filtering "$KEYWORD": $(echo "$RESULTFILES"|wc -l)"
+done
+
+ls -1 "$RESULTFILES"
