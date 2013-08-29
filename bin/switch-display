@@ -1,12 +1,43 @@
 #!/usr/bin/env bash
 
+CONNECTED_DISPLAYS="$(xrandr|grep -i ' connected '|sed 's/ .*//')"
+NEXT_DISPLAY=""
 CURRENT_DISPLAY="$(cat "$HOME/.varia/display")"
+FOUND_CURRENT="false"
 
-if [ "$CURRENT_DISPLAY" = "VGA1" ]
+while true
+do
+    if [ -n "$NEXT_DISPLAY" ]
+    then
+        break
+    fi
+    for D in $CONNECTED_DISPLAYS
+    do
+        if [ -z "$NEXT_DISPLAY" -a "$FOUND_CURRENT" = "true" ]
+        then
+            NEXT_DISPLAY="$D"
+            break
+        fi
+
+        if [ -z "$CURRENT_DISPLAY" ]
+        then
+            CURRENT_DISPLAY="$D"
+            FOUND_CURRENT="true"
+        elif [ "$CURRENT_DISPLAY" = "$D" ]
+        then
+            FOUND_CURRENT="true"
+        fi
+    done
+done
+
+echo "Connected displays: $CONNECTED_DISPLAYS"
+echo "Current display: $CURRENT_DISPLAY"
+echo "Next display: $NEXT_DISPLAY"
+
+if [ "$CURRENT_DISPLAY" = "$NEXT_DISPLAY" ]
 then
-    xrandr --output LVDS1 --auto --output VGA1 --off
-    echo LVDS1 > "$HOME/.varia/display"
+    echo "No action needed"
 else
-    xrandr --output LVDS1 --off --output VGA1 --auto
-    echo VGA1 > "$HOME/.varia/display"
+    xrandr --output "$NEXT_DISPLAY" --auto --output "$CURRENT_DISPLAY" --off
+    echo "$NEXT_DISPLAY" > "$HOME/.varia/display"
 fi
