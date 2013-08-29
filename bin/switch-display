@@ -13,7 +13,7 @@ do
     fi
     for D in $CONNECTED_DISPLAYS
     do
-        if [ -z "$NEXT_DISPLAY" -a "$FOUND_CURRENT" = "true" ]
+        if [ "$FOUND_CURRENT" = "true" ]
         then
             NEXT_DISPLAY="$D"
             break
