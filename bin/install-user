@@ -66,6 +66,11 @@ ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
 cd ..
 
+mkdir -p ".cmus"
+cd ".cmus"
+ln -nsf "$DOTFILES/.cmus/rc"
+cd ..
+
 mkdir -p ".elinks"
 cd ".elinks"
 ln -nsf "$DOTFILES/.elinks/elinks.conf"
@@ -126,7 +131,7 @@ if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
     source .rvm/scripts/rvm
-    gem install jekyll kramdown pdfbeads rmagick iconv hpricot
+    gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass
     KRAMDOWN="$(gem which kramdown)"
     $(which cp) "$DOTFILES/kramdown-mylatex.rb" "${KRAMDOWN%.rb}/converter/latex.rb"
 fi
