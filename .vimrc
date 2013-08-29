@@ -47,6 +47,7 @@ Bundle 'Vim-R-plugin'
 Bundle 'ctrlp.vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'Chiel92/vim-autoformat'
+Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-session'
 Bundle 'dbext.vim'
 
