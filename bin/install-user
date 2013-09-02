@@ -301,7 +301,7 @@ then
     source .pythonbrew/etc/bashrc
     pythonbrew install "$PYTHONV"
     pythonbrew switch "$PYTHONV"
-    for PACKAGE in lxml jsbeautifier pygments ocrodjvu
+    for PACKAGE in cython lxml jsbeautifier pygments ocrodjvu python-djvulibre
     do
         pip install "$PACKAGE"
     done
