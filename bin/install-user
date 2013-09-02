@@ -24,6 +24,7 @@ COLOROUTV="1.0-1"
 TMUXV="1.8"
 LIBEVENTV="2.0.21"
 ELINKSV="a229adb"
+IMAGEMAGICKV="6.8.6-9"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -236,6 +237,22 @@ then
     ln -nsf "tmux-$TMUXV" "tmux"
     cd ../.bin
     ln -nsf "../opt/tmux/bin/tmux"
+    cd ..
+fi
+
+if ! [ -e "opt/imagemagick-${IMAGEMAGICKV}" ]
+then
+    curl -L "http://mirror.checkdomain.de/imagemagick/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
+    cd "ImageMagick-${IMAGEMAGICKV}" && ./configure --prefix=${HOME}/opt/imagemagick-${IMAGEMAGICKV} --disable-hdri && make && make install || exit 1
+    cd ..
+    rm -rf "ImageMagick-${IMAGEMAGICKV}"
+    cd opt
+    ln -nsf "imagemagick-${IMAGEMAGICKV}" "imagemagick"
+    cd ../.bin
+    for BIN in $(ls "../opt/imagemagick/bin")
+    do
+        ln -nsf "../opt/imagemagick/bin/${BIN}"
+    done
     cd ..
 fi
 
