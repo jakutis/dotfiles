@@ -148,7 +148,7 @@ if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
     source .rvm/scripts/rvm
-    PKG_CONFIG_PATH="$HOME/opt/imagemagick/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass
+    LDFLAGS="-Wl,--rpath=$HOME/opt/imagemagick/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/imagemagick/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass
     KRAMDOWN="$(gem which kramdown)"
     $(which cp) "$DOTFILES/kramdown-mylatex.rb" "${KRAMDOWN%.rb}/converter/latex.rb"
 fi
