@@ -128,6 +128,22 @@ then
     "$DOTFILES/bin/nodeup" "$NODEV"
 fi
 
+if ! [ -e "opt/imagemagick-${IMAGEMAGICKV}" ]
+then
+    curl -L "http://mirror.checkdomain.de/imagemagick/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
+    cd "ImageMagick-${IMAGEMAGICKV}" && ./configure --prefix=${HOME}/opt/imagemagick-${IMAGEMAGICKV} --disable-hdri && make && make install || exit 1
+    cd ..
+    rm -rf "ImageMagick-${IMAGEMAGICKV}"
+    cd opt
+    ln -nsf "imagemagick-${IMAGEMAGICKV}" "imagemagick"
+    cd ../.bin
+    for BIN in $(ls "../opt/imagemagick/bin")
+    do
+        ln -nsf "../opt/imagemagick/bin/${BIN}"
+    done
+    cd ..
+fi
+
 if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
@@ -237,22 +253,6 @@ then
     ln -nsf "tmux-$TMUXV" "tmux"
     cd ../.bin
     ln -nsf "../opt/tmux/bin/tmux"
-    cd ..
-fi
-
-if ! [ -e "opt/imagemagick-${IMAGEMAGICKV}" ]
-then
-    curl -L "http://mirror.checkdomain.de/imagemagick/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
-    cd "ImageMagick-${IMAGEMAGICKV}" && ./configure --prefix=${HOME}/opt/imagemagick-${IMAGEMAGICKV} --disable-hdri && make && make install || exit 1
-    cd ..
-    rm -rf "ImageMagick-${IMAGEMAGICKV}"
-    cd opt
-    ln -nsf "imagemagick-${IMAGEMAGICKV}" "imagemagick"
-    cd ../.bin
-    for BIN in $(ls "../opt/imagemagick/bin")
-    do
-        ln -nsf "../opt/imagemagick/bin/${BIN}"
-    done
     cd ..
 fi
 
