@@ -47,7 +47,7 @@ mkdir -p "$DIR"
 cd "$DIR"
 for PAGE in $(seq --equal-width "$PAGESTART" "$PAGEFINISH")
 do
-    echo "Page $PAGE"
+    echo "Page $PAGE from interval [$PAGESTART; $PAGEFINISH]"
     mkdir "page-$PAGE"
     cd "page-$PAGE"
     djvu2hocr -p $PAGE "$DJVU" | sed 's/ocrx/ocr/g' > page.html
