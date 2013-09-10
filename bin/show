@@ -18,6 +18,9 @@ then
     MIME="$(file --dereference --brief --mime-type "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
     case "$MIME" in
+        "application/x-sharedlib")
+            readelf --all "$FILE" | less
+            ;;
         "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
             less "$FILE"
             ;;
