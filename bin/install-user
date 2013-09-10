@@ -102,10 +102,12 @@ cd .config
 ln -nsf "$DOTFILES/.config/awesome"
 cd ..
 
-mkdir -p .varia/desktop
-cd .varia/desktop
-ln -nsf "$VARIA/desktop/network"
-cd ../..
+if ! [ -e ".varia/desktop" ]
+then
+    cd .varia
+    ln -nsf "$VARIA/desktop"
+    cd ..
+fi
 
 if ! [ -e ".bin/kerl" ]
 then
