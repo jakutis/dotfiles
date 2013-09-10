@@ -27,6 +27,7 @@ Bundle 'gmarik/vundle'
 " vim-scripts repos
 "Bundle 'L9'
 "Bundle 'FuzzyFinder'
+Bundle 'editorconfig-vim'
 Bundle 'Screen-vim---gnu-screentmux'
 Bundle 'Markdown'
 Bundle 'fugitive.vim'
