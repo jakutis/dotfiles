@@ -1,3 +1,4 @@
+alias ls='ls --color=auto'
 alias less='less -R'
 alias cp='cp -i'
 alias mv='mv -i'
