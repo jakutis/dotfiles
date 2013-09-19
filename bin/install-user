@@ -417,7 +417,8 @@ if ! [ -e "opt/qpdfview-$QPDFVIEWV" ]
 then
     cd "$HOME/repos/bzr/qpdfview" || exit 1
     bzr revert -r "$QPDFVIEWV" && bzr clean-tree --force || exit 1
-    qmake && make && make INSTALL_ROOT="$HOME/opt/qpdfview-$QPDFVIEWV" install || exit 1
+    sed --in-place "s/\/usr/$(echo "$HOME/opt/qpdfview-$QPDFVIEWV/usr"|sed -e 's/[]\/()$*.^|[]/\\&/g')/" qpdfview.pri
+    qmake && make && make install || exit 1
     cd "$HOME/opt"
     ln -nsf qpdfview-$QPDFVIEWV qpdfview
     cd ../.bin
