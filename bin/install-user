@@ -519,7 +519,7 @@ fi
 
 function mkinstance {
     mkdir -p ".varia/instances/$1"
-    for TAG in 1M 2PT 3SPT 4KO 5LEA 6H 7V 8NRMS 9V
+    for TAG in 1M 2PT 3SPT 4KO 5KS 6H 7V 8NRMS 9V
     do
         ln -nsf "$(which "$1")" ".varia/instances/$1/$TAG"
     done

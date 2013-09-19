@@ -84,7 +84,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "1M", "2PT", "3SPT", "4KO", "5LEA", "6H", "7V", "8NRMS", "9V" }, s, layouts[1])
+    tags[s] = awful.tag({ "1M", "2PT", "3SPT", "4KO", "5KS", "6H", "7V", "8NRMS", "9V" }, s, layouts[1])
 end
 -- }}}
 
@@ -382,7 +382,7 @@ awful.rules.rules = {
       properties = { tag = tags[1][3], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { instance = "4KO" },
       properties = { tag = tags[1][4], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "5LEA" },
+    { rule = { instance = "5KS" },
       properties = { tag = tags[1][5], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { instance = "6H" },
       properties = { tag = tags[1][6], maximized_vertical = true, maximized_horizontal = true  } },
