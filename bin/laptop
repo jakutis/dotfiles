@@ -94,11 +94,13 @@ case "$CMD" in
         systemctl poweroff
         ;;
     "hibernate")
+        switch-display LVDS1
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
         /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
         rm "$LAST"
         systemctl hibernate
+        xrandr --auto
         ;;
     "help")
         help
