@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
 CONNECTED_DISPLAYS="$(xrandr|grep -i ' connected '|sed 's/ .*//')"
-NEXT_DISPLAY=""
+NEXT_DISPLAY="$1"
 CURRENT_DISPLAY="$(cat "$HOME/.varia/display")"
 FOUND_CURRENT="false"
+
+if [ -n "$NEXT_DISPLAY" -a -z "$(echo "$CONNECTED_DISPLAYS" | grep "^${NEXT_DISPLAY}$")" ]
+then
+    echo "Error: no such display "$NEXT_DISPLAY"." 2>&1
+    exit 1
+fi
 
 while true
 do
