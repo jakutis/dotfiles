@@ -196,8 +196,7 @@ if ! [ -e "/opt/varia-nginx-$NGINXV" ]
 then
     mkdir --parents /opt
     cd /opt
-    wget http://nginx.org/download/nginx-$NGINXV.tar.gz
-    tar xf nginx-$NGINXV.tar.gz
+    curl -L http://nginx.org/download/nginx-$NGINXV.tar.gz | tar zx || exit 1
     cd nginx-$NGINXV
     ./configure --prefix=/opt/varia-nginx-$NGINXV --with-ipv6 --with-http_ssl_module && make && make install || exit 1
     ln -nsf /opt/varia-nginx-$NGINXV /opt/varia-nginx
@@ -240,8 +239,7 @@ if ! [ -e "/opt/varia-haproxy-$HAPROXYV" ]
 then
     mkdir --parents /opt
     cd /opt
-    wget "$HAPROXYURL"
-    tar xf haproxy-$HAPROXYV.tar.gz
+    curl -L "$HAPROXYURL" | tar zx || exit 1
     cd haproxy-$HAPROXYV
     make PREFIX=/opt/varia-haproxy-$HAPROXYV install || exit
     cd ..
