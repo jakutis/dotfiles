@@ -62,11 +62,11 @@ ln -nsf "$VARIA/gitD" ".bin/gitD"
 mkdir -p Downloads/rtorrent
 mkdir -p .rtorrent.session
 
-mkdir -p ".newsbeuter"
-cd ".newsbeuter"
+mkdir -p ".config/newsbeuter"
+cd ".config/newsbeuter"
 ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
-cd ..
+cd ../..
 
 mkdir -p ".cmus"
 cd ".cmus"
