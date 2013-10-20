@@ -192,27 +192,31 @@ else
     exit 1
 fi
 
-if ! [ -e "/opt/varia-nginx" ]
+if ! [ -e "/opt/varia-nginx-$NGINXV" ]
 then
     mkdir --parents /opt
     cd /opt
     wget http://nginx.org/download/nginx-$NGINXV.tar.gz
     tar xf nginx-$NGINXV.tar.gz
     cd nginx-$NGINXV
-    ./configure --prefix=/opt/varia-nginx --with-ipv6 --with-http_ssl_module && make && make install
+    ./configure --prefix=/opt/varia-nginx-$NGINXV --with-ipv6 --with-http_ssl_module && make && make install || exit 1
+    ln -nsf /opt/varia-nginx-$NGINXV /opt/varia-nginx
+    cd ..
+    rm -rf "nginx-$NGINXV"
 fi
 
-if ! [ -e "/opt/varia-cgit" ]
+if ! [ -e "/opt/varia-cgit-$CGITV" ]
 then
     mkdir --parents /opt
     cd /opt
     curl -L http://git.zx2c4.com/cgit/snapshot/cgit-$CGITV.tar.xz | tar Jx || exit 1
-    cd cgit-$CGITV && make get-git && make prefix=/opt/varia-cgit CGIT_SCRIPT_PATH=/opt/varia-cgit/www CGIT_CONFIG=/home/tahu/Desktop/VARIA/server/cgitrc CACHE_ROOT=/tmp/cgit install || exit 1
+    cd cgit-$CGITV && make get-git && make prefix=/opt/varia-cgit-$CGITV CGIT_SCRIPT_PATH=/opt/varia-cgit-$CGITV/www CGIT_CONFIG=/home/tahu/Desktop/VARIA/server/cgitrc CACHE_ROOT=/tmp/cgit install || exit 1
     cd .. && rm -rf cgit-$CGITV || exit 1
+    ln -nsf /opt/varia-cgit-$CGITV /opt/varia-cgit
     cd varia-cgit/www && mv cgit.cgi cgit.cgi-bin && cat /home/tahu/Desktop/VARIA/server/cgit.cgi > cgit.cgi && chmod +x cgit.cgi || exit 1
 fi
 
-if ! [ -e "/opt/varia-php" ]
+if ! [ -e "/opt/varia-php-$PHPV" ]
 then
     mkdir --parents /opt
     cd /opt
@@ -226,26 +230,35 @@ then
     mv APC-$APCV ext/apc
     rm configure
     ./buildconf --force
-    ./configure --prefix=/opt/varia-php --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install
+    ./configure --prefix=/opt/varia-php-$PHPV --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install || exit 1
+    cd ..
+    rm -rf "php-$PHPV"
+    ln -nsf "varia-php-$PHPV" varia-php
 fi
 
-if ! [ -e "/opt/varia-haproxy" ]
+if ! [ -e "/opt/varia-haproxy-$HAPROXYV" ]
 then
     mkdir --parents /opt
     cd /opt
     wget "$HAPROXYURL"
     tar xf haproxy-$HAPROXYV.tar.gz
     cd haproxy-$HAPROXYV
-    make PREFIX=/opt/varia-haproxy install
+    make PREFIX=/opt/varia-haproxy-$HAPROXYV install || exit
+    cd ..
+    rm -rf haproxy-$HAPROXYV
+    ln -nsf varia-haproxy-$HAPROXYV varia-haproxy
 fi
 
-if ! [ -e "/opt/varia-darkhttpd" ]
+if ! [ -e "/opt/varia-darkhttpd-$DARKHTTPDV" ]
 then
     mkdir --parents /opt
     cd /opt
     curl --location "http://unix4lyfe.org/darkhttpd/darkhttpd-${DARKHTTPDV}.tar.bz2" | tar jxf - || exit 1
     cd darkhttpd-$DARKHTTPDV
-    make
-    mkdir --parents /opt/varia-darkhttpd/bin
-    cp darkhttpd /opt/varia-darkhttpd/bin
+    make || exit 1
+    mkdir --parents /opt/varia-darkhttpd-$DARKHTTPDV/bin
+    cp darkhttpd /opt/varia-darkhttpd-$DARKHTTPDV/bin
+    cd ..
+    rm -rf darkhttpd-$DARKHTTPDV
+    ln -nsf varia-darkhttpd-$DARKHTTPDV varia-darkhttpd
 fi
