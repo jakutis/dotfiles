@@ -31,6 +31,8 @@ ln --no-dereference --force --symbolic "$VARIA/scrub-md"
 if [ "$(hostname)" = "server" ]
 then
     "$VARIA/server/proftpd/install"
+    cd /etc/smokeping
+    ln --no-dereference --force --symbolic "$VARIA/server/smokeping-config.d" config.d
 fi
 
 if [ "$(hostname)" = "laptop" -o "$(hostname)" = "desktop" ]
