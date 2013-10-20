@@ -33,11 +33,11 @@ bind index \' next-unread
 ignore *
 unignore date: from: to: subject: cc:
 
-set beep=yes
-set beep_new=yes
+set beep=no
+set beep_new=no
 set check_new=yes
-set mail_check=5
-set timeout=5
+# set mail_check=1
+# set timeout=5
 
 set my_header="X-PGP-Key: https://jakut.is/pubkey.asc"
 
