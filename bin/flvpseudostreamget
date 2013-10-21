@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+URL="$1"
+FILE="$2"
+
+if [ -z "$URL" ]
+then
+    echo "Error: URL not specified" 1>&2
+    exit 1
+fi
+
+if [ -z "$FILE" ]
+then
+    echo "Error: FILE not specified" 1>&2
+    exit 1
+fi
+
+if [ -e "$FILE" ]
+then
+    echo "Error: FILE=$FILE already exists" 1>&2
+    exit 1
+fi
+
+SIZE="0"
+TEMP="$(mktemp)"
+SKIP="0"
+DONE="0"
+
+while [ "$DONE" = "0" ]
+do
+    echo "# Downloading chunk"
+    curl "${URL}&start=$SIZE" > "$TEMP"
+    if [ "$?" = "0" ]
+    then
+        DONE="1"
+    fi
+
+    echo "# Appending chunk to FILE"
+    dd ibs=1 skip=$SKIP if="$TEMP" >> "$FILE"
+    SIZE="$(flv size "$FILE")"
+
+    echo "# Truncating FILE"
+    truncate -s $SIZE "$FILE"
+    SKIP="13"
+done
+
+rm "$TEMP"

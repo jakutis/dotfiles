@@ -1,0 +1,116 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var command = process.argv[2];
+var filename = process.argv[3];
+
+var readFlags = function(bitmask, labels) {
+    var flags = {
+        bitmask: bitmask,
+        flags: [],
+        toString: function() {
+            return this.bitmask + '(' + this.bitmask.toString(2) + ') ' + this.flags.join(', ');
+        }
+    };
+    for(var i = 0; i < labels.length; i += 1) {
+        if(bitmask & (1 << i)) {
+            flags.flags.push(labels[i]);
+        }
+    }
+    return flags;
+};
+
+var readUInt24BE = function(buffer, offset) {
+    var val = 0;
+    val |= buffer[offset + 2];
+    val |= buffer[offset + 1] << 8;
+    val |= buffer[offset + 0] << 16;
+    return val;
+};
+
+var printStructure = function(info) {
+    console.log('# Header');
+    console.log();
+    console.log('Signature: ' + info.signature);
+    console.log('Version: ' + info.version);
+    console.log('Flags: ' + info.flags);
+    console.log('Header Size: ' + info.headerSize);
+    console.log();
+    info.packets.forEach(function(packet, i) {
+        console.log('# Packet ' + (i + 1));
+        console.log();
+        console.log('Start of Last Packet: ' + packet.startOfLastPacket);
+        console.log('Packet Type: ' + packet.type);
+        console.log('Payload Size: ' + packet.payloadSize);
+        console.log('Timestamp Lower: ' + packet.timestampLower);
+        console.log('Timestamp Upper: ' + packet.timestampUpper);
+        console.log('Stream ID: ' + packet.streamID);
+        console.log('Offset: ' + packet.offset);
+        console.log('Length: ' + packet.length);
+        console.log();
+    });
+};
+
+var readStructure = function(buffer, cb) {
+    process.nextTick(function() {
+        var info = {
+            signature: buffer.slice(0, 3).toString(),
+            version: buffer.readUInt8(3),
+            flags: readFlags(buffer.readUInt8(4), ['video', '?', 'audio']),
+            headerSize: buffer.readUInt32BE(5),
+            packets: []
+        };
+        var offset = info.headerSize;
+        while(true) {
+            try {
+                var packet = {
+                    offset: offset,
+                };
+                packet.startOfLastPacket = buffer.readUInt32BE(offset);
+                offset += 4;
+                packet.type = buffer.readUInt8(offset);
+                offset += 1;
+                packet.payloadSize = readUInt24BE(buffer, offset);
+                offset += 3;
+                packet.timestampLower = readUInt24BE(buffer, offset);
+                offset += 3;
+                packet.timestampUpper = buffer.readUInt8(offset);
+                offset += 1;
+                packet.streamID = readUInt24BE(buffer, offset);
+                offset += 3;
+                offset += packet.payloadSize;
+                packet.length = offset - packet.offset;
+                if(offset >= buffer.length) {
+                    break;
+                }
+                info.packets.push(packet);
+            } catch(err) {
+                break;
+            }
+        }
+        cb(null, info);
+    });
+};
+
+fs.readFile(filename, function(err, buffer) {
+    if(err) {
+        throw err;
+    }
+    readStructure(buffer, function(err, info) {
+        if(err) {
+            throw err;
+        }
+        var lastPacket;
+        if(command === 'info') {
+            printStructure(info);
+        } else if(command === 'size') {
+            lastPacket = info.packets[info.packets.length - 1];
+            console.log(lastPacket.offset + lastPacket.length);
+        } else if(command === 'leftover') {
+            lastPacket = info.packets[info.packets.length - 1];
+            console.log(buffer.length - lastPacket.offset + lastPacket.length);
+        } else {
+            console.log('Error: valid commands are: info, size');
+        }
+    });
+});
