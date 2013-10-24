@@ -12,7 +12,7 @@ do
         cd "$DIR/$TYPE/$REPO"
         case "$TYPE" in
             "svn")
-                svn update 1>/dev/null 2>/dev/null || exit 1
+                svn update 1>/dev/null || exit 1
                 ls tags | diff -ru "$CFG/$TYPE/$REPO" -
                 ls tags > "$CFG/$TYPE/$REPO"
                 ;;
