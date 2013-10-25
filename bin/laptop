@@ -93,6 +93,15 @@ case "$CMD" in
         rm "$LAST"
         systemctl poweroff
         ;;
+    "suspend")
+        switch-display LVDS1
+        /home/tahu/Desktop/VARIA/laptop/rc.local.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.modem.stop
+        /home/tahu/Desktop/VARIA/laptop/rc.local.wifi.stop
+        rm "$LAST"
+        systemctl suspend
+        xrandr --auto
+        ;;
     "hibernate")
         switch-display LVDS1
         /home/tahu/Desktop/VARIA/laptop/rc.local.stop
