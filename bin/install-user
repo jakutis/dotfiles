@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+ANTV="1.9.2"
 NZBGETV="11.0"
 PYTHONV="2.7.3"
 QPDFVIEWV="0.4.6"
@@ -214,6 +215,14 @@ then
     curl -L "http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz" | tar zx || exit 1
     cd js-1.8.5/js/src && ./configure --prefix="$HOME/opt/js-1.8.5" && make && make install || exit 1
     cd ../../.. && rm -rf js-1.8.5 || exit 1
+fi
+
+if ! [ -e "opt/apache-ant-$ANTV" ]
+then
+    curl -L http://apache.mirror.vu.lt/apache/ant/binaries/apache-ant-$ANTV-bin.tar.bz2 | tar jxf - || exit 1
+    mv "apache-ant-$ANTV" opt && cd opt && ln -nsf "apache-ant-$ANTV" "apache-ant" || exit 1
+    cd ../.bin && ln -nsf "../opt/apache-ant/bin/ant" || exit 1
+    cd ..
 fi
 
 if ! [ -e "opt/elinks-$ELINKSV" ]
