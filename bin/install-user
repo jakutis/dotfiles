@@ -27,6 +27,7 @@ TMUXV="1.8"
 LIBEVENTV="2.0.21"
 ELINKSV="a229adb"
 IMAGEMAGICKV="6.8.6-9"
+CMUSV="2.5.0"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
@@ -222,6 +223,15 @@ then
     curl -L http://apache.mirror.vu.lt/apache/ant/binaries/apache-ant-$ANTV-bin.tar.bz2 | tar jxf - || exit 1
     mv "apache-ant-$ANTV" opt && cd opt && ln -nsf "apache-ant-$ANTV" "apache-ant" || exit 1
     cd ../.bin && ln -nsf "../opt/apache-ant/bin/ant" || exit 1
+    cd ..
+fi
+
+if ! [ -e "opt/cmus-$CMUSV" ]
+then
+    cd "repos/git/cmus" || exit 1
+    git co "v$CMUSV" && ./configure CONFIG_CDIO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install || exit 1
+    cd ../../../opt && ln -nsf "cmus-$CMUSV" "cmus" || exit 1
+    cd ../.bin && ln -nsf "../opt/cmus/bin/cmus" || exit 1
     cd ..
 fi
 
