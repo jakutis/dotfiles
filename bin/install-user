@@ -229,7 +229,7 @@ fi
 if ! [ -e "opt/cmus-$CMUSV" ]
 then
     cd "repos/git/cmus" || exit 1
-    git co "v$CMUSV" && ./configure CONFIG_CDIO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install || exit 1
+    git co "v$CMUSV" && ./configure CONFIG_MODPLUG=n CONFIG_CDIO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install || exit 1
     cd ../../../opt && ln -nsf "cmus-$CMUSV" "cmus" || exit 1
     cd ../.bin && ln -nsf "../opt/cmus/bin/cmus" || exit 1
     cd ..
