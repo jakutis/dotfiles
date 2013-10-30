@@ -524,14 +524,6 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/calibre" ]
-then
-    python -c "import sys; py3 = sys.version_info[0] > 2; u = __import__('urllib.request' if py3 else 'urllib', fromlist=1); exec(u.urlopen('http://status.calibre-ebook.com/linux_installer').read()); main(install_dir='$HOME/opt')"
-    cd .bin
-    ln -s ../opt/calibre/calibre
-    cd ..
-fi
-
 function mkinstance {
     mkdir -p ".varia/instances/$1"
     for TAG in 1M 2PT 3SPT 4KO 5KS 6H 7V 8NRMS 9V
