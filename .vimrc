@@ -141,10 +141,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-augroup filetypedetect
-  au! BufRead,BufNewFile *.m set filetype=octave
-augroup END
-
 "{{{ Paste Toggle
 let paste_mode = 0 " 0 = normal, 1 = paste
 
