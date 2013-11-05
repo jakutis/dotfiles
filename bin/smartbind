@@ -1,0 +1,216 @@
+#!/usr/bin/env python
+
+from __future__ import with_statement
+
+import os
+import sys
+import errno
+import time
+import stat
+
+from fuse import FUSE, FuseOSError, Operations
+
+def my_filename(name):
+    return name.replace('/', ' -- ')
+
+def my_bymtime(rootdirname):
+    l = []
+    for dirname, dirnames, filenames in os.walk(rootdirname):
+        for filename in filenames:
+            fullpath = dirname + '/' + filename
+            realpath = os.path.realpath(fullpath)
+            st = os.lstat(realpath)
+            f = {
+                'name': time.strftime("%Y-%m-%d %H:%M:%S +0000", time.gmtime(getattr(st, 'st_mtime'))) + " " + my_filename(fullpath[len(rootdirname)+1:]),
+                'fullpath': realpath,
+                'attrs': dict((key, getattr(st, key)) for key in ('st_atime', 'st_ctime', 'st_gid', 'st_mode', 'st_mtime', 'st_nlink', 'st_size', 'st_uid'))
+            }
+            l.append(f)
+
+    #return sorted(l, key=lambda file: file['name'], reverse=True)
+    return l
+
+class Sorted(Operations):
+    def __init__(self, root):
+        self.root = os.path.realpath(root)
+        self.lists = {'mtime':my_bymtime(self.root)}
+        self.maps = {'mtime':{}}
+        for f in self.lists['mtime']:
+            self.maps['mtime'][f['name']] = f
+        self.attrs = {
+            'root':{
+                'st_atime': time.time(),
+                'st_ctime': time.time(),
+                'st_gid': os.getgid(),
+                'st_mode': stat.S_IFDIR + stat.S_IRUSR + stat.S_IXUSR + stat.S_IRGRP + stat.S_IXGRP + stat.S_IROTH + stat.S_IXOTH,
+                'st_mtime': self.lists['mtime'][0]['attrs']['st_mtime'],
+                'st_nlink': 3,
+                'st_size': 0,
+                'st_uid': os.getuid()
+            },
+            'mtime':{
+                'st_atime': time.time(),
+                'st_ctime': time.time(),
+                'st_gid': os.getgid(),
+                'st_mode': stat.S_IFDIR + stat.S_IRUSR + stat.S_IXUSR + stat.S_IRGRP + stat.S_IXGRP + stat.S_IROTH + stat.S_IXOTH,
+                'st_mtime': self.lists['mtime'][0]['attrs']['st_mtime'],
+                'st_nlink': 2,
+                'st_size': 0,
+                'st_uid': os.getuid()
+            }
+        }
+
+    # Helpers
+    # =======
+
+    def _full_path(self, partial):
+        if partial.startswith("/"):
+            partial = partial[1:]
+        path = os.path.join(self.root, partial)
+        return path
+
+    # Filesystem methods
+    # ==================
+
+    def access(self, path, mode):
+        if path.startswith('/by-mtime/'):
+            if not os.access(self.maps['mtime'][path[len('/by-mtime/'):]]['fullpath'], mode):
+                raise FuseOSError(errno.EACCES)
+
+    def chmod(self, path, mode):
+        print('chmod ' + path)
+        full_path = self._full_path(path)
+        return os.chmod(full_path, mode)
+
+    def chown(self, path, uid, gid):
+        print('chown ' + path)
+        full_path = self._full_path(path)
+        return os.chown(full_path, uid, gid)
+
+    def getattr(self, path, fh=None):
+        print('getattr ' + path)
+        if path == '/':
+            return self.attrs['root']
+        elif path == '/by-mtime':
+            return self.attrs['mtime']
+        elif path.startswith('/by-mtime/'):
+            return self.maps['mtime'][path[len('/by-mtime/'):]]['attrs']
+
+        print('BAD')
+        full_path = self._full_path(path)
+        st = os.lstat(full_path)
+        return dict((key, getattr(st, key)) for key in ('st_atime', 'st_ctime', 'st_gid', 'st_mode', 'st_mtime', 'st_nlink', 'st_size', 'st_uid'))
+
+    def readdir(self, path, fh):
+        print('readdir ' + path)
+        yield '.'
+        yield '..'
+        if path == '/':
+            self.attrs['root']['st_atime'] = time.time()
+            yield 'by-mtime'
+        elif path == '/by-mtime':
+            self.attrs['mtime']['st_atime'] = time.time()
+            for f in self.lists['mtime']:
+                yield f['name']
+
+    def readlink(self, path):
+        print('readlink ' + path)
+        pathname = os.readlink(self._full_path(path))
+        if pathname.startswith("/"):
+            # Path name is absolute, sanitize it.
+            return os.path.relpath(pathname, self.root)
+        else:
+            return pathname
+
+    def mknod(self, path, mode, dev):
+        print('mknod ' + path)
+        return os.mknod(self._full_path(path), mode, dev)
+
+    def rmdir(self, path):
+        print('rmdir ' + path)
+        full_path = self._full_path(path)
+        return os.rmdir(full_path)
+
+    def mkdir(self, path, mode):
+        print('mkdir ' + path)
+        return os.mkdir(self._full_path(path), mode)
+
+    def statfs(self, path):
+        print('statfs ' + path)
+        full_path = self._full_path(path)
+        stv = os.statvfs(full_path)
+        return dict((key, getattr(stv, key)) for key in ('f_bavail', 'f_bfree',
+            'f_blocks', 'f_bsize', 'f_favail', 'f_ffree', 'f_files', 'f_flag',
+            'f_frsize', 'f_namemax'))
+
+    def unlink(self, path):
+        print('unlink ' + path)
+        return os.unlink(self._full_path(path))
+
+    def symlink(self, target, name):
+        print('symlink ' + path)
+        return os.symlink(self._full_path(target), self._full_path(name))
+
+    def rename(self, old, new):
+        print('rename ' + path)
+        return os.rename(self._full_path(old), self._full_path(new))
+
+    def link(self, target, name):
+        print('link ' + path)
+        return os.link(self._full_path(target), self._full_path(name))
+
+    def utimens(self, path, times=None):
+        print('utimens ' + path)
+        return os.utime(self._full_path(path), times)
+
+    # File methods
+    # ============
+
+    def open(self, path, flags):
+        print('open ' + path)
+        if path.startswith('/by-mtime/'):
+            return os.open(self.maps['mtime'][path[len('/by-mtime/'):]]['fullpath'], flags)
+
+        print('BAD')
+        full_path = self._full_path(path)
+        return os.open(full_path, flags)
+
+    def create(self, path, mode, fi=None):
+        print('create ' + path)
+        full_path = self._full_path(path)
+        return os.open(full_path, os.O_WRONLY | os.O_CREAT, mode)
+
+    def read(self, path, length, offset, fh):
+        print('read ' + path)
+        os.lseek(fh, offset, os.SEEK_SET)
+        return os.read(fh, length)
+
+    def write(self, path, buf, offset, fh):
+        print('write ' + path)
+        os.lseek(fh, offset, os.SEEK_SET)
+        return os.write(fh, buf)
+
+    def truncate(self, path, length, fh=None):
+        print('truncate ' + path)
+        full_path = self._full_path(path)
+        with open(full_path, 'r+') as f:
+            f.truncate(length)
+
+    def flush(self, path, fh):
+        print('flush ' + path)
+        return os.fsync(fh)
+
+    def release(self, path, fh):
+        print('release ' + path)
+        return os.close(fh)
+
+    def fsync(self, path, fdatasync, fh):
+        print('fsync ' + path)
+        return self.flush(path, fh)
+
+
+def main(mountpoint, root):
+    FUSE(Sorted(root), mountpoint, foreground=True)
+
+if __name__ == '__main__':
+    main(sys.argv[2], sys.argv[1])
