@@ -34,7 +34,7 @@ do
     echo "scsync $PODCAST"
     scsync --directory="$DIR" --artist="$PODCAST"
     echo "tag $PODCAST"
-    fix_podcast_tags "$PODCAST"
+#    fix_podcast_tags "$PODCAST"
 done
 
 cat "$PODCASTLIST" | (
@@ -47,6 +47,6 @@ cat "$PODCASTLIST" | (
         mkdir "$DIR" -p
         podcatcher -d "$PODCASTDIR/.podcatcher" -D "$DIR" --no-perfeed -s 0 -S chron -m 0 -f 0 "$URL"
         echo "tag $PODCAST"
-        fix_podcast_tags "$PODCAST"
+#        fix_podcast_tags "$PODCAST"
     done
 )
