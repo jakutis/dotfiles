@@ -65,6 +65,10 @@ module Kramdown
         opts[:result] =~ /\n\n\Z|\A\Z/ ? "" : "\n"
       end
 
+      def convert_img(el, indent)
+        "\\myfigure{#{el.attr['src']}}{#{el.attr['alt']}}"
+      end
+
       def convert_text(el, opts)
         escape(el.value)
       end
