@@ -15,5 +15,9 @@ if [ -z "$BROWSER" ]
 then
     BROWSER="$(which chromium 2>/dev/null)"
 fi
+if [ -z "$BROWSER" ]
+then
+    BROWSER="$(which google-chrome-stable 2>/dev/null)"
+fi
 
 "$BROWSER" $FLAGS "$1" 2>/dev/null 1>/dev/null
