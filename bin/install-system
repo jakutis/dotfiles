@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-PHPV="5.4.21"
+PHPV="5.4.22"
 APCV="3.1.13"
 CGITV="0.9.2"
-NGINXV="1.4.3"
+NGINXV="1.4.4"
 HAPROXYV="1.4.24"
 HAPROXYURL="http://haproxy.1wt.eu/download/1.4/src/haproxy-1.4.24.tar.gz"
 DARKHTTPDV="1.9"
