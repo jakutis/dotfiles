@@ -22,3 +22,4 @@ grunt-cli
 grunt-init
 bower
 clean-css
+twitter-rss
