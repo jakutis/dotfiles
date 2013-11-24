@@ -46,7 +46,6 @@ echo "Extracting visual layer"
 
 echo "Combining into target"
 pdftk visual.pdf background text.pdf output "$TARGET" || exit 1
-exit
 
 cd /
 rm -rf "$DIR"
