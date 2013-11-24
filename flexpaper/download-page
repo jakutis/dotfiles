@@ -42,7 +42,7 @@ echo -e "import swf_to_pdf\nswf_to_pdf.to_pdf([swf_to_pdf.parse_swf('$DIR/input.
 cd "$DIR"
 
 echo "Extracting visual layer"
-"$PREFIX/gfx2gfx" input.swf -o visual.pdf || exit 1
+"$PREFIX/gfx2gfx" input.swf -o visual.pdf 1>/dev/null 3>&1 2>&1 || exit 1
 
 echo "Combining into target"
 pdftk visual.pdf background text.pdf output "$TARGET" || exit 1
