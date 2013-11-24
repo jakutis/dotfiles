@@ -18,6 +18,12 @@ function rl {
 SELF="$(rl "$0")"
 SCRIPTS="$(dirname "$SELF")"
 
+if [ -z "$URL" ]
+then
+    echo "URL undefined" 1>&2
+    exit 1
+fi
+
 if [ -z "$TARGET" ]
 then
     echo "Target undefined" 1>&2
@@ -31,6 +37,7 @@ then
 fi
 
 TARGET="$(realpath "$TARGET")"
+echo "Downloading metadata"
 phantomjs "$SCRIPTS/meta.js" "$URL" | (
     read PREFIX
     read ID
@@ -38,11 +45,22 @@ phantomjs "$SCRIPTS/meta.js" "$URL" | (
     read PAGES
     DIR="$(mktemp --directory)"
     cd "$DIR"
+    echo "Downloading the faux page"
+    "$SCRIPTS/download-page" "faux.pdf" "1" "$ID" "$URL" "foobar" "$SCRIPTS" "$PREFIX"
+    pdftotext faux.pdf
     for PAGE in $(seq 1 $PAGES)
     do
         echo "Page $PAGE of $PAGES"
-        "$SCRIPTS/download-page" "${PAGE}.pdf" "$PAGE" "$ID" "$URL" "$COOKIE" "$SCRIPTS" "$PREFIX" 1>/dev/null
+        cp "faux.txt" "${PAGE}.txt"
+        while diff "${PAGE}.txt" "faux.txt" >/dev/null
+        do
+            echo "Trying"
+            "$SCRIPTS/download-page" "${PAGE}.pdf" "$PAGE" "$ID" "$URL" "$COOKIE" "$SCRIPTS" "$PREFIX"
+            pdftotext "${PAGE}.pdf"
+        done
+        rm "${PAGE}.txt"
     done
+    rm faux.pdf faux.txt
     echo "Concatenating"
     pdftk $(ls -t1r) cat output "$TARGET"
     cd /
