@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+function rl {
+  local TARGET_FILE=$1
+  cd "$(dirname "$TARGET_FILE")"
+  TARGET_FILE=$(basename "$TARGET_FILE")
+  while [ -L "$TARGET_FILE" ]
+  do
+    TARGET_FILE=$(readlink "$TARGET_FILE")
+    cd "$(dirname "$TARGET_FILE")"
+    TARGET_FILE=$(basename "$TARGET_FILE")
+  done
+  echo "$(pwd -P)/$TARGET_FILE"
+}
+SELF="$(rl "$0")"
+PREFIX="$(dirname "$SELF")"
+SWFTOOLS="git://git.swftools.org/swftools"
+SWFTOSVG="http://labpower.teipir.gr/prekageo/swf_to_svg_pdf/swf_to_svg_pdf.zip"
+ARIAL="http://optimate.dl.sourceforge.net/project/corefonts/the%20fonts/final/arial32.exe"
+
+TMPDIR="$(mktemp --directory)"
+if ! [ -d "$TMPDIR" ]
+then
+    echo "Could not create temporary directory $TMPDIR" 1>&2
+    exit 1
+fi
+
+cd "$TMPDIR"
+
+git clone "$SWFTOOLS" && cd swftools && ./configure || exit 1
+make
+make || exit 1
+cd lib
+echo >> Makefile
+echo "librfxswf.so: \$(rfxswf_objects) rfxswf.\$(O) drawer.\$(O) \$(lame_in_source) \$(h263_objects) \$(as12compiler_in_source) \$(as3compiler_objects) libbase\$(A)" >> Makefile
+echo -e "\t\$(L) -Bstatic -g -shared \$^ -o \$@ -lz" >> Makefile
+make librfxswf.so && mv librfxswf.so "$PREFIX" || exit 1
+cd ../src && make gfx2gfx && mv gfx2gfx "$PREFIX" || exit 1
+
+wget -O "a.zip" "$SWFTOSVG" && unzip "a.zip" || exit 1
+sed -ie 's/librfxswf.dll/\.\/librfxswf.so/' swf_lib.py
+mv "swf_lib.py" "swf_to_pdf.py" "$PREFIX"
+
+wget -O "arial.exe" "$ARIAL" && cabextract "arial.exe" && mv "Arial.TTF" "$PREFIX/Arial.ttf" || exit 1
+cd / && rm -rf "$TMPDIR" || exit 1

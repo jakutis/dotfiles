@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+URL="$1"
+TARGET="$2"
+
+function rl {
+  local TARGET_FILE=$1
+  cd "$(dirname "$TARGET_FILE")"
+  TARGET_FILE=$(basename "$TARGET_FILE")
+  while [ -L "$TARGET_FILE" ]
+  do
+    TARGET_FILE=$(readlink "$TARGET_FILE")
+    cd "$(dirname "$TARGET_FILE")"
+    TARGET_FILE=$(basename "$TARGET_FILE")
+  done
+  echo "$(pwd -P)/$TARGET_FILE"
+}
+SELF="$(rl "$0")"
+SCRIPTS="$(dirname "$SELF")"
+
+if [ -z "$TARGET" ]
+then
+    echo "Target undefined" 1>&2
+    exit 1
+fi
+
+if [ -e "$TARGET" ]
+then
+    echo "Target $TARGET already exists" 1>&2
+    exit 1
+fi
+
+TARGET="$(realpath "$TARGET")"
+phantomjs "$SCRIPTS/meta.js" "$URL" | (
+    read PREFIX
+    read ID
+    read COOKIE
+    read PAGES
+    DIR="$(mktemp --directory)"
+    cd "$DIR"
+    for PAGE in $(seq 1 $PAGES)
+    do
+        echo "Page $PAGE of $PAGES"
+        "$SCRIPTS/download-page" "${PAGE}.pdf" "$PAGE" "$ID" "$URL" "$COOKIE" "$SCRIPTS" "$PREFIX" 1>/dev/null
+    done
+    echo "Concatenating"
+    pdftk $(ls -t1r) cat output "$TARGET"
+    cd /
+    rm -rf "$DIR"
+)
