@@ -2,6 +2,7 @@
 
 URL="$1"
 TARGET="$2"
+HOOK="$3"
 
 function rl {
   local TARGET_FILE=$1
@@ -37,6 +38,7 @@ then
 fi
 
 TARGET="$(realpath "$TARGET")"
+TRIESTOHOOK=3
 echo "Downloading metadata"
 phantomjs "$SCRIPTS/meta.js" "$URL" | (
     read PREFIX
@@ -48,15 +50,28 @@ phantomjs "$SCRIPTS/meta.js" "$URL" | (
     echo "Downloading the faux page"
     "$SCRIPTS/download-page" "faux.pdf" "1" "$ID" "$URL" "foobar" "$SCRIPTS" "$PREFIX"
     pdftotext faux.pdf
+    TRY=0
     for PAGE in $(seq 1 $PAGES)
     do
         echo "Page $PAGE of $PAGES"
         cp "faux.txt" "${PAGE}.txt"
         while diff "${PAGE}.txt" "faux.txt" >/dev/null
         do
-            echo "Trying"
+            if [ "$TRY" == "$TRIESTOHOOK" ]
+            then
+                echo "Hooking"
+                "$HOOK" "$URL" "$COOKIE"
+                #echo "Sleeping 30 seconds"
+                #sleep 30
+                #$((RANDOM * $MAXSLEEP / 32767))
+                TRY=0
+            elif [ "$TRY" != "0" ]
+            then
+                echo "Retrying"
+            fi
             "$SCRIPTS/download-page" "${PAGE}.pdf" "$PAGE" "$ID" "$URL" "$COOKIE" "$SCRIPTS" "$PREFIX"
             pdftotext "${PAGE}.pdf"
+            TRY=$((TRY + 1))
         done
         rm "${PAGE}.txt"
     done
