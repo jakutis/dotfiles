@@ -18,7 +18,7 @@ alias bluetooth='$HOME/bin/bluetooth'
 alias wlan='$HOME/bin/wlan'
 alias brightness='$HOME/bin/brightness'
 
-alias m='matlab -nodisplay'
+alias m='(A=$(mktemp --dry-run);mkfifo $A;matlab -logfile >(tail -n +11|tee $A >/dev/null) -nodisplay > /dev/null;cat $A;rm -rf $A)'
 
 alias osmo='osmo --config=$HOME/.osmo'
 
