@@ -2,11 +2,12 @@
 
 if [ -z "$1" ]
 then
-    echo "Error: file with references list not specified." >&2
-    exit 1
+    REFLIST="$(pwd)/references"
+    echo "Info: file with references list is not specified, using ${REFLIST}." >&2
+else
+    REFLIST="$(realpath "$1")"
 fi
 
-REFLIST="$(realpath "$1")"
 
 if ! [ -f "$REFLIST" ]
 then
