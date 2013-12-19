@@ -130,7 +130,7 @@ function! EnableColorColumn()
     endif
 endfunction
 
-autocmd BufRead,BufWrite COMMIT_EDITMSG,*.m,*.py,*.js,*.c,*.go,*.html,*.R call EnableColorColumn()
+autocmd BufRead,BufWrite COMMIT_EDITMSG,*.m,*.cpp,*.h,*.py,*.js,*.c,*.go,*.html,*.R call EnableColorColumn()
 
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
