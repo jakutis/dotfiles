@@ -2,7 +2,7 @@
 
 if ! [ -e "$HOME/.gitsynced.txt" ]
 then
-    echo "Please create "$HOME/.gitsynced.txt", for example symlink to DOTFILES/.gitsynced-1.7.txt"
+    echo "Please create "$HOME/.gitsynced.txt" (which contains \`git status\` of a repository with no uncommited/unpushed changes)"
     exit 1
 fi
 
