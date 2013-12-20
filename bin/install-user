@@ -152,9 +152,9 @@ fi
 
 if ! [ -e ".rvm" ]
 then
-    curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby
+    curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable  --autolibs=read-fail --ruby || exit 1
     source .rvm/scripts/rvm
-    LDFLAGS="-Wl,--rpath=$HOME/opt/imagemagick/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/imagemagick/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint
+    LDFLAGS="-Wl,--rpath=$HOME/opt/imagemagick/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/imagemagick/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint || exit 1
 fi
 
 if ! [ -e "opt/go-$GOV" ]
