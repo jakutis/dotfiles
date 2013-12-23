@@ -32,4 +32,5 @@ done
 cd ".."
 
 "$VARIA/osmo" &
+pulseaudio --start
 awesome
