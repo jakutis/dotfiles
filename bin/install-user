@@ -81,7 +81,7 @@ cd ".elinks"
 ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
 
-for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .termcap .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .asoundrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
