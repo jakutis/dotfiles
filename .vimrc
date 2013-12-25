@@ -191,17 +191,28 @@ set wildmode=list:longest,full
 set shiftwidth=4
 set softtabstop=4
 set autoindent
-nnoremap <F10> <Esc>:tabp<CR>
-nnoremap <F12> <Esc>:tabn<CR>
-nnoremap <F11> <Esc>:tabnew<CR>
-cmap w!! %!sudo tee > /dev/null %
-nnoremap <CR> :noh<CR><CR>
-nnoremap <silent> <F5> :!xelatex -shell-escape paper<CR>
-" Paste Mode!  Dang! <F9>
-nnoremap <silent> <F9> :call Paste_on_off()<CR>
-nnoremap <silent> <F8> :call system('xclip -selection clipboard', @0)<CR>
+
+nnoremap <F2> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1P
+noremap! <F2> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1pa
+
+noremap! <F5> <Esc>:make<CR>
+nnoremap <F5> <Esc>:make<CR>
+
+nnoremap <F8> <Esc>:call system('xclip -selection clipboard', @0)<CR>
+
 set pastetoggle=<F9>
-" Swap ; and :  Convenient.
+
+noremap! <F10> <Esc>:tabp<CR>
+nnoremap <F10> <Esc>:tabp<CR>
+
+noremap! <F11> <Esc>:tabnew<CR>
+nnoremap <F11> <Esc>:tabnew<CR>
+
+noremap! <F12> <Esc>:tabn<CR>
+nnoremap <F12> <Esc>:tabn<CR>
+
+cmap w!! %!sudo tee > /dev/null %
+
 nnoremap ; :
 nnoremap : ;
 
