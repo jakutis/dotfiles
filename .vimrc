@@ -213,6 +213,8 @@ nnoremap <F12> <Esc>:tabn<CR>
 
 cmap w!! %!sudo tee > /dev/null %
 
+nnoremap <CR> :noh<CR><CR>
+
 nnoremap ; :
 nnoremap : ;
 
