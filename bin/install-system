@@ -99,7 +99,7 @@ WantedBy=multi-user.target
         rm --recursive "$DIR"
     fi
 
-    for PKG in rar pan ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 google-chrome urxvt-clipboard ideviceinstaller-git ocrodjvu pdftk-bin yed fuse-google-drive-git gmp4 teamviewer virtualbox-ext-oracle jbig2enc-git proftpd
+    for PKG in rar pan ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 google-chrome urxvt-clipboard ideviceinstaller-git ocrodjvu pdftk-bin yed fuse-google-drive-git gmp4 teamviewer virtualbox-ext-oracle jbig2enc-git proftpd dropbox
     do
         if ! "$PACMAN" --query --list "$PKG" 1>/dev/null 2>&1
         then
@@ -111,7 +111,7 @@ then
     apt-get install wget
     wget --quiet http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc --output-document=- | sudo apt-key add -
     "$APTGET" update
-    # add when these are in official repositories: pragha gdk-pixbuf-psd autopep8 vicious sage-mathematics libreoffice skype skype-call-recorder urxvt-clipboard ideviceinstaller yed fuse-google-drive-git teamviewer virtualbox-ext-oracle jbig2enc v4l2loopback
+    # add when these are in official repositories: pragha gdk-pixbuf-psd autopep8 vicious sage-mathematics libreoffice skype skype-call-recorder urxvt-clipboard ideviceinstaller yed fuse-google-drive-git teamviewer virtualbox-ext-oracle jbig2enc v4l2loopback dropbox
     "$APTGET" install psmisc git vim konqueror okular awesome chromium-browser rxvt-unicode mplayer vlc ffmpeg openssh-server openssh-client cups octave realpath powertop xsltproc wavpack ffmpeg flac bchunk mp3splt cuetools eyeD3 libid3-tools mp3info samba ethtool mercurial texlive-full parted ksnapshot smartmontools htop dstat dnsmasq libprotobuf-dev libprotobuf-c0-dev protobuf-c-compiler protobuf-compiler libz-dev libutempter-dev pkg-config libssl-dev libncurses-dev g++ curl libsqlite3-dev libxml2-dev libstfl-dev libjson0-dev gettext bzip2 thttpd markdown libpcre3-dev libyaml-dev elinks openvpn bridge-utils fetchmail postfix unzip libgmp3-dev libgl1-mesa-dev libglut3-dev hdparm parted qt4-qmake libcups2-dev libpoppler-qt4-dev rar ebtables lsb-release alsa-utils mc smbclient pan autoconf ttf-mscorefonts-installer libsigc++-2.0-dev ntpdate ethtool wakeonlan duplicity ntfs-3g ntfsprogs cmus gramps ejabberd mcabber irssi p7zip imagemagick zip sshfs libimage-exiftool-perl libloudmouth1-dev librsvg2-dev lftp transmission-cli flex bison intltool pandoc python-cheetah python-yenc python-pyopenssl par2 p7zip-full p7zip-rar xdm yasm x11-apps xinput xdotool libpar2-0-dev libspectre-dev pdfgrep libcups2-dev tidy astyle gfortran libreadline-dev ack wget iceweasel virtualbox osmo phpmyadmin mysql-server sudo ebtables isc-dhcp-client wpasupplicant beep xbindkeys zenity wmname cmake bzr subversion wvdial python-lxml gimp sane mirage leafpad gnome-alsamixer ifuse pandoc ocrodjvu pdftk ifrename patch dosfstools tmux pwgen libgsasl7-dev dos2unix happy alex libgtkmm-2.4 libpoppler-glib4 tcpdump audacity recoll xpdf pstotext antiword catdoc unrtf untex python-mutagen python-chm aspell-en xclip wireshark couchdb iw sysstat pinentry-curses scons proftpd gstreamer0.10-plugins-ugly gstreamer0.10-plugins-good gstreamer0.10-plugins-base gstreamer0.10-plugins-bad dnsutils gnuplot libcue-dev libroar-dev calibre libmpcdec-dev gawk libgdbm-dev
 
     # these are rygel dependencies, remove when a sufficiently up-to-date rygel is in official repositories
