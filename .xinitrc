@@ -34,4 +34,5 @@ cd ".."
 
 "$VARIA/osmo" &
 pulseaudio --start
+(dropboxd &)&
 awesome
