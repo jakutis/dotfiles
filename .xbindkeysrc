@@ -37,11 +37,11 @@
   m:0x0 + c:160
 
 # Win+PageUp
-"/usr/bin/pulseaudio-ctl up"
+"volume pulse increase"
   m:0x40 + c:112
 
 # Win+PageDown
-"/usr/bin/pulseaudio-ctl down"
+"volume pulse decrease"
   m:0x40 + c:117
 
 # Win+S
