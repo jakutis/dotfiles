@@ -31,10 +31,8 @@ then
         ifuse --appid "$SUBMOUNT" "$DIR"
     elif [ "$MOUNT" = "floppy" ]
     then
-        ls -t /dev/sd* | (
-            read MOUNT
-            su -c "mount -o uid=$(id -u) "$MOUNT" "$DIR""
-        )
+        MOUNT="$(ls -t /dev/sd??|head -n 1)"
+        su -c "mount -o uid=$(id -u) "$MOUNT" "$DIR""
     else
         su -c "mount "$DIR""
     fi
