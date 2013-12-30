@@ -1,5 +1,5 @@
 [Added Associations]
-application/pdf=qpdfview.desktop;
+application/pdf=kde4-okularApplication_pdf.desktop;qpdfview.desktop;acroread.desktop;xpdf.desktop;gimp.desktop;
 text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
 
