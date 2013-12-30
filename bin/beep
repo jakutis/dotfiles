@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+paplay /usr/share/sounds/gnome/default/alerts/glass.ogg
