@@ -30,7 +30,7 @@ fi
 
 if [ -z "$3" ]
 then
-    VIEWER="$(which qpdfview)"
+    VIEWER="$(which konqueror)"
     echo "Info: viewer not specified, using ${VIEWER}." >&2
 else
     VIEWER="$3"
