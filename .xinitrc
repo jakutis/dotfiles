@@ -12,7 +12,7 @@ LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 brightness max
 laptop net $(zenity --entry --text="laptop net ?")
 
-QPDFVIEW="/home/tahu/.varia/instances/qpdfview"
+KONQUEROR="/home/tahu/.varia/instances/konqueror"
 URXVT="/home/tahu/.varia/instances/urxvt"
 
 REFDIR="/home/tahu/etc/storage/books"
@@ -25,7 +25,7 @@ do
     cd "$REPO"
     if [ -e "literature" ]
     then
-        refs-open "literature" "$REFDIR" "$QPDFVIEW/$TAG" &
+        refs-open "literature" "$REFDIR" "$KONQUEROR/$TAG" &
     fi
     "$URXVT/$TAG" -e vim -S "$HOME/.vimsession/${REPO}.vim" &
     cd ".."
