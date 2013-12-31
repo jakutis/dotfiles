@@ -536,5 +536,5 @@ function mkinstance {
 }
 
 rm -rf ".varia/instances"
-mkinstance qpdfview
+mkinstance konqueror
 mkinstance urxvt
