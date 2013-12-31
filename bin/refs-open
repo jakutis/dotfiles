@@ -50,10 +50,15 @@ fi
 
 cd "$REFDIR"
 cat "$REFLIST" | grep -v '^#' | grep -v '^$' | (
-    PDFS=()
-    while read PDF
+    FILES=()
+    while read REF
     do
-        PDFS=("${PDFS[@]}" "$PDF.pdf")
+        if [ -e "${REF}.djvu" ]
+        then
+            FILES=("${FILES[@]}" "${REF}.djvu")
+        else
+            FILES=("${FILES[@]}" "${REF}.pdf")
+        fi
     done
-    "$VIEWER" "${PDFS[@]}"
+    "$VIEWER" "${FILES[@]}"
 )
