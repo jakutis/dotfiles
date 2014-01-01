@@ -193,7 +193,7 @@ fi
 if ! [ -e "opt/vim-$VIMV" ]
 then
     cd "$HOME/repos/hg/vim" || exit 1
-    hg checkout "$VIMV" && ./configure --enable-pythoninterp=yes --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    hg checkout "$VIMV" && ./configure --enable-pythoninterp=yes --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
     cd "$HOME/opt"
     ln -nsf "vim-$VIMV" "vim"
     cd ../.bin
