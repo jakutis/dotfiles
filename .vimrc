@@ -192,8 +192,14 @@ set shiftwidth=4
 set softtabstop=4
 set autoindent
 
-nnoremap <F2> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1P
-noremap! <F2> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1pa
+nnoremap <F1> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1P
+noremap! <F1> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1pa
+
+noremap! <F2> <Esc>:bprevious<CR>
+nnoremap <F2> <Esc>:bprevious<CR>
+
+noremap! <F3> <Esc>:bnext<CR>
+nnoremap <F3> <Esc>:bnext<CR>
 
 noremap! <F5> <Esc>:make<CR>
 nnoremap <F5> <Esc>:make<CR>
