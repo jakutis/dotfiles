@@ -1,7 +1,7 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
 # Turn to powersaving mode
-"laptop powersave"
+"system powersave"
   m:0x0 + c:220
 
 # Switch display
