@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-zenity --notification --text="$(laptop net next)" &
+zenity --notification --text="$(system net next)" &
 PID="$!"
 sleep 3
 kill -9 "$PID"
