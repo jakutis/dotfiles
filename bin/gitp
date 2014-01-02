@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-git pull --rebase && git push
+git remote | while read REMOTE
+do
+    echo "----- $REMOTE ------"
+    git push --all "$REMOTE" && git push --tags "$REMOTE" || exit 1;
+done
