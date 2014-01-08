@@ -1,0 +1,47 @@
+diff --git a/src/gfx2gfx.c b/src/gfx2gfx.c
+index fcace34..f8a4ada 100644
+--- a/src/gfx2gfx.c
++++ b/src/gfx2gfx.c
+@@ -19,6 +19,7 @@
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+ 
++#include <pdflib.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <stdarg.h>
+@@ -209,6 +210,26 @@ int main(int argn, char *argv[])
+ 	    format = x+1;
+     }
+ 
++typedef struct {
++    PDF* p;
++
++    char config_addblankpages;
++    double config_xpad;
++    double config_ypad;
++    int config_maxdpi;
++    int config_mindpi;
++
++    int width,height;
++    int num_pages;
++
++    char*tempfile;
++    char*page_opts;
++    double lastx,lasty;
++    gfxfontlist_t*fontlist;
++
++    char has_matrix;
++    double m00, m01, m10, m11;
++} BLA;
+ 
+     gfxresult_t*result = 0;
+ #ifdef HAVE_LRF
+@@ -260,6 +281,7 @@ int main(int argn, char *argv[])
+             gfxdevice_file_init(out, "/tmp/device.log");
+         } else if(!strcasecmp(format, "pdf")) {
+             gfxdevice_pdf_init(out);
++            ((BLA*)out->internal)->config_maxdpi = 2400;
+         } else {
+ 	    msg("<error> Invalid output format: %s", format);
+ 	    exit(1);
