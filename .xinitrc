@@ -33,6 +33,6 @@ done
 cd ".."
 
 "$VARIA/osmo" &
-su -c "pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-alsa-sink --load=module-alsa-source --load=module-native-protocol-unix --daemon"
+su -c 'pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load="module-udev-detect tsched=0" --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-native-protocol-unix --daemon'
 (dropboxd &)&
 awesome
