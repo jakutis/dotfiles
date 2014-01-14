@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+FFMPEGV="2.1.2"
+MP4V2PATH="/trunk"
+MP4V2V="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
 ANTV="1.9.2"
 NZBGETV="11.0"
 PYTHONV="2.7.3"
@@ -227,6 +230,21 @@ then
     mv "apache-ant-$ANTV" opt && cd opt && ln -nsf "apache-ant-$ANTV" "apache-ant" || exit 1
     cd ../.bin && ln -nsf "../opt/apache-ant/bin/ant" || exit 1
     cd ..
+fi
+
+if ! [ -e "opt/mp4v2-$MP4V2V" ]
+then
+    cd "$HOME/repos/svn/mp4v2$MP4V2PATH" || exit 1
+    autoreconf -fiv || exit 1
+    ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install || exit 1
+    cd "$HOME"
+fi
+
+if ! [ -e "opt/ffmpeg-$FFMPEGV" ]
+then
+    cd "repos/git/ffmpeg" || exit 1
+    git co "n$FFMPEGV" || exit 1
+    ./configure --cpu=host --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC" --enable-version3 --extra-cxxflags="-fPIC -DPIC" && make && make install || exit 1
 fi
 
 if ! [ -e "opt/cmus-$CMUSV" ]
