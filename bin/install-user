@@ -245,6 +245,7 @@ then
     cd "repos/git/ffmpeg" || exit 1
     git co "n$FFMPEGV" || exit 1
     ./configure --cpu=host --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC" --enable-version3 --extra-cxxflags="-fPIC -DPIC" && make && make install || exit 1
+    cd ../../..
 fi
 
 if ! [ -e "opt/cmus-$CMUSV" ]
