@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+then
+    echo "Error: please specify input djvu file" >&1
+    exit 1
+fi
+
+DJVU="$(realpath "$1")"
+
+if ! [ -f "$DJVU" ]
+then
+    echo "Error: specified input djvu file "$DJVU" does not exist" >&1
+    exit 1
+fi
+
+if [ -z "$2" ]
+then
+    echo "Error: please specify input pdf file" >&1
+    exit 1
+fi
+
+TEXTPDF="$(realpath "$2")"
+
+if ! [ -e "$TEXTPDF" ]
+then
+    echo "Error: specified input pdf file "$TEXTPDF" already exists" >&1
+    exit 1
+fi
+
+if [ -z "$3" ]
+then
+    echo "Error: please specify output pdf file" >&1
+    exit 1
+fi
+
+PDF="$(realpath "$3")"
+
+if [ -e "$PDF" ]
+then
+    echo "Error: specified pdf file "$PDF" already exists" >&1
+    exit 1
+fi
+
+if [ -n "$4" ]
+then
+    PAGESTART="$4"
+else
+    PAGESTART="1"
+fi
+
+if [ -n "$5" ]
+then
+    PAGEFINISH="$5"
+else
+    PAGEFINISH="$(djvused "$DJVU" -e 'n')"
+fi
+
+DIR="$(mktemp --directory)"
+mkdir -p "$DIR"
+cd "$DIR"
+
+echo "Clearing images from the input pdf..."
+java -cp "$HOME/opt/pdfimgclear:$HOME/opt/pdfbox-app-1.8.3.jar" Main "$TEXTPDF" text.pdf || exit 1
+echo "Splitting the input pdf..."
+pdftk text.pdf burst output text-%09d.pdf || exit 1
+for PAGE in $(seq --format=%09.0f "$PAGESTART" "$PAGEFINISH")
+do
+    echo "Page $PAGE from interval [$PAGESTART; $PAGEFINISH]"
+    mkdir "page-$PAGE" && cd "page-$PAGE" || exit 1
+    echo "Extracting visual layer from input djvu..."
+    ddjvu -format=tiff -page=$PAGE "$DJVU" page.tif > /dev/null || exit 1
+    convert page.tif visual.pdf || exit 1
+    echo "Concatenating final output page..."
+    pdftk visual.pdf background ../text-${PAGE}.pdf output ../page-${PAGE}.pdf || exit 1
+    cd ..
+done
+echo "Concatenating final output pdf..."
+pdftk $(ls page-*pdf) cat output "$PDF" || exit 1
+
+cd /
+rm -rf "$DIR"
