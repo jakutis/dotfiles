@@ -49,9 +49,9 @@ fi
 
 cd "$HOME"
 
-mkdir ".varia"
+mkdir --parents ".varia"
 
-mkdir -p ".local/share/applications"
+mkdir --parents ".local/share/applications"
 cd ".local/share/applications"
 for APP in www qpdfview
 do
@@ -61,28 +61,28 @@ ln -nsf "$DOTFILES/mimeapps.list"
 ln -nsf "mimeapps.list" "defaults.list"
 cd "$HOME"
 
-mkdir -p "opt"
+mkdir --parents "opt"
 
-mkdir -p ".bin"
+mkdir --parents ".bin"
 ln -nsf "$VARIA/gitac" ".bin/gitac"
 ln -nsf "$VARIA/gitacAll" ".bin/gitacAll"
 ln -nsf "$VARIA/gitD" ".bin/gitD"
 
-mkdir -p Downloads/rtorrent
-mkdir -p .rtorrent.session
+mkdir --parents Downloads/rtorrent
+mkdir --parents .rtorrent.session
 
-mkdir -p ".config/newsbeuter"
+mkdir --parents ".config/newsbeuter"
 cd ".config/newsbeuter"
 ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
 cd ../..
 
-mkdir -p ".cmus"
+mkdir --parents ".cmus"
 cd ".cmus"
 ln -nsf "$DOTFILES/.cmus/rc"
 cd ..
 
-mkdir -p ".elinks"
+mkdir --parents ".elinks"
 cd ".elinks"
 ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
@@ -91,9 +91,9 @@ for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresour
 do
     ln -nsf "$DOTFILES/$RC"
 done
-mkdir .vimbackup
-mkdir .vimtmp
-mkdir .vimsession
+mkdir --parents .vimbackup
+mkdir --parents .vimtmp
+mkdir --parents .vimsession
 
 if [ "$(hostname)" = "server" ]
 then
@@ -121,7 +121,7 @@ then
     cd ..
 fi
 
-mkdir -p .config
+mkdir --parents .config
 cd .config
 ln -nsf "$DOTFILES/.config/awesome"
 cd ..
@@ -220,7 +220,7 @@ then
     rm -rf vim
 fi
 
-mkdir -p .vimtmp .vimbackup .vimsession
+mkdir --parents .vimtmp .vimbackup .vimsession
 if ! [ -e ".vim" ]
 then
     git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
@@ -332,7 +332,7 @@ fi
 if ! [ -e "opt/xwinlogger" ]
 then
     curl -L "https://github.com/emilis/xwinlogger/archive/master.tar.gz" | tar zxf -
-    mkdir -p "opt/xwinlogger/lib" "opt/xwinlogger/bin"
+    mkdir --parents "opt/xwinlogger/lib" "opt/xwinlogger/bin"
     cd "xwinlogger-master"
     INSTALL_DIR="$HOME/opt/xwinlogger/lib" BIN_DIR="$HOME/opt/xwinlogger/bin" ./install.sh || exit 1
     cd ..
@@ -520,7 +520,7 @@ then
 fi
 
 function mkinstance {
-    mkdir -p ".varia/instances/$1"
+    mkdir --parents ".varia/instances/$1"
     for TAG in 1M 2PT 3SPT 4KO 5KS 6H 7V 8NRMS 9V
     do
         ln -nsf "$(which "$1")" ".varia/instances/$1/$TAG"
