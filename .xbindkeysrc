@@ -36,6 +36,10 @@
 "blank"
   m:0x0 + c:160
 
+# Win+C
+"xclip -o -selection primary|xclip -i -selection clipboard"
+  m:0x40 + c:54
+
 # Win+PageUp
 "volume pulse increase"
   m:0x40 + c:112
