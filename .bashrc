@@ -8,7 +8,7 @@ PS1='\u@\h:\w\$ '
 HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
-if [ "$TERM" = "xterm-256color" ]
+if [ "$TERM" = "xterm-unicode-256color" ]
 then
   export GREP_OPTIONS='--color=auto'
   eval $(dircolors --bourne-shell "$HOME/.dircolors")
@@ -18,7 +18,7 @@ else
     export GREP_OPTIONS='--color=never'
   else
     export GREP_OPTIONS='--color=auto'
-    export TERM="rxvt-256color"
+    export TERM="rxvt-unicode-256color"
     eval $(dircolors --bourne-shell "$HOME/.dircolors")
   fi
 fi
