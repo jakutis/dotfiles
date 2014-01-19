@@ -3,7 +3,13 @@
 if [ "$(id -u)" != "0" ]
 then
   ARGS="$@"
-  sudo bash -c "HOME="$HOME" "$0" $ARGS"
+  if [ -t 1 ]
+  then
+      SUDO="sudo"
+  else
+      SUDO="gksudo"
+  fi
+  $SUDO -- bash -c "HOME="$HOME" "$0" $ARGS"
   exit
 fi
 
