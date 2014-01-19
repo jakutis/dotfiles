@@ -402,6 +402,11 @@ then
     ln -nsf mosh-$MOSHV mosh
     cd ..
     rm -rf mosh-$MOSHV mosh-$MOSHV.tar.gz
+    cd .bin
+    ln -nsf ../opt/mosh/bin/mosh
+    ln -nsf ../opt/mosh/bin/mosh-client
+    ln -nsf ../opt/mosh/bin/mosh-server
+    cd ..
 fi
 
 if ! [ -e "opt/json-c-$JSONCV" ]
