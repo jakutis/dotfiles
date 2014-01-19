@@ -10,11 +10,12 @@ LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
 brightness max
 system net $(zenity --entry --text="system net ?")
+gksudo -- pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load="module-udev-detect tsched=0" --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-native-protocol-unix --daemon
 
-KONQUEROR="/home/tahu/.varia/instances/konqueror"
-URXVT="/home/tahu/.varia/instances/urxvt"
+KONQUEROR="$HOME/.varia/instances/konqueror"
+URXVT="$HOME/.varia/instances/urxvt"
 
-REFDIR="/home/tahu/etc/storage/books"
+REFDIR="$HOME/etc/storage/books"
 
 cd "Desktop"
 for SPACE in 1M-MAGISTRINIS 2PT-PATIKIMUMOTEORIJA 3SPT-SPRENDIMUPRIEMIMOTEORIJA 4KO-KOMBINATORINISOPTIMIZAVIMAS 5KS-KRIPTOGRAFINESSISTEMOS 6H-HTTPINVOKE 7V-VOYERL 8NRMS-NRMS 9V-VARIA
@@ -31,6 +32,4 @@ do
 done
 cd ".."
 
-"$VARIA/osmo" &
-su -c 'pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load="module-udev-detect tsched=0" --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-native-protocol-unix --daemon'
 awesome
