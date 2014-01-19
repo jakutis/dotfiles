@@ -1,7 +1,16 @@
 umask 022
 
 export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
-export LANG="C.UTF-8"
+if [ -n "$(locale --all-locales | grep 'C.utf8')" ]
+then
+	export LANG="C.UTF-8"
+elif [ -n "$(locale --all-locales | grep 'en_US.utf8')" ]
+then
+	export LANG="en_US.UTF-8"
+else
+	export LANG="$(locale --all-locales | head -n 1)"
+fi
+export LANG="en_US.UTF-8"
 export LC_COLLATE="$LANG"
 export LC_CTYPE="$LANG"
 export LC_MONETARY="$LANG"
