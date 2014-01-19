@@ -34,7 +34,10 @@ case "$CMD" in
         CFG="$2"
         #ALL="$(ls $HOME/Desktop/VARIA/networks/cfg-*.sh)"
         ALL="$HOME/Desktop/VARIA/networks/cfg-client-omnitel.sh $HOME/Desktop/VARIA/networks/cfg-client-eth.sh $HOME/Desktop/VARIA/networks/cfg-client-wifi.sh $HOME/Desktop/VARIA/networks/cfg-client-vpnc-ktu-wifi.sh"
-        if [ "$CFG" = "next" ]
+        if [ "$CFG" = "none" ]
+        then
+            CFG="$HOME/Desktop/VARIA/networks/vanilla.sh"
+        elif [ "$CFG" = "next" ]
         then
             FOUNDLAST="0"
             for NET in $ALL
@@ -67,6 +70,7 @@ case "$CMD" in
             then
                 echo "Error: no such network configuration \"$CFG\" exists" 1>&2
                 echo "Available:" 1>&2
+                echo "    none"
                 ls "$HOME/Desktop/VARIA/networks" | grep "^cfg-" | sed "s/^cfg\-/    /" | sed "s/\\.sh\$//" 1>&2
                 exit 1
             fi
