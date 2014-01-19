@@ -6,7 +6,6 @@ xrdb -merge "$HOME/.Xresources"
 update-xinput
 xbindkeys
 noblank
-xclipboard &
 LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
 brightness max
