@@ -6,9 +6,9 @@ do
 
     if [ -n "$IP" ]
     then
-        awesome-client <<< "mynetwidget:set_markup('<span color=\"green\"> ${IP} </span>')"
-    else
-        awesome-client <<< "mynetwidget:set_markup('<span color=\"red\"> offline </span>')"
+        awesome-client <<< "mynetwidget.text='<span color=\"green\"> ${IP} </span>'"
+ else
+        awesome-client <<< "mynetwidget.text='<span color=\"red\"> offline </span>'"
     fi
     sleep 3
 done
