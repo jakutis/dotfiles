@@ -7,17 +7,19 @@ theme = {}
 theme.font          = "sans 8"
 
 theme.bg_normal     = "#020305"
-theme.bg_focus      = "#5d6445"
+--theme.bg_focus      = "#5d6445"
+theme.bg_focus      = "#020305"
 theme.bg_urgent     = "#621608"
-theme.bg_minimize   = "#707654"
+--theme.bg_minimize   = "#707654"
+theme.bg_minimize   = "#020305"
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = "#aaaaaa"
 theme.fg_focus      = "#ffffff"
 theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_minimize   = "#333333"
 
-theme.border_width  = "1"
+theme.border_width  = "0"
 theme.border_normal = "#000000"
 theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
@@ -36,7 +38,7 @@ theme.border_marked = "#91231c"
 theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squarefw.png"
 theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
 
-theme.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
+--theme.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
@@ -80,7 +82,7 @@ theme.wallpaper_cmd = { "awsetbg \"" .. os.getenv("HOME") .. "/etc/storage/photo
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"
 theme.layout_fairv = "/usr/share/awesome/themes/default/layouts/fairvw.png"
-theme.layout_floating  = "/usr/share/awesome/themes/default/layouts/floatingw.png"
+--theme.layout_floating  = "/usr/share/awesome/themes/default/layouts/floatingw.png"
 theme.layout_magnifier = "/usr/share/awesome/themes/default/layouts/magnifierw.png"
 theme.layout_max = "/usr/share/awesome/themes/default/layouts/maxw.png"
 theme.layout_fullscreen = "/usr/share/awesome/themes/default/layouts/fullscreenw.png"
