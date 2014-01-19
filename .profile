@@ -1,7 +1,7 @@
 umask 022
 
 export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
-export LANG="en_US.UTF-8"
+export LANG="C.UTF-8"
 export LC_COLLATE="$LANG"
 export LC_CTYPE="$LANG"
 export LC_MONETARY="$LANG"
