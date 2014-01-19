@@ -7,7 +7,6 @@ update-xinput
 xbindkeys
 noblank
 xclipboard &
-xflux -l 54.9279 -g 23.8774 -k 2000
 LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
 brightness max
@@ -35,5 +34,4 @@ cd ".."
 
 "$VARIA/osmo" &
 su -c 'pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load="module-udev-detect tsched=0" --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-native-protocol-unix --daemon'
-(dropboxd &)&
 awesome
