@@ -206,8 +206,6 @@ nnoremap <F4> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 noremap! <F5> <Esc>:make<CR>
 nnoremap <F5> <Esc>:make<CR>
 
-nnoremap <F8> <Esc>:call system('xclip -selection clipboard', @0)<CR>
-
 set pastetoggle=<F9>
 
 noremap! <F10> <Esc>:tabp<CR>
