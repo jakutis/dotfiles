@@ -10,7 +10,7 @@ LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
 brightness max
 system net $(zenity --entry --text="system net ?")
-gksudo -- pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load="module-udev-detect tsched=0" --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-native-protocol-unix --daemon
+start-pulseaudio-x11
 
 KONQUEROR="$HOME/.varia/instances/konqueror"
 URXVT="$HOME/.varia/instances/urxvt"
