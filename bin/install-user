@@ -28,7 +28,7 @@ SVG2PDFV="301dd48"
 RMV="3"
 RV="${RMV}.0.2"
 GOV="1.2"
-YOUTUBEDLV="2014.01.17.2"
+YOUTUBEDLV="2014.01.22.1"
 VIMV="v7-4-009"
 COLOROUTV="1.0-1"
 TMUXV="1.8"
@@ -213,7 +213,7 @@ then
     ln -nsf "../opt/r-$RV/bin/R"
     cd ..
     rm -rf "R-${RV}"
-    echo 'install.packages(c("correlogram", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save
+    echo 'install.packages(c("ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save
     wget "http://www.lepem.ufc.br/jaa/colorout_${COLOROUTV}.tar.gz"
     echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save
     rm colorout_${COLOROUTV}.tar.gz
