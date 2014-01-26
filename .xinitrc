@@ -4,7 +4,6 @@ source "$HOME/.profile"
 xhost localhost
 xrdb -merge "$HOME/.Xresources"
 update-xinput
-xbindkeys
 noblank
 LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
