@@ -27,7 +27,8 @@ export CUDA_HOME="$HOME/opt/cuda"
 export BROWSER="firefox"
 export TEXINPUTS="$TEXINPUTS:$HOME/opt/r/lib/R/share/texmf/tex/latex"
 export PYTHONBREW_ROOT="$HOME/.pythonbrew"
-export LOQODIR=~/.bin
+export LOQODIR="$HOME/.bin"
+export _JAVA_AWT_WM_NONREPARENTING="1"
 
 if [ -n "$BASH_VERSION" ]; then
   . "$HOME/.bashrc"
