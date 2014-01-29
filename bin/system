@@ -127,6 +127,7 @@ case "$CMD" in
             pm-suspend
         fi
         xrandr --auto
+        update-xinput
         ;;
     "hibernate")
         switch-display LVDS1
@@ -141,6 +142,7 @@ case "$CMD" in
             pm-hibernate
         fi
         xrandr --auto
+        update-xinput
         ;;
     "help")
         help
