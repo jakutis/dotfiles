@@ -141,7 +141,6 @@ case "$CMD" in
             pm-hibernate
         fi
         xrandr --auto
-        su -c 'pulseaudio -n --system --disallow-module-loading --disallow-exit --realtime --load="module-udev-detect tsched=0" --load=module-device-restore --load=module-stream-restore --load=module-card-restore --load=module-native-protocol-unix --daemon'
         ;;
     "help")
         help
