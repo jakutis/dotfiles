@@ -30,7 +30,7 @@ SVG2PDFV="301dd48"
 RMV="3"
 RV="${RMV}.0.2"
 GOV="1.2"
-YOUTUBEDLV="2014.01.28.1"
+YOUTUBEDLV="2014.01.30.2"
 VIMV="v7-4-009"
 COLOROUTV="1.0-1"
 TMUXV="1.8"
@@ -591,7 +591,7 @@ fi
 
 function mkinstance {
     mkdir --parents ".varia/instances/$1"
-    for TAG in 1M 2PT 3SPT 4KO 5KS 6H 7V 8NRMS 9V
+    for TAG in 1V 2M 3NRMS 4H
     do
         ln -nsf "$(which "$1")" ".varia/instances/$1/$TAG"
     done

@@ -74,7 +74,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "1M", "2PT", "3SPT", "4KO", "5KS", "6H", "7V", "8NRMS", "9V" }, s, layouts[1])
+    tags[s] = awful.tag({ "1V", "2M", "3NRMS", "4H" }, s, layouts[1])
 end
 -- }}}
 
@@ -339,24 +339,14 @@ awful.rules.rules = {
                      focus = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { instance = "1M" },
+    { rule = { instance = "1V" },
       properties = { tag = tags[1][1], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "2PT" },
+    { rule = { instance = "2M" },
       properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "3SPT" },
+    { rule = { instance = "3NRMS" },
       properties = { tag = tags[1][3], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "4KO" },
+    { rule = { instance = "4H" },
       properties = { tag = tags[1][4], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "5KS" },
-      properties = { tag = tags[1][5], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "6H" },
-      properties = { tag = tags[1][6], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "7V" },
-      properties = { tag = tags[1][7], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "8NRMS" },
-      properties = { tag = tags[1][8], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "9V" },
-      properties = { tag = tags[1][9], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
