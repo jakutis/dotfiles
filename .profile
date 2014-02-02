@@ -27,6 +27,7 @@ export CUDA_HOME="$HOME/opt/cuda"
 export BROWSER="firefox"
 export TEXINPUTS="$TEXINPUTS:$HOME/opt/r/lib/R/share/texmf/tex/latex"
 export PYTHONBREW_ROOT="$HOME/.pythonbrew"
+export PERLBREW_ROOT="$HOME/.perl5"
 export LOQODIR="$HOME/.bin"
 export _JAVA_AWT_WM_NONREPARENTING="1"
 
