@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+XSLTV="1.1.28"
+BIBERV="1.8"
+PERLV="5.18.2"
 FAACV="1.28"
 MACV="3.99-u4-b5-s7"
 LEPTONICAV="1.69"
@@ -382,6 +385,40 @@ then
     cd ../.bin
     ln -nsf ../opt/podcatcher/bin/podcatcher
     cd ..
+fi
+
+if ! [ -e "opt/libxslt-$XSLTV" ]
+then
+    curl -L ftp://xmlsoft.org/libxslt/libxslt-${XSLTV}.tar.gz | tar zxf - || exit 1
+    cd "libxslt-$XSLTV"
+    ./configure --prefix="$HOME/opt/libxslt-${XSLTV}" && make && make install || exit 1
+    cd ../opt
+    ln -nsf "libxslt-${XSLTV}" "libxslt"
+    cd ../.bin
+    ln -nsf "../opt/libxslt/bin/xslt-config"
+    ln -nsf "../opt/libxslt/bin/xsltproc"
+    cd ..
+    rm -rf "libxslt-$XSLTV"
+fi
+
+if ! [ -e ".perl5" ]
+then
+    export PERLBREW_ROOT=/home/jakutis/.perl5
+    curl -kL http://install.perlbrew.pl | bash || exit 1
+    source "$PERLBREW_ROOT/etc/bashrc"
+    perlbrew install "perl-$PERLV" || exit 1
+    perlbrew switch "perl-$PERLV" || exit 1
+
+    for PACKAGE in File::Which Readonly::XS
+    do
+        cpan "$PACKAGE" || exit 1
+    done
+
+    curl -L https://github.com/plk/biber/archive/v${BIBERV}.tar.gz|tar zxf - || exit 1
+    cd "biber-$BIBERV"
+    cpan -f . || exit 1
+    cd ..
+    rm -rf "biber-$BIBERV"
 fi
 
 if ! [ -e ".pythonbrew" ]
