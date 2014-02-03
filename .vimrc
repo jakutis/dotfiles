@@ -37,7 +37,6 @@ Bundle 'Markdown-syntax'
 Bundle 'Textile-for-VIM'
 Bundle 'Syntastic'
 Bundle 'JSON.vim'
-Bundle 'Lokaltog/vim-powerline'
 Bundle 'Command-T'
 Bundle 'Valloric/YouCompleteMe'
 "Bundle 'The-NERD-tree'
@@ -51,6 +50,7 @@ Bundle 'Chiel92/vim-autoformat'
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-session'
 Bundle 'dbext.vim'
+Bundle 'bling/vim-airline'
 
 filetype plugin indent on
 
@@ -83,7 +83,7 @@ let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
-let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
 
 let vimrplugin_term = 'urxvt'
 let vimrplugin_term_cmd = 'urxvt -e'
