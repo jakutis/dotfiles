@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -s "$HOME/.varia/awesome-ip.pid" ]
+then
+    kill -9 "$(cat "$HOME/.varia/awesome-ip.pid")"
+fi
+echo "$$" > "$HOME/.varia/awesome-ip.pid"
+
 while true
 do
     IP="$(curl --connect-timeout 2 "http://178.16.41.83/" 2>/dev/null)"
