@@ -21,7 +21,6 @@ export LC_ALL="$LANG"
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"
 export JAVA_HOME="$HOME/opt/jdk"
-export GOROOT="$HOME/opt/go"
 export R_LIBS_USER="$HOME/opt/r-site-library"
 export CUDA_HOME="$HOME/opt/cuda"
 export BROWSER="firefox"
@@ -39,7 +38,6 @@ PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:
 
 PATH="$HOME/.cabal/bin:$HOME/opt/ghc/bin:$PATH"
 PATH="$HOME/.rvm/bin:$PATH"
-PATH="$GOROOT/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
 
 PATH="$HOME/opt/matlab/bin:$PATH"
