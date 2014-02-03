@@ -1,37 +1,59 @@
-!black
-URxvt*color0:  rgb:16/16/16
-URxvt*color8:  rgb:85/7B/6F
-!red
-URxvt*color1:  rgb:e5/78/6d
-URxvt*color9:  rgb:9d/2a/3a
-!green
-URxvt*color2:  rgb:ca/e6/82
-URxvt*color10: rgb:8b/be/34
-!brown/yellow
-URxvt*color3:  rgb:a5/2a/2a
-URxvt*color11: rgb:8b/45/13
-!blue
-URxvt*color4:  rgb:52/83/d7
-URxvt*color12: rgb:3b/5d/9a
-!magenta
-URxvt*color5:  rgb:b6/98/d9
-URxvt*color13: rgb:a5/7a/c4
-!cyan
-URxvt*color6:  rgb:a8/c6/f2
-URxvt*color14: rgb:5d/a7/e1
-!white
-URxvt*color7:  rgb:f6/f3/e8
-URxvt*color15: rgb:d3/d7/cf
-
-URxvt*font:        xft:Source Code Pro for Powerline-9
+URxvt*font:        xft:Sauce Code Powerline-9
 URxvt*scrollBar:   false
 URxvt*urlLauncher: ~/bin/www
 URxvt*transparent: false
-URxvt*fading:      40
-URxvt*background:  #161616
-URxvt*foreground:  #feffd7
-
+URxvt*fading:      0
 URxvt*letterSpace: -1
-
 XTerm*bellIsUrgent: true
 URxvt.urgentOnBell: true
+
+!Tomorrow
+#define t_background        #ffffff
+#define t_current_line      #efefef
+#define t_selection      	#d6d6d6
+#define t_foreground      	#4d4d4c
+#define t_comment	     	#8e908c
+#define t_red		     	#c82829
+#define t_orange	     	#f5871f
+#define t_yellow        	#eab700
+#define t_green	        	#718c00
+#define t_aqua	        	#3e999f
+#define t_blue	        	#4271ae
+#define t_purple        	#8959a8
+
+
+*.foreground:   t_foreground
+*.background:   t_background
+*.cursorColor:  #aeafad
+
+! Black / Grey
+*.color0:       #000000
+*.color8:       #666666
+
+! Red / Bright Red
+*.color1:       t_red
+*.color9:       #FF3334
+
+! Green + Bright Green
+*.color2:       t_green
+*.color10:      #9ec400
+
+! Yellow (Orange) + Bright Yellow (Yellow)
+*.color3:       t_orange
+*.color11:      t_yellow
+
+! Blue + Bright Blue
+*.color4:       t_blue
+*.color12:      t_blue
+
+! Magenta (Purple) + Bright Magenta
+*.color5:       t_purple
+*.color13:      #b777e0
+
+! Cyan (Aqua) + Bright Cyan
+*.color6:       t_aqua
+*.color14:      #54ced6
+
+! Light Grey (Selection) + White (Current Line)
+*.color7:       t_selection
+*.color15:      t_current_line

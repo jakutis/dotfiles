@@ -42,7 +42,7 @@ Bundle 'Valloric/YouCompleteMe'
 "Bundle 'The-NERD-tree'
 Bundle 'The-NERD-Commenter'
 "Bundle 'localvimrc'
-Bundle 'Solarized'
+Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Bundle 'Vim-R-plugin'
 Bundle 'ctrlp.vim'
 Bundle 'airblade/vim-gitgutter'
@@ -117,8 +117,8 @@ set guioptions-=l  "remove left-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar when vsp
 
 syntax on
-set background=dark
-colorscheme solarized
+set background=light
+colorscheme Tomorrow
 
 function! EnableColorColumn()
     match ErrorMsg '\%>80v.\+'
