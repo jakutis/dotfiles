@@ -196,15 +196,12 @@ then
     LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint || exit 1
 fi
 
-if ! [ -e "opt/go-$GOV" ]
+if ! [ -e ".gvm" ]
 then
-    curl -L "http://go.googlecode.com/files/go${GOV}.src.tar.gz" | tar zxf -
-    mv go "opt/go-$GOV"
-    cd "opt/go-$GOV/src"
-    ./all.bash || exit 1
-    cd ../..
-    ln -nsf "go-$GOV" go
-    cd ..
+    bash < <(curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer) || exit 1
+    source .gvm/scripts/gvm
+    gvm install "go${GOV}" || exit 1
+    gvm use "go${GOV}" || exit 1
 fi
 
 if ! [ -e "opt/r-$RV" ]
