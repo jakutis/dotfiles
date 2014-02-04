@@ -412,7 +412,7 @@ fi
 
 if ! [ -e ".perl5" ]
 then
-    export PERLBREW_ROOT=/home/jakutis/.perl5
+    export PERLBREW_ROOT="$HOME/.perl5"
     curl -kL http://install.perlbrew.pl | bash || exit 1
     source "$PERLBREW_ROOT/etc/bashrc"
     perlbrew install "perl-$PERLV" || exit 1
