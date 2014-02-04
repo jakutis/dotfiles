@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+LLVMV="3.4"
 XSLTV="1.1.28"
 BIBERV="1.8"
 PERLV="5.18.2"
@@ -140,6 +141,17 @@ then
     cd .varia
     ln -nsf "$VARIA/desktop"
     cd ..
+fi
+
+if ! [ -e "opt/llvm-${LLVMV}" ]
+then
+    curl -L "http://llvm.org/releases/${LLVMV}/llvm-${LLVMV}.src.tar.gz" | tar zxf - || exit 1
+    curl -L "http://llvm.org/releases/${LLVMV}/clang-${LLVMV}.src.tar.gz" | tar zxf - || exit 1
+    mv "clang-${LLVMV}" "llvm-${LLVMV}/tools/clang"
+    cd "llvm-${LLVMV}"
+    CC="$(which clang)" CXX="$(which clang++)" ./configure --enable-optimized --enable-shared --prefix="$HOME/opt/llvm-${LLVMV}" && make && make install || exit 1
+    cd ..
+    rm -rf "llvm-${LLVMV}"
 fi
 
 if ! [ -e ".bin/kerl" ]
