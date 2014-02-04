@@ -149,7 +149,7 @@ then
     curl -L "http://llvm.org/releases/${LLVMV}/clang-${LLVMV}.src.tar.gz" | tar zxf - || exit 1
     mv "clang-${LLVMV}" "llvm-${LLVMV}/tools/clang"
     cd "llvm-${LLVMV}"
-    CC="$(which clang)" CXX="$(which clang++)" ./configure --enable-optimized --enable-shared --prefix="$HOME/opt/llvm-${LLVMV}" && make && make install || exit 1
+    CC="$(which gcc)" CXX="$(which g++)" ./configure --enable-optimized --enable-shared --prefix="$HOME/opt/llvm-${LLVMV}" && make && make install || exit 1
     cd ..
     rm -rf "llvm-${LLVMV}"
 fi
