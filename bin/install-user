@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+GLIBCV="2.18"
 LLVMV="3.4"
 XSLTV="1.1.28"
 BIBERV="1.8"
@@ -154,6 +155,19 @@ then
     rm -rf "llvm-${LLVMV}"
     cd opt
     ln -nsf "llvm-${LLVMV}" "llvm"
+    cd ..
+fi
+
+if ! [ -e "opt/glibc-$GLIBCV" ]
+then
+    curl -L "http://ftp.gnu.org/gnu/glibc/glibc-${GLIBCV}.tar.xz" | tar Jxf - || exit 1
+    mkdir "glibc-build"
+    cd "glibc-build"
+    "../glibc-${GLIBCV}/configure" --prefix="$HOME/opt/glibc-${GLIBCV}" && make && make install || exit 1
+    cd ..
+    rm -rf "glibc-build" "glibc-${GLIBCV}"
+    cd opt
+    ln -nsf "glibc-${GLIBCV}" "glibc"
     cd ..
 fi
 
