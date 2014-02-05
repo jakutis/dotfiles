@@ -152,6 +152,9 @@ then
     CC="$(which gcc)" CXX="$(which g++)" ./configure --enable-optimized --enable-shared --prefix="$HOME/opt/llvm-${LLVMV}" && make && make install || exit 1
     cd ..
     rm -rf "llvm-${LLVMV}"
+    cd opt
+    ln -nsf "llvm-${LLVMV}" "llvm"
+    cd ..
 fi
 
 if ! [ -e ".bin/kerl" ]
