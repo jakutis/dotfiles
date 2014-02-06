@@ -69,7 +69,7 @@ let g:syntastic_auto_jump = 0
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
-                           \ 'passive_filetypes': ['html', 'java'] }
+                           \ 'passive_filetypes': ['html', 'java', 'c', 'gcc', 'cpp'] }
 let g:syntastic_quiet_messages = {'level': 'warnings'}
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:syntastic_javascript_checker = 'jshint'
