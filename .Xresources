@@ -1,12 +1,5 @@
-URxvt*font:        xft:Sauce Code Powerline-9
 XTerm*faceName:    Sauce Code Powerline:size=9
-URxvt*scrollBar:   false
-URxvt*urlLauncher: ~/bin/www
-URxvt*transparent: false
-URxvt*fading:      0
-URxvt*letterSpace: -1
 XTerm*bellIsUrgent: true
-URxvt.urgentOnBell: true
 
 !Tomorrow
 #define t_background        #fafafa
@@ -23,38 +16,38 @@ URxvt.urgentOnBell: true
 #define t_purple        	#8959a8
 
 
-*.foreground:   t_foreground
-*.background:   t_background
-*.cursorColor:  #aeafad
+XTerm*foreground:   t_foreground
+XTerm*background:   t_background
+XTerm*cursorColor:  #aeafad
 
 ! Black / Grey
-*.color0:       #000000
-*.color8:       #666666
+XTerm*color0:       #000000
+XTerm*color8:       #666666
 
 ! Red / Bright Red
-*.color1:       t_red
-*.color9:       #FF3334
+XTerm*color1:       t_red
+XTerm*color9:       #FF3334
 
 ! Green + Bright Green
-*.color2:       t_green
-*.color10:      #9ec400
+XTerm*color2:       t_green
+XTerm*color10:      #9ec400
 
 ! Yellow (Orange) + Bright Yellow (Yellow)
-*.color3:       t_orange
-*.color11:      t_yellow
+XTerm*color3:       t_orange
+XTerm*color11:      t_yellow
 
 ! Blue + Bright Blue
-*.color4:       t_blue
-*.color12:      t_blue
+XTerm*color4:       t_blue
+XTerm*color12:      t_blue
 
 ! Magenta (Purple) + Bright Magenta
-*.color5:       t_purple
-*.color13:      #b777e0
+XTerm*color5:       t_purple
+XTerm*color13:      #b777e0
 
 ! Cyan (Aqua) + Bright Cyan
-*.color6:       t_aqua
-*.color14:      #54ced6
+XTerm*color6:       t_aqua
+XTerm*color14:      #54ced6
 
 ! Light Grey (Selection) + White (Current Line)
-*.color7:       t_selection
-*.color15:      t_current_line
+XTerm*color7:       t_selection
+XTerm*color15:      t_current_line
