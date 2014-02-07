@@ -7,4 +7,4 @@ then
     echo "Error: session file $SESSION_FILE does not exist" 1>&2
     exit 1
 fi
-tmux new-session -s "$SESSION_NAME" -d "tmux source-file "$SESSION_FILE""
+tmux attach -t "$SESSION_NAME" || tmux new-session -s "$SESSION_NAME" "tmux source-file "$SESSION_FILE""
