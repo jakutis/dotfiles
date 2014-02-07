@@ -8,7 +8,7 @@ XTerm*bellIsUrgent: true
 URxvt.urgentOnBell: true
 
 !Tomorrow
-#define t_background        #ffffff
+#define t_background        #fafafa
 #define t_current_line      #efefef
 #define t_selection      	#d6d6d6
 #define t_foreground      	#4d4d4c
