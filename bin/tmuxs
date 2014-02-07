@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+SESSION_NAME="$1"
+SESSION_FILE="$HOME/Desktop/VARIA/tmux/$SESSION_NAME"
+if ! [ -s "$SESSION_FILE" ]
+then
+    echo "Error: session file $SESSION_FILE does not exist" 1>&2
+    exit 1
+fi
+tmux new-session -s "$SESSION_NAME" -d "tmux source-file "$SESSION_FILE""
