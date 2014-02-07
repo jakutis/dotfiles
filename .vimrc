@@ -119,6 +119,8 @@ set guioptions-=L  "remove left-hand scroll bar when vsp
 syntax on
 set background=light
 colorscheme Tomorrow
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
 
 function! EnableColorColumn()
     match ErrorMsg '\%>80v.\+'
