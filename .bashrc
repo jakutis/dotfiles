@@ -12,6 +12,10 @@ export HISTSIZE=1000000
 if [ "$TERM" = "dumb" ]
 then
     export GREP_OPTIONS='--color=never'
+elif [ "$TERM" = "screen-256color" ]
+then
+    export GREP_OPTIONS='--color=auto'
+    eval $(dircolors --bourne-shell "$HOME/.dircolors")
 else
     export GREP_OPTIONS='--color=auto'
     export TERM="rxvt-unicode-256color"
