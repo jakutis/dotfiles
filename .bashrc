@@ -18,18 +18,10 @@ then
     eval $(dircolors --bourne-shell "$HOME/.dircolors")
 else
     export GREP_OPTIONS='--color=auto'
-    export TERM="rxvt-unicode-256color"
+    export TERM="xterm-256color"
     if ! infocmp 1>/dev/null 2>&1
     then
-        TERM="rxvt-256color"
-        if ! infocmp 1>/dev/null 2>&1
-        then
-            TERM="xterm+256color"
-            if ! infocmp 1>/dev/null 2>&1
-            then
-                TERM="xterm"
-            fi
-        fi
+        TERM="xterm"
     fi
     eval $(dircolors --bourne-shell "$HOME/.dircolors")
 fi
