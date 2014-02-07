@@ -1,4 +1,5 @@
 URxvt*font:        xft:Sauce Code Powerline-9
+XTerm*faceName:    Sauce Code Powerline:size=9
 URxvt*scrollBar:   false
 URxvt*urlLauncher: ~/bin/www
 URxvt*transparent: false
