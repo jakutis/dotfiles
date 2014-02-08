@@ -12,7 +12,7 @@ system net $(zenity --entry --text="system net ?")
 start-pulseaudio-x11
 
 KONQUEROR="$HOME/.varia/instances/konqueror"
-URXVT="$HOME/.varia/instances/urxvt"
+XTERM="$HOME/.varia/instances/xterm"
 
 REFDIR="$HOME/etc/storage/books"
 
@@ -26,7 +26,7 @@ do
     then
         refs-open "literature" "$REFDIR" "$KONQUEROR/$TAG" &
     fi
-    "$URXVT/$TAG" -e vim -S "$HOME/.vimsession/${REPO}.vim" &
+    "$XTERM/$TAG" -e tmus ${REPO} &
     cd ".."
 done
 cd ".."
