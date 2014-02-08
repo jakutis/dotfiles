@@ -1,5 +1,6 @@
-XTerm*faceName:    Sauce Code Powerline:size=9
+XTerm*faceName:     Sauce Code Powerline:size=9
 XTerm*bellIsUrgent: true
+XTerm*termName:     xterm-256color
 
 !Tomorrow
 #define t_background        #fafafa
