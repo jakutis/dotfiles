@@ -12,6 +12,7 @@ set rtp+=$GOROOT/misc/vim
 
 filetype off
 set nocompatible
+set nomodeline
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
