@@ -664,4 +664,4 @@ function mkinstance {
 
 rm -rf ".varia/instances"
 mkinstance konqueror
-mkinstance urxvt
+mkinstance xterm
