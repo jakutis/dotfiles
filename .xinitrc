@@ -27,6 +27,7 @@ do
         refs-open "literature" "$REFDIR" "$KONQUEROR/$TAG" &
     fi
     "$XTERM/$TAG" -e tmus ${REPO} &
+    sleep 1
     cd ".."
 done
 cd ".."
