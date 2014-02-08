@@ -20,21 +20,21 @@ then
     exit 1
 fi
 
-REFDIR="$(realpath "$2")"
-
-if ! [ -d "$REFDIR" ]
-then
-    echo "Error: directory with references \"$REFDIR\" does not exist." >&2
-    exit 1
-fi
-
-if [ -z "$3" ]
+if [ -z "$2" ]
 then
     echo "Error: search query not specified." >&2
     exit 1
 fi
 
-QUERY="$3"
+QUERY="$2"
+
+if [ -z "$3" ]
+then
+    REFDIR="$HOME/etc/storage/books"
+    echo "Info: directory with references not specified, using ${REFDIR}." >&2
+else
+    REFDIR="$(realpath "$3")"
+fi
 
 cat "$REFLIST" | grep -v '^#' | while read REF
 do
