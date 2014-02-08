@@ -30,11 +30,8 @@ Bundle 'gmarik/vundle'
 "Bundle 'FuzzyFinder'
 Bundle 'editorconfig-vim'
 Bundle 'Screen-vim---gnu-screentmux'
-Bundle 'Markdown'
 Bundle 'fugitive.vim'
-"Bundle 'instant-markdown.vim'
 "Bundle 'simple-pairs'
-Bundle 'Markdown-syntax'
 Bundle 'Textile-for-VIM'
 Bundle 'Syntastic'
 Bundle 'JSON.vim'
@@ -93,6 +90,7 @@ let vimrplugin_underscore = 0
 let mapleader = ","
 
 au! BufRead,BufNewFile *.json set filetype=json
+au! BufRead,BufNewFile *.md set filetype=markdown
 
 "autocmd vimenter * NERDTree
 "autocmd vimenter * wincmd l
@@ -274,7 +272,7 @@ endfunction
 " or decline with 'n'.
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
-set guifont=Source\ Code\ Pro\ 11
+set guifont=Source\ Code\ Pro\ 9
 
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -284,6 +282,8 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd Filetype octave set omnifunc=syntaxcomplete#Complete
+autocmd Filetype markdown set shiftwidth=2
+autocmd Filetype markdown set softtabstop=2
 
 let g:ycm_filetype_blacklist = {
       \ 'tagbar' : 1,
