@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-GLIBCV="2.18"
+GLIBCV="2.19"
 LLVMV="3.4"
 XSLTV="1.1.28"
 BIBERV="1.8"
