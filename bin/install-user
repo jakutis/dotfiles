@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+GITSHV="0.4"
 GLIBCV="2.19"
 LLVMV="3.4"
 XSLTV="1.1.28"
@@ -222,7 +223,7 @@ if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s latest-2 stable  --autolibs=read-fail --ruby || exit 1
     source .rvm/scripts/rvm
-    LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint || exit 1
+    LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass || exit 1
 fi
 
 if ! [ -e ".gvm" ]
@@ -652,6 +653,20 @@ then
     cd ../.bin
     ln -nsf "../opt/jbig2enc/bin/jbig2"
     popd
+fi
+
+if ! [ -e "opt/gitsh-$GITSHV" ]
+then
+    curl -L "https://github.com/thoughtbot/gitsh/archive/v${GITSHV}.tar.gz" | tar zxf - || exit 1
+    cd "gitsh-${GITSHV}"
+    ./autogen.sh && RUBY="$(which ruby)" ./configure --prefix="$HOME/opt/gitsh-$GITSHV" && make && make install || exit 1
+    cd ..
+    rm -rf "gitsh-${GITSHV}"
+    cd opt
+    ln -nsf "gitsh-${GITSHV}" "gitsh"
+    cd ../.bin
+    ln -nsf "../opt/gitsh/bin/gitsh"
+    cd ..
 fi
 
 function mkinstance {
