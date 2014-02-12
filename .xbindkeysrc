@@ -9,7 +9,7 @@
   m:0x0 + c:235
 
 # Switch network
-"switch-net"
+"system net next"
   m:0x0 + c:246
 
 # Sleep
