@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+AUTOCONFV="2.69"
 GITSHV="0.4"
 GLIBCV="2.19"
 LLVMV="3.4"
@@ -143,6 +144,14 @@ then
     cd .varia
     ln -nsf "$VARIA/desktop"
     cd ..
+fi
+
+if ! [ -e "opt/autoconf-${AUTOCONFV}" ]
+then
+    curl -L "http://ftp.gnu.org/gnu/autoconf/autoconf-${AUTOCONFV}.tar.xz" | tar Jxf - || exit 1
+    cd "autoconf-${AUTOCONFV}" && ./configure --prefix="$HOME/opt/autoconf-${AUTOCONFV}" && make && make install && cd .. || exit 1
+    cd opt && ln -nsf "autoconf-${AUTOCONFV}" "autoconf" && cd .. || exit 1
+    cd .bin && (for BIN in $(ls ../opt/autoconf/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
 if ! [ -e "opt/llvm-${LLVMV}" ]
