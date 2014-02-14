@@ -19,7 +19,7 @@ MP4V2PATH="/trunk"
 MP4V2V="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
 ANTV="1.9.3"
 NZBGETV="11.0"
-PYTHONV="2.7.3"
+PYTHONV="3.3.4"
 QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 GHCV="7.6.3"
@@ -457,22 +457,17 @@ then
     rm -rf "biber-$BIBERV"
 fi
 
-if ! [ -e ".pythonbrew" ]
+if ! [ -e "$PYENV_ROOT" ]
 then
-    export PYTHONBREW_ROOT=$HOME/.pythonbrew
-    curl -kL http://xrl.us/pythonbrewinstall | bash
-    source .pythonbrew/etc/bashrc
-    pythonbrew install "$PYTHONV"
-    pythonbrew switch "$PYTHONV"
+    git clone git://github.com/yyuu/pyenv.git "$PYENV_ROOT" || exit 1
+    pyenv install "$PYTHONV" || exit 1
+    eval "$(pyenv init -)" || exit 1
+    pyenv global "$PYTHONV" || exit 1
     for PACKAGE in cython lxml jsbeautifier pygments ocrodjvu python-djvulibre
     do
-        pip install "$PACKAGE"
+        pip install "$PACKAGE" && pyenv rehash || exit 1
     done
-    git clone https://github.com/wetneb/pygments_maple
-    cd pygments_maple
-    python setup.py install
-    cd ..
-    rm -rf pygments_maple
+    git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
 fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
