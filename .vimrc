@@ -67,6 +67,7 @@ let g:airline_powerline_fonts = 1
 
 " completion
 Bundle 'Valloric/YouCompleteMe'
+let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 let g:ycm_filetype_blacklist = {
     \ 'tagbar' : 1,
     \ 'qf' : 1,
