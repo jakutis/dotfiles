@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+FUSETAG="fuse_2_9_2"
+FUSEV="2.9.2"
 AUTOCONFV="2.69"
 GITSHV="0.4"
 GLIBCV="2.19"
@@ -437,6 +439,15 @@ then
     rm -rf "libxslt-$XSLTV"
 fi
 
+if ! [ -e "opt/fuse-$FUSEV" ]
+then
+    cd "repos/git/fuse" || exit 1
+    git co "$FUSETAG" || exit 1
+    ./makeconf.sh && ./configure --prefix="$HOME/opt/fuse-$FUSEV" --enable-lib --disable-util --enable-rpath && make && make install || exit 1
+    cd "../../.."
+    cd "opt" && ln -nsf "fuse-$FUSEV" "fuse" && cd ".."
+fi
+
 if ! [ -e ".perl5" ]
 then
     export PERLBREW_ROOT="$HOME/.perl5"
@@ -464,9 +475,9 @@ then
     pyenv install "2.7.6" || exit 1
     pyenv global "2.7.6" || exit 1
     eval "$(pyenv init -)" || exit 1
-    for PACKAGE in cython lxml jsbeautifier pygments ocrodjvu python-djvulibre
+    for PACKAGE in cython lxml jsbeautifier pygments ocrodjvu python-djvulibre fuse-python
     do
-        pip install "$PACKAGE" && pyenv rehash || exit 1
+        PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
     done
     git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
 fi
