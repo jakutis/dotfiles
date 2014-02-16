@@ -1,0 +1,47 @@
+#!/usr/bin/env python3.3
+
+import fileinput
+import subprocess
+
+def keep(duplicates, to_keep):
+    for duplicate in duplicates:
+        for to_keep in to_keep:
+            if duplicate[:len(to_keep)] == to_keep:
+                return True
+    return False
+
+def find_all_existing():
+    all_existing = {}
+    for line in subprocess.check_output(['git', 'annex', 'find', '--format=${key} ${file}\n']).split(b'\n'):
+        try:
+            key, path = line.split(b' ', 1)
+        except:
+            continue
+        try:
+            path = path.decode('utf-8')
+        except:
+            print('Failed to decode path "' + str(path) + '"')
+            print('This is probably due to the filename not being in utf-8 encoding. Please rename the file and retry.')
+            return None
+        key = key.decode('utf-8')
+        if key in all_existing:
+            all_existing[key].append(path)
+        else:
+            all_existing[key] = [path]
+    return all_existing
+
+to_keep = []
+
+for line in fileinput.input():
+    if line != '\n':
+        to_keep.append(line[:-1])
+
+all_existing = find_all_existing()
+to_drop = []
+if all_existing is not None:
+    for key in all_existing.keys():
+        if not keep(all_existing[key], to_keep):
+            to_drop.append(all_existing[key][0])
+
+if to_drop:
+    subprocess.call(['git', 'annex', 'drop', '--force'] + to_drop)
