@@ -51,8 +51,8 @@ PATH="$HOME/.bin:$HOME/bin:$PATH"
 
 export EDITOR="$(which vim)"
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
-[[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)"
-[[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc"
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm" && gvm use default
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm default 2>/dev/null
+[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use default 1>/dev/null
+[[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
+[[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use default
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm" && gvm use default 1>/dev/null
