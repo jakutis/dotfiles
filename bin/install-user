@@ -455,6 +455,7 @@ then
     source "$PERLBREW_ROOT/etc/bashrc"
     perlbrew install "perl-$PERLV" || exit 1
     perlbrew switch "perl-$PERLV" || exit 1
+    perlbrew alias create "perl-$PERLV" default || exit 1
 
     for PACKAGE in File::Which Readonly::XS
     do
