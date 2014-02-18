@@ -3,5 +3,5 @@
 git remote | while read REMOTE
 do
     echo "----- $REMOTE ------"
-    git push --all "$REMOTE" && git push --tags "$REMOTE" || exit 1;
+    git push --all "$REMOTE" && git push --tags "$REMOTE" || echo "Failed."
 done
