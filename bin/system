@@ -9,7 +9,7 @@ then
   else
       SUDO="gksudo"
   fi
-  $SUDO -- bash -c "HOME="$HOME" "$0" $ARGS"
+  $SUDO -- bash -c "XAUTHORITY="$HOME/.Xauthority" HOME="$HOME" "$0" $ARGS"
   exit
 fi
 
@@ -127,7 +127,7 @@ case "$CMD" in
             pm-suspend
         fi
         xrandr --auto
-        update-xinput
+        $HOME/bin/update-xinput
         ;;
     "hibernate")
         switch-display LVDS1
@@ -142,7 +142,7 @@ case "$CMD" in
             pm-hibernate
         fi
         xrandr --auto
-        update-xinput
+        $HOME/bin/update-xinput
         ;;
     "help")
         help
