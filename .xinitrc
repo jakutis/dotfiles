@@ -33,4 +33,5 @@ done
 cd ".."
 
 klipper
+owncloud &
 awesome
