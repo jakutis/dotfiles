@@ -234,7 +234,7 @@ then
     mv APC-$APCV ext/apc
     rm configure
     ./buildconf --force
-    ./configure --prefix=/opt/varia-php-$PHPV --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install || exit 1
+    ./configure --prefix=/opt/varia-php-$PHPV --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install || exit 1
     cd ..
     rm -rf "php-$PHPV"
     ln -nsf "varia-php-$PHPV" varia-php
