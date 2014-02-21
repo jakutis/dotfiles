@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+MIRALLV="1.5.1"
+QTKEYCHAINV="048b50f"
 FUSETAG="fuse_2_9_2"
 FUSEV="2.9.2"
 AUTOCONFV="2.69"
@@ -685,6 +687,28 @@ then
     cd ../.bin
     ln -nsf "../opt/gitsh/bin/gitsh"
     cd ..
+fi
+
+if ! [ -e "opt/qtkeychain-$QTKEYCHAINV" ]
+then
+    cd "repos/git/qtkeychain" && git co "$QTKEYCHAINV" || exit 1
+    DIR="$(mktemp --directory)"
+    cd "$DIR" || exit 1
+    echo "Build directory: $(pwd)"
+    cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/qtkeychain-$QTKEYCHAINV" -DQT_TRANSLATIONS_DIR:PATH="$HOME/opt/qtkeychain-$QTKEYCHAINV/share/qt/translations" "$HOME/repos/git/qtkeychain" && make all install || exit 1
+    cd "$HOME" && rm -rf "$DIR"
+fi
+
+if ! [ -e "opt/mirall-$MIRALLV" ]
+then
+    cd "repos/git/mirall" && git co "v$MIRALLV" || exit 1
+    DIR="$(mktemp --directory)"
+    cd "$DIR" || exit 1
+    echo "Build directory: $(pwd)"
+    cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/mirall-$MIRALLV" -DQTKEYCHAIN_INCLUDE_DIR="$HOME/opt/qtkeychain-$QTKEYCHAINV/include" -DQTKEYCHAIN_LIBRARY="$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu/libqtkeychain.so" "$HOME/repos/git/mirall" && make all install || exit 1
+    cd "$HOME" && rm -rf "$DIR"
+    cd .bin && echo "LD_LIBRARY_PATH=\"\$HOME/opt/mirall-$MIRALLV/lib:\$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu\" \"\$HOME/opt/mirall-$MIRALLV/bin/owncloud\"" > owncloud && chmod +x owncloud && cd ..
+    cd .bin && echo "LD_LIBRARY_PATH=\"\$HOME/opt/mirall-$MIRALLV/lib:\$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu\" \"\$HOME/opt/mirall-$MIRALLV/bin/owncloudcmd\"" > owncloudcmd && chmod +x owncloudcmd && cd ..
 fi
 
 function mkinstance {
