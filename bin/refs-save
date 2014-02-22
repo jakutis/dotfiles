@@ -28,12 +28,19 @@ then
     exit 1
 fi
 
+if [ -n "$3" ]
+then
+    EXT="$3"
+else
+    EXT="pdf"
+fi
+
 cat "$REFERENCES" | grep -v '^#' | (
-    PDFS=()
-    while read PDF
+    FILES=()
+    while read FILE
     do
-        PDFS=("${PDFS[@]}" "$PDF.pdf")
+        FILES=("${FILES[@]}" "${FILE}.${EXT}")
     done
     cd "$HOME/etc/storage/books"
-    cp -L "${PDFS[@]}" "$DIR"
+    cp -L "${FILES[@]}" "$DIR"
 )
