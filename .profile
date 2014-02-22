@@ -31,10 +31,6 @@ export PERLBREW_ROOT="$HOME/.perl5"
 export LOQODIR="$HOME/.bin"
 export _JAVA_AWT_WM_NONREPARENTING="1"
 
-if [ -n "$BASH_VERSION" ]; then
-  . "$HOME/.bashrc"
-fi
-
 PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/lib/mutt"
 
 PATH="$HOME/.cabal/bin:$HOME/opt/ghc/bin:$PATH"
@@ -56,3 +52,7 @@ export EDITOR="$(which vim)"
 [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
 [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use default
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm" && gvm use default 1>/dev/null
+
+if [ -n "$BASH_VERSION" ]; then
+    source "$HOME/.bashrc"
+fi
