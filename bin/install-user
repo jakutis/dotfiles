@@ -50,6 +50,11 @@ ELINKSV="a229adb"
 IMAGEMAGICKV="6.8.8-2"
 CMUSV="master"
 
+if [ "$ENABLE_MIRALL" = "yes" ]
+then
+    ENABLE_QTKEYCHAIN="yes"
+fi
+
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
 
@@ -689,7 +694,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/qtkeychain-$QTKEYCHAINV" ]
+if [ "$ENABLE_QTKEYCHAIN" = "yes" -a ! -e "opt/qtkeychain-$QTKEYCHAINV" ]
 then
     cd "repos/git/qtkeychain" && git co "$QTKEYCHAINV" || exit 1
     DIR="$(mktemp --directory)"
@@ -699,7 +704,7 @@ then
     cd "$HOME" && rm -rf "$DIR"
 fi
 
-if ! [ -e "opt/mirall-$MIRALLV" ]
+if [ "$ENABLE_MIRALL" = "yes" -a ! -e "opt/mirall-$MIRALLV" ]
 then
     cd "repos/git/mirall" && git co "v$MIRALLV" || exit 1
     DIR="$(mktemp --directory)"
