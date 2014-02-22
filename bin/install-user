@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+GITV="1.9.0"
 MIRALLV="1.5.1"
 QTKEYCHAINV="048b50f"
 FUSETAG="fuse_2_9_2"
@@ -153,6 +154,15 @@ then
     cd .varia
     ln -nsf "$VARIA/desktop"
     cd ..
+fi
+
+if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
+then
+    cd "repos/git/git" && git co "v$GITV" || exit 1
+    make configure && ./configure --prefix="$HOME/opt/git-$GITV" && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD all doc info && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD install install-doc install-html install-info || exit 1
+    cd "../../.."
+    cd opt && ln -nsf "git-$GITV" "git" && cd .. || exit 1
+    cd .bin && (for BIN in $(ls "../opt/git/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
 if ! [ -e "opt/autoconf-${AUTOCONFV}" ]
