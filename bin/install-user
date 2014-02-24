@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+RUBYV="2.1.1"
 LIBVPXV="1.3.0"
 GITV="1.9.0"
 MIRALLV="1.5.1"
@@ -255,7 +256,7 @@ fi
 
 if ! [ -e ".rvm" ]
 then
-    curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s latest-2 stable  --autolibs=read-fail --ruby || exit 1
+    curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --autolibs=read-fail || exit 1
     source .rvm/scripts/rvm
     LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass || exit 1
     rvm docs generate-ri
