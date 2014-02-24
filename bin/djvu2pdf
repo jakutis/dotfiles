@@ -20,7 +20,7 @@ then
     exit 1
 fi
 
-PDF="$(realpath "$2")"
+PDF="$(readlink --canonicalize "$2")"
 
 if [ -e "$PDF" ]
 then
