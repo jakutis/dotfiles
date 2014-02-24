@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+LIBVPXV="1.3.0"
 GITV="1.9.0"
 MIRALLV="1.5.1"
 QTKEYCHAINV="048b50f"
@@ -50,6 +51,11 @@ LIBEVENTV="2.0.21"
 ELINKSV="a229adb"
 IMAGEMAGICKV="6.8.8-2"
 CMUSV="master"
+
+if [ "$ENABLE_FFMPEG" = "yes" ]
+then
+    ENABLE_LIBVPX="yes"
+fi
 
 if [ "$ENABLE_MIRALL" = "yes" ]
 then
@@ -344,11 +350,19 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/ffmpeg-$FFMPEGV" ]
+if [ "$ENABLE_LIBVPX" = "yes" -a ! -e "opt/libvpx-$LIBVPXV" ]
+then
+    cd "repos/git/libvpx" && git co "v$LIBVPXV" || exit 1
+    ./configure --enable-shared --enable-static --disable-runtime-cpu-detect --enable-multithread --enable-vp9-postproc --enable-postproc --enable-vp9 --enable-vp8 --disable-internal-stats --disable-mem-tracker --disable-fast-unaligned --disable-unit-tests --disable-docs --disable-examples --enable-libs --disable-install-docs --enable-install-bins --enable-install-libs --enable-install-srcs --cpu=native --enable-optimizations --enable-pic --disable-ccache --disable-debug --disable-gprof --disable-gcov --prefix="$HOME/opt/libvpx-$LIBVPXV" && make && make install || exit 1
+    cd ../../..
+    cd opt && ln -nsf "libvpx-$LIBVPXV" "libvpx" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_FFMPEG" = "yes" -a ! -e "opt/ffmpeg-$FFMPEGV" ]
 then
     cd "repos/git/ffmpeg" || exit 1
     git co "n$FFMPEGV" || exit 1
-    ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags" --cpu=host --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC" --enable-version3 --extra-cxxflags="-fPIC -DPIC" --enable-libvpx --enable-libvorbis && make && make install || exit 1
+    ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lvpx -Wl,--rpath=$HOME/opt/libvpx-$LIBVPXV/lib,--enable-new-dtags -L$HOME/opt/libvpx-$LIBVPXV/lib" --cpu=host --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-version3 --extra-cxxflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-libvpx --enable-libvorbis && make && make install || exit 1
     cd ../../..
     cd opt && ln -nsf "ffmpeg-$FFMPEGV" "ffmpeg" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/ffmpeg/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
