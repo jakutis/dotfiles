@@ -50,11 +50,11 @@ do
     echo "Page $PAGE from interval [$PAGESTART; $PAGEFINISH]"
     mkdir "page-$PAGE"
     cd "page-$PAGE"
-    djvu2hocr -p $PAGE "$DJVU" | sed 's/ocrx/ocr/g' > page.html
-    ddjvu -format=tiff -page=$PAGE "$DJVU" page.tif > /dev/null
-    pdfbeads -o ../page-${PAGE}.pdf > /dev/null
+    djvu2hocr -p $PAGE "$DJVU" | sed 's/ocrx/ocr/g' > page.html || exit 1
+    ddjvu -verbose -format=tiff -page=$PAGE "$DJVU" page.tif 1>>log 2>&1 || exit 1
+    pdfbeads -o ../page-${PAGE}.pdf 1>>log 2>&1 || exit 1
     cd ..
 done
-pdftk $(ls *pdf) cat output "$PDF"
+pdftk $(ls *pdf) cat output "$PDF" || exit 1
 cd /
 rm -rf "$DIR"
