@@ -740,7 +740,7 @@ then
     QTKEYCHAINSO="$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu/libqtkeychain.so"
     if [ ! -e "$QTKEYCHAINSO" ]
     then
-        QTKEYCHAINSO="$HOME/opt/qtkeychain-$QTKEYCHAINV/lib64/libqtkeychain.so"
+        QTKEYCHAINSO="$HOME/opt/qtkeychain-$QTKEYCHAINV/lib64/libqt5keychain.so"
     fi
     cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/mirall-$MIRALLV" -DQTKEYCHAIN_INCLUDE_DIR="$HOME/opt/qtkeychain-$QTKEYCHAINV/include" -DQTKEYCHAIN_LIBRARY="$QTKEYCHAINSO" "$HOME/repos/git/mirall" && make all install || exit 1
     cd "$HOME" && rm -rf "$DIR"
