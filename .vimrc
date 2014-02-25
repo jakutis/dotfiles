@@ -16,6 +16,11 @@ nnoremap : ;
 " EditorConfig
 Bundle 'editorconfig-vim'
 
+" taglist
+Bundle 'taglist.vim'
+noremap! <F3> <Esc>:TlistToggle<CR>
+nnoremap <F3> <Esc>:TlistToggle<CR>
+
 " Go
 set rtp+=$GOROOT/misc/vim
 
@@ -23,7 +28,8 @@ set rtp+=$GOROOT/misc/vim
 Bundle 'Textile-for-VIM'
 
 " Markdown
-au! BufRead,BufNewFile *.md set filetype=markdown
+au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set ft=markdown
+let tlist_markdown_settings = 'markdown;c:content;f:figures;t:tables;h:headlines'
 
 " JSON
 Bundle 'JSON.vim'
