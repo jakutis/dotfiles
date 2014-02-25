@@ -1,0 +1,10 @@
+--langdef=markdown
+--langmap=markdown:.md
+--langmap=markdown:.markdown
+--regex-markdown=/^#[ \t]+(.*)/-\1/h,heading1/
+--regex-markdown=/^##[ \t]+(.*)/-  \1/h,heading2/
+--regex-markdown=/^###[ \t]+(.*)/-    \1/h,heading3/
+--regex-markdown=/^####[ \t]+(.*)/-      \1/h,heading4/
+--regex-markdown=/^#####[ \t]+(.*)/-        \1/h,heading5/
+--regex-markdown=/^######[ \t]+(.*)/-          \1/h,heading6/
+--regex-markdown=/^#######[ \t]+(.*)/-            \1/h,heading7/
