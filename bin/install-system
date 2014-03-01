@@ -217,7 +217,7 @@ then
     cd cgit-$CGITV && make get-git && make prefix=/opt/varia-cgit-$CGITV CGIT_SCRIPT_PATH=/opt/varia-cgit-$CGITV/www CGIT_CONFIG=/home/tahu/Desktop/VARIA/server/cgitrc CACHE_ROOT=/tmp/cgit install || exit 1
     cd .. && rm -rf cgit-$CGITV || exit 1
     ln -nsf /opt/varia-cgit-$CGITV /opt/varia-cgit
-    cd varia-cgit/www && mv cgit.cgi cgit.cgi-bin && cat /home/tahu/Desktop/VARIA/server/cgit.cgi > cgit.cgi && chmod +x cgit.cgi || exit 1
+    cd varia-cgit/www && mv cgit.cgi cgit.cgi-bin && cat "$VARIA/server/cgit.cgi" > cgit.cgi && chmod +x cgit.cgi || exit 1
 fi
 
 if ! [ -e "/opt/varia-php-$PHPV" ]
