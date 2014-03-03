@@ -267,7 +267,7 @@ then
     bash < <(curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer) || exit 1
     source .gvm/scripts/gvm
     gvm install "go${GOV}" || exit 1
-    gvm use "go${GOV}" || exit 1
+    gvm alias create default "go${GO}" || exit 1
 fi
 
 if ! [ -e "opt/r-$RV" ]
