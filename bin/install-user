@@ -49,7 +49,7 @@ VIMV="v7-4-179"
 COLOROUTV="1.0-1"
 TMUXV="1.9a"
 LIBEVENTV="2.0.21"
-ELINKSV="a229adb"
+ELINKSV="3379fc9"
 IMAGEMAGICKV="6.8.8-2"
 CMUSV="master"
 
@@ -380,12 +380,11 @@ fi
 
 if ! [ -e "opt/elinks-$ELINKSV" ]
 then
-    git clone git://repo.or.cz/elinks.git && cd elinks && git co $ELINKSV || exit 1
+    cd "repos/git/elinks" && git co "$ELINKSV" || exit 1
     ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/js-1.8.5/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/js-1.8.5/lib/pkgconfig" ./configure --prefix="$HOME/opt/elinks-$ELINKSV" --enable-sm-scripting --without-lua --without-ruby --without-perl --without-python && make && make install || exit 1
-    cd .. && rm -rf elinks || exit 1
-    cd opt && ln -nsf "elinks-$ELINKSV" elinks || exit 1
-    cd ../.bin && ln -nsf "../opt/elinks/bin/elinks" || exit 1
-    cd ..
+    cd ../../.. || exit 1
+    cd opt && ln -nsf "elinks-$ELINKSV" elinks && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/elinks/bin/elinks" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
