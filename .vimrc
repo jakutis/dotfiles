@@ -1,6 +1,6 @@
 " Vundle
-filetype off
 set nocompatible
+filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
@@ -14,7 +14,7 @@ nnoremap ; :
 nnoremap : ;
 
 " EditorConfig
-Bundle 'editorconfig-vim'
+Bundle 'editorconfig/editorconfig-vim'
 
 " taglist
 Bundle 'taglist.vim'
@@ -25,14 +25,14 @@ nnoremap <F3> <Esc>:TlistToggle<CR>
 set rtp+=$GOROOT/misc/vim
 
 " Textile
-Bundle 'Textile-for-VIM'
+Bundle 'timcharper/textile.vim'
 
 " Markdown
 au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set ft=markdown
 let tlist_markdown_settings = 'markdown;c:content;f:figures;t:tables;h:headlines'
 
 " JSON
-Bundle 'JSON.vim'
+Bundle 'elzr/vim-json'
 au! BufRead,BufNewFile *.json set filetype=json
 
 " LaTeX
@@ -48,7 +48,7 @@ let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_CompileRule_pdf = 'xelatex -shell-escape --interaction=nonstopmode $*'
 
 " syntax checking
-Bundle 'Syntastic'
+Bundle 'scrooloose/syntastic'
 filetype plugin indent on
 let g:syntastic_tex_chktex_args = "--inputfiles --nowarn 8"
 let g:syntastic_check_on_open = 1
