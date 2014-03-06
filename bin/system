@@ -85,6 +85,7 @@ case "$CMD" in
         nohup $CFG 1>$HOME/.varia/net.log 2>&1 &
         ;;
     "powersave")
+        $HOME/Desktop/VARIA/networks/vanilla.sh
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
