@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PHPV="5.4.25"
+PHPV="5.4.26"
 APCV="3.1.13"
 CGITV="0.10.1"
 NGINXV="1.4.6"
