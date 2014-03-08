@@ -48,7 +48,7 @@ RV="${RMV}.0.3"
 GOV="1.2.1"
 YOUTUBEDLV="2014.03.04.2"
 VIMV="v7-4-179"
-COLOROUTV="1.0-1"
+COLOROUTV="1.0-2"
 TMUXV="1.9a"
 LIBEVENTV="2.0.21"
 ELINKSV="3379fc9"
@@ -283,9 +283,9 @@ then
     ln -nsf "../opt/r-$RV/bin/R"
     cd ..
     rm -rf "R-${RV}"
-    echo 'install.packages(c("ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save
-    wget "http://www.lepem.ufc.br/jaa/colorout_${COLOROUTV}.tar.gz"
-    echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save
+    echo 'install.packages(c("ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
+    wget "http://www.lepem.ufc.br/jaa/colorout_${COLOROUTV}.tar.gz" || exit 1
+    echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save || exit 1
     rm colorout_${COLOROUTV}.tar.gz
 fi
 
