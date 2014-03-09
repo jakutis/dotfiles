@@ -29,7 +29,7 @@ cd "$TMPDIR"
 
 git clone "$SWFTOOLS" && cd swftools || exit 1
 patch -p1 < "$PREFIX/gfx2gfx_maxdpi_from_72_to_2400.patch" || exit 1
-./configure || exit 1
+LDFLAGS="-L$HOME/opt/pdflib-lite/lib -Wl,--rpath=$HOME/opt/pdflib-lite/lib,--enable-new-dtags -lpdf" CFLAGS="-I$HOME/opt/pdflib-lite/include" CXXFLAGS="-I$HOME/opt/pdflib-lite/include" ./configure || exit 1
 make # somehow this fails, but when trying the second time below - it works
 make || exit 1
 cd lib

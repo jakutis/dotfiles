@@ -37,7 +37,7 @@ then
     exit 1
 fi
 
-TARGET="$(realpath "$TARGET")"
+TARGET="$(readlink --canonicalize "$TARGET")"
 TRIESTOHOOK=3
 echo "Downloading metadata"
 phantomjs "$SCRIPTS/meta.js" "$URL" | (

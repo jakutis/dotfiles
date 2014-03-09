@@ -30,7 +30,7 @@ then
     exit 1
 fi
 
-TARGET="$(realpath "$TARGET")"
+TARGET="$(readlink --canonicalize "$TARGET")"
 cd "$DIR" || exit 1
 
 echo "Downloading"
@@ -38,7 +38,9 @@ wget --header="Cookie: $COOKIE" --header="Referer: $REFERER" --header="User-Agen
 
 echo "Extracting text layer"
 cd "$PREFIX"
-echo -e "import swf_to_pdf\nswf_to_pdf.to_pdf([swf_to_pdf.parse_swf('$DIR/input.swf')], '$DIR/text.pdf')\n" | LD_PRELOAD=/usr/lib/libmp3lame.so:/usr/lib/libfreetype.so:/usr/lib/libjpeg.so:/usr/lib/libzzip.so python2 || exit 1
+LIBS="/usr/lib/x86_64-linux-gnu/libmp3lame.so:/usr/lib/x86_64-linux-gnu/libfreetype.so:/usr/lib/x86_64-linux-gnu/libjpeg.so:/usr/lib/libzzip.so"
+#LIBS="/usr/lib/libmp3lame.so:/usr/lib/libfreetype.so:/usr/lib/libjpeg.so:/usr/lib/libzzip.so"
+echo -e "import swf_to_pdf\nswf_to_pdf.to_pdf([swf_to_pdf.parse_swf('$DIR/input.swf')], '$DIR/text.pdf')\n" | LD_PRELOAD="$LIBS" python2 || exit 1
 cd "$DIR"
 
 echo "Extracting visual layer"
