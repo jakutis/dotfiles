@@ -734,7 +734,7 @@ fi
 if ! [ -e "opt/pdflib-lite-$PDFLIBV" ]
 then
     curl -L "http://www.pdflib.com/binaries/PDFlib/${PDFLIBVV}/PDFlib-Lite-${PDFLIBV}.tar.gz" | tar zxf - || exit 1
-    cd "PDFlib-Lite-${PDFLIBV}" && ./configure --prefix="$HOME/opt/pdflib-lite-${PDFLIBV}" && make && make install && cd .. || exit 1
+    cd "PDFlib-Lite-${PDFLIBV}" && ./configure --prefix="$HOME/opt/pdflib-lite-${PDFLIBV}" && make && make install && cd .. && rm -rf "PDFlib-Lite-${PDFLIBV}" || exit 1
     cd "opt" && ln -nsf "pdflib-lite-${PDFLIBV}" "pdflib-lite" && cd .. || exit 1
     cd ".bin" && (for BIN in $(ls "../opt/pdflib-lite/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
