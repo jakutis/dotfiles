@@ -21,7 +21,8 @@ export LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;
 export GPG_TTY="$(tty)"
 
 function settitle() {
-        echo -ne "\e]2;$@\a\e]1;$@\a";
+    echo -ne "\e]2;$@\a\e]1;$@\a"
+    echo -ne "\033k$@\033\\"
 }
 settitle "$HOSTNAME"
 export MARKPATH=$HOME/.marks

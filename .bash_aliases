@@ -1,3 +1,5 @@
+alias title=settitle
+
 alias ls='ls --color=auto'
 alias less='less -R'
 alias cp='cp -i'
@@ -25,15 +27,6 @@ alias osmo='osmo --config=$HOME/.osmo'
 alias desktop='wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")" 1>/dev/null;bash ssh-wrapper -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip")"'
 
 alias server='bash ssh-wrapper -p 22 tahu@jakut.is'
-
-function settitle() {
-        echo -ne "\e]2;$@\a\e]1;$@\a";
-}
-#function cd() {
-#        command cd "$@";
-#        settitle $(basename $(pwd))
-#}
-#settitle $(basename $(pwd))
 
 alias highlight='highlight --fragment --inline-css'
 alias zz='7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on'
