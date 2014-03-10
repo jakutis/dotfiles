@@ -22,7 +22,10 @@ export GPG_TTY="$(tty)"
 
 function settitle() {
     echo -ne "\e]2;$@\a\e]1;$@\a"
-    echo -ne "\033k$@\033\\"
+    if [ -n "$TMUX" ]
+    then
+        echo -ne "\033k$@\033\\"
+    fi
 }
 settitle "$HOSTNAME"
 export MARKPATH=$HOME/.marks
