@@ -30,6 +30,35 @@ LAST="$HOME/.varia/net-last"
 PREFERRED="$HOME/.varia/net-preferred"
 
 case "$CMD" in
+    "brightness")
+        FILE="$HOME/.brightness"
+        ARG="$2"
+
+        if ! [ -e "$FILE" ]
+        then
+            echo "Symlink $FILE does not exist, please create it, e.g. ln -s /sys/devices/pci0000:00/0000:00:02.0/backlight/acpi_video0/brightness \"$FILE\"" 1>&2
+            exit 1
+        fi
+
+        if [ "$ARG" = "" ]
+        then
+            cat $FILE
+        elif [ "$ARG" = "more" ]
+        then
+            echo $(($(cat "$FILE") + 1)) > $FILE
+        elif [ "$ARG" = "less" ]
+        then
+            echo $(($(cat "$FILE") - 1)) > $FILE
+        elif [ "$ARG" = "max" ]
+        then
+            echo 15 > $FILE
+        elif [ "$ARG" = "min" ]
+        then
+            echo 0 > $FILE
+        else
+            echo $ARG > $FILE
+        fi
+        ;;
     "net")
         CFG="$2"
         #ALL="$(ls $HOME/Desktop/VARIA/networks/cfg-*.sh)"
