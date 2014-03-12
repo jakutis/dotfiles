@@ -25,7 +25,7 @@ do
                 hg pull 1>/dev/null || exit 1
                 hg update 1>/dev/null || exit 1
                 hg tags | diff -ru "$CFG/$TYPE/$REPO" -
-                if [ "$(hg tags|head -n 1)" != "tip" ]
+                if [ "$(hg tags|head -n 1|cut -d ' ' -f 1)" != "tip" ]
                 then
                     echo "Error: expected "tip" to be the first tag" 1>&2
                     exit 1
