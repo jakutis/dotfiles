@@ -43,6 +43,12 @@ case "$CMD" in
         if [ "$ARG" = "" ]
         then
             cat $FILE
+        elif [ "$ARG" = "save" ]
+        then
+            cat "$FILE" > "$HOME/.varia/lastbrightness"
+        elif [ "$ARG" = "saved" ]
+        then
+            cat "$HOME/.varia/lastbrightness" > "$FILE"
         elif [ "$ARG" = "more" ]
         then
             echo $(($(cat "$FILE") + 1)) > $FILE
