@@ -124,13 +124,13 @@ case "$CMD" in
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
-        rm "$LAST"
+        rm -f "$LAST"
         ;;
     "reboot" | "restart")
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
-        rm "$LAST"
+        rm -f "$LAST"
         if which systemctl >/dev/null
         then
             systemctl reboot
@@ -142,7 +142,7 @@ case "$CMD" in
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
-        rm "$LAST"
+        rm -f "$LAST"
         if which systemctl >/dev/null
         then
             systemctl poweroff
@@ -155,7 +155,7 @@ case "$CMD" in
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
-        rm "$LAST"
+        rm -f "$LAST"
         if which systemctl >/dev/null
         then
             systemctl suspend
@@ -170,7 +170,7 @@ case "$CMD" in
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
-        rm "$LAST"
+        rm -f "$LAST"
         if which systemctl >/dev/null
         then
             systemctl hibernate
