@@ -29,9 +29,11 @@ elif [ "$TYPE" = "pulse" ]
 then
     if [ "$COMMAND" = "decrease" ]
     then
+        pactl set-sink-mute 0 -- 0
         pactl set-sink-volume 0 -- -10%
     elif [ "$COMMAND" = "increase" ]
     then
+        pactl set-sink-mute 0 -- 0
         pactl set-sink-volume 0 -- +10%
     else
         echo "Error: unknown command $COMMAND"
