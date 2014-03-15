@@ -151,7 +151,7 @@ case "$CMD" in
         fi
         ;;
     "suspend")
-        switch-display LVDS1
+        $HOME/bin/switch-display LVDS1
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
@@ -166,7 +166,7 @@ case "$CMD" in
         $HOME/bin/update-xinput
         ;;
     "hibernate")
-        switch-display LVDS1
+        $HOME/bin/switch-display LVDS1
         $HOME/Desktop/VARIA/laptop/rc.local.stop
         $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
         $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
