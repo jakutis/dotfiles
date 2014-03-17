@@ -741,12 +741,13 @@ fi
 
 if [ "$ENABLE_QTKEYCHAIN" = "yes" -a ! -e "opt/qtkeychain-$QTKEYCHAINV" ]
 then
-    cd "repos/git/qtkeychain" && git co "$QTKEYCHAINV" || exit 1
+    cd "repos/git/qtkeychain" && git clean -fxd . && git reset --hard && git co "$QTKEYCHAINV" || exit 1
     DIR="$(mktemp --directory)"
     cd "$DIR" || exit 1
     echo "Build directory: $(pwd)"
     cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/qtkeychain-$QTKEYCHAINV" -DQT_TRANSLATIONS_DIR:PATH="$HOME/opt/qtkeychain-$QTKEYCHAINV/share/qt/translations" "$HOME/repos/git/qtkeychain" && make all install || exit 1
     cd "$HOME" && rm -rf "$DIR"
+    cd "$HOME/opt/qtkeychain-$QTKEYCHAINV/include" && ln -nsf "qt5keychain" "qtkeychain" && cd "$HOME" || exit 1
 fi
 
 if [ "$ENABLE_MIRALL" = "yes" -a ! -e "opt/mirall-$MIRALLV" ]
