@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
+
 source "$HOME/.profile"
 xhost localhost
 xrdb -merge "$HOME/.Xresources"
 update-xinput
-xbindkeys
 noblank
-xflux -l 54.9279 -g 23.8774 -k 2000
-xrandr --output VGA1 --auto
+xrandr --output LVDS1 --off --output VGA1 --auto
 #xclock
 #$xdotool mousemove 9999 9999
 unclutter -idle 1 -root &
