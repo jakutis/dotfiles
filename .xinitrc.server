@@ -8,5 +8,5 @@ noblank
 xrandr --output LVDS1 --off --output VGA1 --auto
 #xclock
 #$xdotool mousemove 9999 9999
-unclutter -idle 1 -root &
+#unclutter -idle 1 -root &
 awesome
