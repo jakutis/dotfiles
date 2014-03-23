@@ -155,10 +155,13 @@ then
     cd ..
 fi
 
-mkdir --parents .config
-cd .config
-ln -nsf "$DOTFILES/.config/awesome"
-cd ..
+if [ "$(hostname)" = "laptop" ]
+then
+    mkdir --parents .config
+    cd .config
+    ln -nsf "$DOTFILES/.config/awesome"
+    cd ..
+fi
 
 if ! [ -e ".varia/desktop" ]
 then
