@@ -7,7 +7,7 @@ update-xinput
 noblank
 LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
 
-brightness max
+system brightness max
 system net $(zenity --entry --text="system net ?")
 start-pulseaudio-x11
 
