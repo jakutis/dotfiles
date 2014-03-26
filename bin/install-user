@@ -514,7 +514,7 @@ if ! [ -e "$PYENV_ROOT" ]
 then
     git clone git://github.com/yyuu/pyenv.git "$PYENV_ROOT" || exit 1
     pyenv install "$PYTHONV" || exit 1
-    pyenv install "2.7.6" || exit 1
+    CONFIGURE_OPTS="--enable-shared" pyenv install "2.7.6" || exit 1
     pyenv global "2.7.6" || exit 1
     eval "$(pyenv init -)" || exit 1
     for PACKAGE in cython lxml jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
