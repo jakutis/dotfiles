@@ -70,25 +70,6 @@ let g:syntastic_javascript_checkers = ['jshint']
 Bundle 'bling/vim-airline'
 let g:airline_powerline_fonts = 1
 
-" completion
-Bundle 'Valloric/YouCompleteMe'
-let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-let g:ycm_filetype_blacklist = {
-    \ 'tagbar' : 1,
-    \ 'qf' : 1,
-    \ 'notes' : 1,
-    \ 'unite' : 1,
-    \ 'vimwiki' : 1,
-    \}
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd Filetype octave set omnifunc=syntaxcomplete#Complete
-
 " colors
 Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 syntax on
