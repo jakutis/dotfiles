@@ -28,11 +28,19 @@ then
     exit 1
 fi
 
+NOMETA="$3"
+
 echo "#EXTM3U"
 cat "$REFLIST" | grep -v '^#' | while read REF
 do
-    INFO="$(audiotools info "$REFDIR$REF")"
-    LENGTH="$(mplayer -identify -ao null -vo null -frames 0 "$REFDIR$REF" 2>/dev/null | grep ^ID_LENGTH= | cut -d = -f 2 | cut -d . -f 1)"
-    echo "#EXTINF:$LENGTH, $(echo "$INFO" | awk 'NR==1{print;exit}') - $(echo "$INFO" | awk 'NR==2{print;exit}')"
-    echo "$REFDIR$REF"
+    if [ -z "$NOMETA" ]
+    then
+        INFO="$(audiotools info "$REFDIR$REF")"
+        LENGTH="$(mplayer -identify -ao null -vo null -frames 0 "$REFDIR$REF" 2>/dev/null | grep ^ID_LENGTH= | cut -d = -f 2 | cut -d . -f 1)"
+        echo "#EXTINF:$LENGTH, $(echo "$INFO" | awk 'NR==1{print;exit}') - $(echo "$INFO" | awk 'NR==2{print;exit}')"
+        echo "$REFDIR$REF"
+    else
+        echo "#EXTINF:0, $(basename "$REF")"
+        echo "$REFDIR$REF"
+    fi
 done
