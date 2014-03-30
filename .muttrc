@@ -1,3 +1,4 @@
+set include=no
 set send_charset="utf-8"
 macro compose <f2> "C^U/tmp/email.markdown\noa^U/tmp/email.markdown\nukFpandoc -s -f markdown -t html\ny^T^Utext/html; charset=utf-8\n"
 set wait_key=no
