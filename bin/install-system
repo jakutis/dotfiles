@@ -99,7 +99,7 @@ WantedBy=multi-user.target
         rm --recursive "$DIR"
     fi
 
-    for PKG in rar pan ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 ideviceinstaller-git ocrodjvu pdftk-bin fuse-google-drive-git gmp4 teamviewer virtualbox-ext-oracle jbig2enc-git proftpd
+    for PKG in rar pan ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 ideviceinstaller-git ocrodjvu pdftk-bin fuse-google-drive-git teamviewer virtualbox-ext-oracle jbig2enc-git proftpd
     do
         if ! "$PACMAN" --query --list "$PKG" 1>/dev/null 2>&1
         then
