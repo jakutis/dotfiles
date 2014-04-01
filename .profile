@@ -38,7 +38,7 @@ PATH="$HOME/.rvm/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
 
 PATH="$HOME/opt/matlab/bin:$PATH"
-PATH="$HOME/opt/calibre/bin:$PATH"
+PATH="$HOME/opt/calibre:$PATH"
 PATH="$CUDA_HOME/bin:$PATH"
 PATH="$JAVA_HOME/bin:$PATH"
 PATH="$LLVM_ROOT/bin:$PATH"
