@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+SYSDIGV="0.1.72"
 PDFLIBV="7.0.5p3"
 PDFLIBVV="705"
 JQV="219bb9ecb7"
@@ -740,6 +741,16 @@ then
     cd "PDFlib-Lite-${PDFLIBV}" && ./configure --prefix="$HOME/opt/pdflib-lite-${PDFLIBV}" && make && make install && cd .. && rm -rf "PDFlib-Lite-${PDFLIBV}" || exit 1
     cd "opt" && ln -nsf "pdflib-lite-${PDFLIBV}" "pdflib-lite" && cd .. || exit 1
     cd ".bin" && (for BIN in $(ls "../opt/pdflib-lite/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
+fi
+
+if [ "$ENABLE_SYSDIG" = "yes" -a ! -e "opt/sysdig-$SYSDIGV" ]
+then
+    cd "repos/git/sysdig" && git co "$SYSDIGV" && mkdir build && cd build || exit 1
+    cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/sysdig-$SYSDIGV" .. && make && make install || exit 1
+    cd .. && rm -rf build && cd ../../.. || exit 1
+    cd opt && ln -nsf "sysdig-$SYSDIGV" "sysdig" && cd .. || exit 1
+    cd "opt/sysdig/src/sysdig-/" && make && cd ../../../.. || exit 1
+    cd .bin && ln -nsf "../opt/sysdig/bin/sysdig" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_QTKEYCHAIN" = "yes" -a ! -e "opt/qtkeychain-$QTKEYCHAINV" ]
