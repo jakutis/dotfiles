@@ -13,6 +13,7 @@ APTGET="$(which apt-get 2>/dev/null)"
 
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
+REPOS="$(realpath "$3")"
 
 if ! [ -e "$DOTFILES" ]
 then
@@ -22,6 +23,11 @@ fi
 if ! [ -e "$VARIA" ]
 then
     echo "VARIA at "$VARIA" does not exist" 1>&2
+    exit 1
+fi
+if ! [ -e "$REPOS" ]
+then
+    echo "REPOS at "$REPOS" does not exist" 1>&2
     exit 1
 fi
 
