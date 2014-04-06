@@ -225,22 +225,10 @@ fi
 
 if ! [ -e "/opt/varia-php-$PHPV" ]
 then
-    mkdir --parents /opt
-    cd /opt
-    wget http://lt1.php.net/get/php-$PHPV.tar.bz2/from/this/mirror
-    tar xf mirror
-    rm mirror
-    cd php-$PHPV
-    wget http://pecl.php.net/get/APC-$APCV.tgz
-    tar xf APC-$APCV.tgz
-    rm APC-$APCV.tgz
-    mv APC-$APCV ext/apc
-    rm configure
-    ./buildconf --force
-    ./configure --prefix=/opt/varia-php-$PHPV --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install || exit 1
-    cd ..
-    rm -rf "php-$PHPV"
-    ln -nsf "varia-php-$PHPV" varia-php
+    (cd "$REPOS/git/php" && git archive --format=tar --prefix=php-build/ "php-$PHPV") | (cd "/opt" && tar xf -) || exit 1
+    (cd "$REPOS/git/apc" && git archive --format=tar --prefix=apc/ "APC-$APCV") | (cd "/opt/php-build/ext" && tar xf -) || exit 1
+    cd "/opt/php-build" && ./buildconf --force && ./configure --prefix=/opt/varia-php-$PHPV --with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl && make && make install || exit 1
+    cd .. && rm -rf "php-build" && ln -nsf "varia-php-$PHPV" varia-php || exit 1
 fi
 
 if ! [ -e "/opt/varia-haproxy-$HAPROXYV" ]
