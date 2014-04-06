@@ -44,7 +44,10 @@ then
                 transmissioncli --info "$FILE"
             fi
             ;;
-        "application/pdf" | "image/vnd.djvu" | "application/epub+zip" | "application/postscript")
+        "application/epub+zip")
+            ebook-viewer "$FILE"
+            ;;
+        "application/pdf" | "image/vnd.djvu" | "application/postscript")
             okular "$FILE"
             ;;
         "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/zip" )
