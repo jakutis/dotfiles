@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PHPV="5.4.27"
-APCV="3.1.13"
+APCV="3.1.14"
 CGITV="0.10.1"
 NGINXV="1.4.7"
 HAPROXYV="1.4.25"
