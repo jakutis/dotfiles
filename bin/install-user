@@ -749,7 +749,7 @@ then
     cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/sysdig-$SYSDIGV" .. && make && make install || exit 1
     cd .. && rm -rf build && cd ../../.. || exit 1
     cd opt && ln -nsf "sysdig-$SYSDIGV" "sysdig" && cd .. || exit 1
-    cd "opt/sysdig/src/sysdig-/" && make && cd ../../../.. || exit 1
+    cd "opt/sysdig/src/sysdig-0.1.1-dev/" && make && cd ../../../.. || exit 1
     cd .bin && ln -nsf "../opt/sysdig/bin/sysdig" && cd .. || exit 1
 fi
 
