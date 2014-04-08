@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SYSDIGV="0.1.72"
+SYSDIGV="0.1.77"
 PDFLIBV="7.0.5p3"
 PDFLIBVV="705"
 JQV="219bb9ecb7"
