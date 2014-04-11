@@ -568,7 +568,7 @@ fi
 if ! [ -e "opt/json-c-$JSONCV" ]
 then
     (cd "repos/git/json-c" && git archive --format=tar --prefix=json-c-build/ "json-c-$JSONCV") | tar xf - || exit 1
-    cd json-c-build && ./configure --prefix="$HOME/opt/json-c-$JSONCV" && make && make install && cd .. && rm -rf json-c-build || exit 1
+    cd json-c-build && CFLAGS="-Wno-error=unused-but-set-variable" ./configure --prefix="$HOME/opt/json-c-$JSONCV" && make && make install && cd .. && rm -rf json-c-build || exit 1
 fi
 
 if ! [ -e "opt/jq-$JQV" ]
