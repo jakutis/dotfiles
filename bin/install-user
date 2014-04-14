@@ -540,7 +540,7 @@ then
     sh bootstrap.sh && cabal update || exit 1
     cabal install happy || exit 1
     cabal install cpphs || exit 1
-    for PACKAGE in c2hs git-annex hoogle cabal-dev
+    for PACKAGE in alex c2hs git-annex hoogle cabal-dev
     do
         cabal install $PACKAGE || exit 1
     done
