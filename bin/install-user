@@ -35,7 +35,7 @@ PYTHONV="3.4.0"
 QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 GHCV="7.6.3"
-CABALINSTALLV="1.18.0.3"
+CABALINSTALLV="1.20.0.0"
 NEWSBEUTERV="2.8"
 MOSHV="1.2.4"
 NODEV="0.10.26"
@@ -538,9 +538,7 @@ then
     curl -L "http://hackage.haskell.org/packages/archive/cabal-install/$CABALINSTALLV/cabal-install-${CABALINSTALLV}.tar.gz" | tar zxf - || exit 1
     cd "cabal-install-${CABALINSTALLV}"
     sh bootstrap.sh && cabal update || exit 1
-    cabal install happy || exit 1
-    cabal install cpphs || exit 1
-    for PACKAGE in alex c2hs git-annex hoogle cabal-dev
+    for PACKAGE in happy cpphs alex c2hs git-annex hoogle cabal-dev
     do
         cabal install $PACKAGE || exit 1
     done
