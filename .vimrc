@@ -46,6 +46,8 @@ set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_CompileRule_pdf = 'xelatex -shell-escape --interaction=nonstopmode $*'
+" make verbatim environments appear as comments
+autocmd VimEnter * syn region  texComment     start="\\begin{\w\+code}" end="\\end{\w\+code}" contains=@texCommentGroup
 
 " syntax checking
 Bundle 'scrooloose/syntastic'
