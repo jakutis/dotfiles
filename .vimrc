@@ -181,7 +181,7 @@ noremap! <F12> <Esc>:tabn<CR>
 nnoremap <F12> <Esc>:tabn<CR>
 
 " mouse
-set mouse=a
+set mouse=
 
 " searching
 set ignorecase
