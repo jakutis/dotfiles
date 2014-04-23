@@ -1,0 +1,6 @@
+[Desktop Entry]
+Exec=ebook-viewer
+MimeType=application/x-mobipocket-ebook;
+Name=ebook-viewer
+NoDisplay=true
+Type=Application
