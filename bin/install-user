@@ -88,9 +88,9 @@ mkdir --parents ".varia"
 
 mkdir --parents ".local/share/applications"
 cd ".local/share/applications"
-for APP in www qpdfview
+for APP in $(ls "$DOTFILES/applications")
 do
-    ln -nsf "$DOTFILES/applications/$APP.desktop"
+    ln -nsf "$DOTFILES/applications/$APP"
 done
 ln -nsf "$DOTFILES/mimeapps.list"
 ln -nsf "mimeapps.list" "defaults.list"
