@@ -561,7 +561,7 @@ then
     CONFIGURE_OPTS="--enable-shared" pyenv install "2.7.6" || exit 1
     pyenv global "2.7.6" || exit 1
     eval "$(pyenv init -)" || exit 1
-    for PACKAGE in cython lxml jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
+    for PACKAGE in cython lxml six jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
     do
         PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
     done
