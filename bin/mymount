@@ -28,7 +28,7 @@ then
         sshfs -o reconnect tahu@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "ipad" ]
     then
-        ifuse --appid "$SUBMOUNT" "$DIR"
+        ifuse --documents "$SUBMOUNT" "$DIR"
     elif [ "$MOUNT" = "floppy" ]
     then
         MOUNT="$(ls --sort=time /dev/sd?|head -n 1)"
