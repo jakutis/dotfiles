@@ -785,9 +785,8 @@ fi
 
 if [ "$ENABLE_SYSDIG" = "yes" -a ! -e "opt/sysdig-$SYSDIGV" ]
 then
-    cd "repos/git/sysdig" && git co "$SYSDIGV" && mkdir build && cd build || exit 1
-    cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/sysdig-$SYSDIGV" .. && make && make install || exit 1
-    cd .. && rm -rf build && cd ../../.. || exit 1
+    (cd "repos/git/sysdig" && git archive --format=tar --prefix=sysdig-build/ "$SYSDIGV") | tar xf - || exit 1
+    cd sysdig-build && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/sysdig-$SYSDIGV" .. && make && make install && cd ../.. && rm -rf sysdig-build || exit 1
     cd opt && ln -nsf "sysdig-$SYSDIGV" "sysdig" && cd .. || exit 1
     cd "opt/sysdig/src/sysdig-0.1.1-dev/" && make && cd ../../../.. || exit 1
     cd .bin && ln -nsf "../opt/sysdig/bin/sysdig" && cd .. || exit 1
