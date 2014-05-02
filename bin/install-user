@@ -45,7 +45,8 @@ QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 GHCV="7.6.3"
 CABALINSTALLV="1.20.0.0"
-NEWSBEUTERV="2.8"
+NEWSBEUTERV="5541697"
+NEWSBEUTERCOMMIT="5541697"
 MOSHV="1.2.4"
 NODEV="0.10.27"
 ERLANGV="17.0.1"
@@ -622,12 +623,8 @@ fi
 
 if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
 then
-    pushd .
-    cd "repos/git/newsbeuter" || exit 1
-    git co "r$NEWSBEUTERV" && git clean -fxd && git reset --hard || exit 1
-    LDFLAGS="-Wl,--rpath=$HOME/opt/json-c-$JSONCV/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/json-c-$JSONCV/lib/pkgconfig" ./config.sh || exit 1
-    make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" install || exit 1
-    popd
+    (cd "repos/git/newsbeuter" && git archive --format=tar --prefix=newsbeuter-build/ "$NEWSBEUTERCOMMIT") | tar xf - || exit 1
+    cd newsbeuter-build && LDFLAGS="-Wl,--rpath=$HOME/opt/json-c-$JSONCV/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/json-c-$JSONCV/lib/pkgconfig" ./config.sh && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" install && cd .. && rm -rf newsbeuter-build || exit 1
 
     cd "opt"
     ln -nsf "newsbeuter-$NEWSBEUTERV" "newsbeuter"
