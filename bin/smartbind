@@ -32,6 +32,7 @@ def my_bymtime(rootdirname):
 
 class Sorted(Operations):
     def __init__(self, root):
+        print("Hi. I'm gonna initialize now.")
         self.root = os.path.realpath(root)
         self.lists = {'mtime':my_bymtime(self.root)}
         self.maps = {'mtime':{}}
@@ -59,6 +60,7 @@ class Sorted(Operations):
                 'st_uid': os.getuid()
             }
         }
+        print("All done. Ready to serve.")
 
     # Helpers
     # =======
