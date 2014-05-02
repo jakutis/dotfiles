@@ -817,6 +817,11 @@ then
     cd .bin && echo "LD_LIBRARY_PATH=\"\$HOME/opt/mirall-$MIRALLV/lib:\$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu\" \"\$HOME/opt/mirall-$MIRALLV/bin/owncloudcmd\"" > owncloudcmd && chmod +x owncloudcmd && cd ..
 fi
 
+if ! [ -e "texmf/tex/latex/polyglossia" ]
+then
+    mkdir -p "texmf" && cd "texmf" && curl -L http://mirrors.ctan.org/install/macros/latex/contrib/polyglossia.tds.zip | nodezip -x /dev/stdin && cd .. || exit 1
+fi
+
 function mkinstance {
     mkdir --parents ".varia/instances/$1"
     for TAG in 1V 2M 3NRMS 4H
