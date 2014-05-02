@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
-git remote | while read REMOTE
-do
-    echo "----- $REMOTE ------"
+REMOTE="$1"
+
+if [ -z "$REMOTE" ]
+then
+    git remote | while read REMOTE
+    do
+        echo "----- $REMOTE ------"
+        git push --all "$REMOTE" && git push --tags "$REMOTE" || echo "Failed."
+    done
+else
     git push --all "$REMOTE" && git push --tags "$REMOTE" || echo "Failed."
-done
+fi
