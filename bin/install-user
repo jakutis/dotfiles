@@ -537,7 +537,7 @@ fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
-    curl -L "https://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - && cd ghc-7.6.3 && ./configure --prefix="$(pwd)/ghc-7.6.3-temp" && make install || exit 1
+    curl -L "https://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - && cd ghc-7.6.3 && ./configure --prefix="$(pwd)/ghc-7.6.3-temp" && make install && cd .. || exit 1
     export PATH="$(pwd)/ghc-7.6.3-temp/bin:$PATH"
     echo "Installed temporary ghc-7.6.3"
 
