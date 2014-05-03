@@ -540,9 +540,15 @@ then
     curl -L "https://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - && cd ghc-7.6.3 && ./configure --prefix="$(pwd)/ghc-7.6.3-temp" && make install || exit 1
     export PATH="$(pwd)/ghc-7.6.3-temp/bin:$PATH"
     echo "Installed temporary ghc-7.6.3"
-    GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
-    rm -rf .cabal .ghc && cabal update && cabal install happy && cabal install alex || exit 1
+
+    (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
+    rm -rf .cabal .ghc && cabal update && cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
+    echo "Installed temporary cabal-install"
+
+    cabal install happy && cabal install alex || exit 1
     echo "Installed temporary happy and alex"
+
+    GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
     git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && perl boot && ./configure --prefix="$HOME/opt/ghc-$GHCV" && make -j3 && make install && cd .. && rm -rf ghc-build cabal .ghc && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
     rm -rf "ghc-7.6.3-temp"
 fi
