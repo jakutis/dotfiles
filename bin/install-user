@@ -542,7 +542,7 @@ then
     echo "Installed temporary ghc-7.6.3"
 
     (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
-    rm -rf .cabal .ghc && cabal update && cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
+    rm -rf .cabal .ghc && cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
     echo "Installed temporary cabal-install"
 
     cabal install happy && cabal install alex || exit 1
