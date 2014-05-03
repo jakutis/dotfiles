@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+GHCV="7.8.2"
 PLISTV="1.12"
 PLISTCOMMIT="df053ccdbb1cec856aa3a99c836ec6111d727a78"
 USBMUXDV="1.0.9"
@@ -43,7 +44,6 @@ NZBGETV="11.0"
 PYTHONV="3.4.0"
 QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
-GHCV="7.6.3"
 CABALINSTALLV="1.20.0.1"
 NEWSBEUTERV="5541697"
 NEWSBEUTERCOMMIT="5541697"
@@ -537,23 +537,19 @@ fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
-    curl -L "http://www.haskell.org/ghc/dist/$GHCV/ghc-$GHCV-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - || exit 1
-    cd ghc-$GHCV
-    ./configure --prefix="$HOME/opt/ghc-$GHCV" && make install || exit 1
-    cd ../opt
-    ln -nsf ghc-$GHCV ghc
-    cd ..
-    rm -rf ghc-$GHCV
-    rm -rf .cabal .ghc
-    curl -L "http://hackage.haskell.org/packages/archive/cabal-install/$CABALINSTALLV/cabal-install-${CABALINSTALLV}.tar.gz" | tar zxf - || exit 1
-    cd "cabal-install-${CABALINSTALLV}"
-    sh bootstrap.sh && cabal update || exit 1
+    GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
+    rm -rf .cabal .ghc && cabal update && cabal install happy && cabal install alex || exit 1
+    git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && perl boot && ./configure --prefix="$HOME/opt/ghc-$GHCV" && make -j3 && make install && cd .. && rm -rf ghc-build cabal .ghc && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
+fi
+
+if ! [ -e ".cabal" ]
+then
+    (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
+    cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
     for PACKAGE in happy cpphs alex c2hs git-annex hoogle cabal-dev
     do
         cabal install $PACKAGE || exit 1
     done
-    cd ..
-    rm -rf "cabal-install-${CABALINSTALLV}"
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
