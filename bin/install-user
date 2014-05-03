@@ -546,7 +546,7 @@ if ! [ -e ".cabal" ]
 then
     (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
     cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
-    for PACKAGE in happy cpphs alex c2hs git-annex hoogle cabal-dev
+    for PACKAGE in happy cpphs alex c2hs hoogle git-annex
     do
         cabal install $PACKAGE || exit 1
     done
