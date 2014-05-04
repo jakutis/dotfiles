@@ -591,6 +591,7 @@ LkMuVHlwZXMgKENJbnQoLi4pLCBDU2l6ZSguLikpCg==
     do
         cabal install $PACKAGE || exit 1
     done
+    cd .cabal/bin && ln -nsf git-annex git-annex-shell && cd ../.. || exit 1
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
