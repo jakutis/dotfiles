@@ -27,6 +27,7 @@ export CUDA_HOME="$HOME/opt/cuda"
 export BROWSER="firefox"
 export TEXINPUTS="$TEXINPUTS:$HOME/opt/r/lib/R/share/texmf/tex/latex"
 export PYENV_ROOT="$HOME/.pyenv"
+export GVM_ROOT="$HOME/.gvm"
 export PERLBREW_ROOT="$HOME/.perl5"
 export LOQODIR="$HOME/.bin"
 export _JAVA_AWT_WM_NONREPARENTING="1"
@@ -52,7 +53,7 @@ export EDITOR="$(which vim)"
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use default 1>/dev/null
 [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
 [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use default
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm" && gvm use default 1>/dev/null
+[[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use default 1>/dev/null
 
 if [ -n "$BASH_VERSION" ]; then
     source "$HOME/.bashrc"
