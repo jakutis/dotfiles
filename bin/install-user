@@ -540,13 +540,6 @@ fi
 if ! [ -e "$PYENV_ROOT" ]
 then
     git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
-else
-    cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
-fi
-
-if ! [ -e "$PYENV_ROOT/versions/$PYTHONV" ]
-then
-    pyenv install "$PYTHONV" || exit 1
     CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONMAINV" || exit 1
     pyenv global "$PYTHONMAINV" || exit 1
     eval "$(pyenv init -)" || exit 1
@@ -555,6 +548,13 @@ then
         PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
     done
     git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
+else
+    cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
+fi
+
+if ! [ -e "$PYENV_ROOT/versions/$PYTHONV" ]
+then
+    pyenv install "$PYTHONV" || exit 1
 fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
