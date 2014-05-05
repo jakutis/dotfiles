@@ -287,20 +287,21 @@ then
     rvm docs generate-ri
 fi
 
-if ! [ -e ".gvm" ]
+if ! [ -e "$GVM_ROOT" ]
 then
-    git clone https://github.com/moovweb/gvm .gvm && cd .gvm && mkdir logs && cd scripts && ln -nsf gvm-default gvm && cd ../.. && source .gvm/scripts/gvm || exit 1
+    git clone https://github.com/moovweb/gvm "$GVM_ROOT" && mkdir "$GVM_ROOT/logs" && source "$GVM_ROOT/scripts/gvm-default" || exit 1
 else
-    cd .gvm
+    pushd .
+    cd "$GVM_ROOT"
     if ! [ -e ".git" ]
     then
         mv git.bak .git
     fi
     git pull --rebase || exit 1
-    cd ..
+    popd
 fi
 
-if ! [ -e ".gvm/gos/go${GOV}" ]
+if ! [ -e "$GVM_ROOT/gos/go${GOV}" ]
 then
     gvm install "go${GOV}" || exit 1
     gvm alias create default "go${GO}" || exit 1
