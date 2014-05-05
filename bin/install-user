@@ -289,7 +289,7 @@ fi
 
 if ! [ -e ".gvm" ]
 then
-    git clone https://github.com/moovweb/gvm .gvm && mkdir .gvm/logs && source .gvm/scripts/gvm || exit 1
+    git clone https://github.com/moovweb/gvm .gvm && cd .gvm && mkdir logs && cd scripts && ln -nsf gvm-default gvm && cd ../.. && source .gvm/scripts/gvm || exit 1
 else
     cd .gvm && git pull --rebase && cd .. || exit 1
 fi
