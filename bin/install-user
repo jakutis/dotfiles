@@ -522,7 +522,16 @@ if ! [ -e "$PERLBREW_ROOT" ]
 then
     curl -kL http://install.perlbrew.pl | bash && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
 else
-    perlbrew self-upgrade || exit 1
+    TWGET="$(mktemp --directory)"
+    tee "$TWGET/wget" <<EOT
+#!/usr/bin/env bash
+
+if [ "\$1" = "--quiet" ]
+then
+    curl -L "\$4"
+fi
+EOT
+    chmod +x "$TWGET/wget" && PATH="$TWGET:$PATH" perlbrew self-upgrade && rm -rf "$TWGET" || exit 1
 fi
 
 if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
