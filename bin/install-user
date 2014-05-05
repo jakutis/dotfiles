@@ -50,7 +50,7 @@ NEWSBEUTERV="5541697"
 NEWSBEUTERCOMMIT="5541697"
 MOSHV="1.2.4"
 NODEV="0.10.28"
-ERLANGV="17.0.1"
+ERLANGV="17.0"
 RTORRENTV="0.9.3"
 LIBTORRENTV="0.13.3"
 PODCATCHERV="3.1.6"
@@ -133,7 +133,7 @@ cd ".elinks"
 ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
 
-for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages
 do
     ln -nsf "$DOTFILES/$RC"
 done
@@ -226,24 +226,23 @@ then
     cd ..
 fi
 
-if ! [ -e ".bin/kerl" ]
+curl -L https://raw.github.com/spawngrid/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
+
+if ! [ -e "opt/erlang-$ERLANGV" ]
 then
-    curl -O https://raw.github.com/spawngrid/kerl/master/kerl
-    chmod +x kerl
-    mv kerl .bin
-    kerl update releases
-    kerl build "$ERLANGV" "$ERLANGV"
-    kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV"
-    cd opt
-    ln -nsf "erlang-$ERLANGV" "erlang"
-    cd ..
+    kerl build "$ERLANGV" "$ERLANGV" && kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV" || exit 1
+    cd opt && ln -nsf "erlang-$ERLANGV" "erlang" && cd .. || exit 1
 fi
 
 if ! [ -e ".nvm" ]
 then
-    git clone https://github.com/creationix/nvm .nvm
-    source .nvm/nvm.sh
-    ln -nsf "$DOTFILES/.nodepackages"
+    git clone https://github.com/creationix/nvm .nvm && source .nvm/nvm.sh || exit 1
+else
+    cd .nvm && git pull --rebase && cd .. || exit 1
+fi
+
+if ! [ -e ".nvm/v$NODEV" ]
+then
     "$DOTFILES/bin/nodeup" "$NODEV"
 fi
 
@@ -277,14 +276,26 @@ if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --autolibs=read-fail || exit 1
     source .rvm/scripts/rvm
+else
+    rvm get head || exit 1
+fi
+
+if ! [ -e ".rvm/rubies/ruby-$RUBYV" ]
+then
+    rvm install "$RUBYV" && rvm use --default "$RUBYV" && rvm default || exit 1
     LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass || exit 1
     rvm docs generate-ri
 fi
 
 if ! [ -e ".gvm" ]
 then
-    bash < <(curl -s https://raw.github.com/moovweb/gvm/master/binscripts/gvm-installer) || exit 1
-    source .gvm/scripts/gvm
+    git clone https://github.com/moovweb/gvm .gvm && mkdir .gvm/logs && source .gvm/scripts/gvm || exit 1
+else
+    cd .gvm && git pull --rebase && cd .. || exit 1
+fi
+
+if ! [ -e ".gvm/gos/go${GOV}" ]
+then
     gvm install "go${GOV}" || exit 1
     gvm alias create default "go${GO}" || exit 1
 fi
@@ -501,11 +512,15 @@ then
     cd "opt" && ln -nsf "fuse-$FUSEV" "fuse" && cd ".."
 fi
 
-if ! [ -e ".perl5" ]
+if ! [ -e "$PERLBREW_ROOT" ]
 then
-    export PERLBREW_ROOT="$HOME/.perl5"
-    curl -kL http://install.perlbrew.pl | bash || exit 1
-    source "$PERLBREW_ROOT/etc/bashrc"
+    curl -kL http://install.perlbrew.pl | bash && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
+else
+    perlbrew self-upgrade || exit 1
+fi
+
+if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
+then
     perlbrew install "perl-$PERLV" || exit 1
     perlbrew switch "perl-$PERLV" || exit 1
     perlbrew alias create "perl-$PERLV" default || exit 1
@@ -525,6 +540,12 @@ fi
 if ! [ -e "$PYENV_ROOT" ]
 then
     git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
+else
+    cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
+fi
+
+if ! [ -e "$PYENV_ROOT/versions/$PYTHONV" ]
+then
     pyenv install "$PYTHONV" || exit 1
     CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONMAINV" || exit 1
     pyenv global "$PYTHONMAINV" || exit 1
@@ -533,7 +554,6 @@ then
     do
         PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
     done
-    pip install https://launchpad.net/python-apt/main/0.7.8/+download/python-apt-0.8.5.tar.gz
     git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
 fi
 
