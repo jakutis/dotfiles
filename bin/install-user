@@ -291,7 +291,7 @@ if ! [ -e ".gvm" ]
 then
     git clone https://github.com/moovweb/gvm .gvm && cd .gvm && mkdir logs && cd scripts && ln -nsf gvm-default gvm && cd ../.. && source .gvm/scripts/gvm || exit 1
 else
-    cd .gvm && git pull --rebase && cd .. || exit 1
+    cd .gvm && mv git.bak .git && git pull --rebase && cd .. || exit 1
 fi
 
 if ! [ -e ".gvm/gos/go${GOV}" ]
