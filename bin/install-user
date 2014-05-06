@@ -304,6 +304,7 @@ fi
 if ! [ -e "$GVM_ROOT/gos/go${GOV}" ]
 then
     gvm install "go${GOV}" || exit 1
+    gvm alias delete default
     gvm alias create default "go${GO}" || exit 1
 fi
 
