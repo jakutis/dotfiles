@@ -43,7 +43,7 @@ session = ./.rtorrent.session
 #bind = rakshasa.no
 
 # Port range to use for listening.
-port_range = 6882-6999
+port_range = 58421-58430
 
 # Start opening ports at a random position within the port range.
 port_random = yes
