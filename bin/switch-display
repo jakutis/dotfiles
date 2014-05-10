@@ -11,30 +11,31 @@ then
     exit 1
 fi
 
-while true
-do
-    if [ -n "$NEXT_DISPLAY" ]
-    then
-        break
-    fi
+if [ -z "$CURRENT_DISPLAY" ]
+then
+    CURRENT_DISPLAY="${CONNECTED_DISPLAYS%% *}"
+fi
+
+if [ -z "$NEXT_DISPLAY" ]
+then
+    FOUND_CURRENT="false"
     for D in $CONNECTED_DISPLAYS
     do
         if [ "$FOUND_CURRENT" = "true" ]
         then
             NEXT_DISPLAY="$D"
             break
-        fi
-
-        if [ -z "$CURRENT_DISPLAY" ]
-        then
-            CURRENT_DISPLAY="$D"
-            FOUND_CURRENT="true"
         elif [ "$CURRENT_DISPLAY" = "$D" ]
         then
             FOUND_CURRENT="true"
         fi
     done
-done
+fi
+
+if [ -z "$NEXT_DISPLAY" ]
+then
+    NEXT_DISPLAY="${CONNECTED_DISPLAYS%% *}"
+fi
 
 echo "Connected displays: $CONNECTED_DISPLAYS"
 echo "Current display: $CURRENT_DISPLAY"
