@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 GHCV="7.8.2"
-BIBLATEXISO960V="6e9f182cec30ccfb52479aac6a895680fecb334b"
+BIBLATEXISO690V="6e9f182cec30ccfb52479aac6a895680fecb334b"
 PLISTV="1.12"
 PLISTCOMMIT="df053ccdbb1cec856aa3a99c836ec6111d727a78"
 USBMUXDV="1.0.9"
@@ -903,9 +903,9 @@ then
     cd .bin && echo "LD_LIBRARY_PATH=\"\$HOME/opt/mirall-$MIRALLV/lib:\$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu\" \"\$HOME/opt/mirall-$MIRALLV/bin/owncloudcmd\"" > owncloudcmd && chmod +x owncloudcmd && cd ..
 fi
 
-if [ ! -e "texmf/tex/latex/biblatex-iso960" -o "$(cat texmf/tex/latex/biblatex-iso960/VERSION)" != "$BIBLATEXISO960V" ]
+if [ ! -e "texmf/tex/latex/biblatex-iso690" -o "$(cat texmf/tex/latex/biblatex-iso690/VERSION)" != "$BIBLATEXISO690V" ]
 then
-    (mkdir -p texmf/tex/latex && cd texmf/tex/latex && rm -rf biblatex-iso960 && curl -L https://github.com/michal-h21/biblatex-iso690/archive/${BIBLATEXISO960V}.tar.gz | tar zxf - && mv biblatex-iso960-${BIBLATEXISO960V} biblatex-iso960 && echo ${BIBLATEXISO960V} > biblatex-iso960/VERSION) || exit 1
+    (mkdir -p texmf/tex/latex && cd texmf/tex/latex && rm -rf biblatex-iso690 && curl -L https://github.com/michal-h21/biblatex-iso690/archive/${BIBLATEXISO690V}.tar.gz | tar zxf - && mv biblatex-iso690-${BIBLATEXISO690V} biblatex-iso690 && echo ${BIBLATEXISO690V} > biblatex-iso690/VERSION) || exit 1
 fi
 
 if ! [ -e "texmf/tex/latex/polyglossia" ]
