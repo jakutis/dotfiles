@@ -68,7 +68,8 @@ TMUXV="1.9a"
 LIBEVENTV="2.0.21"
 ELINKSV="3379fc9"
 IMAGEMAGICKV="6.8.8-2"
-CMUSV="master"
+CMUSV="2.5.1"
+CMUSCOMMIT="v$CMUSV"
 
 if [ "$ENABLE_FFMPEG" = "yes" ]
 then
@@ -410,11 +411,10 @@ fi
 
 if ! [ -e "opt/cmus-$CMUSV" ]
 then
-    cd "repos/git/cmus" || exit 1
-    git co "$CMUSV" && CFLAGS="-I$HOME/opt/mp4v2-$MP4V2V/include" LDFLAGS="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lmp4v2 -Wl,--rpath=$HOME/opt/mp4v2-$MP4V2V/lib,--enable-new-dtags -L$HOME/opt/mp4v2-$MP4V2V/lib" PKG_CONFIG_PATH="$HOME/opt/ffmpeg-$FFMPEGV/lib/pkgconfig" ./configure CONFIG_CDDB=n CONFIG_CDIO=n CONFIG_DISCID=n CONFIG_FLAC=y CONFIG_MAD=y CONFIG_MODPLUG=n CONFIG_MIKMOD=n CONFIG_MPC=n CONFIG_VORBIS=y CONFIG_TREMOR=n CONFIG_WAV=y CONFIG_WAVPACK=y CONFIG_MP4=y CONFIG_AAC=y CONFIG_FFMPEG=y CONFIG_CUE=y CONFIG_ROAR=n CONFIG_PULSE=y CONFIG_ALSA=y CONFIG_AO=n CONFIG_ARTS=n CONFIG_OSS=n CONFIG_SUN=n CONFIG_WAVEOUT=n USE_FALLBACK_IP=y CONFIG_AO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install || exit 1
-    cd ../../../opt && ln -nsf "cmus-$CMUSV" "cmus" || exit 1
-    cd ../.bin && ln -nsf "../opt/cmus/bin/cmus" || exit 1
-    cd ..
+    (cd "repos/git/cmus" && git archive --format=tar --prefix=cmus-build/ "$CMUSCOMMIT") | tar xf - || exit 1
+    cd cmus-build && CFLAGS="-I$HOME/opt/mp4v2-$MP4V2V/include" LDFLAGS="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lmp4v2 -Wl,--rpath=$HOME/opt/mp4v2-$MP4V2V/lib,--enable-new-dtags -L$HOME/opt/mp4v2-$MP4V2V/lib" PKG_CONFIG_PATH="$HOME/opt/ffmpeg-$FFMPEGV/lib/pkgconfig" ./configure CONFIG_CDDB=n CONFIG_CDIO=n CONFIG_DISCID=n CONFIG_FLAC=y CONFIG_MAD=y CONFIG_MODPLUG=n CONFIG_MIKMOD=n CONFIG_MPC=n CONFIG_VORBIS=y CONFIG_TREMOR=n CONFIG_WAV=y CONFIG_WAVPACK=y CONFIG_MP4=y CONFIG_AAC=y CONFIG_FFMPEG=y CONFIG_CUE=y CONFIG_ROAR=n CONFIG_PULSE=y CONFIG_ALSA=y CONFIG_AO=n CONFIG_ARTS=n CONFIG_OSS=n CONFIG_SUN=n CONFIG_WAVEOUT=n USE_FALLBACK_IP=y CONFIG_AO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install && cd .. && rm -rf cmus-build || exit 1
+    cd opt && ln -nsf "cmus-$CMUSV" "cmus" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/cmus/bin/cmus" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/elinks-$ELINKSV" ]
