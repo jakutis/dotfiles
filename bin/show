@@ -18,6 +18,9 @@ then
     MIME="$(file --dereference --brief --mime-type "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
     case "$MIME" in
+        "text/troff")
+            man "$FILE"
+            ;;
         "application/x-sharedlib")
             readelf --all "$FILE" | less
             ;;
