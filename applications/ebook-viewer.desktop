@@ -1,3 +1,4 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Exec=ebook-viewer
 MimeType=application/x-mobipocket-ebook;
