@@ -635,7 +635,7 @@ ZXdBcnJheV8pCiAjaWYgX19HTEFTR09XX0hBU0tFTExfXyA+PSA3MDQKIGltcG9ydCBGb3JlaWdu
 LkMuVHlwZXMgKENJbnQoLi4pLCBDU2l6ZSguLikpCg==
 " | base64 -d | patch -p1 && cabal install bloomfilter.cabal && cd .. && rm -rf bloomfilter-build || exit 1
 
-    for PACKAGE in happy cpphs alex c2hs hoogle git-annex
+    for PACKAGE in happy cpphs alex c2hs hoogle git-annex ghc-paths
     do
         cabal install $PACKAGE || exit 1
     done
