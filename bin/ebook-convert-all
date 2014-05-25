@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+FILENAME="$1"
+
+if [ ! -r "$FILENAME" ]
+then
+    echo "Error: $FILENAME is not readable" >&2
+    exit 1
+fi
+
+FROMEXT="${FILENAME##*.}"
+FILENAMENOEXT="${FILENAME%.*}"
+
+for TOEXT in txt mobi azw3 epub pdf
+do
+    if [ ! -e "${FILENAMENOEXT}.${TOEXT}" ]
+    then
+        echo "---------- $TOEXT ----------"
+        ebook-convert "$FILENAME" "${FILENAMENOEXT}.${TOEXT}" || exit 1
+    fi
+done
