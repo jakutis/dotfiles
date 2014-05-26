@@ -75,7 +75,9 @@ then
     echo "[Unit]
 Description=jakutis
 [Service]
-ExecStart=/home/tahu/Desktop/VARIA/$(hostname)/rc.local
+ExecStart=/home/tahu/Desktop/VARIA/$(hostname)/jakutis.sh
+Type=forking
+KillMode=none
 [Install]
 WantedBy=multi-user.target
 " > /etc/systemd/system/jakutis.service
