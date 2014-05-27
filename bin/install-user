@@ -51,7 +51,7 @@ NEWSBEUTERV="5541697"
 NEWSBEUTERCOMMIT="5541697"
 MOSHV="1.2.4"
 NODEV="0.10.28"
-ERLANGV="17.0"
+ERLANGV="17.0.2"
 RTORRENTV="0.9.4"
 LIBTORRENTV="0.13.4"
 PODCATCHERV="3.1.6"
@@ -232,7 +232,7 @@ curl -L https://raw.github.com/spawngrid/kerl/master/kerl > .bin/kerl && chmod +
 
 if ! [ -e "opt/erlang-$ERLANGV" ]
 then
-    kerl build "$ERLANGV" "$ERLANGV" && kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV" || exit 1
+    kerl build git https://github.com/erlang/otp.git OTP-$ERLANGV $ERLANGV && kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV" || exit 1
     cd opt && ln -nsf "erlang-$ERLANGV" "erlang" && cd .. || exit 1
 fi
 
