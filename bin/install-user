@@ -541,6 +541,7 @@ if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
 then
     perlbrew install "perl-$PERLV" || exit 1
     perlbrew switch "perl-$PERLV" || exit 1
+    perlbrew alias delete default
     perlbrew alias create "perl-$PERLV" default || exit 1
 
     for PACKAGE in File::Which Readonly::XS
