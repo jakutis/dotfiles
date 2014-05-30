@@ -1,6 +1,17 @@
-XTerm*faceName:     Sauce Code Powerline:size=9
+URxvt*font:         xft:monospace:size=9:antialias=true
+URxvt*boldFont:     xft:monospace:size=9:antialias=true
+URxvt.letterSpace:  -1
+Xft.autohint:       true
+Xft.lcdfilter:      cddefault
+Xft.hintstyle:      hintfull
+Xft.hinting:        true
+Xft.antialias:      tru
+Xft.rgba:           rgb
+XTerm*faceName:     monospace:size=9:antialias=true
 XTerm*bellIsUrgent: true
 XTerm*termName:     xterm-256color
+URxvt*termName:     xterm-256color
+URxvt*scrollBar:    false
 
 !Tomorrow
 #define t_background        #fafafa
@@ -17,38 +28,38 @@ XTerm*termName:     xterm-256color
 #define t_purple        	#8959a8
 
 
-XTerm*foreground:   t_foreground
-XTerm*background:   t_background
-XTerm*cursorColor:  #aeafad
+*foreground:   t_foreground
+*background:   t_background
+*cursorColor:  #aeafad
 
 ! Black / Grey
-XTerm*color0:       #000000
-XTerm*color8:       #666666
+*color0:       #000000
+*color8:       #666666
 
 ! Red / Bright Red
-XTerm*color1:       t_red
-XTerm*color9:       #FF3334
+*color1:       t_red
+*color9:       #FF3334
 
 ! Green + Bright Green
-XTerm*color2:       t_green
-XTerm*color10:      #9ec400
+*color2:       t_green
+*color10:      #9ec400
 
 ! Yellow (Orange) + Bright Yellow (Yellow)
-XTerm*color3:       t_orange
-XTerm*color11:      t_yellow
+*color3:       t_orange
+*color11:      t_yellow
 
 ! Blue + Bright Blue
-XTerm*color4:       t_blue
-XTerm*color12:      t_blue
+*color4:       t_blue
+*color12:      t_blue
 
 ! Magenta (Purple) + Bright Magenta
-XTerm*color5:       t_purple
-XTerm*color13:      #b777e0
+*color5:       t_purple
+*color13:      #b777e0
 
 ! Cyan (Aqua) + Bright Cyan
-XTerm*color6:       t_aqua
-XTerm*color14:      #54ced6
+*color6:       t_aqua
+*color14:      #54ced6
 
 ! Light Grey (Selection) + White (Current Line)
-XTerm*color7:       t_selection
-XTerm*color15:      t_current_line
+*color7:       t_selection
+*color15:      t_current_line
