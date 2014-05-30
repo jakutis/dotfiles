@@ -70,7 +70,7 @@ let g:syntastic_javascript_checkers = ['jshint']
 
 " status bar
 Bundle 'bling/vim-airline'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
 " colors
 Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
