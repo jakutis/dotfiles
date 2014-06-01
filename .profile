@@ -34,7 +34,7 @@ export _JAVA_AWT_WM_NONREPARENTING="1"
 
 PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/lib/mutt"
 
-PATH="$HOME/.cabal/bin:$HOME/opt/ghc/bin:$PATH"
+PATH="$HOME/opt/ghc/bin:$PATH"
 PATH="$HOME/.rvm/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
 

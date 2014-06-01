@@ -47,6 +47,7 @@ PYTHONMAINV="2.7.7"
 QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.20.0.2"
+GITANNEXV="5.20140529"
 NEWSBEUTERV="5541697"
 NEWSBEUTERCOMMIT="5541697"
 MOSHV="1.2.4"
@@ -589,25 +590,32 @@ then
     fi
 
     (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
-    rm -rf .cabal .ghc && cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
+    rm -rf .cabal .ghc && cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
     echo "Installed temporary cabal-install"
 
-    cabal install happy && cabal install alex || exit 1
+    "$HOME/.cabal/bin/cabal" install happy && "$HOME/.cabal/bin/cabal" install alex || exit 1
     echo "Installed temporary happy and alex"
 
     GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
-    git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && perl boot && ./configure --prefix="$HOME/opt/ghc-$GHCV" && make -j3 && make install && cd .. && rm -rf ghc-build .cabal .ghc && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
-    rm -rf "ghc-7.6.3"
+    git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && perl boot && ./configure --prefix="$HOME/opt/ghc-$GHCV" && make -j3 && make install && cd .. && rm -rf ghc-build .cabal .ghc ghc-7.6.3 && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
 
     pyenv shell "$PYTHONMAINV"
 fi
 
-if ! [ -e ".cabal" ]
+if ! [ -e "opt/cabal-install-$CABALINSTALLV" ]
 then
     (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
-    cd cabal-build/cabal-install && sh bootstrap.sh && cabal update && cd ../.. && rm -rf cabal-build || exit 1
+    cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
+    mkdir "opt/cabal-install-$CABALINSTALLV" && cd "opt/cabal-install-$CABALINSTALLV" && "$HOME/.cabal/bin/cabal" sandbox init --sandbox . && "$HOME/.cabal/bin/cabal" install "cabal-install==$CABALINSTALLV" && cd ../.. || exit 1
+    cd .bin && ln -nsf "../opt/cabal-install-$CABALINSTALLV/bin/cabal" && cd .. || exit 1
+    cd ../.. && rm -rf .cabal .ghc || exit 1
+fi
 
-    (cd "repos/git/bloomfilter" && git archive --format=tar --prefix=bloomfilter-build/ "1.2.6.10") | tar xf - || exit 1
+cabal update || exit 1
+
+if ! [ -e "opt/git-annex-$GITANNEXV" ]
+then
+    (cd "$HOME/repos/git/bloomfilter" && git archive --format=tar --prefix=bloomfilter-build/ "1.2.6.10") | tar xf - || exit 1
     cd bloomfilter-build && echo "
 ZGlmZiAtLWdpdCBhL0RhdGEvQmxvb21GaWx0ZXIuaHMgYi9EYXRhL0Jsb29tRmlsdGVyLmhzCmlu
 ZGV4IDY5NzExZWYuLmI5NTY2ZWEgMTAwNjQ0Ci0tLSBhL0RhdGEvQmxvb21GaWx0ZXIuaHMKKysr
@@ -634,13 +642,11 @@ b25hZC5TVCAoU1QpCitpbXBvcnQgQ29udHJvbC5Nb25hZC5TVC5VbnNhZmUgKHVuc2FmZUlPVG9T
 VCkKIGltcG9ydCBEYXRhLkFycmF5LkJhc2UgKE1BcnJheSwgU1RVQXJyYXkoLi4pLCB1bnNhZmVO
 ZXdBcnJheV8pCiAjaWYgX19HTEFTR09XX0hBU0tFTExfXyA+PSA3MDQKIGltcG9ydCBGb3JlaWdu
 LkMuVHlwZXMgKENJbnQoLi4pLCBDU2l6ZSguLikpCg==
-" | base64 -d | patch -p1 && cabal install bloomfilter.cabal && cd .. && rm -rf bloomfilter-build || exit 1
-
-    for PACKAGE in happy cpphs alex c2hs hoogle git-annex ghc-paths
-    do
-        cabal install $PACKAGE || exit 1
-    done
-    cd .cabal/bin && ln -nsf git-annex git-annex-shell && cd ../.. || exit 1
+" | base64 -d | patch -p1 && cd .. || exit 1
+#&& cabal install bloomfilter.cabal && cd .. && rm -rf bloomfilter-build
+    mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal sandbox add-source "$HOME/bloomfilter-build" && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -feed -quvi -tahoe cryptohash -desktopnotify -ekg" && cd ../.. && rm -rf "bloomfilter-build" || exit 1
+    cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
