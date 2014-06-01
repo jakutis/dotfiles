@@ -9,6 +9,7 @@ Xft.antialias:      tru
 Xft.rgba:           rgb
 XTerm*faceName:     monospace:size=9:antialias=true
 XTerm*bellIsUrgent: true
+URxvt*urgentOnBell: true
 XTerm*termName:     xterm-256color
 URxvt*termName:     xterm-256color
 URxvt*scrollBar:    false
