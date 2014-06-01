@@ -930,4 +930,4 @@ function mkinstance {
 
 rm -rf ".varia/instances"
 mkinstance konqueror
-mkinstance xterm
+mkinstance urxvt
