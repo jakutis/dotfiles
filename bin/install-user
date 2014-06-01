@@ -606,9 +606,8 @@ if ! [ -e "opt/cabal-install-$CABALINSTALLV" ]
 then
     (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
     cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
-    mkdir "opt/cabal-install-$CABALINSTALLV" && cd "opt/cabal-install-$CABALINSTALLV" && "$HOME/.cabal/bin/cabal" sandbox init --sandbox . && "$HOME/.cabal/bin/cabal" install "cabal-install==$CABALINSTALLV" && cd ../.. || exit 1
+    mkdir "opt/cabal-install-$CABALINSTALLV" && cd "opt/cabal-install-$CABALINSTALLV" && "$HOME/.cabal/bin/cabal" sandbox init --sandbox . && "$HOME/.cabal/bin/cabal" install "cabal-install==$CABALINSTALLV" && cd ../.. && rm -rf .cabal .ghc || exit 1
     cd .bin && ln -nsf "../opt/cabal-install-$CABALINSTALLV/bin/cabal" && cd .. || exit 1
-    cd ../.. && rm -rf .cabal .ghc || exit 1
 fi
 
 cabal update || exit 1
