@@ -4,8 +4,9 @@ shopt -s histappend
 shopt -s checkwinsize
 set -o vi
 
-PS1='\u@\h:\w\$ '
-HISTCONTROL="ignoreboth"
+export PROMPT_COMMAND="echo -ne '\a'"
+export PS1='\u@\h:\w\$ '
+export HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
 
