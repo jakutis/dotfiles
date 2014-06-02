@@ -561,6 +561,7 @@ if ! [ -e "$PYENV_ROOT" ]
 then
     git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
     CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONMAINV" || exit 1
+    pyenv shell "$PYTHONMAINV" || exit 1
     pyenv global "$PYTHONMAINV" || exit 1
     eval "$(pyenv init -)" || exit 1
     for PACKAGE in cython lxml six jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
