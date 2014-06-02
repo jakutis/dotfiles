@@ -328,32 +328,6 @@ then
     rm colorout_${COLOROUTV}.tar.gz
 fi
 
-if ! [ -e "opt/vim-$VIMV" ]
-then
-    cd "$HOME/repos/hg/vim" || exit 1
-    hg checkout "$VIMV" || exit 1
-    make distclean
-    ./configure --enable-pythoninterp=yes --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
-    cd "$HOME/opt"
-    ln -nsf "vim-$VIMV" "vim"
-    cd ../.bin
-    ln -nsf "../opt/vim/bin/vim"
-    ln -nsf "../opt/vim/bin/vimdiff"
-    cd ..
-    rm -rf vim
-fi
-
-mkdir --parents .vimtmp .vimbackup .vimsession
-if ! [ -e ".vim" ]
-then
-    git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
-    vim +BundleInstall +qall
-    cd .vim/bundle/YouCompleteMe/cpp
-    cmake -g "Unix Makefiles"
-    make
-    cd ../../../..
-fi
-
 if ! [ -e "opt/js-1.8.5" ]
 then
     curl -L "http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz" | tar zx || exit 1
@@ -612,6 +586,32 @@ then
 fi
 
 cabal update || exit 1
+
+if ! [ -e "opt/vim-$VIMV" ]
+then
+    cd "$HOME/repos/hg/vim" || exit 1
+    hg checkout "$VIMV" || exit 1
+    make distclean
+    ./configure --enable-pythoninterp=yes --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    cd "$HOME/opt"
+    ln -nsf "vim-$VIMV" "vim"
+    cd ../.bin
+    ln -nsf "../opt/vim/bin/vim"
+    ln -nsf "../opt/vim/bin/vimdiff"
+    cd ..
+    rm -rf vim
+fi
+
+mkdir --parents .vimtmp .vimbackup .vimsession
+if ! [ -e ".vim" ]
+then
+    git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
+    vim +BundleInstall +qall
+    cd .vim/bundle/YouCompleteMe/cpp
+    cmake -g "Unix Makefiles"
+    make
+    cd ../../../..
+fi
 
 if ! [ -e "opt/git-annex-$GITANNEXV" ]
 then
