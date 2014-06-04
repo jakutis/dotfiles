@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+FILENAME="$1"
+
+if [ -z "$FILENAME" ]
+then
+    echo "Please provide a path to target wav file." 2>&1
+    exit 1
+fi
+
+if [ -e "$FILENAME" ]
+then
+    echo "$FILENAME already exists." 2>&1
+    exit 1
+fi
+
+DURATION="$2"
+
+if [ -z "$DURATION" ]
+then
+    echo "Please provide number of minutes to record." 2>&1
+    exit 1
+fi
+
+PCMFILENAME="$(mktemp)"
+MONITOR=$(pactl list | grep -A2 '^Source #' | grep 'Name: .*\.monitor$' | awk '{print $NF}' | tail -n1)
+parec --device="$MONITOR" --verbose "$PCMFILENAME" &
+pid2=$!
+len=`expr '(' $LEN_HR '*' 60 + $LEN_MIN ')' '*' 60`
+
+echo "Recording from $MONITOR for $len seconds"
+sleep $len
+kill $pid2
+
+echo "Converting to $FILENAME"
+sox -t raw -r 44100 -e signed-integer -Lb 16 -c 2 - "$FILENAME" < "$PCMFILENAME"
