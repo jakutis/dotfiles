@@ -1,3 +1,4 @@
+export PATH=$HOME/.bin:$PATH
 [ -z "$PS1" ] && return
 
 shopt -s histappend
