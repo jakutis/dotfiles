@@ -12,34 +12,34 @@ do
         cd "$DIR/$TYPE/$REPO"
         case "$TYPE" in
             "svn")
-                svn update 1>/dev/null || exit 1
+                svn update 1>/dev/null || echo "FAILED to fetch and update"
                 ls tags | diff -ru "$CFG/$TYPE/$REPO" -
                 ls tags > "$CFG/$TYPE/$REPO"
                 ;;
             "bzr")
-                bzr pull 1>/dev/null 2>&1 || exit 1
+                bzr pull 1>/dev/null 2>&1 || echo "FAILED to fetch"
                 bzr tags | diff -ru "$CFG/$TYPE/$REPO" -
                 bzr tags > "$CFG/$TYPE/$REPO"
                 ;;
             "hg")
-                hg pull 1>/dev/null || exit 1
-                hg update 1>/dev/null || exit 1
+                hg pull 1>/dev/null || echo "FAILED to fetch"
+                hg update 1>/dev/null || echo "FAILED to update"
                 if [ "$(hg tags|head -n 1|cut -d ' ' -f 1)" != "tip" ]
                 then
                     echo "Error: expected "tip" to be the first tag" 1>&2
-                    exit 1
+                else
+                    hg tags | tail -n +2 | diff -ru "$CFG/$TYPE/$REPO" -
+                    hg tags | tail -n +2 > "$CFG/$TYPE/$REPO"
                 fi
-                hg tags | tail -n +2 | diff -ru "$CFG/$TYPE/$REPO" -
-                hg tags | tail -n +2 > "$CFG/$TYPE/$REPO"
                 ;;
             "git")
-                git fetch --all --tags 1>/dev/null 2>&1 || exit 1
+                git fetch --all --tags 1>/dev/null 2>&1 || echo "FAILED to fetch"
                 git tag | diff -ru "$CFG/$TYPE/$REPO" -
                 git tag > "$CFG/$TYPE/$REPO"
                 ;;
             *)
                 echo "Error: unknown repo type "$TYPE"" >&2
-                exit 1
+                echo "FAILED"
                 ;;
         esac
     done
