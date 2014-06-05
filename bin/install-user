@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+FIT2TCXV="ceaa501"
 GHCV="7.8.2"
 BIBLATEXISO690V="6e9f182cec30ccfb52479aac6a895680fecb334b"
 PLISTV="1.12"
@@ -920,6 +921,13 @@ fi
 if ! [ -e "texmf/tex/latex/polyglossia" ]
 then
     mkdir -p "texmf" && cd "texmf" && curl -L http://mirrors.ctan.org/install/macros/latex/contrib/polyglossia.tds.zip | nodezip -x /dev/stdin && cd .. || exit 1
+fi
+
+if [ "$ENABLE_FIT2TCX" = "yes" -a ! -e "opt/fit2tcx-$FIT2TCXV" ]
+then
+    (cd "repos/git/Fit2Tcx" && git archive --format=tar --prefix=fit2tcx-build/ "$FIT2TCXV") | tar xf - || exit 1
+    cd fit2tcx-build && ./configure && make && mkdir -p "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cp "fit2tcx" "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cd .. && rm -rf "fit2tcx-build" || exit 1
+    cd .bin && ln -nsf "../opt/fit2tcx-$FIT2TCXV/bin/fit2tcx" && cd .. || exit 1
 fi
 
 function mkinstance {
