@@ -49,7 +49,7 @@ PYTHONMAINV="2.7.7"
 QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.20.0.2"
-GITANNEXV="5.20140529"
+GITANNEXV="5.20140606"
 NEWSBEUTERV="5541697"
 NEWSBEUTERCOMMIT="5541697"
 MOSHV="1.2.4"
@@ -646,7 +646,6 @@ VCkKIGltcG9ydCBEYXRhLkFycmF5LkJhc2UgKE1BcnJheSwgU1RVQXJyYXkoLi4pLCB1bnNhZmVO
 ZXdBcnJheV8pCiAjaWYgX19HTEFTR09XX0hBU0tFTExfXyA+PSA3MDQKIGltcG9ydCBGb3JlaWdu
 LkMuVHlwZXMgKENJbnQoLi4pLCBDU2l6ZSguLikpCg==
 " | base64 -d | patch -p1 && cd .. || exit 1
-#&& cabal install bloomfilter.cabal && cd .. && rm -rf bloomfilter-build
     mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal sandbox add-source "$HOME/bloomfilter-build" && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -feed -quvi -tahoe cryptohash -desktopnotify -ekg" && cd ../.. && rm -rf "bloomfilter-build" || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
