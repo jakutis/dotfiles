@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+AUTOMAKEV="1.14.1"
 FIT2TCXV="ceaa501"
 GHCV="7.8.2"
 BIBLATEXISO690V="6e9f182cec30ccfb52479aac6a895680fecb334b"
@@ -202,6 +203,15 @@ then
     cd "autoconf-${AUTOCONFV}" && ./configure --prefix="$HOME/opt/autoconf-${AUTOCONFV}" && make && make install && cd .. && rm -rf "autoconf-${AUTOCONFV}" || exit 1
     cd opt && ln -nsf "autoconf-${AUTOCONFV}" "autoconf" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/autoconf/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
+fi
+
+
+if ! [ -e "opt/automake-${AUTOMAKEV}" ]
+then
+    (cd "repos/git/automake" && git archive --format=tar --prefix=automake-build/ "v$AUTOMAKEV") | tar xf - || exit 1
+    cd "automake-build" && ./bootstrap.sh && ./configure --prefix="$HOME/opt/automake-${AUTOMAKEV}" && make && make install && cd .. && rm -rf "automake-build" || exit 1
+    cd opt && ln -nsf "automake-${AUTOMAKEV}" "automake" && cd .. || exit 1
+    cd .bin && (for BIN in $(ls ../opt/automake/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
 if ! [ -e "opt/llvm-${LLVMV}" ]
