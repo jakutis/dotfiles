@@ -74,7 +74,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "1V", "2M", "3NRMS", "4H" }, s, layouts[1])
+    tags[s] = awful.tag({ "1V", "2NRMS", "3H", "4", "5", "6", "7", "8", "9" }, s, layouts[1])
 end
 -- }}}
 
@@ -341,11 +341,9 @@ awful.rules.rules = {
                      buttons = clientbuttons } },
     { rule = { instance = "1V" },
       properties = { tag = tags[1][1], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "2M" },
-      properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "3NRMS" },
+    { rule = { instance = "2NRMS" },
       properties = { tag = tags[1][3], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "4H" },
+    { rule = { instance = "3H" },
       properties = { tag = tags[1][4], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },

@@ -941,7 +941,7 @@ fi
 
 function mkinstance {
     mkdir --parents ".varia/instances/$1"
-    for TAG in 1V 2M 3NRMS 4H
+    for TAG in 1V 2NRMS 3H
     do
         ln -nsf "$(which "$1")" ".varia/instances/$1/$TAG"
     done

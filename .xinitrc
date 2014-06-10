@@ -17,7 +17,7 @@ URXVT="$HOME/.varia/instances/urxvt"
 REFDIR="$HOME/etc/storage/books"
 
 cd "Desktop"
-for SPACE in 1V-VARIA 2M-MAGISTRINIS 3NRMS-NRMS 4H-HTTPINVOKE
+for SPACE in 1V-VARIA 2NRMS-NRMS 3H-HTTPINVOKE
 do
     TAG="$(echo "$SPACE"|sed 's/-.*//')"
     REPO="$(echo "$SPACE"|sed 's/.*-//')"
