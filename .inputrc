@@ -1,4 +1,4 @@
-set bell-style none
+set bell-style audible
 
 set editing-mode vi
 
