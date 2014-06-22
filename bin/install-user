@@ -314,13 +314,13 @@ else
     fi
     git pull --rebase || exit 1
     popd
+    source "$GVM_ROOT/scripts/gvm-default" || exit 1
 fi
 
 if ! [ -e "$GVM_ROOT/gos/go${GOV}" ]
 then
-    gvm install "go${GOV}" || exit 1
     gvm alias delete default
-    gvm alias create default "go${GO}" || exit 1
+    gvm install "go${GOV}" && gvm alias create default "go${GOV}" && gvm use default || exit 1
 fi
 
 if ! [ -e "opt/r-$RV" ]
