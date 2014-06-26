@@ -58,3 +58,5 @@
     default = matching
 [http]
 	sslVerify = true
+[url "https://"]
+	insteadOf = git://
