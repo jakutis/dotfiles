@@ -21,7 +21,7 @@ then
         "text/troff")
             man "$FILE"
             ;;
-        "application/x-sharedlib")
+        "application/x-sharedlib" | "application/x-executable")
             readelf --all "$FILE" | less
             ;;
         "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
