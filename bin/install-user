@@ -504,7 +504,7 @@ fi
 
 if ! [ -e "$PERLBREW_ROOT" ]
 then
-    curl -kL http://install.perlbrew.pl | bash && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
+    ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
 else
     TWGET="$(mktemp --directory)"
     tee "$TWGET/wget" <<EOT
