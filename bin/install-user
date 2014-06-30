@@ -139,6 +139,8 @@ cd ".elinks"
 ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
 
+ln -nsf "$VARIA/.scanner.pixma" ".scanner"
+
 touch .xbindkeys.noauto
 for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc
 do
