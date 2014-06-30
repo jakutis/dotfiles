@@ -2,7 +2,7 @@
 
 PHPV="5.4.30"
 APCV="3.1.14"
-CGITV="0.10.1"
+CGITV="0.10.2"
 NGINXV="1.4.7"
 HAPROXYV="1.4.25"
 HAPROXYURL="http://haproxy.1wt.eu/download/1.4/src/haproxy-1.4.25.tar.gz"
