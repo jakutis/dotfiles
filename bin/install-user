@@ -142,7 +142,7 @@ cd ..
 ln -nsf "$VARIA/.scanner.pixma" ".scanner"
 
 touch .xbindkeys.noauto
-for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc
+for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .Xmodmap .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
@@ -152,14 +152,12 @@ then
     ln -nsf "$DOTFILES/.xinitrc.server" ".xinitrc"
 fi
 
+mkdir --parents .mc
+mkdir --parents .irssi
+mkdir --parents .VirtualBox
 mkdir --parents .vimbackup
 mkdir --parents .vimtmp
 mkdir --parents .vimsession
-
-if [ "$(hostname)" = "laptop" ]
-then
-    ln -nsf "$DOTFILES/.asoundrc"
-fi
 
 if [ "$(hostname)" = "desktop" ]
 then
