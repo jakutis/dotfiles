@@ -1,6 +1,6 @@
 [Added Associations]
 application/epub+zip=ebook-viewer.desktop;
-application/pdf=kde4-okularApplication_pdf.desktop;qpdfview.desktop;acroread.desktop;xpdf.desktop;gimp.desktop;
+application/pdf=kde4-okular.desktop;kde4-okularApplication_pdf.desktop;qpdfview.desktop;acroread.desktop;xpdf.desktop;gimp.desktop;
 application/x-mobipocket-ebook=ebook-viewer.desktop;
 text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
