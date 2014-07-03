@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-source "$HOME/.profile"
+cd "$HOME"
+source ".profile"
 xhost localhost
-xrdb -merge "$HOME/.Xresources"
+xrdb -merge ".Xresources"
 update-xinput
 noblank
-LOG_DIR=$HOME/etc/wiki/xwinlogger nohup xwinlogger >/dev/null 2>&1 &
+LOG_DIR="$HOME/etc/wiki/xwinlogger" nohup xwinlogger >/dev/null 2>&1 &
 
 system brightness max
 system net $(zenity --entry --text="system net ?")
