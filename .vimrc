@@ -173,6 +173,10 @@ nnoremap <F5> <Esc>:make!<CR>
 nnoremap <F8> <Esc>:call system('xclip -selection clipboard', @0)<CR>
 
 " tabs
+noremap! <F6> <Esc>:tabm -1<CR>
+nnoremap <F6> <Esc>:tabm -1<CR>
+noremap! <F7> <Esc>:tabm +1<CR>
+nnoremap <F7> <Esc>:tabm +1<CR>
 noremap! <F10> <Esc>:tabp<CR>
 nnoremap <F10> <Esc>:tabp<CR>
 noremap! <F11> <Esc>:tabnew<CR>
