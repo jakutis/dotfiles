@@ -1,37 +1,31 @@
 #!/usr/bin/env bash
 
-cd "$HOME"
-source ".profile"
+source "$HOME/.profile"
 xhost localhost
-xrdb -merge ".Xresources"
+xrdb -merge "$HOME/.Xresources"
 update-xinput
 noblank
 LOG_DIR="$HOME/etc/wiki/xwinlogger" nohup xwinlogger >/dev/null 2>&1 &
-
 system brightness max
 system net $(zenity --entry --text="system net ?")
 start-pulseaudio-x11
 
 KONQUEROR="$HOME/.varia/instances/konqueror"
 URXVT="$HOME/.varia/instances/urxvt"
-
 REFDIR="$HOME/etc/storage/books"
-
-cd "Desktop"
 for SPACE in 1V-VARIA 2NRMS-NRMS 3H-HTTPINVOKE
 do
     TAG="$(echo "$SPACE"|sed 's/-.*//')"
     REPO="$(echo "$SPACE"|sed 's/.*-//')"
-    cd "$REPO"
+    cd "$HOME/$REPO"
     if [ -e "literature" ]
     then
         refs-open "literature" "$REFDIR" "$KONQUEROR/$TAG" &
     fi
     "$URXVT/$TAG" -e tmus ${REPO} &
     sleep 1
-    cd ".."
 done
-cd ".."
 
+cd "$HOME"
 klipper
 awesome
