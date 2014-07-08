@@ -8,7 +8,7 @@ echo "$$" > "$HOME/.varia/awesome-ip.pid"
 
 while true
 do
-    IP="$(curl --connect-timeout 2 "http://178.16.41.83/" 2>/dev/null)"
+    IP="$(curl --connect-timeout 2 "http://78.58.149.106/" 2>/dev/null)"
 
     if [ -n "$IP" ]
     then
