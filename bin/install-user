@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+VAGRANTV="1.6.3"
 AUTOMAKEV="1.14.1"
 ALEXV="3.1.3"
 HAPPYV="1.19.4"
@@ -287,10 +288,10 @@ fi
 if ! [ -e ".rvm" ]
 then
     curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --autolibs=read-fail || exit 1
-    source .rvm/scripts/rvm
 else
     rvm get head || exit 1
 fi
+source .rvm/scripts/rvm
 
 if ! [ -e ".rvm/rubies/ruby-$RUBYV" ]
 then
@@ -298,6 +299,7 @@ then
     LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass || exit 1
     rvm docs generate-ri
 fi
+GEM_DIR=$(rvm gemdir 2>/dev/null)
 
 if ! [ -e "$GVM_ROOT" ]
 then
@@ -959,6 +961,12 @@ then
     (cd "repos/git/Fit2Tcx" && git archive --format=tar --prefix=fit2tcx-build/ "$FIT2TCXV") | tar xf - || exit 1
     cd fit2tcx-build && ./configure && make && mkdir -p "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cp "fit2tcx" "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cd .. && rm -rf "fit2tcx-build" || exit 1
     cd .bin && ln -nsf "../opt/fit2tcx-$FIT2TCXV/bin/fit2tcx" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_VAGRANT" = "yes" -a ! -e "$GEM_DIR/gems/vagrant-$VAGRANTV" ]
+then
+    (cd "repos/git/vagrant" && git archive --format=tar --prefix=vagrant-build/ "v$VAGRANTV") | tar xf - || exit 1
+    cd vagrant-build && bundle install && rake install || exit 1
 fi
 
 function mkinstance {
