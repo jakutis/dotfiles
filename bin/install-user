@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 AUTOMAKEV="1.14.1"
+ALEXV="3.1.3"
+HAPPYV="1.19.4"
 FIT2TCXV="ceaa501"
 GHCV="7.8.2"
 BIBLATEXISO690V="d85dd3ee5d345c4a7a7ecfedb8775b0fff4f0ac8"
@@ -51,6 +53,7 @@ QPDFVIEWV="0.4.8"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.20.0.3"
 GITANNEXV="5.20140707"
+PANDOCV="1.12.4.2"
 NEWSBEUTERV="5541697"
 NEWSBEUTERCOMMIT="5541697"
 MOSHV="1.2.4"
@@ -658,6 +661,26 @@ LkMuVHlwZXMgKENJbnQoLi4pLCBDU2l6ZSguLikpCg==
     mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal sandbox add-source "$HOME/bloomfilter-build" && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -feed -quvi -tahoe cryptohash -desktopnotify -ekg" && cd ../.. && rm -rf "bloomfilter-build" || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
+fi
+
+if [ "$ENABLE_ALEX" = "yes" -a ! -e "opt/alex-$ALEXV" ]
+then
+    mkdir -p "opt/alex-$ALEXV" && cd "opt/alex-$ALEXV" && cabal sandbox init --sandbox . && cabal install "alex==$ALEXV" && cd ../.. || exit 1
+    cd .bin && ln -nsf "../opt/alex-$ALEXV/bin/alex" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_HAPPY" = "yes" -a ! -e "opt/happy-$HAPPYV" ]
+then
+    mkdir -p "opt/happy-$HAPPYV" && cd "opt/happy-$HAPPYV" && cabal sandbox init --sandbox . && cabal install "happy==$HAPPYV" && cd ../.. || exit 1
+    cd .bin && ln -nsf "../opt/happy-$HAPPYV/bin/happy" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_PANDOC" = "yes" -a ! -e "opt/pandoc-$PANDOCV" ]
+then
+    mkdir -p "opt/pandoc-$PANDOCV" && cd "opt/pandoc-$PANDOCV" && cabal sandbox init --sandbox . && cabal install "pandoc==$PANDOCV" && cd ../.. || exit 1
+    cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/pandoc" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/json2yaml" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/yaml2json" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
