@@ -11,6 +11,11 @@ do
         echo "# $TYPE/$REPO"
         cd "$DIR/$TYPE/$REPO"
         case "$TYPE" in
+            "darcs")
+                darcs fetch 1>/dev/null || echo "FAILED to fetch and update"
+                darcs changes | diff -ru "$CFG/$TYPE/$REPO" -
+                darcs changes > "$CFG/$TYPE/$REPO"
+                ;;
             "svn")
                 svn update 1>/dev/null || echo "FAILED to fetch and update"
                 ls tags | diff -ru "$CFG/$TYPE/$REPO" -
