@@ -967,6 +967,7 @@ if [ "$ENABLE_VAGRANT" = "yes" -a ! -e "$GEM_DIR/gems/vagrant-$VAGRANTV" ]
 then
     (cd "repos/git/vagrant" && git archive --format=tar --prefix=vagrant-build/ "v$VAGRANTV") | tar xf - || exit 1
     cd vagrant-build && bundle install && rake install || exit 1
+    vagrant plugin install hostsupdater || exit 1
 fi
 
 function mkinstance {
