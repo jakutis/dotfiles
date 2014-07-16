@@ -387,10 +387,9 @@ fi
 
 if [ "$ENABLE_FFMPEG" = "yes" -a ! -e "opt/ffmpeg-$FFMPEGV" ]
 then
-    cd "repos/git/ffmpeg" || exit 1
-    git co "n$FFMPEGV" && git clean -fxd || exit 1
-    ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lvpx -Wl,--rpath=$HOME/opt/libvpx-$LIBVPXV/lib,--enable-new-dtags -L$HOME/opt/libvpx-$LIBVPXV/lib" --cpu=host --enable-openssl --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-version3 --extra-cxxflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-libvpx --enable-libvorbis && make && make install || exit 1
-    cd ../../..
+    (cd "repos/git/ffmpeg" && git archive --format=tar --prefix=ffmpeg-build/ "n$FFMPEGV") | tar xf - || exit 1
+    cd ffmpeg-build && ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lvpx -Wl,--rpath=$HOME/opt/libvpx-$LIBVPXV/lib,--enable-new-dtags -L$HOME/opt/libvpx-$LIBVPXV/lib" --cpu=host --enable-openssl --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-version3 --extra-cxxflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-libvpx --enable-libvorbis && make && make install && cd .. || exit 1
+    rm -rf ffmpeg-build
     cd opt && ln -nsf "ffmpeg-$FFMPEGV" "ffmpeg" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/ffmpeg/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
