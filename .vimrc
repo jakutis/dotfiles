@@ -17,7 +17,7 @@ nnoremap : ;
 Bundle 'editorconfig/editorconfig-vim'
 
 " taglist
-Bundle 'taglist.vim'
+Bundle 'vim-scripts/taglist.vim'
 noremap! <F3> <Esc>:TlistToggle<CR>
 nnoremap <F3> <Esc>:TlistToggle<CR>
 
