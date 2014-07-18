@@ -199,3 +199,11 @@ nnoremap <CR> :noh<CR><CR>
 " to replace with. Press enter and then confirm each change you agree with 'y'
 " or decline with 'n'.
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+" ctrlp
+Bundle 'kien/ctrlp.vim'
+let g:ctrlp_map = '<c-p>'
+
+" easymotion
+Bundle 'Lokaltog/vim-easymotion'
+map <Leader> <Plug>(easymotion-prefix)
