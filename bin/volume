@@ -3,11 +3,12 @@
 TYPE="$1"
 COMMAND="$2"
 
+CURVOL=$(amixer -c 0 cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
+CURVOL_PULSE=$(pacmd dump-volumes|perl -n -e'/Sink (\d+):.*, real = (.*), soft = / && print $2')
+MAXVOL=$(amixer -c 0 sget "Master"|grep Limits|sed 's/  Limits: Playback 0 - //ig')
 if [ "$TYPE" = "alsa" ]
 then
-    MAXVOL=$(amixer -c 0 sget "Master"|grep Limits|sed 's/  Limits: Playback 0 - //ig')
     STEP=$(($MAXVOL / 10))
-    CURVOL=$(amixer -c 0 cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
     if [ "$COMMAND" == "increase" ]
     then
         if [ "$CURVOL" -lt "$MAXVOL" ]
@@ -22,6 +23,7 @@ then
         fi
     else
         echo "Error: unknown command $COMMAND"
+        exit 1
     fi
 
     amixer -c 0 sset Master $CURVOL
@@ -37,7 +39,12 @@ then
         pactl set-sink-volume 0 -- +10%
     else
         echo "Error: unknown command $COMMAND"
+        exit 1
     fi
 else
     echo "Error: unknown sound system type $TYPE"
+    exit 1
 fi
+CURVOL=$(amixer -c 0 cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
+CURVOL_PULSE=$(pacmd dump-volumes|perl -n -e'/Sink (\d+):.*, real = (.*), soft = / && print $2')
+awesome-client <<< "myvolumewidget.text='<span color=\"blue\"> $((CURVOL * 100 / $MAXVOL))% (${CURVOL_PULSE}) </span>'"
