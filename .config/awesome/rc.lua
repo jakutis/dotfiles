@@ -103,6 +103,8 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 mynetwidget = widget({ type = "textbox" })
 
+myvolumewidget = widget({ type = "textbox" })
+
 mybatterywidget = widget({ type = "textbox" })
 
 -- Create a systray
@@ -185,6 +187,7 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         --mytextclock,
         mynetwidget,
+        myvolumewidget,
         mybatterywidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
