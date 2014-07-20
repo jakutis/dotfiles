@@ -106,6 +106,7 @@ fi
 cd "$HOME"
 
 mkdir --parents ".varia"
+MACHINE="$(cat .varia/machine)"
 
 mkdir --parents ".local/share/applications"
 cd ".local/share/applications"
@@ -151,7 +152,7 @@ do
     ln -nsf "$DOTFILES/$RC"
 done
 ln -nsf "$DOTFILES/.xinitrc" ".xsession"
-if [ "$(hostname)" = "server" ]
+if [ "$MACHINE" = "server" ]
 then
     ln -nsf "$DOTFILES/.xinitrc.server" ".xinitrc"
 fi
@@ -163,7 +164,7 @@ mkdir --parents .vimbackup
 mkdir --parents .vimtmp
 mkdir --parents .vimsession
 
-if [ "$(hostname)" = "desktop" ]
+if [ "$MACHINE" = "desktop" ]
 then
     mkdir --parents .recoll
     cd .recoll
@@ -171,7 +172,7 @@ then
     cd ..
 fi
 
-if [ "$(hostname)" = "laptop" ]
+if [ "$MACHINE" = "laptop" ]
 then
     mkdir --parents .config
     cd .config

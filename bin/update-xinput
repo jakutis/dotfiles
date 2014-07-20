@@ -6,7 +6,7 @@ xset s off
 xset b off
 xset r rate 250 50
 setxkbmap -layout lt -variant us -symbols "pc+lt(us)+inet(evdev)"
-if [ "$(hostname)" = "laptop" ]
+if [ "$(cat "$HOME/.varia/machine")" = "laptop" ]
 then
   xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
   xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 8 2

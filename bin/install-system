@@ -14,6 +14,7 @@ APTGET="$(which apt-get 2>/dev/null)"
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
 REPOS="$(realpath "$3")"
+MACHINE="$(cat "$HOME/.varia/machine")"
 
 if ! [ -e "$DOTFILES" ]
 then
@@ -31,14 +32,14 @@ then
     exit 1
 fi
 
-if [ "$(hostname)" = "server" ]
+if [ "$MACHINE" = "server" ]
 then
     "$VARIA/server/proftpd/install"
     cd /etc/smokeping
     ln --no-dereference --force --symbolic "$VARIA/server/smokeping-config.d" config.d
 fi
 
-if [ "$(hostname)" = "desktop" ]
+if [ "$MACHINE" = "desktop" ]
 then
     pushd .
     cd /etc/systemd
@@ -72,7 +73,7 @@ then
     echo "[Unit]
 Description=jakutis
 [Service]
-ExecStart=/home/tahu/Desktop/VARIA/$(hostname)/jakutis.sh
+ExecStart=/home/tahu/Desktop/VARIA/$MACHINE/jakutis.sh
 Type=forking
 KillMode=none
 [Install]
