@@ -24,7 +24,7 @@ alias m='(A=$(mktemp --dry-run);mkfifo $A;matlab -logfile >(tail -n +11|tee $A >
 
 alias osmo='osmo --config=$HOME/.osmo'
 
-alias desktop='if ! nc -w 1 -z 78.58.149.106 22;then curl --silent --output /dev/null -u admin "http://78.58.149.106:8080/apply.cgi?current_page=Main_WOL_Content.asp&next_page=Main_WOL_Content.asp&modified=0&action_mode=+Refresh+&preferred_lang=EN&SystemCmd=ether-wake+-i+br0+00%3A18%3Af3%3A44%3Ac9%3A94&firmver=3.0.0.4&destIP=00%3A18%3Af3%3A44%3Ac9%3A94";while ! nc -w 1 -z 78.58.149.106 22;do sleep 1;done;fi;bash ssh-wrapper -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip")"'
+alias desktop='wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")" 1>/dev/null;bash ssh-wrapper -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip")"'
 
 alias server='bash ssh-wrapper -p 22 tahu@jakut.is'
 
