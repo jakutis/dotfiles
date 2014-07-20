@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -o verbose
+set -o xtrace
+
 VAGRANTV="1.6.3"
 AUTOMAKEV="1.14.1"
 ALEXV="3.1.3"
