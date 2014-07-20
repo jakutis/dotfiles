@@ -566,6 +566,7 @@ else
     cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
     eval "$(pyenv init -)" || exit 1
 fi
+pyenv shell "$PYTHONMAINV"
 
 if ! [ -e "$PYENV_ROOT/versions/$PYTHONV" ]
 then
@@ -575,8 +576,6 @@ fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
-    pyenv shell system
-
     GHCSYSTEMV="$(ghc --numeric-version)"
     if [ "$(echo -e "$GHCSYSTEMV\n7.6.3"|sort --version-sort|head -n 1)" = "$GHCSYSTEMV" ]
     then
@@ -594,8 +593,6 @@ then
 
     GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
     git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && (echo ".|$(git tag -l "ghc-$GHCV-release" -n9999|tail -n+3|sed -e 's/^    //')" > A && ./utils/fingerprint/fingerprint.py restore -f A && rm A) && perl boot && ./configure --prefix="$HOME/opt/ghc-$GHCV" && make -j3 && make install && cd .. && rm -rf ghc-build .cabal .ghc ghc-7.6.3 && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
-
-    pyenv shell "$PYTHONMAINV"
 fi
 
 if ! [ -e "opt/cabal-install-$CABALINSTALLV" ]
