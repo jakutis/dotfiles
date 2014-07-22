@@ -14,7 +14,7 @@ APTGET="$(which apt-get 2>/dev/null)"
 DOTFILES="$(realpath "$1")"
 VARIA="$(realpath "$2")"
 REPOS="$(realpath "$3")"
-MACHINE="$(cat "$HOME/.varia/machine")"
+MACHINE="$(cat "$REPOS/../.varia/machine")"
 
 if ! [ -e "$DOTFILES" ]
 then
