@@ -43,6 +43,7 @@ else
 fi
 
 DIR="$(mktemp --directory)"
+echo "Temporary directory: $DIR"
 mkdir -p "$DIR"
 cd "$DIR"
 for PAGE in $(seq --equal-width "$PAGESTART" "$PAGEFINISH")
