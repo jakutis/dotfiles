@@ -2,8 +2,8 @@
 
 OUT=$(git annex unused)
 
-REALUNUSEDPREFIX=$(echo "$OUT"|tail -n +2|head -n "$(echo "$UNUSEDPREFIX"|wc -l)")
 UNUSEDPREFIX=$(echo -e "  Some annexed data is no longer used by any files:\n    NUMBER  KEY")
+REALUNUSEDPREFIX=$(echo "$OUT"|tail -n +2|head -n "$(echo "$UNUSEDPREFIX"|wc -l)")
 if [ "$REALUNUSEDPREFIX" != "$UNUSEDPREFIX" ]
 then
     echo "Error: real unused prefix is not equal to expected unused prefix"
@@ -13,8 +13,8 @@ then
     exit 1
 fi
 
-REALUNUSEDSUFFIX=$(echo "$OUT"|tail -n "-$(echo "$UNUSEDSUFFIX"|wc -l)")
 UNUSEDSUFFIX=$(echo -e "  (To see where data was previously used, try: git log --stat -S'KEY')\n  \n  To remove unwanted data: git-annex dropunused NUMBER\n  \nok")
+REALUNUSEDSUFFIX=$(echo "$OUT"|tail -n "-$(echo "$UNUSEDSUFFIX"|wc -l)")
 if [ "$REALUNUSEDSUFFIX" != "$UNUSEDSUFFIX" ]
 then
     echo "Error: real unused suffix is not equal to expected unused suffix"
