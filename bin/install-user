@@ -281,12 +281,8 @@ fi
 
 if ! [ -e "opt/graphicsmagick-${GRAPHICSMAGICKV}" ]
 then
-    pushd .
-    cd "$HOME/repos/hg/graphicsmagick" || exit 1
-    hg checkout "$GRAPHICSMAGICKTAG" || exit 1
-    make distclean
-    ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install || exit 1
-    popd
+    (cd "$HOME/repos/hg/graphicsmagick" && hg archive -r "$GRAPHICSMAGICKTAG" ../../../graphicsmagick-build) || exit 1
+    cd graphicsmagick-build && make distclean && ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install && cd .. && rm -rf graphicsmagick-build || exit 1
 fi
 
 if ! [ -e ".rvm" ]
