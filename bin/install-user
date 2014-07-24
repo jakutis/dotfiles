@@ -265,7 +265,7 @@ fi
 
 if ! [ -e "opt/imagemagick-${IMAGEMAGICKV}" ]
 then
-    curl -L "http://mirror.checkdomain.de/imagemagick/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
+    curl -L "http://www.imagemagick.org/download/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
     cd "ImageMagick-${IMAGEMAGICKV}" && ./configure --prefix=${HOME}/opt/imagemagick-${IMAGEMAGICKV} --with-quantum-depth=8 --with-modules --without-perl --with-bzlib --with-x --with-zlib --with-autotrace --without-dps --with-djvu --with-fftw --without-fpx --with-fontconfig --with-freetype --with-gslib --with-gvc --with-jbig --with-jpeg --with-lcms --with-lcms2 --without-openjp2 --with-lqr --with-lzma --with-mupdf --with-openexr --with-pango --with-png --with-rsvg --with-tiff --without-webp --with-wmf --with-xml --disable-hdri --enable-deprecated --enable-opencl --enable-openmp && make && make install || exit 1
     cd ..
     rm -rf "ImageMagick-${IMAGEMAGICKV}"
