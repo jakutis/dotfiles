@@ -617,8 +617,10 @@ then
 fi
 
 mkdir --parents .vimtmp .vimbackup .vimsession
-if ! [ -e ".vim" ]
+if [ -e ".vim" ]
 then
+    vim +BundleUpdate +qall
+else
     git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
     vim +BundleInstall +qall
     cd .vim/bundle/YouCompleteMe/cpp
