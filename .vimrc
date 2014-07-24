@@ -1,9 +1,24 @@
 " Vundle
 set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'timcharper/textile.vim'
+Plugin 'elzr/vim-json'
+Plugin 'scrooloose/syntastic'
+Plugin 'bling/vim-airline'
+Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+Plugin 'airblade/vim-gitgutter'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'kien/ctrlp.vim'
+Plugin 'Lokaltog/vim-easymotion'
+call vundle#end()
+filetype plugin indent on
 
 " security
 set nomodeline
@@ -13,26 +28,18 @@ let mapleader = ","
 nnoremap ; :
 nnoremap : ;
 
-" EditorConfig
-Bundle 'editorconfig/editorconfig-vim'
-
-" taglist
-Bundle 'vim-scripts/taglist.vim'
+" vim-scripts/taglist.vim
 noremap! <F3> <Esc>:TlistToggle<CR>
 nnoremap <F3> <Esc>:TlistToggle<CR>
 
 " Go
 set rtp+=$GOROOT/misc/vim
 
-" Textile
-Bundle 'timcharper/textile.vim'
-
 " Markdown
 au! BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set ft=markdown
 let tlist_markdown_settings = 'markdown;c:content;f:figures;t:tables;h:headlines'
 
-" JSON
-Bundle 'elzr/vim-json'
+" elzr/vim-json
 au! BufRead,BufNewFile *.json set filetype=json
 
 " LaTeX
@@ -49,9 +56,7 @@ let g:Tex_CompileRule_pdf = 'xelatex -shell-escape --interaction=nonstopmode $*'
 " make verbatim environments appear as comments
 autocmd VimEnter * syn region  texComment     start="\\begin{\w\+code}" end="\\end{\w\+code}" contains=@texCommentGroup
 
-" syntax checking
-Bundle 'scrooloose/syntastic'
-filetype plugin indent on
+" scrooloose/syntastic
 let g:syntastic_tex_chktex_args = "--inputfiles --nowarn 8"
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
@@ -68,30 +73,23 @@ let g:syntastic_mode_map = {
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:syntastic_javascript_checkers = ['jshint']
 
-" status bar
-Bundle 'bling/vim-airline'
+" bling/vim-airline
 let g:airline_powerline_fonts = 0
 
-" colors
-Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+" chriskempson/tomorrow-theme
 syntax on
 set background=light
 colorscheme Tomorrow
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
 
-" Git
-Bundle 'airblade/vim-gitgutter'
-
-" sessions
-Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-session'
+" xolox/vim-misc
+" xolox/vim-session
 let g:session_autoload = 'no'
 let g:session_directory = '~/.vimsession'
 let g:session_autosave = 'yes'
 
-" autoformat
-Bundle 'Chiel92/vim-autoformat'
+" Chiel92/vim-autoformat
 let g:formatprg_html = "tidy"
 let g:formatprg_args_html = "-xml --quiet yes --indent yes --indent-spaces 4"
 
@@ -200,10 +198,8 @@ nnoremap <CR> :noh<CR><CR>
 " or decline with 'n'.
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
-" ctrlp
-Bundle 'kien/ctrlp.vim'
+" kien/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
 
-" easymotion
-Bundle 'Lokaltog/vim-easymotion'
+" Lokaltog/vim-easymotion
 map <Leader> <Plug>(easymotion-prefix)
