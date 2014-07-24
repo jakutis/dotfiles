@@ -619,10 +619,10 @@ fi
 mkdir --parents .vimtmp .vimbackup .vimsession
 if [ -e ".vim" ]
 then
-    vim +BundleUpdate +qall
+    vim +PluginUpdate +qall
 else
     git clone https://github.com/gmarik/vundle.git .vim/bundle/vundle
-    vim +BundleInstall +qall
+    vim +PluginInstall +qall
     cd .vim/bundle/YouCompleteMe/cpp
     cmake -g "Unix Makefiles"
     make
