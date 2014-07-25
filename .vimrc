@@ -107,7 +107,7 @@ function! EnableColorColumn()
         match OverLength /\%81v.\+/
     endif
 endfunction
-autocmd BufRead,BufWrite COMMIT_EDITMSG,*.m,*.cpp,*.h,*.py,*.js,*.c,*.go,*.html,*.R call EnableColorColumn()
+"autocmd BufRead,BufWrite COMMIT_EDITMSG,*.m,*.cpp,*.h,*.py,*.js,*.c,*.go,*.html,*.R call EnableColorColumn()
 
 " line numbers
 set relativenumber
