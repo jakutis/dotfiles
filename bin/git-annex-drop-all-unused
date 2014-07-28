@@ -13,8 +13,9 @@ REALUNUSEDPREFIX=$(echo "$OUT"|tail -n +2|head -n "$UNUSEDPREFIXL")
 if [ "$REALUNUSEDPREFIX" != "$UNUSEDPREFIX" ]
 then
     echo "Error: real unused prefix is not equal to expected unused prefix"
+    echo "------- Real:"
     echo "$REALUNUSEDPREFIX"
-    echo "------- VERSUS -------"
+    echo "------- Expected:"
     echo "$UNUSEDPREFIX"
     exit 1
 fi
@@ -25,8 +26,9 @@ REALUNUSEDSUFFIX=$(echo "$OUT"|tail -n "-$UNUSEDSUFFIXL")
 if [ "$REALUNUSEDSUFFIX" != "$UNUSEDSUFFIX" ]
 then
     echo "Error: real unused suffix is not equal to expected unused suffix"
+    echo "------- Real:"
     echo "$REALUNUSEDSUFFIX"
-    echo "------- VERSUS -------"
+    echo "------- Expected:"
     echo "$UNUSEDSUFFIX"
     exit 1
 fi
