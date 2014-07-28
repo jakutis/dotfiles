@@ -2,7 +2,7 @@
 
 OUT=$(git annex unused)
 
-if [ "$(echo "$OUT" | wc -l)" = "1" ]
+if [ "$(echo "$OUT" | wc -l)" -lt "3" ]
 then
     exit 0
 fi
