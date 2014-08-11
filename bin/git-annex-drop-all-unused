@@ -12,12 +12,18 @@ UNUSEDPREFIXL=$(echo "$UNUSEDPREFIX"|wc -l)
 REALUNUSEDPREFIX=$(echo "$OUT"|tail -n +2|head -n "$UNUSEDPREFIXL")
 if [ "$REALUNUSEDPREFIX" != "$UNUSEDPREFIX" ]
 then
-    echo "Error: real unused prefix is not equal to expected unused prefix"
-    echo "------- Real:"
-    echo "$REALUNUSEDPREFIX"
-    echo "------- Expected:"
-    echo "$UNUSEDPREFIX"
-    exit 1
+    UNUSEDPREFIX=$(echo -e "  Some partially transferred data exists in temporary files:\n    NUMBER  KEY")
+    UNUSEDPREFIXL=$(echo "$UNUSEDPREFIX"|wc -l)
+    REALUNUSEDPREFIX=$(echo "$OUT"|tail -n +2|head -n "$UNUSEDPREFIXL")
+    if [ "$REALUNUSEDPREFIX" != "$UNUSEDPREFIX" ]
+    then
+        echo "Error: real unused prefix is not equal to expected unused prefix"
+        echo "------- Real:"
+        echo "$REALUNUSEDPREFIX"
+        echo "------- Expected:"
+        echo "$UNUSEDPREFIX"
+        exit 1
+    fi
 fi
 
 UNUSEDSUFFIX=$(echo -e "  (To see where data was previously used, try: git log --stat -S'KEY')\n  \n  To remove unwanted data: git-annex dropunused NUMBER\n  \nok")
