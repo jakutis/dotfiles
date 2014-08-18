@@ -31,12 +31,18 @@ UNUSEDSUFFIXL=$(echo "$UNUSEDSUFFIX"|wc -l)
 REALUNUSEDSUFFIX=$(echo "$OUT"|tail -n "-$UNUSEDSUFFIXL")
 if [ "$REALUNUSEDSUFFIX" != "$UNUSEDSUFFIX" ]
 then
-    echo "Error: real unused suffix is not equal to expected unused suffix"
-    echo "------- Real:"
-    echo "$REALUNUSEDSUFFIX"
-    echo "------- Expected:"
-    echo "$UNUSEDSUFFIX"
-    exit 1
+    UNUSEDSUFFIX=$(echo -e "  To remove unwanted data: git-annex dropunused NUMBER\n  \nok")
+    UNUSEDSUFFIXL=$(echo "$UNUSEDSUFFIX"|wc -l)
+    REALUNUSEDSUFFIX=$(echo "$OUT"|tail -n "-$UNUSEDSUFFIXL")
+    if [ "$REALUNUSEDSUFFIX" != "$UNUSEDSUFFIX" ]
+    then
+        echo "Error: real unused suffix is not equal to expected unused suffix"
+        echo "------- Real:"
+        echo "$REALUNUSEDSUFFIX"
+        echo "------- Expected:"
+        echo "$UNUSEDSUFFIX"
+        exit 1
+    fi
 fi
 
 COUNT=$(echo "$OUT" | wc -l)
