@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 OUT=$(git annex unused)
+echo "git annex unused:\n$OUT"
 
 if [ "$(echo "$OUT" | wc -l)" -lt "3" ]
 then
