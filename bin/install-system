@@ -34,6 +34,11 @@ then
     echo "REPOS at "$REPOS" does not exist" 1>&2
     exit 1
 fi
+if [ -z "$MACHINE" ]
+then
+    echo "Machine at "$REPOS/../.varia/machine" is not set" 1>&2
+    exit 1
+fi
 
 if [ "$MACHINE" = "server" ]
 then
