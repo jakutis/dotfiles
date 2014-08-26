@@ -1,4 +1,5 @@
 jshint
+pipeable-js
 node-inspector
 watchy
 phantomjs
