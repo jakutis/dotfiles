@@ -3,21 +3,9 @@
 POLL_INTERVAL="5"
 BAT="$(cat "$HOME/.varia/bat")"
 COMPLAIN="write a complaint to vytautas@jakut.is"
-BEEP="$(which beep)"
-AWESOME="$1"
-USER="$2"
-CHARGE_THRESHOLD="$3"
-DAEMON="$4"
-
-if [ -z "$AWESOME" ]
-then
-    echo "Please specify your awesome-wm battery textbox widget name, or "-" to disable this feature" 1>&2
-    exit 1
-elif [ -z "$USER" -a "$AWESOME" != "-" ]
-then
-    echo "Please specify the name of user that runs awesome-wm" 1>&2
-    exit 1
-fi
+BEEP="$(which date)"
+CHARGE_THRESHOLD="$1"
+DAEMON="$2"
 
 if [ -z "$CHARGE_THRESHOLD" ]
 then
@@ -155,15 +143,6 @@ if [ "$DAEMON" = "-d" ]
 then
   while true
   do
-    if [ "$AWESOME" != "-" ]
-    then
-        if [ "$(cat /sys/class/power_supply/$BAT/status)" = "Charging" ]
-        then
-            echo "${AWESOME}:set_markup('<span color=\"red\">$(charge)</span>')" | su -c awesome-client "$USER"
-        else
-            echo "${AWESOME}:set_markup('<span color=\"green\">$(charge)</span>')" | su -c awesome-client "$USER"
-        fi
-    fi
     if [ "$(status)" = "Charging" ]
     then
       rm -f "$HOME/.varia/bat_warned"
@@ -198,7 +177,7 @@ else
     echo "Could not execute command "nohup", please install package "coreutils" or $COMPLAIN"
     exit 1
   fi
-  nohup "$SELF" "$AWESOME" "$USER" "$CHARGE_THRESHOLD" -d >/dev/null </dev/null 2>/dev/null &
+  nohup "$SELF" "$CHARGE_THRESHOLD" -d >/dev/null </dev/null 2>/dev/null &
   echo "OK, low-power-beeper is now running in background"
 fi
 
