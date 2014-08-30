@@ -28,5 +28,6 @@
     "prototypejs" : false,
     "rhino" : false,
     "worker" : false,
-    "wsh" : false
+    "wsh" : false,
+    "unused": true
 }
