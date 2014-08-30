@@ -15,7 +15,7 @@ for TOEXT in txt mobi azw3 epub pdf
 do
     if [ ! -e "${FILENAMENOEXT}.${TOEXT}" ]
     then
-        echo "---------- $TOEXT ----------"
+        echo "---------- ${FILENAMENOEXT} --- $FROMEXT -> $TOEXT ----------"
         ebook-convert "$FILENAME" "${FILENAMENOEXT}.${TOEXT}" || exit 1
     fi
 done
