@@ -841,7 +841,7 @@ if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
 then
     if [ ! -e "repos/git/newsbeuter" ]
     then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/akrennmair/newsbeuter && cd ../.. || exit 1
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/jakutis/newsbeuter && cd ../.. || exit 1
     fi
     (cd "repos/git/newsbeuter" && git archive --format=tar --prefix=newsbeuter-build/ "$NEWSBEUTERCOMMIT") | tar xf - || exit 1
     cd newsbeuter-build && LDFLAGS="-Wl,--rpath=$HOME/opt/json-c-$JSONCV/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/json-c-$JSONCV/lib/pkgconfig" ./config.sh && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" install && cd .. && rm -rf newsbeuter-build || exit 1
