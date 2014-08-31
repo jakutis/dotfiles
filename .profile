@@ -32,6 +32,7 @@ export PERLBREW_ROOT="$HOME/.perl5"
 export LOQODIR="$HOME/.bin"
 export _JAVA_AWT_WM_NONREPARENTING="1"
 export VAGRANT_INSTALLER_ENV="1"
+export ACLOCAL_PATH="/usr/share/aclocal"
 
 PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/lib/mutt"
 
