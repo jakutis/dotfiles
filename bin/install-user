@@ -216,7 +216,10 @@ fi
 
 if ! [ -e "opt/automake-${AUTOMAKEV}" ]
 then
-    [ ! -e "repos/git/automake" ] && (cd repos/git && git clone http://git.savannah.gnu.org/r/automake.git) || exit 1
+    if [ ! -e "repos/git/automake" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone http://git.savannah.gnu.org/r/automake.git && cd ../.. || exit 1
+    fi
     (cd "repos/git/automake" && git archive --format=tar --prefix=automake-build/ "v$AUTOMAKEV") | tar xf - || exit 1
     cd "automake-build" && ./bootstrap.sh && ./configure --prefix="$HOME/opt/automake-${AUTOMAKEV}" && make && make install && cd .. && rm -rf "automake-build" || exit 1
     cd opt && ln -nsf "automake-${AUTOMAKEV}" "automake" && cd .. || exit 1
