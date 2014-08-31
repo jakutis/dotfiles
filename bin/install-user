@@ -550,6 +550,10 @@ fi
 
 if ! [ -e "$PERLBREW_ROOT" ]
 then
+    if [ ! -e "repos/git/App-perlbrew" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/gugod/App-perlbrew && cd ../.. || exit 1
+    fi
     ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
 else
     TWGET="$(mktemp --directory)"
