@@ -288,6 +288,10 @@ fi
 
 if ! [ -e "opt/graphicsmagick-${GRAPHICSMAGICKV}" ]
 then
+    if [ ! -e "repos/hg/graphicsmagick" ]
+    then
+        mkdir -p repos/hg && cd repos/hg && hg clone http://hg.code.sf.net/p/graphicsmagick/code graphicsmagick && cd ../.. || exit 1
+    fi
     (cd "$HOME/repos/hg/graphicsmagick" && hg archive -r "$GRAPHICSMAGICKTAG" ../../../graphicsmagick-build) || exit 1
     cd graphicsmagick-build && ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install && cd .. && rm -rf graphicsmagick-build || exit 1
 fi
@@ -370,6 +374,10 @@ fi
 
 if ! [ -e "opt/mp4v2-$MP4V2V" ]
 then
+    if [ ! -e "repos/svn/mp4v2" ]
+    then
+        mkdir -p repos/svn && cd repos/svn && svn co http://mp4v2.googlecode.com/svn mp4v2 && cd ../.. || exit 1
+    fi
     cd "$HOME/repos/svn/mp4v2$MP4V2PATH" || exit 1
     autoreconf -fiv || exit 1
     ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install || exit 1
@@ -393,6 +401,10 @@ fi
 
 if [ "$ENABLE_LIBVPX" = "yes" -a ! -e "opt/libvpx-$LIBVPXV" ]
 then
+    if [ ! -e "repos/git/libvpx" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://chromium.googlesource.com/webm/libvpx && cd ../.. || exit 1
+    fi
     cd "repos/git/libvpx" && git co "v$LIBVPXV" || exit 1
     ./configure --enable-shared --enable-static --disable-runtime-cpu-detect --enable-multithread --enable-vp9-postproc --enable-postproc --enable-vp9 --enable-vp8 --disable-internal-stats --disable-mem-tracker --disable-fast-unaligned --disable-unit-tests --disable-docs --disable-examples --enable-libs --disable-install-docs --enable-install-bins --enable-install-libs --enable-install-srcs --cpu=native --enable-optimizations --enable-pic --disable-ccache --disable-debug --disable-gprof --disable-gcov --prefix="$HOME/opt/libvpx-$LIBVPXV" && make && make install || exit 1
     cd ../../..
@@ -401,6 +413,10 @@ fi
 
 if [ "$ENABLE_FFMPEG" = "yes" -a ! -e "opt/ffmpeg-$FFMPEGV" ]
 then
+    if [ ! -e "repos/git/ffmpeg" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone http://git.videolan.org/git/ffmpeg.git && cd ../.. || exit 1
+    fi
     (cd "repos/git/ffmpeg" && git archive --format=tar --prefix=ffmpeg-build/ "n$FFMPEGV") | tar xf - || exit 1
     cd ffmpeg-build && ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lvpx -Wl,--rpath=$HOME/opt/libvpx-$LIBVPXV/lib,--enable-new-dtags -L$HOME/opt/libvpx-$LIBVPXV/lib" --cpu=host --enable-openssl --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-version3 --extra-cxxflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-libvpx --enable-libvorbis && make && make install && cd .. || exit 1
     rm -rf ffmpeg-build
@@ -410,6 +426,10 @@ fi
 
 if [ "$ENABLE_CMUS" = "yes" ! -e "opt/cmus-$CMUSV" ]
 then
+    if [ ! -e "repos/git/cmus" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/cmus/cmus && cd ../.. || exit 1
+    fi
     (cd "repos/git/cmus" && git archive --format=tar --prefix=cmus-build/ "$CMUSCOMMIT") | tar xf - || exit 1
     cd cmus-build && CFLAGS="-I$HOME/opt/mp4v2-$MP4V2V/include" LDFLAGS="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lmp4v2 -Wl,--rpath=$HOME/opt/mp4v2-$MP4V2V/lib,--enable-new-dtags -L$HOME/opt/mp4v2-$MP4V2V/lib" PKG_CONFIG_PATH="$HOME/opt/ffmpeg-$FFMPEGV/lib/pkgconfig" ./configure CONFIG_CDDB=n CONFIG_CDIO=n CONFIG_DISCID=n CONFIG_FLAC=y CONFIG_MAD=y CONFIG_MODPLUG=n CONFIG_MIKMOD=n CONFIG_MPC=n CONFIG_VORBIS=y CONFIG_TREMOR=n CONFIG_WAV=y CONFIG_WAVPACK=y CONFIG_MP4=y CONFIG_AAC=y CONFIG_FFMPEG=y CONFIG_CUE=y CONFIG_ROAR=n CONFIG_PULSE=y CONFIG_ALSA=y CONFIG_AO=n CONFIG_ARTS=n CONFIG_OSS=n CONFIG_SUN=n CONFIG_WAVEOUT=n USE_FALLBACK_IP=y CONFIG_AO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install && cd .. && rm -rf cmus-build || exit 1
     cd opt && ln -nsf "cmus-$CMUSV" "cmus" && cd .. || exit 1
@@ -418,6 +438,10 @@ fi
 
 if ! [ -e "opt/elinks-$ELINKSV" ]
 then
+    if [ ! -e "repos/git/elinks" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone http://elinks.cz/elinks.git && cd ../.. || exit 1
+    fi
     cd "repos/git/elinks" && git co "$ELINKSV" || exit 1
     ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/js-1.8.5/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/js-1.8.5/lib/pkgconfig" ./configure --prefix="$HOME/opt/elinks-$ELINKSV" --enable-sm-scripting --without-lua --without-ruby --without-perl --without-python && make && make install || exit 1
     cd ../../.. || exit 1
@@ -513,6 +537,10 @@ fi
 
 if ! [ -e "opt/fuse-$FUSEV" ]
 then
+    if [ ! -e "repos/git/fuse" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone http://git.code.sf.net/p/fuse/fuse && cd ../.. || exit 1
+    fi
     cd "repos/git/fuse" || exit 1
     git co "$FUSETAG" || exit 1
     ./makeconf.sh && ./configure --prefix="$HOME/opt/fuse-$FUSEV" --enable-lib --disable-util --enable-rpath && make && make install || exit 1
@@ -586,6 +614,14 @@ fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
+    if [ ! -e "repos/git/ghc" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://git.haskell.org/ghc.git && cd ../.. || exit 1
+    fi
+    if [ ! -e "repos/git/cabal" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/haskell/cabal && cd ../.. || exit 1
+    fi
     GHCSYSTEMV="$(ghc --numeric-version)"
     if [ "$(echo -e "$GHCSYSTEMV\n7.6.3"|sort --version-sort|head -n 1)" = "$GHCSYSTEMV" ]
     then
@@ -617,6 +653,10 @@ cabal update || exit 1
 
 if ! [ -e "opt/vim-$VIMV" ]
 then
+    if [ ! -e "repos/hg/vim" ]
+    then
+        mkdir -p repos/hg && cd repos/hg && hg clone https://vim.googlecode.com/hg/ vim && cd ../.. || exit 1
+    fi
     cd "$HOME/repos/hg/vim" || exit 1
     hg checkout "$VIMV" || exit 1
     make distclean
@@ -640,6 +680,10 @@ fi
 
 if ! [ -e "opt/git-annex-$GITANNEXV" ]
 then
+    if [ ! -e "repos/git/bloomfilter" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/bos/bloomfilter && cd ../.. || exit 1
+    fi
     (cd "$HOME/repos/git/bloomfilter" && git archive --format=tar --prefix=bloomfilter-build/ "1.2.6.10") | tar xf - || exit 1
     cd bloomfilter-build && echo "
 ZGlmZiAtLWdpdCBhL0RhdGEvQmxvb21GaWx0ZXIuaHMgYi9EYXRhL0Jsb29tRmlsdGVyLmhzCmlu
@@ -712,12 +756,20 @@ fi
 
 if ! [ -e "opt/json-c-$JSONCV" ]
 then
+    if [ ! -e "repos/git/json-c" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/json-c/json-c && cd ../.. || exit 1
+    fi
     (cd "repos/git/json-c" && git archive --format=tar --prefix=json-c-build/ "json-c-$JSONCV") | tar xf - || exit 1
     cd json-c-build && CFLAGS="-Wno-error=unused-but-set-variable" ./configure --prefix="$HOME/opt/json-c-$JSONCV" && make && make install && cd .. && rm -rf json-c-build || exit 1
 fi
 
 if ! [ -e "opt/jq-$JQV" ]
 then
+    if [ ! -e "repos/git/jq" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/stedolan/jq && cd ../.. || exit 1
+    fi
     cd "repos/git/jq" && git co "$JQCOMMIT" && autoreconf -i && ./configure --prefix="$HOME/opt/jq-$JQV" && make && make install && cd ../../..|| exit 1
     cd opt && ln -nsf "jq-$JQV" "jq" && cd .. || exit 1
     cd .bin && (for BIN in $(ls "../opt/jq/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
@@ -725,6 +777,10 @@ fi
 
 if ! [ -e "opt/libplist-$PLISTV" ]
 then
+    if [ ! -e "repos/git/libplist" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/libimobiledevice/libplist && cd ../.. || exit 1
+    fi
     ((cd "repos/git/libplist" && git archive --format=tar --prefix=libplist-build/ "$PLISTCOMMIT") | tar xf -) && cd "libplist-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-L$(pyenv prefix)/lib" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libplist-${PLISTV}" && make && make install && cd .. && rm -rf "libplist-build" || exit 1
 fi
 
@@ -740,6 +796,10 @@ fi
 
 if ! [ -e "opt/ideviceinstaller-$IDEVICEINSTALLERV" ]
 then
+    if [ ! -e "repos/git/ideviceinstaller" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/libimobiledevice/ideviceinstaller && cd ../.. || exit 1
+    fi
     ((cd "repos/git/ideviceinstaller" && git archive --format=tar --prefix=ideviceinstaller-build/ "$IDEVICEINSTALLERCOMMIT") | tar xf -) && cd "ideviceinstaller-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ideviceinstaller-${IDEVICEINSTALLERV}" && make && make install && cd .. && rm -rf "ideviceinstaller-build" || exit 1
 fi
 
@@ -750,16 +810,28 @@ fi
 
 if ! [ -e "opt/libusb-$LIBUSBV" ]
 then
+    if [ ! -e "repos/git/libusb" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/libusb/libusb && cd ../.. || exit 1
+    fi
     ((cd "repos/git/libusb" && git archive --format=tar --prefix=libusb-build/ "v$LIBUSBV") | tar xf -) && cd "libusb-build" && NOCONFIGURE="yes" ./autogen.sh && ./configure --prefix="$HOME/opt/libusb-$LIBUSBV" && make && make install && cd .. && rm -rf "libusb-build" || exit 1
 fi
 
 if ! [ -e "opt/usbmuxd-$USBMUXDV" ]
 then
+    if [ ! -e "repos/git/usbmuxd" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/libimobiledevice/usbmuxd && cd ../.. || exit 1
+    fi
     ((cd "repos/git/usbmuxd" && git archive --format=tar --prefix=usbmuxd-build/ "$USBMUXDCOMMIT") | tar xf -) && cd "usbmuxd-build" && NOCONFIGURE="yes" ./autogen.sh && CFLAGS="-I$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusb-${LIBUSBV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusb-${LIBUSBV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/usbmuxd-$USBMUXDV" && make && make install && cd .. && rm -rf "usbmuxd-build" || exit 1
 fi
 
 if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
 then
+    if [ ! -e "repos/git/newsbeuter" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/akrennmair/newsbeuter && cd ../.. || exit 1
+    fi
     (cd "repos/git/newsbeuter" && git archive --format=tar --prefix=newsbeuter-build/ "$NEWSBEUTERCOMMIT") | tar xf - || exit 1
     cd newsbeuter-build && LDFLAGS="-Wl,--rpath=$HOME/opt/json-c-$JSONCV/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/json-c-$JSONCV/lib/pkgconfig" ./config.sh && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" install && cd .. && rm -rf newsbeuter-build || exit 1
 
@@ -772,6 +844,10 @@ fi
 
 if ! [ -e "opt/qpdfview-$QPDFVIEWV" ]
 then
+    if [ ! -e "repos/bzr/qpdfview" ]
+    then
+        mkdir -p repos/bzr && cd repos/bzr && bzr branch http://bazaar.launchpad.net/~adamreichold/qpdfview/trunk qpdfview && cd ../.. || exit 1
+    fi
     cd "$HOME/repos/bzr/qpdfview" || exit 1
     bzr revert -r "$QPDFVIEWR" && bzr clean-tree --force || exit 1
     sed --in-place "s/\/usr/$(echo "$HOME/opt/qpdfview-$QPDFVIEWV/usr"|sed -e 's/[]\/()$*.^|[]/\\&/g')/" qpdfview.pri
@@ -919,6 +995,10 @@ fi
 
 if [ "$ENABLE_SYSDIG" = "yes" -a ! -e "opt/sysdig-$SYSDIGV" ]
 then
+    if [ ! -e "repos/git/sysdig" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/draios/sysdig && cd ../.. || exit 1
+    fi
     (cd "repos/git/sysdig" && git archive --format=tar --prefix=sysdig-build/ "$SYSDIGV") | tar xf - || exit 1
     cd sysdig-build && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/sysdig-$SYSDIGV" .. && make && make install && cd ../.. && rm -rf sysdig-build || exit 1
     cd opt && ln -nsf "sysdig-$SYSDIGV" "sysdig" && cd .. || exit 1
@@ -928,6 +1008,10 @@ fi
 
 if [ "$ENABLE_QTKEYCHAIN" = "yes" -a ! -e "opt/qtkeychain-$QTKEYCHAINV" ]
 then
+    if [ ! -e "repos/git/qtkeychain" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/frankosterfeld/qtkeychain && cd ../.. || exit 1
+    fi
     cd "repos/git/qtkeychain" && git clean -fxd . && git reset --hard && git co "$QTKEYCHAINV" || exit 1
     DIR="$(mktemp --directory)"
     cd "$DIR" || exit 1
@@ -939,6 +1023,10 @@ fi
 
 if [ "$ENABLE_MIRALL" = "yes" -a ! -e "opt/mirall-$MIRALLV" ]
 then
+    if [ ! -e "repos/git/mirall" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/owncloud/mirall && cd ../.. || exit 1
+    fi
     cd "repos/git/mirall" && git co "v$MIRALLV" || exit 1
     DIR="$(mktemp --directory)"
     cd "$DIR" || exit 1
@@ -966,6 +1054,10 @@ fi
 
 if [ "$ENABLE_FIT2TCX" = "yes" -a ! -e "opt/fit2tcx-$FIT2TCXV" ]
 then
+    if [ ! -e "repos/git/Fit2Tcx" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/adiesner/Fit2Tcx && cd ../.. || exit 1
+    fi
     (cd "repos/git/Fit2Tcx" && git archive --format=tar --prefix=fit2tcx-build/ "$FIT2TCXV") | tar xf - || exit 1
     cd fit2tcx-build && ./configure && make && mkdir -p "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cp "fit2tcx" "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cd .. && rm -rf "fit2tcx-build" || exit 1
     cd .bin && ln -nsf "../opt/fit2tcx-$FIT2TCXV/bin/fit2tcx" && cd .. || exit 1
@@ -973,6 +1065,10 @@ fi
 
 if [ "$ENABLE_VAGRANT" = "yes" -a ! -e "$GEM_DIR/gems/vagrant-$VAGRANTV" ]
 then
+    if [ ! -e "repos/git/vagrant" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/mitchellh/vagrant && cd ../.. || exit 1
+    fi
     (cd "repos/git/vagrant" && git archive --format=tar --prefix=vagrant-build/ "v$VAGRANTV") | tar xf - || exit 1
     cd vagrant-build && bundle install && rake install && cd .. && rm -rf vagrant-build || exit 1
     vagrant plugin install vagrant-hostsupdater || exit 1
