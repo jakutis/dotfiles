@@ -83,6 +83,11 @@ IMAGEMAGICKV="6.8.9-7"
 CMUSV="2.6.0"
 CMUSCOMMIT="v$CMUSV"
 
+if [ "$ENABLE_CMUS" = "yes" ]
+then
+    ENABLE_FFMPEG="yes"
+fi
+
 if [ "$ENABLE_FFMPEG" = "yes" ]
 then
     ENABLE_LIBVPX="yes"
@@ -403,7 +408,7 @@ then
     cd .bin && (for BIN in $(ls ../opt/ffmpeg/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
-if ! [ -e "opt/cmus-$CMUSV" ]
+if [ "$ENABLE_CMUS" = "yes" ! -e "opt/cmus-$CMUSV" ]
 then
     (cd "repos/git/cmus" && git archive --format=tar --prefix=cmus-build/ "$CMUSCOMMIT") | tar xf - || exit 1
     cd cmus-build && CFLAGS="-I$HOME/opt/mp4v2-$MP4V2V/include" LDFLAGS="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lmp4v2 -Wl,--rpath=$HOME/opt/mp4v2-$MP4V2V/lib,--enable-new-dtags -L$HOME/opt/mp4v2-$MP4V2V/lib" PKG_CONFIG_PATH="$HOME/opt/ffmpeg-$FFMPEGV/lib/pkgconfig" ./configure CONFIG_CDDB=n CONFIG_CDIO=n CONFIG_DISCID=n CONFIG_FLAC=y CONFIG_MAD=y CONFIG_MODPLUG=n CONFIG_MIKMOD=n CONFIG_MPC=n CONFIG_VORBIS=y CONFIG_TREMOR=n CONFIG_WAV=y CONFIG_WAVPACK=y CONFIG_MP4=y CONFIG_AAC=y CONFIG_FFMPEG=y CONFIG_CUE=y CONFIG_ROAR=n CONFIG_PULSE=y CONFIG_ALSA=y CONFIG_AO=n CONFIG_ARTS=n CONFIG_OSS=n CONFIG_SUN=n CONFIG_WAVEOUT=n USE_FALLBACK_IP=y CONFIG_AO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install && cd .. && rm -rf cmus-build || exit 1
