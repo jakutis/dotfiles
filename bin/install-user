@@ -974,6 +974,10 @@ fi
 
 if ! [ -e "opt/jbig2enc-$JBIG2ENCV" ]
 then
+    if [ ! -e "repos/git/jbig2enc" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/agl/jbig2enc && cd ../.. || exit 1
+    fi
     pushd .
     cd "repos/git/jbig2enc" && git co "$JBIG2ENCV" && ./autogen.sh || exit 1
     LDFLAGS="-L$HOME/opt/leptonica-$LEPTONICAV/lib -Wl,--rpath=$HOME/opt/leptonica-$LEPTONICAV/lib,--enable-new-dtags" CPPFLAGS="-I$HOME/opt/leptonica-$LEPTONICAV/include" ./configure --prefix=$HOME/opt/jbig2enc-$JBIG2ENCV && make && make install || exit 1
