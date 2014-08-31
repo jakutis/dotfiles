@@ -927,7 +927,7 @@ then
     cd ../.bin
     ln -nsf "../opt/svg2pdf-$SVG2PDFV/svg2pdf"
     cd ..
-    rm -rf "svg2pdf"
+    rm -rf "svg2pdf-build"
 fi
 
 if ! [ -e ".bin/text2pdf" ]
