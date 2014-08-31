@@ -554,7 +554,7 @@ then
     then
         mkdir -p repos/git && cd repos/git && git clone https://github.com/gugod/App-perlbrew && cd ../.. || exit 1
     fi
-    ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
+    bash ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
 else
     TWGET="$(mktemp --directory)"
     tee "$TWGET/wget" <<EOT
