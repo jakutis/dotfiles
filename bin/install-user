@@ -914,10 +914,12 @@ fi
 
 if ! [ -e "opt/svg2pdf-$SVG2PDFV" ]
 then
-    git clone git://people.freedesktop.org/~cworth/svg2pdf || exit 1
-    cd svg2pdf
-    git co "$SVG2PDFV"
-    make || exit 1
+    if [ ! -e "repos/git/svg2pdf" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone git://people.freedesktop.org/~cworth/svg2pdf && cd ../.. || exit 1
+    fi
+    (cd "repos/git/svg2pdf" && git archive --format=tar --prefix=svg2pdf-build/ "$SVG2PDFV") | tar xf - || exit 1
+    cd svg2pdf-build && make || exit 1
     mkdir "../opt/svg2pdf-$SVG2PDFV"
     cp svg2pdf "../opt/svg2pdf-$SVG2PDFV"
     cd ../opt
