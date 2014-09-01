@@ -160,11 +160,7 @@ for RC in bin .gitconfig .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresour
 do
     ln -nsf "$DOTFILES/$RC"
 done
-ln -nsf "$DOTFILES/.xinitrc" ".xsession"
-if [ "$MACHINE" = "server" ]
-then
-    ln -nsf "$DOTFILES/.xinitrc.server" ".xinitrc"
-fi
+ln -nsf "$DOTFILES/.xinitrc.$MACHINE" ".xinitrc"
 
 mkdir --parents .mc
 mkdir --parents .irssi
