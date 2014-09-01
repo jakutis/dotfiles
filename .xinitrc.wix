@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+xhost localhost
+xrdb -merge "$HOME/.Xresources"
+xbindkeys
+xrandr --output eDP1 --preferred --auto --below VGA1 --primary --output VGA1 --auto --above eDP1 --output VGA1 --auto --left-of HDMI1
+update-xinput
+sudo wpa_supplicant -c/etc/wpa_supplicant.conf -iwlp3s0 -B
+sudo dhcpcd wlp3s0
+klipper
+awesome
