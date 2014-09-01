@@ -185,13 +185,6 @@ then
     cd ..
 fi
 
-if ! [ -e ".varia/desktop" ]
-then
-    cd .varia
-    ln -nsf "$VARIA/desktop"
-    cd ..
-fi
-
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
     cd "repos/git/git" && git co "v$GITV" || exit 1
