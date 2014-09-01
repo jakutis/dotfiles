@@ -78,7 +78,7 @@ then
         rm --recursive "$DIR"
     fi
 
-    for PKG in rar ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 ideviceinstaller-git ocrodjvu pdftk fuse-google-drive-git teamviewer virtualbox-ext-oracle jbig2enc-git proftpd bison27
+    for PKG in rar ttf-ms-fonts gdk-pixbuf-psd transmission-cli ttf2eot python2-yenc pdfgrep v4l2loopback-git python-autopep8 ideviceinstaller-git ocrodjvu pdftk fuse-google-drive-git teamviewer virtualbox-ext-oracle jbig2enc-git proftpd
     do
         if ! "$PACMAN" --query --list "$PKG" 1>/dev/null 2>&1
         then
