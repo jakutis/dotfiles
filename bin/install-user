@@ -130,9 +130,12 @@ cd "$HOME"
 mkdir --parents "opt"
 
 mkdir --parents ".bin"
-ln -nsf "$VARIA/gitac" ".bin/gitac"
-ln -nsf "$VARIA/gitacAll" ".bin/gitacAll"
-ln -nsf "$VARIA/gitD" ".bin/gitD"
+if [ "$MACHINE" != "wix" ]
+then
+    ln -nsf "$VARIA/gitac" ".bin/gitac"
+    ln -nsf "$VARIA/gitacAll" ".bin/gitacAll"
+    ln -nsf "$VARIA/gitD" ".bin/gitD"
+fi
 
 mkdir --parents Downloads/rtorrent
 mkdir --parents .rtorrent.session
