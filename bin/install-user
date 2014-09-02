@@ -140,11 +140,14 @@ fi
 mkdir --parents Downloads/rtorrent
 mkdir --parents .rtorrent.session
 
-mkdir --parents ".config/newsbeuter"
-cd ".config/newsbeuter"
-ln -nsf "$DOTFILES/.newsbeuter/config"
-ln -nsf "$VARIA/news.txt" urls
-cd ../..
+if [ "$MACHINE" = "server" ]
+then
+    mkdir --parents ".config/newsbeuter"
+    cd ".config/newsbeuter"
+    ln -nsf "$DOTFILES/.newsbeuter/config"
+    ln -nsf "$VARIA/news.txt" urls
+    cd ../..
+fi
 
 mkdir --parents ".cmus"
 cd ".cmus"
