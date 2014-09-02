@@ -24,11 +24,7 @@ then
     echo "DOTFILES at "$DOTFILES" does not exist" 1>&2
     exit 1
 fi
-if ! [ -e "$VARIA" ]
-then
-    echo "VARIA at "$VARIA" does not exist" 1>&2
-    exit 1
-fi
+
 if ! [ -e "$REPOS" ]
 then
     echo "REPOS at "$REPOS" does not exist" 1>&2
@@ -42,15 +38,28 @@ fi
 
 if [ "$MACHINE" = "server" ]
 then
+    if ! [ -e "$VARIA" ]
+    then
+        echo "VARIA at "$VARIA" does not exist" 1>&2
+        exit 1
+    fi
     "$VARIA/server/proftpd/install"
     cd /etc/smokeping
     ln --no-dereference --force --symbolic "$VARIA/server/smokeping-config.d" config.d
 fi
 
-pushd .
-cd /etc
-ln --no-dereference --force --symbolic "$VARIA/wpa_supplicant.conf"
-popd
+if [ "$MACHINE" = "laptop" ]
+then
+    if ! [ -e "$VARIA" ]
+    then
+        echo "VARIA at "$VARIA" does not exist" 1>&2
+        exit 1
+    fi
+    pushd .
+    cd /etc
+    ln --no-dereference --force --symbolic "$VARIA/wpa_supplicant.conf"
+    popd
+fi
 
 if [ -n "$PACMAN" ]
 then
