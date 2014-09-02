@@ -964,7 +964,7 @@ if ! [ -e "opt/leptonica-$LEPTONICAV" ]
 then
     pushd .
     curl -L "http://leptonica.googlecode.com/files/leptonica-${LEPTONICAV}.tar.bz2" | tar jxf - && cd "leptonica-$LEPTONICAV" || exit 1
-    ./configure --with-libtiff --with-giflib --with-jpeg --with-libpng --with-zlib --enable-programs --prefix=$HOME/opt/leptonica-$LEPTONICAV && make && make install || exit 1
+    ./configure --with-libtiff --without-giflib --with-jpeg --with-libpng --with-zlib --enable-programs --prefix=$HOME/opt/leptonica-$LEPTONICAV && make && make install || exit 1
     cd ..
     rm -rf "leptonica-$LEPTONICAV"
     popd
