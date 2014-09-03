@@ -7,7 +7,7 @@ xset s blank
 xset s 60
 update-xinput
 sudo wpa_supplicant -c/etc/wpa_supplicant.conf -iwlp3s0 -B
-sudo dhcpcd wlp3s0
+sudo dhclient wlp3s0
 klipper
 wix-arrive
 awesome
