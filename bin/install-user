@@ -553,25 +553,11 @@ then
     cd "opt" && ln -nsf "fuse-$FUSEV" "fuse" && cd ".."
 fi
 
-if ! [ -e "$PERLBREW_ROOT" ]
+if [ ! -e "repos/git/App-perlbrew" ]
 then
-    if [ ! -e "repos/git/App-perlbrew" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/gugod/App-perlbrew && cd ../.. || exit 1
-    fi
-    bash ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
-else
-    TWGET="$(mktemp --directory)"
-    tee "$TWGET/wget" <<EOT
-#!/usr/bin/env bash
-
-if [ "\$1" = "--quiet" ]
-then
-    curl -L "\$4"
+    mkdir -p repos/git && cd repos/git && git clone https://github.com/gugod/App-perlbrew && cd ../.. || exit 1
 fi
-EOT
-    chmod +x "$TWGET/wget" && PATH="$TWGET:$PATH" perlbrew self-upgrade && rm -rf "$TWGET" || exit 1
-fi
+bash ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
 
 if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
 then
