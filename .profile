@@ -1,5 +1,6 @@
 umask 022
 
+MACHINE="$(cat "$HOME/.varia/machine")"
 export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
 if [ -n "$(locale --all-locales | grep 'C.utf8')" ]
 then
@@ -24,7 +25,12 @@ export LLVM_ROOT="$HOME/opt/llvm"
 export JAVA_HOME="$HOME/opt/jdk"
 export R_LIBS_USER="$HOME/opt/r-site-library"
 export CUDA_HOME="$HOME/opt/cuda"
-export BROWSER="firefox"
+if [ "$MACHINE" = "wix" ]
+then
+    export BROWSER="www"
+else
+    export BROWSER="firefox"
+fi
 export TEXINPUTS="$TEXINPUTS:$HOME/opt/r/lib/R/share/texmf/tex/latex"
 export PYENV_ROOT="$HOME/.pyenv"
 export GVM_ROOT="$HOME/.gvm"
