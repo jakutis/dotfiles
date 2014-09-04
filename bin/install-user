@@ -196,6 +196,10 @@ fi
 
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
+    if [ ! -e "repos/git/git" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/git/git && cd ../.. || exit 1
+    fi
     cd "repos/git/git" && git co "v$GITV" || exit 1
     make configure && ./configure --prefix="$HOME/opt/git-$GITV" && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD all doc info && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD install install-doc install-html install-info || exit 1
     cd "../../.."
