@@ -3,6 +3,8 @@
 set -o verbose
 set -o xtrace
 
+MYSQLSERVERV="5.6.20"
+MYSQLSERVERLINE="5.6"
 PHPV="5.6.0"
 PHPBUILDV="d0defba7a855da45efa7e5458ea70090380075ac"
 PHPVERSIONV="7acb7b2bc1cda2b1d914cf4074e060a65c06119f"
@@ -412,6 +414,21 @@ then
     (cd "repos/git/maven" && git archive --format=tar --prefix=maven-build/ "maven-$MAVENV") | tar xf - || exit 1
     (cd maven-build && M2_HOME="$(pwd)/.m2" ant && cd ../opt && tar xf ../maven-build/apache-maven/target/apache-maven-${MAVENV}-bin.tar.gz && ln -nsf "apache-maven-${MAVENV}" apache-maven) || exit 1
     rm -rf maven-build && cd .bin && ln -nsf "../opt/apache-maven/bin/mvn" && cd .. || exit 1
+fi
+
+if ! [ -e "opt/mysql-server-$MYSQLSERVERV" ]
+then
+    if [ ! -e "repos/bzr/mysql-server-$MYSQLSERVERLINE" ]
+    then
+        mkdir -p repos/bzr && cd repos/bzr && bzr branch "lp:mysql-server/$MYSQLSERVERLINE" "mysql-server-$MYSQLSERVERLINE" && cd ../.. || exit 1
+    fi
+    (cd "repos/bzr/mysql-server-$MYSQLSERVERLINE" && bzr export --revision=tag:mysql-$MYSQLSERVERV "$HOME/mysql-server-build") || exit 1
+    cd mysql-server-build && cmake . -DCMAKE_INSTALL_PREFIX="$HOME/opt/mysql-server-$MYSQLSERVERV" && make && make install && cd .. && rm -rf mysql-server-build || exit 1
+    cd opt && ln -nsf "mysql-server-$MYSQLSERVERV" "mysql-server" && cd .. || exit 1
+    if [ ! -e "etc/mysql" ]
+    then
+        cd "$HOME/opt/mysql" && ./scripts/mysql_install_db --no-defaults --datadir="$HOME/etc/mysql" && cd ../.. || exit 1
+    fi
 fi
 
 if ! [ -e "opt/mp4v2-$MP4V2V" ]
