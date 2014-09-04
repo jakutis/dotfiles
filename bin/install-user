@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+PHPBUILDV="d0defba7a855da45efa7e5458ea70090380075ac"
 PHPVERSIONV="7acb7b2bc1cda2b1d914cf4074e060a65c06119f"
 MAVENV="3.2.3"
 VAGRANTV="1.6.4"
@@ -264,6 +265,18 @@ then
     fi
     (cd opt && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version-$PHPVERSIONV/" "$PHPVERSIONV") | tar xf - && ln -nsf "php-version-$PHPVERSIONV" "php-version") || exit 1
     mkdir .phps || exit 1
+fi
+
+if ! [ -e "opt/php-build-$PHPBUILDV" ]
+then
+    if [ ! -e "repos/git/php-build" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/CHH/php-build && cd ../.. || exit 1
+    fi
+    (cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" "$PHPBUILDV") | tar xf - || exit 1
+    cd php-build-build && PREFIX="$HOME/opt/php-build-$PHPBUILDV" ./install.sh && cd .. && rm -rf php-build-build || exit 1
+    cd opt && ln -nsf "php-build-$PHPBUILDV" "php-build" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
 fi
 
 curl -L https://raw.github.com/spawngrid/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
