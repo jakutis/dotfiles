@@ -284,7 +284,7 @@ fi
 
 if ! [ -e "opt/php-$PHPV" ]
 then
-    php-build "$PHPV" "opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
+    php-build "$PHPV" "$HOME/opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
     [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")" || exit 1
 fi
 
