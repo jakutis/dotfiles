@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+PHPV="5.6.0"
 PHPBUILDV="d0defba7a855da45efa7e5458ea70090380075ac"
 PHPVERSIONV="7acb7b2bc1cda2b1d914cf4074e060a65c06119f"
 MAVENV="3.2.3"
@@ -277,6 +278,12 @@ then
     cd php-build-build && PREFIX="$HOME/opt/php-build-$PHPBUILDV" ./install.sh && cd .. && rm -rf php-build-build || exit 1
     cd opt && ln -nsf "php-build-$PHPBUILDV" "php-build" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
+fi
+
+if ! [ -e "opt/php-$PHPV" ]
+then
+    php-build "$PHPV" "opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
+    [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")" || exit 1
 fi
 
 curl -L https://raw.github.com/spawngrid/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
