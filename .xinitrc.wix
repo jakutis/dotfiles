@@ -5,7 +5,7 @@ xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
 sudo wpa_supplicant -c/etc/wpa_supplicant.conf -iwlp3s0 -B
-sudo dhclient wlp3s0
+sudo dhcpcd wlp3s0
 klipper
 wix-arrive
 awesome
