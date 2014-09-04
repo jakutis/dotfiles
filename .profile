@@ -62,6 +62,7 @@ export EDITOR="$(which vim)"
 [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
 [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use default
 [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use default 1>/dev/null
+[[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")"
 
 if [ -n "$BASH_VERSION" ]; then
     source "$HOME/.bashrc"
