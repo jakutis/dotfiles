@@ -447,7 +447,7 @@ then
     cd opt && ln -nsf "mysql-server-$MYSQLSERVERV" "mysql-server" && cd .. || exit 1
     if [ ! -e "etc/mysql" ]
     then
-        cd "$HOME/opt/mysql" && ./scripts/mysql_install_db --no-defaults --datadir="$HOME/etc/mysql" && cd ../.. || exit 1
+        cd "$HOME/opt/mysql-server" && ./scripts/mysql_install_db --no-defaults --datadir="$HOME/etc/mysql" && cd ../.. || exit 1
     fi
 fi
 
