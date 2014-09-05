@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+NGINXV="1.7.4"
 MYSQLSERVERV="5.6.20"
 MYSQLSERVERLINE="5.6"
 PHPV="5.6.0"
@@ -421,6 +422,18 @@ then
     (cd "repos/git/maven" && git archive --format=tar --prefix=maven-build/ "maven-$MAVENV") | tar xf - || exit 1
     (cd maven-build && M2_HOME="$(pwd)/.m2" ant && cd ../opt && tar xf ../maven-build/apache-maven/target/apache-maven-${MAVENV}-bin.tar.gz && ln -nsf "apache-maven-${MAVENV}" apache-maven) || exit 1
     rm -rf maven-build && cd .bin && ln -nsf "../opt/apache-maven/bin/mvn" && cd .. || exit 1
+fi
+
+if ! [ -e "opt/nginx-$NGINXV" ]
+then
+    if [ ! -e "repos/hg/nginx" ]
+    then
+        mkdir -p repos/hg && cd repos/hg && hg clone http://hg.nginx.org/nginx && cd ../.. || exit 1
+    fi
+    (cd "$HOME/repos/hg/nginx" && hg archive -r "release-$NGINXV" ../../../nginx-build) || exit 1
+    cd nginx-build && ./auto/configure --prefix="$HOME/opt/nginx-$NGINXV" && make && make install && cd .. && rm -rf nginx-build || exit 1
+    cd opt && ln -nsf "nginx-$NGINXV" nginx && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/nginx/sbin/nginx" nginx && cd .. || exit 1
 fi
 
 if ! [ -e "opt/mysql-server-$MYSQLSERVERV" ]
