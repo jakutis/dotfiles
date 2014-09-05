@@ -44,6 +44,7 @@ PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:
 
 PATH="$HOME/opt/ghc/bin:$PATH"
 PATH="$HOME/.rvm/bin:$PATH"
+PATH="$HOME/.composer/vendor/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
 
 PATH="$HOME/opt/matlab/bin:$PATH"
