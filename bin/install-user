@@ -274,7 +274,7 @@ then
         mkdir -p repos/git && cd repos/git && git clone https://github.com/wilmoore/php-version && cd ../.. || exit 1
     fi
     (cd opt && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version-$PHPVERSIONV/" "$PHPVERSIONV") | tar xf - && ln -nsf "php-version-$PHPVERSIONV" "php-version") || exit 1
-    mkdir .phps || exit 1
+    mkdir --parents .phps || exit 1
 fi
 
 if ! [ -e "opt/php-build-$PHPBUILDV" ]
