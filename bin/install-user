@@ -298,6 +298,7 @@ then
 fi
 
 curl -L https://getcomposer.org/composer.phar > .bin/composer && chmod +x .bin/composer || exit 1
+composer global update || exit 1
 
 curl -L https://raw.github.com/spawngrid/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
 
