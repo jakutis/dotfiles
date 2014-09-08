@@ -3,4 +3,4 @@
 xrandr --output eDP1 --preferred --auto --primary --output HDMI1 --auto --right-of VGA1 --output VGA1 --auto --above eDP1
 xset s on
 xset s blank
-xset s 60
+xset s 300
