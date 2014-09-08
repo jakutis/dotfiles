@@ -25,7 +25,7 @@ then
         sshfs -o reconnect -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip"):/" "$DIR"
     elif [ "$MOUNT" = "server" ]
     then
-        sshfs -o reconnect tahu@jakut.is:/ "$DIR"
+        sshfs -o reconnect jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "ipad" ]
     then
         if [ -z "$SUBMOUNT" ]
