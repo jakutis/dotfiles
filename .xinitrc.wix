@@ -6,6 +6,7 @@ xbindkeys
 update-xinput
 sudo wpa_supplicant -c/etc/wpa_supplicant.conf -iwlp3s0 -B
 sudo dhcpcd wlp3s0
+google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 klipper
 wix-arrive
 awesome
