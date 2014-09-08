@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+OPAMV="1.1.2"
 NGINXV="1.7.4"
 MYSQLSERVERV="5.6.20"
 MYSQLSERVERLINE="5.6"
@@ -721,6 +722,31 @@ then
 fi
 
 cabal update || exit 1
+
+if ! [ -e "opt/opam-$OPAMV" ]
+then
+    if [ ! -e "repos/git/opam" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/ocaml/opam && cd ../.. || exit 1
+    fi
+    (cd "repos/git/opam" && git archive --format=tar --prefix=opam-build/ "$OPAMV") | tar xf - || exit 1
+    cd opam-build && ./configure --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make && make install && cd .. && rm -rf opam-build || exit 1
+    cd opt && ln -nsf "opam-$OPAMV" "opam" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/opam/bin/opam" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/opam/bin/opam-installer" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/opam/bin/opam-admin" && cd .. || exit 1
+fi
+
+if ! [ -e ".opam" ]
+then
+    opam init || exit 1
+    for PACKAGE in google-drive-ocamlfuse
+    do
+        opam install "$PACKAGE" || exit 1
+    done
+else
+    opam update || exit 1
+fi
 
 if ! [ -e "opt/vim-$VIMV" ]
 then
