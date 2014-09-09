@@ -300,6 +300,18 @@ fi
 
 curl -L https://getcomposer.org/composer.phar > .bin/composer && chmod +x .bin/composer || exit 1
 composer global update || exit 1
+if [ -z "$(which phpcs)" ]
+then
+    composer global require squizlabs/php_codesniffer:1.5.* || exit 1
+fi
+if [ -z "$(which phpunit)" ]
+then
+    composer global require phpunit/phpunit:4.2.* || exit 1
+fi
+if [ -z "$(which phpmd)" ]
+then
+    composer global require phpmd/phpmd:2.0.* || exit 1
+fi
 
 curl -L https://raw.github.com/spawngrid/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
 
