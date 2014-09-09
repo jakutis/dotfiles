@@ -18,7 +18,6 @@ Plugin 'Chiel92/vim-autoformat'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'StanAngeloff/php.vim'
-Plugin 'joonty/vim-phpqa.git'
 call vundle#end()
 filetype plugin indent on
 
