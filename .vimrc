@@ -74,6 +74,7 @@ let g:syntastic_mode_map = {
      \}
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_php_phpmd_post_args = '$HOME/Desktop/DOTFILES/phpmd_ruleset.xml'
 
 " bling/vim-airline
 let g:airline_powerline_fonts = 0
