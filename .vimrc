@@ -205,3 +205,16 @@ let g:ctrlp_map = '<c-p>'
 
 " Lokaltog/vim-easymotion
 map <Leader> <Plug>(easymotion-prefix)
+
+" source all .vimrc files in all parent directories, except the main .vimrc
+let dir = getcwd()
+while 1
+    if filereadable(dir . "/.vimrc") && dir != $HOME && dir != $HOME . "/Desktop/DOTFILES"
+        execute "source " . dir . "/.vimrc"
+        call MyVIMRC(dir)
+    endif
+    if dir == '/'
+        break
+    endif
+    let dir = fnamemodify(expand(dir), ":h")
+endwhile
