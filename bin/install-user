@@ -445,7 +445,7 @@ then
         mkdir -p repos/hg && cd repos/hg && hg clone http://hg.nginx.org/nginx && cd ../.. || exit 1
     fi
     (cd "$HOME/repos/hg/nginx" && hg archive -r "release-$NGINXV" ../../../nginx-build) || exit 1
-    cd nginx-build && ./auto/configure --prefix="$HOME/opt/nginx-$NGINXV" && make && make install && cd .. && rm -rf nginx-build || exit 1
+    cd nginx-build && ./auto/configure --prefix="$HOME/opt/nginx-$NGINXV" --with-http_ssl_module && make && make install && cd .. && rm -rf nginx-build || exit 1
     cd opt && ln -nsf "nginx-$NGINXV" nginx && cd .. || exit 1
     cd .bin && ln -nsf "../opt/nginx/sbin/nginx" nginx && cd .. || exit 1
 fi
