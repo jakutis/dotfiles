@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+blank
+gksu systemctl hibernate
+xscreensaver-command -lock
