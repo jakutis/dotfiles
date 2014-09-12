@@ -9,4 +9,5 @@ sudo dhcpcd wlp3s0
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 klipper
 wix-arrive
+xscreensaver -no-splash &
 awesome
