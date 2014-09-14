@@ -31,38 +31,43 @@ PREFERRED="$HOME/.varia/net-preferred"
 
 case "$CMD" in
     "brightness")
-        FILE="$HOME/.brightness"
+        DIR="$HOME/.brightness"
         ARG="$2"
 
-        if ! [ -e "$FILE" ]
+        if ! [ -d "$DIR" ]
         then
-            echo "Symlink $FILE does not exist, please create it, e.g. ln -s /sys/devices/pci0000:00/0000:00:02.0/backlight/acpi_video0/brightness \"$FILE\"" 1>&2
+            echo "Symlink $DIR does not exist, please create it, e.g. ln -s /sys/devices/pci0000:00/0000:00:02.0/backlight/acpi_video0 \"$DIR\"" 1>&2
             exit 1
         fi
+        CURRENT="$(cat "$DIR/brightness")"
+        MAX="$(cat "$DIR/max_brightness")"
+        MIN="0"
+        RANGE=$(($MAX - $MIN))
+        STEP=$(($RANGE / 20))
 
         if [ "$ARG" = "" ]
         then
-            cat $FILE
+            echo "$CURRENT"
         elif [ "$ARG" = "save" ]
         then
-            cat "$FILE" > "$HOME/.varia/lastbrightness"
+            echo "$CURRENT" > "$HOME/.varia/lastbrightness"
         elif [ "$ARG" = "saved" ]
         then
-            cat "$HOME/.varia/lastbrightness" > "$FILE"
+            cat "$HOME/.varia/lastbrightness" > "$DIR/brightness"
         elif [ "$ARG" = "more" ]
         then
-            echo $(($(cat "$FILE") + 1)) > $FILE
+            echo $(($CURRENT + $STEP)) > "$DIR/brightness"
         elif [ "$ARG" = "less" ]
         then
-            echo $(($(cat "$FILE") - 1)) > $FILE
+            echo $(($CURRENT - $STEP)) > "$DIR/brightness"
         elif [ "$ARG" = "max" ]
         then
-            echo 15 > $FILE
+            echo "$MAX" > "$DIR/brightness"
         elif [ "$ARG" = "min" ]
         then
-            echo 0 > $FILE
+            echo "$MIN" > "$DIR/brightness"
         else
-            echo $ARG > $FILE
+            echo $ARG > "$DIR/brightness"
         fi
         ;;
     "net")
