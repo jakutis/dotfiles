@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-blank
+sleep 0.2
+xset s blank
+xset s activate
+xset s noblank
 gksu systemctl hibernate
 xscreensaver-command -lock
+xset s reset
