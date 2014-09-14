@@ -4,8 +4,10 @@ xhost localhost
 xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
+su -c "echo 0 > /sys/devices/platform/thinkpad_acpi/rfkill/rfkill0/state"
 sudo wpa_supplicant -c/etc/wpa_supplicant.conf -iwlp3s0 -B
 sudo dhcpcd wlp3s0
+sudo ifconfig enp0s25 down
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 klipper
 wix-arrive
