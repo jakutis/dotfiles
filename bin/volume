@@ -3,9 +3,11 @@
 TYPE="$1"
 COMMAND="$2"
 
-CURVOL=$(amixer -c 0 cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
+CARD="$(cat "$HOME/.varia/soundcard")"
+
+CURVOL=$(amixer -c $CARD cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
 CURVOL_PULSE=$(pacmd dump-volumes|perl -n -e'/Sink (\d+):.*, real = (.*), soft = / && print $2')
-MAXVOL=$(amixer -c 0 sget "Master"|grep Limits|sed 's/  Limits: Playback 0 - //ig')
+MAXVOL=$(amixer -c $CARD sget "Master"|grep Limits|sed 's/  Limits: Playback 0 - //ig')
 if [ "$TYPE" = "alsa" ]
 then
     STEP=$(($MAXVOL / 20))
@@ -26,17 +28,17 @@ then
         exit 1
     fi
 
-    amixer -c 0 sset Master $CURVOL
+    amixer -c $CARD Master $CURVOL
 elif [ "$TYPE" = "pulse" ]
 then
     if [ "$COMMAND" = "decrease" ]
     then
-        pactl set-sink-mute 0 -- 0
-        pactl set-sink-volume 0 -- -5%
+        pactl set-sink-mute $CARD 0
+        pactl set-sink-volume $CARD -- -5%
     elif [ "$COMMAND" = "increase" ]
     then
-        pactl set-sink-mute 0 -- 0
-        pactl set-sink-volume 0 -- +5%
+        pactl set-sink-mute $CARD 0
+        pactl set-sink-volume $CARD -- +5%
     else
         echo "Error: unknown command $COMMAND"
         exit 1
@@ -45,6 +47,6 @@ else
     echo "Error: unknown sound system type $TYPE"
     exit 1
 fi
-CURVOL=$(amixer -c 0 cget name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
+CURVOL=$(amixer -c $CARD name="Master Playback Volume"|grep ": values"|sed 's/  : values=//ig'|sed 's/,.*//ig' 2>/dev/null)
 CURVOL_PULSE=$(pacmd dump-volumes|perl -n -e'/Sink (\d+):.*, real = (.*), soft = / && print $2')
-awesome-client <<< "myvolumewidget.text='<span color=\"blue\"> $((CURVOL * 100 / $MAXVOL))% (${CURVOL_PULSE}) </span>'"
+#awesome-client <<< "myvolumewidget.text='<span color=\"blue\"> $((CURVOL * 100 / $MAXVOL))% (${CURVOL_PULSE}) </span>'"
