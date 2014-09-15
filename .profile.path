@@ -1,0 +1,30 @@
+export PYENV_ROOT="$HOME/.pyenv"
+export GVM_ROOT="$HOME/.gvm"
+export PERLBREW_ROOT="$HOME/.perl5"
+
+PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/lib/mutt"
+
+PATH="$HOME/opt/ghc/bin:$PATH"
+PATH="$HOME/.rvm/bin:$PATH"
+PATH="$HOME/.composer/vendor/bin:$PATH"
+PATH="$HOME/opt/erlang/bin:$PATH"
+
+PATH="$HOME/opt/matlab/bin:$PATH"
+PATH="$HOME/opt/calibre:$PATH"
+PATH="$HOME/opt/mysql/bin:$PATH"
+PATH="$CUDA_HOME/bin:$PATH"
+PATH="$JAVA_HOME/bin:$PATH"
+PATH="$LLVM_ROOT/bin:$PATH"
+PATH="$PYENV_ROOT/bin:$PATH"
+
+PATH="$HOME/.bin:$HOME/bin:$PATH"
+
+export PATH
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm default 2>/dev/null
+[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use default 1>/dev/null
+[[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
+[[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use default
+[[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use default 1>/dev/null
+[[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")"
+[[ -s "$HOME/.opam/opam-init/init.sh" ]] && . "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null
