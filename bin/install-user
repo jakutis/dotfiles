@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+SCALAV="2.11.2"
 TIGV="2.0.3"
 OPAMV="1.1.2"
 NGINXV="1.7.4"
@@ -439,6 +440,20 @@ then
     rm -rf maven-build && cd .bin && ln -nsf "../opt/apache-maven/bin/mvn" && cd .. || exit 1
 fi
 
+if ! [ -e "opt/scala-$SCALAV" ]
+then
+    if [ ! -e "repos/git/scala" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/scala/scala && cd ../.. || exit 1
+    fi
+    git clone repos/git/scala scala-build && cd scala-build && git co "v$SCALAV" && ant && mv build/pack "$HOME/opt/scala-$SCALAV" && cd .. && rm -rf scala-build || exit 1
+    cd opt && ln -nsf "scala-$SCALAV" scala && cd .. || exit 1
+    for BIN in fsc scala scalac scaladoc scalap
+    do
+        cd .bin && ln -nsf "../opt/scala/bin/$BIN" "$BIN" && cd .. || exit 1
+    done
+fi
+
 if ! [ -e "opt/tig-$TIGV" ]
 then
     if [ ! -e "repos/git/tig" ]
@@ -450,7 +465,6 @@ then
     cd opt && ln -nsf "tig-$TIGV" tig && cd .. || exit 1
     cd .bin && ln -nsf "../opt/tig/bin/tig" "tig" && cd .. || exit 1
 fi
-
 
 if ! [ -e "opt/nginx-$NGINXV" ]
 then
