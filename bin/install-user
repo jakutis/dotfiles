@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+TIGV="2.0.3"
 OPAMV="1.1.2"
 NGINXV="1.7.4"
 MYSQLSERVERV="5.6.20"
@@ -437,6 +438,19 @@ then
     (cd maven-build && M2_HOME="$(pwd)/.m2" ant && cd ../opt && tar xf ../maven-build/apache-maven/target/apache-maven-${MAVENV}-bin.tar.gz && ln -nsf "apache-maven-${MAVENV}" apache-maven) || exit 1
     rm -rf maven-build && cd .bin && ln -nsf "../opt/apache-maven/bin/mvn" && cd .. || exit 1
 fi
+
+if ! [ -e "opt/tig-$TIGV" ]
+then
+    if [ ! -e "repos/git/tig" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/jonas/tig && cd ../.. || exit 1
+    fi
+    (cd "repos/git/tig" && git archive --format=tar --prefix=tig-build/ "tig-$TIGV") | tar xf - || exit 1
+    cd tig-build && ./autogen.sh && ./configure --prefix="$HOME/opt/tig-$TIGV" && make && make install && cd .. && rm -rf tig-build || exit 1
+    cd opt && ln -nsf "tig-$TIGV" tig && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/tig/bin/tig" "tig" && cd .. || exit 1
+fi
+
 
 if ! [ -e "opt/nginx-$NGINXV" ]
 then
