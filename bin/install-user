@@ -4,6 +4,7 @@ set -o verbose
 set -o xtrace
 
 HUBV="1.12.2"
+SBTV="0.13.6"
 SCALAV="2.11.2"
 TIGV="2.0.3"
 OPAMV="1.1.2"
@@ -453,6 +454,22 @@ then
     do
         cd .bin && ln -nsf "../opt/scala/bin/$BIN" "$BIN" && cd .. || exit 1
     done
+fi
+
+if ! [ -e "opt/sbt-$SBTV" ]
+then
+    if [ ! -e "repos/git/sbt" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/sbt/sbt && cd ../.. || exit 1
+    fi
+    (cd "repos/git/sbt" && git archive --format=tar --prefix=sbt-build/ "v$SBTV") | tar xf - || exit 1
+    cd sbt-build && wget https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$SBTV/sbt-launch.jar && "$HOME/opt/jdk-1.7/bin/java" -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M -jar ./sbt-launch.jar package && mkdir ../opt/sbt-$SBTV && mv ./target/sbt-launch-$SBTV.jar "../opt/sbt-$SBTV/sbt-launch.jar" && cd .. && rm -rf sbt-build || exit 1
+    cd opt && ln -nsf "sbt-$SBTV" sbt && cd .. || exit 1
+    mkdir opt/sbt/bin && cat <<EOT > "opt/sbt/bin/sbt" && chmod +x "opt/sbt/bin/sbt"
+#!/usr/bin/env bash
+
+java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -jar "$HOME/opt/sbt-$SBTV/sbt-launch.jar"
+EOT
 fi
 
 if ! [ -e "opt/hub-$HUBV" ]
