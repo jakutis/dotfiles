@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+HUBV="1.12.2"
 SCALAV="2.11.2"
 TIGV="2.0.3"
 OPAMV="1.1.2"
@@ -452,6 +453,18 @@ then
     do
         cd .bin && ln -nsf "../opt/scala/bin/$BIN" "$BIN" && cd .. || exit 1
     done
+fi
+
+if ! [ -e "opt/hub-$HUBV" ]
+then
+    if [ ! -e "repos/git/hub" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone https://github.com/github/hub && cd ../.. || exit 1
+    fi
+    (cd "repos/git/hub" && git archive --format=tar --prefix=hub-build/ "v$HUBV") | tar xf - || exit 1
+    cd hub-build && bundle install && rake install prefix="$HOME/opt/hub-$HUBV" && cd .. && rm -rf hub-build || exit 1
+    cd opt && ln -nsf "hub-$HUBV" hub && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/hub/bin/hub" "hub" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/tig-$TIGV" ]
