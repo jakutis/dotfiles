@@ -468,8 +468,9 @@ then
     mkdir opt/sbt/bin && cat <<EOT > "opt/sbt/bin/sbt" && chmod +x "opt/sbt/bin/sbt"
 #!/usr/bin/env bash
 
-java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -jar "$HOME/opt/sbt-$SBTV/sbt-launch.jar"
+java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -jar "$HOME/opt/sbt-$SBTV/sbt-launch.jar" "\$@"
 EOT
+    cd .bin && ln -nsf "../opt/sbt/bin/sbt" "sbt" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/hub-$HUBV" ]
