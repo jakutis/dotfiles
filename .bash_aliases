@@ -1,5 +1,6 @@
 alias title=settitle
 
+alias md='source $HOME/bin/md'
 alias ls='ls --color=auto'
 alias less='less -R'
 alias cp='cp -i'
