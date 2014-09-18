@@ -1,4 +1,5 @@
 jshint
+gulp
 pipeable-js
 node-inspector
 watchy
