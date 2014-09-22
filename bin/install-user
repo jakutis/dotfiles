@@ -11,8 +11,7 @@ SCALAV="2.11.2"
 TIGV="2.0.3"
 OPAMV="1.1.2"
 NGINXV="1.7.4"
-MYSQLSERVERV="5.6.20"
-MYSQLSERVERLINE="5.6"
+MYSQLSERVERVS=("5.1.73" "5.6.20")
 PHPVS=("5.5.16" "5.6.0")
 PHPBUILDV="d0defba7a855da45efa7e5458ea70090380075ac"
 PHPVERSIONV="7acb7b2bc1cda2b1d914cf4074e060a65c06119f"
@@ -529,20 +528,28 @@ then
     cd .bin && ln -nsf "../opt/nginx/sbin/nginx" nginx && cd .. || exit 1
 fi
 
-if ! [ -e "opt/mysql-server-$MYSQLSERVERV" ]
-then
-    if [ ! -e "repos/bzr/mysql-server-$MYSQLSERVERLINE" ]
+
+for MYSQLSERVERV in "${MYSQLSERVERVS[@]}"
+do
+    TMP="$MYSQLSERVERV"
+    MYSQLSERVERMAJORV=${TMP%%.*}
+    TMP="${TMP#*.}"
+    MYSQLSERVERMINORV=${TMP%%.*}
+    if ! [ -e "opt/mysql-server-$MYSQLSERVERV" ]
     then
-        mkdir -p repos/bzr && cd repos/bzr && bzr branch "lp:mysql-server/$MYSQLSERVERLINE" "mysql-server-$MYSQLSERVERLINE" && cd ../.. || exit 1
+        if [ ! -e "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" ]
+        then
+            mkdir -p repos/bzr && cd repos/bzr && bzr branch "lp:mysql-server/${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" "mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && cd ../.. || exit 1
+        fi
+        (cd "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && bzr export --revision=tag:mysql-$MYSQLSERVERV "$HOME/mysql-server-build") || exit 1
+        if [ "${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" = "5.1" ]
+        then
+            cd mysql-server-build && PATH="$HOME/opt/bison-2.1/bin:$PATH" ./BUILD/autorun.sh && PATH="$HOME/opt/bison-2.1/bin:$PATH" CC="gcc" CXX="gcc" CXXFLAGS="-felide-constructors -fno-exceptions -fno-rtti" ./configure --prefix="$HOME/opt/mysql-server-$MYSQLSERVERV" && PATH="$HOME/opt/bison-2.1/bin:$PATH" make && PATH="$HOME/opt/bison-2.1/bin:$PATH" make install && cd .. && rm -rf mysql-server-build || exit 1
+        else
+            cd mysql-server-build && cmake . -DCMAKE_INSTALL_PREFIX="$HOME/opt/mysql-server-$MYSQLSERVERV" && make && make install && cd .. && rm -rf mysql-server-build || exit 1
+        fi
     fi
-    (cd "repos/bzr/mysql-server-$MYSQLSERVERLINE" && bzr export --revision=tag:mysql-$MYSQLSERVERV "$HOME/mysql-server-build") || exit 1
-    cd mysql-server-build && cmake . -DCMAKE_INSTALL_PREFIX="$HOME/opt/mysql-server-$MYSQLSERVERV" && make && make install && cd .. && rm -rf mysql-server-build || exit 1
-    cd opt && ln -nsf "mysql-server-$MYSQLSERVERV" "mysql-server" && cd .. || exit 1
-    if [ ! -e "etc/mysql" ]
-    then
-        cd "$HOME/opt/mysql-server" && ./scripts/mysql_install_db --no-defaults --datadir="$HOME/etc/mysql" && cd ../.. || exit 1
-    fi
-fi
+done
 
 if ! [ -e "opt/mp4v2-$MP4V2V" ]
 then
