@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+BISONVS=("2.1")
 PHPZMQV="1.1.2"
 HUBV="1.12.2"
 SBTV="0.13.6"
@@ -273,6 +274,15 @@ then
     ln -nsf "glibc-${GLIBCV}" "glibc"
     cd ..
 fi
+
+for BISONV in "${BISONVS[@]}"
+do
+    if ! [ -e "opt/bison-$BISONV" ]
+    then
+        curl -L "https://ftp.gnu.org/gnu/bison/bison-${BISONV}.tar.bz2" | tar jxf - || exit 1
+        cd "bison-$BISONV" && ./configure --prefix="$HOME/opt/bison-$BISONV" && make && make install && cd .. && rm -rf bison-$BISONV || exit 1
+    fi
+done
 
 if ! [ -e "opt/php-version-$PHPVERSIONV" ]
 then
