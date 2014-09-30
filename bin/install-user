@@ -184,7 +184,7 @@ else
 fi
 
 touch .xbindkeys.noauto
-for RC in bin .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
+for RC in bin .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .vimcustom .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
