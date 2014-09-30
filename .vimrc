@@ -21,6 +21,11 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'joonty/vdebug'
+Plugin 'jeetsukumaran/vim-buffergator'
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "garbas/vim-snipmate"
+Bundle 'derekwyatt/vim-scala'
 call vundle#end()
 filetype plugin indent on
 
