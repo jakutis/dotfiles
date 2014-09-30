@@ -1,3 +1,5 @@
+set rtp+=~/.vimcustom
+
 " Vundle
 set nocompatible
 filetype off
