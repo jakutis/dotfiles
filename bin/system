@@ -14,9 +14,38 @@ then
 fi
 
 CMD="$1"
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
     echo "Available commands: help hibernate poweroff reboot net powersave screens brightness"
+}
+
+function stop {
+    "$VARIA/$MACHINE/rc.local.stop"
+    "$VARIA/$MACHINE/rc.local.modem.stop"
+    "$VARIA/$MACHINE/rc.local.wifi.stop"
+}
+
+function power {
+    FUNCTION="$1"
+
+    if which systemctl 1>/dev/null 2>&1
+    then
+        systemctl "$FUNCTION"
+    elif which "pm-$FUNCTION" 1>/dev/null 2>&1
+    then
+        "pm-$FUNCTION"
+    else
+        "$FUNCTION"
+    fi
+}
+
+function reset {
+    xrandr --auto
+    "$HOME/bin/update-xinput"
+    "$VARIA/$MACHINE/rc.power"
 }
 
 if [ -z "$CMD" ]
@@ -25,10 +54,6 @@ then
     help 1>&2
     exit 1
 fi
-
-DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
-VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
-MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 case "$CMD" in
     "brightness")
@@ -82,68 +107,29 @@ case "$CMD" in
         nohup "$VARIA/networks/cfg-${2}" 1>/dev/null 2>&1 &
         ;;
     "powersave")
-        $VARIA/networks/vanilla.sh
-        $VARIA/laptop/rc.power
-        $VARIA/laptop/rc.local.stop
-        $VARIA/laptop/rc.local.modem.stop
-        $VARIA/laptop/rc.local.wifi.stop
-        rm -f "$LAST"
+        "$VARIA/networks/vanilla"
+        "$VARIA/$MACHINE/rc.power"
+        stop
         ;;
     "reboot" | "restart")
-        $VARIA/laptop/rc.local.stop
-        $VARIA/laptop/rc.local.modem.stop
-        $VARIA/laptop/rc.local.wifi.stop
-        rm -f "$LAST"
-        if which systemctl >/dev/null
-        then
-            systemctl reboot
-        else
-            reboot
-        fi
+        stop
+        power reboot
         ;;
     "poweroff" | "shutdown")
-        $VARIA/laptop/rc.local.stop
-        $VARIA/laptop/rc.local.modem.stop
-        $VARIA/laptop/rc.local.wifi.stop
-        rm -f "$LAST"
-        if which systemctl >/dev/null
-        then
-            systemctl poweroff
-        else
-            poweroff
-        fi
+        stop
+        power poweroff
         ;;
     "suspend")
         $HOME/bin/switch-display LVDS1
-        $VARIA/laptop/rc.local.stop
-        $VARIA/laptop/rc.local.modem.stop
-        $VARIA/laptop/rc.local.wifi.stop
-        rm -f "$LAST"
-        if which systemctl >/dev/null
-        then
-            systemctl suspend
-        else
-            pm-suspend
-        fi
-        xrandr --auto
-        $HOME/bin/update-xinput
-        $VARIA/laptop/rc.power
+        stop
+        power suspend
+        reset
         ;;
     "hibernate")
         $HOME/bin/switch-display LVDS1
-        $VARIA/laptop/rc.local.stop
-        $VARIA/laptop/rc.local.modem.stop
-        $VARIA/laptop/rc.local.wifi.stop
-        rm -f "$LAST"
-        if which systemctl >/dev/null
-        then
-            systemctl hibernate
-        else
-            pm-hibernate
-        fi
-        xrandr --auto
-        $HOME/bin/update-xinput
-        $VARIA/laptop/rc.power
+        stop
+        power hibernate
+        reset
         ;;
     "help")
         help
