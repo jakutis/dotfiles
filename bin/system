@@ -16,7 +16,7 @@ fi
 CMD="$1"
 
 function help {
-    echo "Available commands: help hibernate poweroff reboot net powersave"
+    echo "Available commands: help hibernate poweroff reboot net powersave screens brightness"
 }
 
 if [ -z "$CMD" ]
@@ -26,12 +26,9 @@ then
     exit 1
 fi
 
-LAST="$HOME/.varia/net-last"
-PREFERRED="$HOME/.varia/net-preferred"
-
 case "$CMD" in
     "brightness")
-        DIR="$HOME/.brightness"
+        DIR="$XDG_CONFIG_HOME/dotfiles/brightness"
         ARG="$2"
 
         if ! [ -d "$DIR" ]
@@ -50,10 +47,10 @@ case "$CMD" in
             echo "$CURRENT"
         elif [ "$ARG" = "save" ]
         then
-            echo "$CURRENT" > "$HOME/.varia/lastbrightness"
+            echo "$CURRENT" > "$XDG_CONFIG_HOME/dotfiles/lastbrightness"
         elif [ "$ARG" = "saved" ]
         then
-            cat "$HOME/.varia/lastbrightness" > "$DIR/brightness"
+            cat "$XDG_CONFIG_HOME/dotfiles/lastbrightness" > "$DIR/brightness"
         elif [ "$ARG" = "more" ]
         then
             echo $(($CURRENT + $STEP)) > "$DIR/brightness"
@@ -70,9 +67,15 @@ case "$CMD" in
             echo $ARG > "$DIR/brightness"
         fi
         ;;
+    "screens")
+        DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+        MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+        "$DOTFILES/screens.$MACHINE/$2"
+        ;;
     "net")
+        LAST="$XDG_CONFIG_HOME/dotfiles/net-last"
+        PREFERRED="$XDG_CONFIG_HOME/dotfiles/net-preferred"
         CFG="$2"
-        #ALL="$(ls $HOME/Desktop/VARIA/networks/cfg-*.sh)"
         ALL="$HOME/Desktop/VARIA/networks/cfg-client-omnitel.sh $HOME/Desktop/VARIA/networks/cfg-client-eth.sh $HOME/Desktop/VARIA/networks/cfg-client-wifi.sh $HOME/Desktop/VARIA/networks/cfg-client-vpnc-ktu-wifi.sh"
         if [ "$CFG" = "none" ]
         then
