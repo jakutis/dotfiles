@@ -9,7 +9,7 @@ then
   else
       SUDO="gksudo"
   fi
-  $SUDO -- bash -c "XDG_CONFIG_HOME="$XDG_CONFIG_HOME" XAUTHORITY="$HOME/.Xauthority" HOME="$HOME" "$0" $ARGS"
+  $SUDO -- bash -c "XDG_CONFIG_HOME="$XDG_CONFIG_HOME" XDG_DATA_HOME="$XDG_DATA_HOME" XAUTHORITY="$HOME/.Xauthority" HOME="$HOME" "$0" $ARGS"
   exit
 fi
 
@@ -47,10 +47,10 @@ case "$CMD" in
             echo "$CURRENT"
         elif [ "$ARG" = "save" ]
         then
-            echo "$CURRENT" > "$XDG_CONFIG_HOME/dotfiles/lastbrightness"
+            echo "$CURRENT" > "$XDG_DATA_HOME/dotfiles/lastbrightness"
         elif [ "$ARG" = "saved" ]
         then
-            cat "$XDG_CONFIG_HOME/dotfiles/lastbrightness" > "$DIR/brightness"
+            cat "$XDG_DATA_HOME/dotfiles/lastbrightness" > "$DIR/brightness"
         elif [ "$ARG" = "more" ]
         then
             echo $(($CURRENT + $STEP)) > "$DIR/brightness"
