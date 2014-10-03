@@ -26,6 +26,10 @@ then
     exit 1
 fi
 
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+
 case "$CMD" in
     "brightness")
         DIR="$XDG_CONFIG_HOME/dotfiles/brightness"
@@ -68,78 +72,27 @@ case "$CMD" in
         fi
         ;;
     "screens")
-        DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
-        MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
         "$DOTFILES/screens.$MACHINE/$2"
         ;;
     "net")
-        LAST="$XDG_CONFIG_HOME/dotfiles/net-last"
-        PREFERRED="$XDG_CONFIG_HOME/dotfiles/net-preferred"
-        CFG="$2"
-        ALL="$HOME/Desktop/VARIA/networks/cfg-client-omnitel.sh $HOME/Desktop/VARIA/networks/cfg-client-eth.sh $HOME/Desktop/VARIA/networks/cfg-client-wifi.sh $HOME/Desktop/VARIA/networks/cfg-client-vpnc-ktu-wifi.sh"
-        if [ "$CFG" = "none" ]
-        then
-            CFG="$HOME/Desktop/VARIA/networks/vanilla.sh"
-        elif [ "$CFG" = "next" ]
-        then
-            FOUNDLAST="0"
-            for NET in $ALL
-            do
-                if [ "$FOUNDLAST" = "1" ]
-                then
-                    CFG="$NET"
-                    break
-                fi
-                if [ "$NET" = "$(cat "$LAST")" ]
-                then
-                    FOUNDLAST="1"
-                fi
-            done
-            if [ "$CFG" = "next" ]
-            then
-                if ! [ -e "$PREFERRED" ]
-                then
-                    echo $HOME/Desktop/VARIA/networks/cfg-client-wifi.sh > "$PREFERRED"
-                fi
-                if [ "$FOUNDLAST" = "1" ]
-                then
-                    CFG="${ALL%%.sh*}.sh"
-                else
-                    CFG="$(cat "$PREFERRED")"
-                fi
-            fi
-        else
-            if ! [ -e "$HOME/Desktop/VARIA/networks/cfg-${CFG}.sh" ]
-            then
-                echo "Error: no such network configuration \"$CFG\" exists" 1>&2
-                echo "Available:" 1>&2
-                echo "    none"
-                ls "$HOME/Desktop/VARIA/networks" | grep "^cfg-" | sed "s/^cfg\-/    /" | sed "s/\\.sh\$//" 1>&2
-                exit 1
-            fi
-            CFG="$HOME/Desktop/VARIA/networks/cfg-${CFG}.sh"
-        fi
-        echo "$CFG"
-        echo "$CFG" > "$LAST"
-        echo "$CFG" > "$PREFERRED"
-        $HOME/Desktop/VARIA/laptop/rc.power
-        $HOME/Desktop/VARIA/laptop/rc.local.start
-        $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
-        nohup $CFG 1>$HOME/.varia/net.log 2>&1 &
+        "$VARIA/$MACHINE/rc.power"
+        "$VARIA/$MACHINE/rc.local.start"
+        "$VARIA/$MACHINE/rc.local.modem.stop"
+        "$VARIA/$MACHINE/rc.local.wifi.stop"
+        nohup "$VARIA/networks/cfg-${2}" 1>/dev/null 2>&1 &
         ;;
     "powersave")
-        $HOME/Desktop/VARIA/networks/vanilla.sh
-        $HOME/Desktop/VARIA/laptop/rc.power
-        $HOME/Desktop/VARIA/laptop/rc.local.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
+        $VARIA/networks/vanilla.sh
+        $VARIA/laptop/rc.power
+        $VARIA/laptop/rc.local.stop
+        $VARIA/laptop/rc.local.modem.stop
+        $VARIA/laptop/rc.local.wifi.stop
         rm -f "$LAST"
         ;;
     "reboot" | "restart")
-        $HOME/Desktop/VARIA/laptop/rc.local.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
+        $VARIA/laptop/rc.local.stop
+        $VARIA/laptop/rc.local.modem.stop
+        $VARIA/laptop/rc.local.wifi.stop
         rm -f "$LAST"
         if which systemctl >/dev/null
         then
@@ -149,9 +102,9 @@ case "$CMD" in
         fi
         ;;
     "poweroff" | "shutdown")
-        $HOME/Desktop/VARIA/laptop/rc.local.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
+        $VARIA/laptop/rc.local.stop
+        $VARIA/laptop/rc.local.modem.stop
+        $VARIA/laptop/rc.local.wifi.stop
         rm -f "$LAST"
         if which systemctl >/dev/null
         then
@@ -162,9 +115,9 @@ case "$CMD" in
         ;;
     "suspend")
         $HOME/bin/switch-display LVDS1
-        $HOME/Desktop/VARIA/laptop/rc.local.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
+        $VARIA/laptop/rc.local.stop
+        $VARIA/laptop/rc.local.modem.stop
+        $VARIA/laptop/rc.local.wifi.stop
         rm -f "$LAST"
         if which systemctl >/dev/null
         then
@@ -174,13 +127,13 @@ case "$CMD" in
         fi
         xrandr --auto
         $HOME/bin/update-xinput
-        $HOME/Desktop/VARIA/laptop/rc.power
+        $VARIA/laptop/rc.power
         ;;
     "hibernate")
         $HOME/bin/switch-display LVDS1
-        $HOME/Desktop/VARIA/laptop/rc.local.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.modem.stop
-        $HOME/Desktop/VARIA/laptop/rc.local.wifi.stop
+        $VARIA/laptop/rc.local.stop
+        $VARIA/laptop/rc.local.modem.stop
+        $VARIA/laptop/rc.local.wifi.stop
         rm -f "$LAST"
         if which systemctl >/dev/null
         then
@@ -190,7 +143,7 @@ case "$CMD" in
         fi
         xrandr --auto
         $HOME/bin/update-xinput
-        $HOME/Desktop/VARIA/laptop/rc.power
+        $VARIA/laptop/rc.power
         ;;
     "help")
         help
