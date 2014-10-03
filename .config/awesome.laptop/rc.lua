@@ -74,7 +74,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "1V", "2NRMS", "3H", "4", "5", "6", "7", "8", "9" }, s, layouts[1])
+    tags[s] = awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, layouts[1])
 end
 -- }}}
 
@@ -100,12 +100,6 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- {{{ Wibox
 -- Create a textclock widget
 --mytextclock = awful.widget.textclock({ align = "right" })
-
-mynetwidget = widget({ type = "textbox" })
-
-myvolumewidget = widget({ type = "textbox" })
-
-mybatterywidget = widget({ type = "textbox" })
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -186,9 +180,6 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         --mytextclock,
-        mynetwidget,
-        myvolumewidget,
-        mybatterywidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -342,21 +333,12 @@ awful.rules.rules = {
                      focus = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { instance = "1V" },
-      properties = { tag = tags[1][1], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "2NRMS" },
-      properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true  } },
-    { rule = { instance = "3H" },
-      properties = { tag = tags[1][3], maximized_vertical = true, maximized_horizontal = true  } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
 }
 -- }}}
 
@@ -389,8 +371,6 @@ end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-awful.util.spawn("awesome-ip")
-awful.util.spawn("awesome-battery")
 awful.util.spawn("xbindkeys")
 awful.util.spawn_with_shell("wmname LG3D")
 -- }}}
