@@ -1,25 +1,5 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
-# XF86MonBrightnessDown
-"system brightness less"
-  m:0x0 + c:232
-
-# XF86MonBrightnessUp
-"system brightness more"
-  m:0x0 + c:233
-
-# XF86WebCam
-"blank"
-  m:0x0 + c:220
-
-# XF86Display
-"switch-display"
-  m:0x0 + c:235
-
-# XF86WLAN
-"system net next"
-  m:0x0 + c:246
-
 # Win+C
 "xclip -o -selection primary|xclip -i -selection clipboard"
   m:0x40 + c:54
