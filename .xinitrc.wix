@@ -10,6 +10,6 @@ sudo ifconfig wlp3s0 down
 sudo ifconfig enp0s25 down
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 klipper
-wix-arrive
+system screens mobile
 xscreensaver -no-splash &
 awesome
