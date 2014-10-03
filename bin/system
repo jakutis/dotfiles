@@ -9,7 +9,7 @@ then
   else
       SUDO="gksudo"
   fi
-  $SUDO -- bash -c "XAUTHORITY="$HOME/.Xauthority" HOME="$HOME" "$0" $ARGS"
+  $SUDO -- bash -c "XDG_CONFIG_HOME="$XDG_CONFIG_HOME" XAUTHORITY="$HOME/.Xauthority" HOME="$HOME" "$0" $ARGS"
   exit
 fi
 
