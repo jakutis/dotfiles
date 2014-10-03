@@ -1,0 +1,62 @@
+[core]
+    editor = vim
+    filemode = false
+    autocrlf = false
+
+[user]
+    name = Vytautas Jakutis
+    email = vytautas@jakut.is
+
+[alias]
+    co = checkout
+    st = status
+    ci = commit
+    w = whatchanged
+    pom = pull origin master
+    changes = log --oneline --reverse
+    graph = log --graph --oneline --decorate
+    summary = log --oneline
+    staged = diff --cached
+    d = difftool
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %ar) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    t = log --tags --show-notes --simplify-by-decoration --pretty='format:%ai %h %d %s'
+    l = log --graph --decorate --oneline --stat --all
+
+[web]
+    browser = opera
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red
+    new = green
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[diff]
+    tool = vimdiff
+
+[difftool]
+    prompt = false
+
+[merge]
+    tool = vimdiff
+[push]
+    default = matching
+[http]
+	sslVerify = true
+[url "https://"]
+	insteadOf = git://
