@@ -97,7 +97,21 @@ case "$CMD" in
         fi
         ;;
     "screens")
-        "$DOTFILES/screens.$MACHINE/$2"
+        CFG="$2"
+        if [ -f "$DOTFILES/screens.$MACHINE/$CFG" ]
+        then
+            "$DOTFILES/screens.$MACHINE/$CFG"
+        else
+            if [ -n "$CFG" ]
+            then
+                echo "Screen configuration \"$CFG\" not found." 1>&2
+            else
+                echo "Please specify screen configuration." 1>&2
+            fi
+            echo "Existing configurations are:" 1>&2
+            ls -1 "$DOTFILES/screens.$MACHINE" 1>&2
+            exit 1
+        fi
         ;;
     "net")
         "$VARIA/$MACHINE/rc.power"
