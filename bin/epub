@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+ls *.epub|while read EPUB
+do
+    EPUB="$(basename "$EPUB" .epub)"
+    ebook-convert "${EPUB}.epub" "${EPUB}.azw3"
+    mv "${EPUB}"* "$HOME/toread"
+done
