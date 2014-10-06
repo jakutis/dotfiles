@@ -96,6 +96,13 @@ case "$CMD" in
             echo $ARG > "$DIR/brightness"
         fi
         ;;
+    "battery")
+        BATTERY="$XDG_CONFIG_HOME/dotfiles/battery"
+        echo "Energy factory: $(cat "$BATTERY/energy_full_design")"
+        echo "Energy full:    $(cat "$BATTERY/energy_full")"
+        echo "Energy now:     $(cat "$BATTERY/energy_now")"
+        echo "Status:         $(cat "$BATTERY/status")"
+        ;;
     "screens")
         CFG="$2"
         if [ -f "$DOTFILES/screens.$MACHINE/$CFG" ]
