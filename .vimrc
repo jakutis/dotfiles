@@ -34,8 +34,6 @@ set nomodeline
 
 " master keys
 let mapleader = ","
-nnoremap ; :
-nnoremap : ;
 
 " vim-scripts/taglist.vim
 noremap! <F3> <Esc>:TlistToggle<CR>
