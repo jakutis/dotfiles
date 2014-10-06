@@ -3,6 +3,9 @@
 ls *.epub|while read EPUB
 do
     EPUB="$(basename "$EPUB" .epub)"
-    ebook-convert "${EPUB}.epub" "${EPUB}.azw3"
+    if [ ! -e "${EPUB}.azw3" ]
+    then
+        ebook-convert "${EPUB}.epub" "${EPUB}.azw3"
+    fi
     mv "${EPUB}"* "$HOME/toread"
 done
