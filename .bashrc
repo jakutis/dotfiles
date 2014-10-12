@@ -4,8 +4,10 @@ shopt -s histappend
 shopt -s checkwinsize
 set -o vi
 
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+
 export PROMPT_COMMAND="echo -ne '\a'"
-export PS1='\u@\h:\w\$ '
+export PS1="\\u@$MACHINE:\\w\\\$ "
 export HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
@@ -28,7 +30,7 @@ function settitle() {
         echo -ne "\033k$@\033\\"
     fi
 }
-settitle "$HOSTNAME"
+settitle "$MACHINE"
 export MARKPATH=$HOME/.marks
 function jump {
     mkdir --parents "$MARKPATH"
