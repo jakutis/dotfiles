@@ -5,7 +5,7 @@ do
     EPUB="$(basename "$EPUB" .epub)"
     if [ ! -e "${EPUB}.azw3" ]
     then
-        ebook-convert "${EPUB}.epub" "${EPUB}.azw3"
+        ebook-convert "${EPUB}.epub" "${EPUB}.azw3" || exit 1
     fi
-    mv "${EPUB}"* "$HOME/toread"
+    mv "${EPUB}"* "$HOME/toread" || exit 1
 done
