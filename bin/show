@@ -8,80 +8,80 @@ then
     exit 1
 fi
 
-REALFILE="$(realpath "$FILE")"
+REALFILE="$(realpath -- "$FILE")"
 
 if [ -b "$REALFILE" ]
 then
-    lsblk "$REALFILE" | less
+    lsblk -- "$REALFILE" | less
 elif [ -f "$REALFILE" ]
 then
-    MIME="$(file --dereference --brief --mime-type "$FILE")"
+    MIME="$(file --dereference --brief --mime-type -- "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
     case "$MIME" in
         "text/troff")
-            man "$FILE"
+            man -- "$FILE"
             ;;
         "application/x-sharedlib" | "application/x-executable")
-            readelf --all "$FILE" | less
+            readelf --all -- "$FILE" | less
             ;;
         "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
-            less "$FILE"
+            less -- "$FILE"
             ;;
         "text/html")
-            www "$FILE"
+            www -- "$FILE"
             ;;
         "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska")
-            mplayer "$FILE"
+            mplayer -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
-            mirage "$FILE"
+            mirage -- "$FILE"
             ;;
         "application/x-font-ttf")
-            kfontview "$FILE"
+            kfontview -- "$FILE"
             ;;
         "application/x-bittorrent")
             if [ -n "$(which transmission-show 2>/dev/null)" ]
             then
-                transmission-show "$FILE"
+                transmission-show -- "$FILE"
             else
-                transmissioncli --info "$FILE"
+                transmissioncli --info -- "$FILE"
             fi
             ;;
         "application/epub+zip")
-            ebook-viewer "$FILE"
+            ebook-viewer -- "$FILE"
             ;;
         "application/pdf" | "image/vnd.djvu" | "application/postscript")
-            okular "$FILE"
+            okular -- "$FILE"
             ;;
         "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/zip" )
-            libreoffice "$FILE"
+            libreoffice -- "$FILE"
             ;;
         "application/x-bzip2" | "application/x-gzip")
-            ls -lha "$FILE"
+            ls -lha -- "$FILE"
             ;;
         "application/vnd.ms-cab-compressed")
-            cabextract -l "$FILE"
+            cabextract -l -- "$FILE"
             ;;
         "application/x-rar")
-            rar v "$FILE"
+            rar v -- "$FILE"
             ;;
         "application/x-7z-compressed")
-            7z l "$FILE"
+            7z l -- "$FILE"
             ;;
         "application/zip")
             if [ "$EXT" == "cbz" ]
             then
-                okular "$FILE"
+                okular -- "$FILE"
             else
-                zip --show-just-unicode --verbose --show-files "$FILE"
+                zip --show-just-unicode --verbose --show-files -- "$FILE"
             fi
             ;;
         "application/octet-stream" | "application/x-dosexec")
-            if [ "$(file --brief "$FILE")" = "MS Windows HtmlHelp Data" ]
+            if [ "$(file --brief -- "$FILE")" = "MS Windows HtmlHelp Data" ]
             then
-                xchm "$FILE"
+                xchm -- "$FILE"
             else
-                hexdump -C "$FILE" | less
+                hexdump -C -- "$FILE" | less
             fi
             ;;
         *)
@@ -91,11 +91,11 @@ then
     esac
 elif [ -d "$REALFILE" ]
 then
-    find "$REALFILE" | less
+    find -- "$REALFILE" | less
 elif ! [ -e "$REALFILE" ]
 then
     echo "Error: file "$REALFILE" does not exist" >&2
     exit 1
 else
-    ls -lha "$REALFILE" | less
+    ls -lha -- "$REALFILE" | less
 fi
