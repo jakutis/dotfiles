@@ -14,8 +14,6 @@ OPAMV="1.1.2"
 NGINXV="1.7.6"
 MYSQLSERVERVS=("5.1.73" "5.6.21")
 PHPVS=("5.5.18" "5.6.2")
-PHPBUILDV="4f52bbaf93ffa7a895df5be49a4790e53333bcd6"
-PHPVERSIONV="7acb7b2bc1cda2b1d914cf4074e060a65c06119f"
 MAVENV="3.2.3"
 VAGRANTV="1.6.5"
 AUTOMAKEV="1.14.1"
@@ -268,27 +266,24 @@ do
     fi
 done
 
-if ! [ -e "opt/php-version-$PHPVERSIONV" ]
+if [ ! -e "repos/git/php-version" ]
 then
-    if [ ! -e "repos/git/php-version" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/wilmoore/php-version && cd ../.. || exit 1
-    fi
-    (cd opt && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version-$PHPVERSIONV/" "$PHPVERSIONV") | tar xf - && ln -nsf "php-version-$PHPVERSIONV" "php-version") || exit 1
-    mkdir --parents .phps || exit 1
+    mkdir -p repos/git && cd repos/git && git clone https://github.com/wilmoore/php-version && cd ../.. || exit 1
+else
+    cd repos/git/php-version && git fetch --all --tags && cd ../../.. || exit 1
 fi
+(cd opt && rm -rf php-version && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version/" master) | tar xf -) || exit 1
+mkdir --parents .phps || exit 1
 
-if ! [ -e "opt/php-build-$PHPBUILDV" ]
+if [ ! -e "repos/git/php-build" ]
 then
-    if [ ! -e "repos/git/php-build" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/CHH/php-build && cd ../.. || exit 1
-    fi
-    (cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" "$PHPBUILDV") | tar xf - || exit 1
-    cd php-build-build && PREFIX="$HOME/opt/php-build-$PHPBUILDV" ./install.sh && cd .. && rm -rf php-build-build || exit 1
-    cd opt && ln -nsf "php-build-$PHPBUILDV" "php-build" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
+    mkdir -p repos/git && cd repos/git && git clone https://github.com/CHH/php-build && cd ../.. || exit 1
+else
+    cd repos/git/php-build && git fetch --all --tags && cd ../../.. || exit 1
 fi
+(cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" master) | tar xf - || exit 1
+rm -rf opt/php-build && cd php-build-build && PREFIX="$HOME/opt/php-build" ./install.sh && cd .. && rm -rf php-build-build || exit 1
+cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
 
 for PHPV in "${PHPVS[@]}"
 do
