@@ -92,6 +92,10 @@ case "$CMD" in
         elif [ "$ARG" = "min" ]
         then
             echo "$MIN" > "$DIR/brightness"
+        elif [ "${ARG:(-1)}" = "%" ]
+        then
+            PERCENT="${ARG::-1}"
+            echo $(($MIN + $PERCENT * $RANGE / 100)) > "$DIR/brightness"
         else
             echo $ARG > "$DIR/brightness"
         fi
