@@ -48,6 +48,24 @@ function reset {
     "$VARIA/$MACHINE/rc.power"
 }
 
+function screens {
+    CFG="$1"
+    if [ -f "$DOTFILES/screens.$MACHINE/$CFG" ]
+    then
+        "$DOTFILES/screens.$MACHINE/$CFG"
+    else
+        if [ -n "$CFG" ]
+        then
+            echo "Screen configuration \"$CFG\" not found." 1>&2
+        else
+            echo "Please specify screen configuration." 1>&2
+        fi
+        echo "Existing configurations are:" 1>&2
+        ls -1 "$DOTFILES/screens.$MACHINE" 1>&2
+        exit 1
+    fi
+}
+
 if [ -z "$CMD" ]
 then
     echo "Error: no command given" 1>&2
@@ -108,21 +126,7 @@ case "$CMD" in
         echo "Status:         $(cat "$BATTERY/status")"
         ;;
     "screens")
-        CFG="$2"
-        if [ -f "$DOTFILES/screens.$MACHINE/$CFG" ]
-        then
-            "$DOTFILES/screens.$MACHINE/$CFG"
-        else
-            if [ -n "$CFG" ]
-            then
-                echo "Screen configuration \"$CFG\" not found." 1>&2
-            else
-                echo "Please specify screen configuration." 1>&2
-            fi
-            echo "Existing configurations are:" 1>&2
-            ls -1 "$DOTFILES/screens.$MACHINE" 1>&2
-            exit 1
-        fi
+        screens "$2"
         ;;
     "net")
         "$VARIA/$MACHINE/rc.power"
@@ -145,13 +149,13 @@ case "$CMD" in
         power poweroff
         ;;
     "suspend")
-        $HOME/bin/switch-display LVDS1
+        screens mobile
         stop
         power suspend
         reset
         ;;
     "hibernate")
-        $HOME/bin/switch-display LVDS1
+        screens mobile
         stop
         power hibernate
         reset
