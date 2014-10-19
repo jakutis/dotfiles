@@ -148,6 +148,9 @@ cd "$HOME"
 
 mkdir --parents "opt"
 
+mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.db"
+mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
+
 mkdir --parents ".bin"
 if [ -n "$VARIA" ]
 then
