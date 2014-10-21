@@ -13,6 +13,7 @@ URxvt*urgentOnBell: true
 XTerm*termName:     xterm-256color
 URxvt*termName:     rxvt-unicode
 URxvt*scrollBar:    false
+Xcursor.size:       16
 
 !Tomorrow
 #define t_background        #fafafa
