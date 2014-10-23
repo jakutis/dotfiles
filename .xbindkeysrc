@@ -16,6 +16,10 @@
 "xkbswitch"
   m:0x50 + c:39
 
+# Win+Home
+"xscreensaver-command -lock"
+  m:0x40 + c:110
+
 # Print Screen
 "ksnapshot --current"
   m:0x0 + c:107
