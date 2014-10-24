@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+NEW_ARGS=""
+
 SESSION_NAME="$1"
 SESSION_FILE="$HOME/Desktop/VARIA/tmux/$SESSION_NAME"
 if ! [ -s "$SESSION_FILE" ]
@@ -7,4 +9,11 @@ then
     echo "Error: session file $SESSION_FILE does not exist" 1>&2
     exit 1
 fi
-tmux attach -t "$SESSION_NAME" || tmux new-session -s "$SESSION_NAME" "tmux source-file "$SESSION_FILE""
+
+DETACHED="$2"
+if [ "$DETACHED" = "detached" ]
+then
+    NEW_ARGS=" -d"
+fi
+
+tmux attach-session -t "$SESSION_NAME" || tmux new-session${NEW_ARGS} -s "$SESSION_NAME" "tmux source-file "$SESSION_FILE""
