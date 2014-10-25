@@ -58,7 +58,8 @@ GRAPHICSMAGICKTAG="GraphicsMagick-1_3_20"
 JSONCV="0.12-20140410"
 FFMPEGV="2.4.2"
 MP4V2PATH="/trunk"
-MP4V2V="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
+MP4V2REV="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
+MP4V2V="$MP4V2V"
 ANTV="1.9.4"
 NZBGETV="11.0"
 PYTHONV="3.4.2"
@@ -549,10 +550,8 @@ then
     then
         mkdir -p repos/svn && cd repos/svn && svn co http://mp4v2.googlecode.com/svn mp4v2 && cd ../.. || exit 1
     fi
-    cd "$HOME/repos/svn/mp4v2$MP4V2PATH" || exit 1
-    autoreconf -fiv || exit 1
-    ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install || exit 1
-    cd "$HOME"
+    (cd "$HOME/repos/svn/mp4v2$MP4V2PATH" && svn export -r "$MP4V2REV" . "$HOME/mp4v2-build") || exit 1
+    cd ./mp4v2-build && autoreconf -fiv && ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install && cd .. || exit 1
 fi
 
 if ! [ -e "opt/faac-$FAACV" ]
