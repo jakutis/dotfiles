@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+MYSQL_SERVER="mysqld"
+MYSQL_SOCKET="./socket"
+MYSQL_DATA="."
+MYSQL_PIDFILE="./pid"
+
+MYSQL_SERVER="$(which "$MYSQL_SERVER")"
+MYSQL_SOCKET="$(readlink -m "$MYSQL_SOCKET")"
+MYSQL_DATA="$(readlink -m "$MYSQL_DATA")"
+MYSQL_PIDFILE="$(readlink -m "$MYSQL_PIDFILE")"
+
+echo "SERVER  $MYSQL_SERVER"
+echo "SOCKET  $MYSQL_SOCKET"
+echo "DATA    $MYSQL_DATA"
+echo "PIDFILE $MYSQL_PIDFILE"
+echo
+"$MYSQL_SERVER" --version
+echo
+"$MYSQL_SERVER" --no-defaults --skip-networking --socket="$MYSQL_SOCKET" --character-set-server=utf8 --collation-server=utf8_general_ci --datadir="$MYSQL_DATA" --pid-file="$MYSQL_PIDFILE"
