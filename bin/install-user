@@ -536,7 +536,7 @@ do
         (cd "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && bzr export --revision=tag:mysql-$MYSQLSERVERV "$HOME/mysql-server-build") || exit 1
         if [ "${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" = "5.1" ]
         then
-            cd mysql-server-build && PATH="$HOME/opt/bison-2.1/bin:$PATH" ./BUILD/autorun.sh && PATH="$HOME/opt/bison-2.1/bin:$PATH" CC="gcc" CXX="gcc" CXXFLAGS="-felide-constructors -fno-exceptions -fno-rtti" ./configure --prefix="$HOME/opt/mysql-server-$MYSQLSERVERV" && PATH="$HOME/opt/bison-2.1/bin:$PATH" make && PATH="$HOME/opt/bison-2.1/bin:$PATH" make install && cd .. && rm -rf mysql-server-build || exit 1
+            cd mysql-server-build && PATH="$HOME/opt/bison-2.1/bin:$PATH" ./BUILD/autorun.sh && PATH="$HOME/opt/bison-2.1/bin:$PATH" CC="gcc" CXX="gcc" CXXFLAGS="-felide-constructors -fno-exceptions -fno-rtti" ./configure --prefix="$HOME/opt/mysql-server-$MYSQLSERVERV" --with-plugins=all && PATH="$HOME/opt/bison-2.1/bin:$PATH" make && PATH="$HOME/opt/bison-2.1/bin:$PATH" make install && cd .. && rm -rf mysql-server-build || exit 1
         else
             cd mysql-server-build && cmake . -DCMAKE_INSTALL_PREFIX="$HOME/opt/mysql-server-$MYSQLSERVERV" && make && make install && cd .. && rm -rf mysql-server-build || exit 1
         fi
