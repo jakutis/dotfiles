@@ -199,12 +199,20 @@ mkdir --parents .vimbackup
 mkdir --parents .vimtmp
 mkdir --parents .vimsession
 
+function ensure_git {
+    REPO="$1"
+    URL="$2"
+    if [ ! -e "repos/git/$REPO" ]
+    then
+        mkdir -p repos/git && cd repos/git && git clone "$URL" "$REPO" && cd ../.. || exit 1
+    else
+        cd "repos/git/$REPO" && git fetch --all --tags && cd ../../.. || exit 1
+    fi
+}
+
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
-    if [ ! -e "repos/git/git" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/git/git && cd ../.. || exit 1
-    fi
+    ensure_git git https://github.com/git/git || exit 1
     cd "repos/git/git" && git co "v$GITV" || exit 1
     make configure && ./configure --prefix="$HOME/opt/git-$GITV" && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD all doc info && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD install install-doc install-html install-info || exit 1
     cd "../../.."
@@ -223,10 +231,7 @@ fi
 
 if ! [ -e "opt/automake-${AUTOMAKEV}" ]
 then
-    if [ ! -e "repos/git/automake" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone http://git.savannah.gnu.org/r/automake.git && cd ../.. || exit 1
-    fi
+    ensure_git automake http://git.savannah.gnu.org/r/automake.git || exit 1
     (cd "repos/git/automake" && git archive --format=tar --prefix=automake-build/ "v$AUTOMAKEV") | tar xf - || exit 1
     cd "automake-build" && ./bootstrap.sh && ./configure --prefix="$HOME/opt/automake-${AUTOMAKEV}" && make && make install && cd .. && rm -rf "automake-build" || exit 1
     cd opt && ln -nsf "automake-${AUTOMAKEV}" "automake" && cd .. || exit 1
@@ -269,21 +274,11 @@ do
     fi
 done
 
-if [ ! -e "repos/git/php-version" ]
-then
-    mkdir -p repos/git && cd repos/git && git clone https://github.com/wilmoore/php-version && cd ../.. || exit 1
-else
-    cd repos/git/php-version && git fetch --all --tags && cd ../../.. || exit 1
-fi
+ensure_git php-version https://github.com/wilmoore/php-version || exit 1
 (cd opt && rm -rf php-version && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version/" master) | tar xf -) || exit 1
 mkdir --parents .phps || exit 1
 
-if [ ! -e "repos/git/php-build" ]
-then
-    mkdir -p repos/git && cd repos/git && git clone https://github.com/CHH/php-build && cd ../.. || exit 1
-else
-    cd repos/git/php-build && git fetch --all --tags && cd ../../.. || exit 1
-fi
+ensure_git php-build https://github.com/CHH/php-build || exit 1
 (cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" master) | tar xf - || exit 1
 rm -rf opt/php-build && cd php-build-build && PREFIX="$HOME/opt/php-build" ./install.sh && cd .. && rm -rf php-build-build || exit 1
 (cd "opt/php-build/share/php-build/definitions" && cat 5.5.16 | sed 's/http:/https:/' | sed 's/5.5.16/5.5.18/' > 5.5.18 && cat 5.6.0 | sed 's/http:/https:/' | sed 's/5.6.0/5.6.2/' > 5.6.2) || exit 1
@@ -296,17 +291,11 @@ do
         PHP_BUILD_CONFIGURE_OPTS="--with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt=shared --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl" php-build "$PHPV" "$HOME/opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
         [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")" || exit 1
 
-        if [ ! -e "repos/git/php-zmq" ]
-        then
-            mkdir -p repos/git && cd repos/git && git clone https://github.com/mkoppanen/php-zmq && cd ../.. || exit 1
-        fi
+        ensure_git php-zmq https://github.com/mkoppanen/php-zmq || exit 1
         (cd "repos/git/php-zmq" && git archive --format=tar --prefix=php-zmq-build/ "$PHPZMQV") | tar xf - || exit 1
         cd php-zmq-build && phpize && ./configure && make && make install && cd .. && rm -rf php-zmq-build || exit 1
 
-        if [ ! -e "repos/git/xdebug" ]
-        then
-            mkdir -p repos/git && cd repos/git && git clone https://github.com/xdebug/xdebug && cd ../.. || exit 1
-        fi
+        ensure_git xdebug https://github.com/xdebug/xdebug || exit 1
         (cd "repos/git/xdebug" && git archive --format=tar --prefix=xdebug-build/ "$XDEBUGTAG") | tar xf - || exit 1
         cd xdebug-build && phpize && ./configure --enable-xdebug && make && make install && cd .. && rm -rf xdebug-build || exit 1
     fi
@@ -445,10 +434,7 @@ fi
 
 if ! [ -e "opt/apache-maven-${MAVENV}" ]
 then
-    if [ ! -e "repos/git/maven" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/apache/maven && cd ../.. || exit 1
-    fi
+    ensure_git maven https://github.com/apache/maven || exit 1
     (cd "repos/git/maven" && git archive --format=tar --prefix=maven-build/ "maven-$MAVENV") | tar xf - || exit 1
     (cd maven-build && M2_HOME="$(pwd)/.m2" ant && cd ../opt && tar xf ../maven-build/apache-maven/target/apache-maven-${MAVENV}-bin.tar.gz && ln -nsf "apache-maven-${MAVENV}" apache-maven) || exit 1
     rm -rf maven-build && cd .bin && ln -nsf "../opt/apache-maven/bin/mvn" && cd .. || exit 1
@@ -456,10 +442,7 @@ fi
 
 if ! [ -e "opt/scala-$SCALAV" ]
 then
-    if [ ! -e "repos/git/scala" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/scala/scala && cd ../.. || exit 1
-    fi
+    ensure_git scala https://github.com/scala/scala || exit 1
     git clone repos/git/scala scala-build && cd scala-build && git co "v$SCALAV" && ant && mv build/pack "$HOME/opt/scala-$SCALAV" && cd .. && rm -rf scala-build || exit 1
     cd opt && ln -nsf "scala-$SCALAV" scala && cd .. || exit 1
     for BIN in fsc scala scalac scaladoc scalap
@@ -470,10 +453,7 @@ fi
 
 if ! [ -e "opt/sbt-$SBTV" ]
 then
-    if [ ! -e "repos/git/sbt" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/sbt/sbt && cd ../.. || exit 1
-    fi
+    ensure_git sbt https://github.com/sbt/sbt || exit 1
     git clone repos/git/sbt sbt-build && cd sbt-build && git co "v$SBTV" && cd .. || exit 1
     cd sbt-build && wget https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$SBTV/sbt-launch.jar && "$HOME/opt/jdk-1.7/bin/java" -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M -jar ./sbt-launch.jar package && mkdir ../opt/sbt-$SBTV && mv ./target/sbt-launch-$SBTV.jar "../opt/sbt-$SBTV/sbt-launch.jar" && cd .. && rm -rf sbt-build || exit 1
     cd opt && ln -nsf "sbt-$SBTV" sbt && cd .. || exit 1
@@ -487,10 +467,7 @@ fi
 
 if ! [ -e "opt/hub-$HUBV" ]
 then
-    if [ ! -e "repos/git/hub" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/github/hub && cd ../.. || exit 1
-    fi
+    ensure_git hub https://github.com/github/hub || exit 1
     (cd "repos/git/hub" && git archive --format=tar --prefix=hub-build/ "v$HUBV") | tar xf - || exit 1
     cd hub-build && bundle install && rake install prefix="$HOME/opt/hub-$HUBV" && cd .. && rm -rf hub-build || exit 1
     cd opt && ln -nsf "hub-$HUBV" hub && cd .. || exit 1
@@ -499,10 +476,7 @@ fi
 
 if ! [ -e "opt/tig-$TIGV" ]
 then
-    if [ ! -e "repos/git/tig" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/jonas/tig && cd ../.. || exit 1
-    fi
+    ensure_git tig https://github.com/jonas/tig || exit 1
     (cd "repos/git/tig" && git archive --format=tar --prefix=tig-build/ "tig-$TIGV") | tar xf - || exit 1
     cd tig-build && ./autogen.sh && ./configure --prefix="$HOME/opt/tig-$TIGV" && make && make install && cd .. && rm -rf tig-build || exit 1
     cd opt && ln -nsf "tig-$TIGV" tig && cd .. || exit 1
@@ -571,10 +545,7 @@ fi
 
 if [ "$ENABLE_LIBVPX" = "yes" -a ! -e "opt/libvpx-$LIBVPXV" ]
 then
-    if [ ! -e "repos/git/libvpx" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://chromium.googlesource.com/webm/libvpx && cd ../.. || exit 1
-    fi
+    ensure_git libvpx https://chromium.googlesource.com/webm/libvpx || exit 1
     cd "repos/git/libvpx" && git co "v$LIBVPXV" || exit 1
     ./configure --enable-shared --enable-static --disable-runtime-cpu-detect --enable-multithread --enable-vp9-postproc --enable-postproc --enable-vp9 --enable-vp8 --disable-internal-stats --disable-mem-tracker --disable-fast-unaligned --disable-unit-tests --disable-docs --disable-examples --enable-libs --disable-install-docs --enable-install-bins --enable-install-libs --enable-install-srcs --cpu=native --enable-optimizations --enable-pic --disable-ccache --disable-debug --disable-gprof --disable-gcov --prefix="$HOME/opt/libvpx-$LIBVPXV" && make && make install || exit 1
     cd ../../..
@@ -583,10 +554,7 @@ fi
 
 if [ "$ENABLE_FFMPEG" = "yes" -a ! -e "opt/ffmpeg-$FFMPEGV" ]
 then
-    if [ ! -e "repos/git/ffmpeg" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone http://git.videolan.org/git/ffmpeg.git && cd ../.. || exit 1
-    fi
+    ensure_git ffmpeg http://git.videolan.org/git/ffmpeg.git || exit 1
     (cd "repos/git/ffmpeg" && git archive --format=tar --prefix=ffmpeg-build/ "n$FFMPEGV") | tar xf - || exit 1
     cd ffmpeg-build && ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lvpx -Wl,--rpath=$HOME/opt/libvpx-$LIBVPXV/lib,--enable-new-dtags -L$HOME/opt/libvpx-$LIBVPXV/lib" --cpu=host --enable-openssl --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-version3 --extra-cxxflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-libvpx --enable-libvorbis && make && make install && cd .. || exit 1
     rm -rf ffmpeg-build
@@ -596,10 +564,7 @@ fi
 
 if [ "$ENABLE_CMUS" = "yes" ! -e "opt/cmus-$CMUSV" ]
 then
-    if [ ! -e "repos/git/cmus" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/cmus/cmus && cd ../.. || exit 1
-    fi
+    ensure_git cmus https://github.com/cmus/cmus || exit 1
     (cd "repos/git/cmus" && git archive --format=tar --prefix=cmus-build/ "$CMUSCOMMIT") | tar xf - || exit 1
     cd cmus-build && CFLAGS="-I$HOME/opt/mp4v2-$MP4V2V/include" LDFLAGS="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lmp4v2 -Wl,--rpath=$HOME/opt/mp4v2-$MP4V2V/lib,--enable-new-dtags -L$HOME/opt/mp4v2-$MP4V2V/lib" PKG_CONFIG_PATH="$HOME/opt/ffmpeg-$FFMPEGV/lib/pkgconfig" ./configure CONFIG_CDDB=n CONFIG_CDIO=n CONFIG_DISCID=n CONFIG_FLAC=y CONFIG_MAD=y CONFIG_MODPLUG=n CONFIG_MIKMOD=n CONFIG_MPC=n CONFIG_VORBIS=y CONFIG_TREMOR=n CONFIG_WAV=y CONFIG_WAVPACK=y CONFIG_MP4=y CONFIG_AAC=y CONFIG_FFMPEG=y CONFIG_CUE=y CONFIG_ROAR=n CONFIG_PULSE=y CONFIG_ALSA=y CONFIG_AO=n CONFIG_ARTS=n CONFIG_OSS=n CONFIG_SUN=n CONFIG_WAVEOUT=n USE_FALLBACK_IP=y CONFIG_AO=n prefix="$HOME/opt/cmus-$CMUSV" && make && make install && cd .. && rm -rf cmus-build || exit 1
     cd opt && ln -nsf "cmus-$CMUSV" "cmus" && cd .. || exit 1
@@ -608,10 +573,7 @@ fi
 
 if ! [ -e "opt/elinks-$ELINKSV" ]
 then
-    if [ ! -e "repos/git/elinks" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone http://elinks.cz/elinks.git && cd ../.. || exit 1
-    fi
+    ensure_git elinks http://elinks.cz/elinks.git || exit 1
     cd "repos/git/elinks" && git co "$ELINKSV" || exit 1
     ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/js-1.8.5/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/js-1.8.5/lib/pkgconfig" ./configure --prefix="$HOME/opt/elinks-$ELINKSV" --enable-sm-scripting --without-lua --without-ruby --without-perl --without-python && make && make install || exit 1
     cd ../../.. || exit 1
@@ -682,10 +644,7 @@ fi
 
 if ! [ -e "opt/podcatcher-$PODCATCHERV" ]
 then
-    if [ ! -e "repos/git/podcatcher" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/doga/podcatcher && cd ../.. || exit 1
-    fi
+    ensure_git podcatcher https://github.com/doga/podcatcher || exit 1
     (cd "repos/git/podcatcher" && git archive --format=tar --prefix=podcatcher-build/ "$PODCATCHERCOMMIT") | tar xf - || exit 1
     mv podcatcher-build opt/podcatcher-$PODCATCHERV && cd opt && ln -nsf podcatcher-$PODCATCHERV podcatcher && cd .. || exit 1
     cd .bin && ln -nsf ../opt/podcatcher/bin/podcatcher && cd .. || exit 1
@@ -707,10 +666,7 @@ fi
 
 if ! [ -e "opt/fuse-$FUSEV" ]
 then
-    if [ ! -e "repos/git/fuse" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone http://git.code.sf.net/p/fuse/fuse && cd ../.. || exit 1
-    fi
+    ensure_git fuse http://git.code.sf.net/p/fuse/fuse || exit 1
     cd "repos/git/fuse" || exit 1
     git co "$FUSETAG" || exit 1
     ./makeconf.sh && ./configure --prefix="$HOME/opt/fuse-$FUSEV" --enable-lib --disable-util --enable-rpath && make && make install || exit 1
@@ -718,10 +674,7 @@ then
     cd "opt" && ln -nsf "fuse-$FUSEV" "fuse" && cd ".."
 fi
 
-if [ ! -e "repos/git/App-perlbrew" ]
-then
-    mkdir -p repos/git && cd repos/git && git clone https://github.com/gugod/App-perlbrew && cd ../.. || exit 1
-fi
+ensure_git App-perlbrew https://github.com/gugod/App-perlbrew || exit 1
 bash ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
 
 if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
@@ -774,14 +727,8 @@ fi
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
-    if [ ! -e "repos/git/ghc" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://git.haskell.org/ghc.git && cd ../.. || exit 1
-    fi
-    if [ ! -e "repos/git/cabal" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/haskell/cabal && cd ../.. || exit 1
-    fi
+    ensure_git ghc https://git.haskell.org/ghc.git || exit 1
+    ensure_git cabal https://github.com/haskell/cabal || exit 1
     GHCSYSTEMV="$(ghc --numeric-version)"
     if [ "$(echo -e "$GHCSYSTEMV\n7.6.3"|sort --version-sort|head -n 1)" = "$GHCSYSTEMV" ]
     then
@@ -813,10 +760,7 @@ cabal update || exit 1
 
 if ! [ -e "opt/opam-$OPAMV" ]
 then
-    if [ ! -e "repos/git/opam" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/ocaml/opam && cd ../.. || exit 1
-    fi
+    ensure_git opam https://github.com/ocaml/opam || exit 1
     (cd "repos/git/opam" && git archive --format=tar --prefix=opam-build/ "$OPAMV") | tar xf - || exit 1
     cd opam-build && ./configure --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make && make install && cd .. && rm -rf opam-build || exit 1
     cd opt && ln -nsf "opam-$OPAMV" "opam" && cd .. || exit 1
@@ -865,10 +809,7 @@ fi
 
 if ! [ -e "opt/git-annex-$GITANNEXV" ]
 then
-    if [ ! -e "repos/git/bloomfilter" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/bos/bloomfilter && cd ../.. || exit 1
-    fi
+    ensure_git bloomfilter https://github.com/bos/bloomfilter || exit 1
     (cd "$HOME/repos/git/bloomfilter" && git archive --format=tar --prefix=bloomfilter-build/ "1.2.6.10") | tar xf - || exit 1
     cd bloomfilter-build && echo "
 ZGlmZiAtLWdpdCBhL0RhdGEvQmxvb21GaWx0ZXIuaHMgYi9EYXRhL0Jsb29tRmlsdGVyLmhzCmlu
@@ -941,20 +882,14 @@ fi
 
 if ! [ -e "opt/json-c-$JSONCV" ]
 then
-    if [ ! -e "repos/git/json-c" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/json-c/json-c && cd ../.. || exit 1
-    fi
+    ensure_git json-c https://github.com/json-c/json-c || exit 1
     (cd "repos/git/json-c" && git archive --format=tar --prefix=json-c-build/ "json-c-$JSONCV") | tar xf - || exit 1
     cd json-c-build && CFLAGS="-Wno-error=unused-but-set-variable" ./configure --prefix="$HOME/opt/json-c-$JSONCV" && make && make install && cd .. && rm -rf json-c-build || exit 1
 fi
 
 if ! [ -e "opt/jq-$JQV" ]
 then
-    if [ ! -e "repos/git/jq" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/stedolan/jq && cd ../.. || exit 1
-    fi
+    ensure_git jq https://github.com/stedolan/jq || exit 1
     cd "repos/git/jq" && git co "$JQCOMMIT" && autoreconf -i && ./configure --prefix="$HOME/opt/jq-$JQV" && make && make install && cd ../../..|| exit 1
     cd opt && ln -nsf "jq-$JQV" "jq" && cd .. || exit 1
     cd .bin && (for BIN in $(ls "../opt/jq/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
@@ -962,10 +897,7 @@ fi
 
 if ! [ -e "opt/libplist-$PLISTV" ]
 then
-    if [ ! -e "repos/git/libplist" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/libimobiledevice/libplist && cd ../.. || exit 1
-    fi
+    ensure_git libplist https://github.com/libimobiledevice/libplist || exit 1
     ((cd "repos/git/libplist" && git archive --format=tar --prefix=libplist-build/ "$PLISTCOMMIT") | tar xf -) && cd "libplist-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-L$(pyenv prefix)/lib" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libplist-${PLISTV}" && make && make install && cd .. && rm -rf "libplist-build" || exit 1
 fi
 
@@ -981,10 +913,7 @@ fi
 
 if ! [ -e "opt/ideviceinstaller-$IDEVICEINSTALLERV" ]
 then
-    if [ ! -e "repos/git/ideviceinstaller" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/libimobiledevice/ideviceinstaller && cd ../.. || exit 1
-    fi
+    ensure_git ideviceinstaller https://github.com/libimobiledevice/ideviceinstaller || exit 1
     ((cd "repos/git/ideviceinstaller" && git archive --format=tar --prefix=ideviceinstaller-build/ "$IDEVICEINSTALLERCOMMIT") | tar xf -) && cd "ideviceinstaller-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ideviceinstaller-${IDEVICEINSTALLERV}" && make && make install && cd .. && rm -rf "ideviceinstaller-build" || exit 1
 fi
 
@@ -995,28 +924,19 @@ fi
 
 if ! [ -e "opt/libusb-$LIBUSBV" ]
 then
-    if [ ! -e "repos/git/libusb" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/libusb/libusb && cd ../.. || exit 1
-    fi
+    ensure_git libusb https://github.com/libusb/libusb || exit 1
     ((cd "repos/git/libusb" && git archive --format=tar --prefix=libusb-build/ "v$LIBUSBV") | tar xf -) && cd "libusb-build" && NOCONFIGURE="yes" ./autogen.sh && ./configure --prefix="$HOME/opt/libusb-$LIBUSBV" && make && make install && cd .. && rm -rf "libusb-build" || exit 1
 fi
 
 if ! [ -e "opt/usbmuxd-$USBMUXDV" ]
 then
-    if [ ! -e "repos/git/usbmuxd" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/libimobiledevice/usbmuxd && cd ../.. || exit 1
-    fi
+    ensure_git usbmuxd https://github.com/libimobiledevice/usbmuxd || exit 1
     ((cd "repos/git/usbmuxd" && git archive --format=tar --prefix=usbmuxd-build/ "$USBMUXDV") | tar xf -) && cd "usbmuxd-build" && NOCONFIGURE="yes" ./autogen.sh && CFLAGS="-I$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusb-${LIBUSBV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusb-${LIBUSBV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/usbmuxd-$USBMUXDV" && make && make install && cd .. && rm -rf "usbmuxd-build" || exit 1
 fi
 
 if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
 then
-    if [ ! -e "repos/git/newsbeuter" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/jakutis/newsbeuter && cd ../.. || exit 1
-    fi
+    ensure_git newsbeuter https://github.com/jakutis/newsbeuter || exit 1
     (cd "repos/git/newsbeuter" && git archive --format=tar --prefix=newsbeuter-build/ "$NEWSBEUTERCOMMIT") | tar xf - || exit 1
     cd newsbeuter-build && LDFLAGS="-Wl,--rpath=$HOME/opt/json-c-$JSONCV/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/json-c-$JSONCV/lib/pkgconfig" ./config.sh && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" install && cd .. && rm -rf newsbeuter-build || exit 1
 
@@ -1088,10 +1008,7 @@ fi
 
 if ! [ -e "opt/svg2pdf-$SVG2PDFV" ]
 then
-    if [ ! -e "repos/git/svg2pdf" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone git://people.freedesktop.org/~cworth/svg2pdf && cd ../.. || exit 1
-    fi
+    ensure_git svg2pdf git://people.freedesktop.org/~cworth/svg2pdf || exit 1
     (cd "repos/git/svg2pdf" && git archive --format=tar --prefix=svg2pdf-build/ "$SVG2PDFV") | tar xf - || exit 1
     cd svg2pdf-build && make || exit 1
     mkdir "../opt/svg2pdf-$SVG2PDFV"
@@ -1148,10 +1065,7 @@ fi
 
 if ! [ -e "opt/jbig2enc-$JBIG2ENCV" ]
 then
-    if [ ! -e "repos/git/jbig2enc" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/agl/jbig2enc && cd ../.. || exit 1
-    fi
+    ensure_git jbig2enc https://github.com/agl/jbig2enc || exit 1
     pushd .
     cd "repos/git/jbig2enc" && git co "$JBIG2ENCV" && ./autogen.sh || exit 1
     LDFLAGS="-L$HOME/opt/leptonica-$LEPTONICAV/lib -Wl,--rpath=$HOME/opt/leptonica-$LEPTONICAV/lib,--enable-new-dtags" CPPFLAGS="-I$HOME/opt/leptonica-$LEPTONICAV/include" ./configure --prefix=$HOME/opt/jbig2enc-$JBIG2ENCV && make && make install || exit 1
@@ -1186,10 +1100,7 @@ fi
 
 if [ "$ENABLE_SYSDIG" = "yes" -a ! -e "opt/sysdig-$SYSDIGV" ]
 then
-    if [ ! -e "repos/git/sysdig" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/draios/sysdig && cd ../.. || exit 1
-    fi
+    ensure_git sysdig https://github.com/draios/sysdig || exit 1
     (cd "repos/git/sysdig" && git archive --format=tar --prefix=sysdig-build/ "$SYSDIGV") | tar xf - || exit 1
     cd sysdig-build && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH="$HOME/opt/sysdig-$SYSDIGV" .. && make && make install && cd ../.. && rm -rf sysdig-build || exit 1
     cd opt && ln -nsf "sysdig-$SYSDIGV" "sysdig" && cd .. || exit 1
@@ -1199,10 +1110,7 @@ fi
 
 if [ "$ENABLE_QTKEYCHAIN" = "yes" -a ! -e "opt/qtkeychain-$QTKEYCHAINV" ]
 then
-    if [ ! -e "repos/git/qtkeychain" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/frankosterfeld/qtkeychain && cd ../.. || exit 1
-    fi
+    ensure_git qtkeychain https://github.com/frankosterfeld/qtkeychain || exit 1
     cd "repos/git/qtkeychain" && git clean -fxd . && git reset --hard && git co "$QTKEYCHAINV" || exit 1
     DIR="$(mktemp --directory)"
     cd "$DIR" || exit 1
@@ -1214,10 +1122,7 @@ fi
 
 if [ "$ENABLE_MIRALL" = "yes" -a ! -e "opt/mirall-$MIRALLV" ]
 then
-    if [ ! -e "repos/git/mirall" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/owncloud/mirall && cd ../.. || exit 1
-    fi
+    ensure_git mirall https://github.com/owncloud/mirall || exit 1
     cd "repos/git/mirall" && git co "v$MIRALLV" || exit 1
     DIR="$(mktemp --directory)"
     cd "$DIR" || exit 1
@@ -1245,10 +1150,7 @@ fi
 
 if [ "$ENABLE_FIT2TCX" = "yes" -a ! -e "opt/fit2tcx-$FIT2TCXV" ]
 then
-    if [ ! -e "repos/git/Fit2Tcx" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/adiesner/Fit2Tcx && cd ../.. || exit 1
-    fi
+    ensure_git Fit2Tcx https://github.com/adiesner/Fit2Tcx || exit 1
     (cd "repos/git/Fit2Tcx" && git archive --format=tar --prefix=fit2tcx-build/ "$FIT2TCXV") | tar xf - || exit 1
     cd fit2tcx-build && ./configure && make && mkdir -p "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cp "fit2tcx" "$HOME/opt/fit2tcx-$FIT2TCXV/bin" && cd .. && rm -rf "fit2tcx-build" || exit 1
     cd .bin && ln -nsf "../opt/fit2tcx-$FIT2TCXV/bin/fit2tcx" && cd .. || exit 1
@@ -1256,10 +1158,7 @@ fi
 
 if [ "$ENABLE_VAGRANT" = "yes" -a ! -e "$GEM_DIR/gems/vagrant-$VAGRANTV" ]
 then
-    if [ ! -e "repos/git/vagrant" ]
-    then
-        mkdir -p repos/git && cd repos/git && git clone https://github.com/mitchellh/vagrant && cd ../.. || exit 1
-    fi
+    ensure_git vagrant https://github.com/mitchellh/vagrant || exit 1
     (cd "repos/git/vagrant" && git archive --format=tar --prefix=vagrant-build/ "v$VAGRANTV") | tar xf - || exit 1
     cd vagrant-build && bundle install && rake install && cd .. && rm -rf vagrant-build || exit 1
     vagrant plugin install vagrant-hostsupdater || exit 1
