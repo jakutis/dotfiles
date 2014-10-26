@@ -25,6 +25,7 @@ BIBLATEXISO690V="cb79c46a6a71c679aae0196f8fa3b2f6ffff709a"
 PLISTV="1.12"
 PLISTCOMMIT="df053ccdbb1cec856aa3a99c836ec6111d727a78"
 USBMUXDV="1.1.0"
+LIBUSBMUXDV="1.0.10"
 IMOBILEDEVICEV="1.1.6"
 IFUSEV="1.1.3"
 LIBUSBV="1.0.18"
@@ -901,25 +902,27 @@ then
     ((cd "repos/git/libplist" && git archive --format=tar --prefix=libplist-build/ "$PLISTCOMMIT") | tar xf -) && cd "libplist-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-L$(pyenv prefix)/lib" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libplist-${PLISTV}" && make && make install && cd .. && rm -rf "libplist-build" || exit 1
 fi
 
-if ! [ -e "opt/libusbmuxd-$USBMUXDV" ]
+if ! [ -e "opt/libusbmuxd-$LIBUSBMUXDV" ]
 then
-    (curl -L "http://www.libimobiledevice.org/downloads/libusbmuxd-${USBMUXDV}.tar.bz2" | tar jxf -) && cd "libusbmuxd-${USBMUXDV}" && LDFLAGS="-Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libusbmuxd-${USBMUXDV}" && make && make install && cd .. && rm -rf "libusbmuxd-${USBMUXDV}" || exit 1
+    ensure_git libusbmuxd https://github.com/libimobiledevice/libusbmuxd || exit 1
+    ((cd "repos/git/libusbmuxd" && git archive --format=tar --prefix=libusbmuxd-build/ "$LIBUSBMUXDV") | tar xf -) || exit 1
+    cd "libusbmuxd-build" && NOCONFIGURE=yes ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libusbmuxd-${LIBUSBMUXDV}" && make && make install && cd .. && rm -rf "libusbmuxd-build" || exit 1
 fi
 
 if ! [ -e "opt/libimobiledevice-$IMOBILEDEVICEV" ]
 then
-    (curl -L "http://www.libimobiledevice.org/downloads/libimobiledevice-${IMOBILEDEVICEV}.tar.bz2" | tar jxf -) && cd "libimobiledevice-${IMOBILEDEVICEV}" && LDFLAGS="-L$(pyenv prefix)/lib -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplistv-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libplist-${PLISTV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${USBMUXDV}/include" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}" && make && make install && cd .. && rm -rf "libimobiledevice-${IMOBILEDEVICEV}" || exit 1
+    (curl -L "http://www.libimobiledevice.org/downloads/libimobiledevice-${IMOBILEDEVICEV}.tar.bz2" | tar jxf -) && cd "libimobiledevice-${IMOBILEDEVICEV}" && LDFLAGS="-L$(pyenv prefix)/lib -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplistv-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libplist-${PLISTV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/include" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}" && make && make install && cd .. && rm -rf "libimobiledevice-${IMOBILEDEVICEV}" || exit 1
 fi
 
 if ! [ -e "opt/ideviceinstaller-$IDEVICEINSTALLERV" ]
 then
     ensure_git ideviceinstaller https://github.com/libimobiledevice/ideviceinstaller || exit 1
-    ((cd "repos/git/ideviceinstaller" && git archive --format=tar --prefix=ideviceinstaller-build/ "$IDEVICEINSTALLERCOMMIT") | tar xf -) && cd "ideviceinstaller-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ideviceinstaller-${IDEVICEINSTALLERV}" && make && make install && cd .. && rm -rf "ideviceinstaller-build" || exit 1
+    ((cd "repos/git/ideviceinstaller" && git archive --format=tar --prefix=ideviceinstaller-build/ "$IDEVICEINSTALLERCOMMIT") | tar xf -) && cd "ideviceinstaller-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ideviceinstaller-${IDEVICEINSTALLERV}" && make && make install && cd .. && rm -rf "ideviceinstaller-build" || exit 1
 fi
 
 if ! [ -e "opt/ifuse-$IFUSEV" ]
 then
-    (curl -L "http://www.libimobiledevice.org/downloads/ifuse-${IFUSEV}.tar.bz2" | tar jxf -) && cd "ifuse-${IFUSEV}" && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ifuse-${IFUSEV}" && make && make install && cd .. && rm -rf "ifuse-${IFUSEV}" && (cd .bin && ln -s ../opt/ifuse-$IFUSEV/bin/ifuse) || exit 1
+    (curl -L "http://www.libimobiledevice.org/downloads/ifuse-${IFUSEV}.tar.bz2" | tar jxf -) && cd "ifuse-${IFUSEV}" && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ifuse-${IFUSEV}" && make && make install && cd .. && rm -rf "ifuse-${IFUSEV}" && (cd .bin && ln -s ../opt/ifuse-$IFUSEV/bin/ifuse) || exit 1
 fi
 
 if ! [ -e "opt/libusb-$LIBUSBV" ]
@@ -931,7 +934,7 @@ fi
 if ! [ -e "opt/usbmuxd-$USBMUXDV" ]
 then
     ensure_git usbmuxd https://github.com/libimobiledevice/usbmuxd || exit 1
-    ((cd "repos/git/usbmuxd" && git archive --format=tar --prefix=usbmuxd-build/ "$USBMUXDV") | tar xf -) && cd "usbmuxd-build" && NOCONFIGURE="yes" ./autogen.sh && CFLAGS="-I$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusb-${LIBUSBV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${USBMUXDV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusb-${LIBUSBV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/usbmuxd-$USBMUXDV" && make && make install && cd .. && rm -rf "usbmuxd-build" || exit 1
+    ((cd "repos/git/usbmuxd" && git archive --format=tar --prefix=usbmuxd-build/ "$USBMUXDV") | tar xf -) && cd "usbmuxd-build" && NOCONFIGURE="yes" ./autogen.sh && CFLAGS="-I$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusb-${LIBUSBV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusb-${LIBUSBV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/usbmuxd-$USBMUXDV" && make && make install && cd .. && rm -rf "usbmuxd-build" || exit 1
 fi
 
 if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
