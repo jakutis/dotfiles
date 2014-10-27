@@ -28,7 +28,6 @@ do
                 ;;
             "hg")
                 hg pull 1>/dev/null || echo "FAILED to fetch"
-                hg update 1>/dev/null || echo "FAILED to update"
                 if [ "$(hg tags|head -n 1|cut -d ' ' -f 1)" != "tip" ]
                 then
                     echo "Error: expected "tip" to be the first tag" 1>&2
