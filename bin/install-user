@@ -211,6 +211,17 @@ function ensure_git {
     fi
 }
 
+function ensure_hg {
+    REPO="$1"
+    URL="$2"
+    if [ ! -e "repos/hg/$REPO" ]
+    then
+        mkdir -p repos/hg && cd repos/hg && hg clone "$URL" "$REPO" && cd ../.. || exit 1
+    else
+        cd "repos/hg/$REPO" && hg pull && cd ../../.. || exit 1
+    fi
+}
+
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
     ensure_git git https://github.com/git/git || exit 1
@@ -355,10 +366,7 @@ fi
 
 if ! [ -e "opt/graphicsmagick-${GRAPHICSMAGICKV}" ]
 then
-    if [ ! -e "repos/hg/graphicsmagick" ]
-    then
-        mkdir -p repos/hg && cd repos/hg && hg clone http://hg.code.sf.net/p/graphicsmagick/code graphicsmagick && cd ../.. || exit 1
-    fi
+    ensure_hg graphicsmagick http://hg.code.sf.net/p/graphicsmagick/code || exit 1
     (cd "$HOME/repos/hg/graphicsmagick" && hg archive -r "$GRAPHICSMAGICKTAG" ../../../graphicsmagick-build) || exit 1
     cd graphicsmagick-build && ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install && cd .. && rm -rf graphicsmagick-build || exit 1
 fi
@@ -486,10 +494,7 @@ fi
 
 if ! [ -e "opt/nginx-$NGINXV" ]
 then
-    if [ ! -e "repos/hg/nginx" ]
-    then
-        mkdir -p repos/hg && cd repos/hg && hg clone http://hg.nginx.org/nginx && cd ../.. || exit 1
-    fi
+    ensure_hg nginx http://hg.nginx.org/nginx || exit 1
     (cd "$HOME/repos/hg/nginx" && hg archive -r "release-$NGINXV" ../../../nginx-build) || exit 1
     cd nginx-build && ./auto/configure --prefix="$HOME/opt/nginx-$NGINXV" --with-http_ssl_module && make && make install && cd .. && rm -rf nginx-build || exit 1
     cd opt && ln -nsf "nginx-$NGINXV" nginx && cd .. || exit 1
@@ -783,10 +788,7 @@ fi
 
 if ! [ -e "opt/vim-$VIMV" ]
 then
-    if [ ! -e "repos/hg/vim" ]
-    then
-        mkdir -p repos/hg && cd repos/hg && hg clone https://vim.googlecode.com/hg/ vim && cd ../.. || exit 1
-    fi
+    ensure_hg vim https://vim.googlecode.com/hg/ || exit 1
     cd "$HOME/repos/hg/vim" || exit 1
     hg checkout "$VIMV" || exit 1
     make distclean
