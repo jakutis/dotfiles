@@ -3,6 +3,8 @@
 set -o verbose
 set -o xtrace
 
+LIBUPNPPV="0.8.5"
+UPPLAYV="0.8.5"
 BISONVS=("2.1")
 XDEBUGTAG="XDEBUG_2_2_5"
 PHPZMQV="1.1.2"
@@ -94,6 +96,11 @@ ELINKSV="3379fc9"
 IMAGEMAGICKV="6.8.9-8"
 CMUSV="2.6.0"
 CMUSCOMMIT="v$CMUSV"
+
+if [ "$ENABLE_UPPLAY" = "yes" ]
+then
+    ENABLE_LIBUPNPP="yes"
+fi
 
 if [ "$ENABLE_CMUS" = "yes" ]
 then
@@ -1162,3 +1169,20 @@ then
     cd vagrant-build && bundle install && rake install && cd .. && rm -rf vagrant-build || exit 1
     vagrant plugin install vagrant-hostsupdater || exit 1
 fi
+
+if [ "$ENABLE_LIBUPNPP" = "yes" -a ! -e "opt/libupnppv-$LIBUPNPPV" ]
+then
+    ensure_git libupnpp https://github.com/medoc92/libupnpp || exit 1
+    (cd "repos/git/libupnpp" && git archive --format=tar --prefix=libupnpp-build/ "libupnpp-v$LIBUPNPPV") | tar xf - || exit 1
+    cd libupnpp-build && ./autogen.sh && ./configure --prefix="$HOME/opt/libupnpp-$LIBUPNPPV" && make && make install && cd .. && rm -rf libupnpp-build || exit 1
+fi
+
+if [ "$ENABLE_UPPLAY" = "yes" -a ! -e "opt/upplay-$UPPLAYV" ]
+then
+    ensure_git upplay https://github.com/medoc92/upplay || exit 1
+    (cd "repos/git/upplay" && git archive --format=tar --prefix=upplay-build/ "UPPLAY_$UPPLAYV") | tar xf - || exit 1
+    cd upplay-build && qmake PREFIX="$HOME/opt/upplay-$UPPLAYV" INCLUDEPATH="$HOME/opt/libupnpp-$LIBUPNPPV/include" QMAKE_LFLAGS="-Wl,--rpath=$HOME/opt/libupnpp-$LIBUPNPPV/lib,--enable-new-dtags -L$HOME/opt/libupnpp-$LIBUPNPPV/lib" && make install && cd .. && rm -rf upplay-build || exit 1
+    cd opt && ln -nsf "upplay-$UPPLAYV" upplay && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/upplay/bin/upplay" && cd .. || exit 1
+fi
+
