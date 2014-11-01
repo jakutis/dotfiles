@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+JAVA_VERSION="$(java -version 2>&1 | head -n 1 | cut -d\" -f 2)"
+JAVA_VERSION_NOMAJOR=${JAVA_VERSION#1.*}
+JAVA_VERSION_MINOR=${JAVA_VERSION_NOMAJOR%.*}
+JAVA_METASPACE="1024M"
+JAVA_OPTS=" -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled"
+
+if [ "$JAVA_VERSION_MINOR" -gt "7" ]
+then
+    JAVA_OPTS="$JAVA_OPTS -XX:MaxMetaspaceSize=$JAVA_METASPACE"
+else
+    JAVA_OPTS="$JAVA_OPTS -XX:MaxPermSize=$JAVA_METASPACE"
+fi
+JAVA_OPTS="$JAVA_OPTS -jar "$HOME/opt/sbt/sbt-launch.jar""
+
+java$JAVA_OPTS "$@"
