@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+
+TMPFILE="$(mktemp)"
+cat "$DOTFILES/minidlna.conf" | sed "s/^#friendly_name.*$/friendly_name=jakutis-$MACHINE/" | sed "s/^serial.*$/serial=$MACHINE-$(date +%s)/" > "$TMPFILE"
+minidlna -f "$TMPFILE" -P "$XDG_DATA_HOME/dotfiles/minidlna.pid"
