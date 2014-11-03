@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+HOSTNAMES_FILE="$1"
+COMMANDS="$2"
+
+COMMAND_FILE="$(mktemp)"
+echo "$COMMANDS" >> "$COMMAND_FILE"
+SESSION_FILE="$(mktemp)"
+
+cat "$HOSTNAMES_FILE" | while read HOSTNAME
+do
+    echo "new-window -n '$HOSTNAME' 'scp \"$COMMAND_FILE\" \"$HOSTNAME\":\"$COMMAND_FILE\";ssh -t "$HOSTNAME" \"bash -l \\\"$COMMAND_FILE\\\";bash -l -i\"'" >> "$SESSION_FILE"
+done
+tmux new-session "tmux source-file "$SESSION_FILE""
+
+rm "$SESSION_FILE"
+rm "$COMMAND_FILE"
