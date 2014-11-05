@@ -46,7 +46,7 @@ QTKEYCHAINV="v0.4.0"
 FUSETAG="fuse_2_9_2"
 FUSEV="2.9.2"
 AUTOCONFV="2.69"
-GITSHV="0.4"
+GITSHV="0.8"
 GLIBCV="2.19"
 LLVMV="3.4"
 XSLTV="1.1.28"
@@ -1084,16 +1084,11 @@ fi
 
 if ! [ -e "opt/gitsh-$GITSHV" ]
 then
-    curl -L "https://github.com/thoughtbot/gitsh/archive/v${GITSHV}.tar.gz" | tar zxf - || exit 1
-    cd "gitsh-${GITSHV}"
-    ./autogen.sh && RUBY="$(which ruby)" ./configure --prefix="$HOME/opt/gitsh-$GITSHV" && make && make install || exit 1
-    cd ..
-    rm -rf "gitsh-${GITSHV}"
-    cd opt
-    ln -nsf "gitsh-${GITSHV}" "gitsh"
-    cd ../.bin
-    ln -nsf "../opt/gitsh/bin/gitsh"
-    cd ..
+    ensure_git gitsh https://github.com/thoughtbot/gitsh || exit 1
+    (cd "repos/git/gitsh" && git archive --format=tar --prefix=gitsh-build/ "v$GITSHV") | tar xf - || exit 1
+    cd gitsh-build && bundle install && ./autogen.sh && RUBY="$(which ruby)" ./configure --prefix="$HOME/opt/gitsh-$GITSHV" && make && make install && cd .. && rm -rf gitsh-build || exit 1
+    cd opt && ln -nsf "gitsh-${GITSHV}" "gitsh" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/gitsh/bin/gitsh" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/pdflib-lite-$PDFLIBV" ]
