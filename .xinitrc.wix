@@ -5,6 +5,7 @@ xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
+start-minidlna
 klipper
 xscreensaver -no-splash &
 awesome
