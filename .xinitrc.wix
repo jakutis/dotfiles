@@ -6,6 +6,5 @@ xbindkeys
 update-xinput
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 klipper
-system screens mobile
 xscreensaver -no-splash &
 awesome
