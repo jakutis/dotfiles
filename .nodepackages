@@ -1,4 +1,5 @@
 jshint
+meteor
 gulp
 pipeable-js
 node-inspector
