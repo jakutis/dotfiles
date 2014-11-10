@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+xrandr --output eDP1 --preferred --auto --primary --output HDMI1 --auto --right-of eDP1 --output VGA1 --off
+xset s on
+xset s blank
+xset s 300
