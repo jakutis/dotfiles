@@ -4,7 +4,6 @@ xhost localhost
 xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
-su -c "echo 0 > /sys/devices/platform/thinkpad_acpi/rfkill/rfkill0/state"
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 klipper
 system screens mobile
