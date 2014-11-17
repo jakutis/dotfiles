@@ -14,6 +14,7 @@ XTerm*termName:     xterm-256color
 URxvt*termName:     rxvt-unicode
 URxvt*scrollBar:    false
 Xcursor.size:       16
+URxvt.print-pipe:   "cat > /dev/null"
 
 !Tomorrow
 #define t_background        #fafafa
