@@ -17,7 +17,7 @@
   m:0x50 + c:39
 
 # Win+Home
-"xscreensaver-command -lock"
+"blank;xscreensaver-command -lock"
   m:0x40 + c:110
 
 # Print Screen
