@@ -8,12 +8,23 @@ then
     exit 1
 fi
 
+FILENAME="$(realpath "$FILENAME")"
+
 FROMEXT="${FILENAME##*.}"
 FILENAMENOEXT="${FILENAME%.*}"
 
-for TOEXT in txt mobi azw3 epub pdf
+for TOEXT in txt mobi azw3 epub pdf htmlz
 do
-    if [ ! -e "${FILENAMENOEXT}.${TOEXT}" ]
+    if [ "$TOEXT" = "htmlz" ]
+    then
+        if [ ! -e "$FILENAMENOEXT" ]
+        then
+            echo "---------- ${FILENAMENOEXT} --- $FROMEXT -> $TOEXT ----------"
+            ebook-convert "$FILENAME" "${FILENAMENOEXT}.${TOEXT}" || exit 1
+            mkdir -p "$FILENAMENOEXT" && cd "$FILENAMENOEXT" && unzip "${FILENAMENOEXT}.${TOEXT}" && cd .. || exit 1
+            rm  "${FILENAMENOEXT}.${TOEXT}" || exit 1
+        fi
+    elif [ ! -e "${FILENAMENOEXT}.${TOEXT}" ]
     then
         echo "---------- ${FILENAMENOEXT} --- $FROMEXT -> $TOEXT ----------"
         ebook-convert "$FILENAME" "${FILENAMENOEXT}.${TOEXT}" || exit 1
