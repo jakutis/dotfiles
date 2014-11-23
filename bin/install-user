@@ -208,6 +208,17 @@ mkdir --parents .vimbackup
 mkdir --parents .vimtmp
 mkdir --parents .vimsession
 
+function ensure_svn {
+    REPO="$1"
+    URL="$2"
+    if [ ! -e "repos/svn/$REPO" ]
+    then
+        mkdir -p repos/svn && cd repos/svn && svn co "$URL" "$REPO" && cd ../.. || exit 1
+    else
+        cd "repos/svn/$REPO" && svn update && cd ../../.. || exit 1
+    fi
+}
+
 function ensure_git {
     REPO="$1"
     URL="$2"
