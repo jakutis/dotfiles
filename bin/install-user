@@ -3,6 +3,8 @@
 set -o verbose
 set -o xtrace
 
+SCONSV="2.3.4"
+SERF="1.3.8"
 SUBVERSIONV="1.8.10"
 LIBUPNPPV="0.8.5"
 UPPLAYV="0.8.5"
@@ -101,6 +103,16 @@ CMUSCOMMIT="v$CMUSV"
 if [ "$ENABLE_UPPLAY" = "yes" ]
 then
     ENABLE_LIBUPNPP="yes"
+fi
+
+if [ "$ENABLE_SUBVERSION" = "yes" ]
+then
+    ENABLE_SERF="yes"
+fi
+
+if [ "$ENABLE_SERF" = "yes" ]
+then
+    ENABLE_SCONS="yes"
 fi
 
 if [ "$ENABLE_CMUS" = "yes" ]
@@ -251,13 +263,23 @@ then
     cd .bin && (for BIN in $(ls "../opt/git/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
+if [ "$ENABLE_SERF" = "yes" -a ! -e "opt/serf-$SERFV" ]
+then
+    ensure_svn serf https://serf.googlecode.com/svn || exit 1
+    ensure_hg scons https://bitbucket.org/scons/scons || exit 1
+    (cd "$HOME/repos/svn/serf/tags/$SERFV" && svn export . ../../../serf-build) || exit 1
+    (cd "$HOME/repos/hg/scons" && hg archive -r "$SCONSV" ../../../scons-build) || exit 1
+    cd serf-build && SCONS_LIB_DIR="$HOME/scons-build/src/engine" python "$HOME/scons-build/src/script/scons.py" PREFIX="$HOME/opt/serf-$SERFV" install && cd .. || exit 1
+    rm -rf serf-build scons-build || exit 1
+fi
+
 if [ "$ENABLE_SUBVERSION" = "yes" -a ! -e "opt/subversion-$SUBVERSIONV" ]
 then
     wget "http://www.eu.apache.org/dist/subversion/subversion-${SUBVERSIONV}.tar.bz2" || exit 1
     wget "http://www.eu.apache.org/dist/subversion/subversion-${SUBVERSIONV}.tar.bz2.asc" || exit 1
     gpg --verify "subversion-${SUBVERSIONV}.tar.gz.asc" || exit 1
     tar xf "subversion-${SUBVERSIONV}.tar.bz2" || exit 1
-    cd "subversion-${SUBVERSIONV}" && ./configure --prefix="$HOME/opt/subversion-${SUBVERSIONV}" && make && make install && cd .. || exit 1
+    cd "subversion-${SUBVERSIONV}" && LDFLAGS="-Wl,--rpath=$HOME/opt/serf-$SERFV/lib,--enable-new-dtags" ./configure --with-serf="$HOME/opt/serf-$SERFV" --prefix="$HOME/opt/subversion-${SUBVERSIONV}" && make && make install && cd .. || exit 1
     cd opt && ln -nsf "subversion-${SUBVERSIONV}" "subversion" && cd .. || exit 1
     rm -rf "subversion-${SUBVERSIONV}" "subversion-${SUBVERSIONV}.tar.bz2" "subversion-${SUBVERSIONV}.tar.bz2.asc" || exit 1
 fi
