@@ -277,7 +277,7 @@ if [ "$ENABLE_SUBVERSION" = "yes" -a ! -e "opt/subversion-$SUBVERSIONV" ]
 then
     wget "http://www.eu.apache.org/dist/subversion/subversion-${SUBVERSIONV}.tar.bz2" || exit 1
     wget "http://www.eu.apache.org/dist/subversion/subversion-${SUBVERSIONV}.tar.bz2.asc" || exit 1
-    gpg --verify "subversion-${SUBVERSIONV}.tar.gz.asc" || exit 1
+    gpg --verify "subversion-${SUBVERSIONV}.tar.bz2.asc" || exit 1
     tar xf "subversion-${SUBVERSIONV}.tar.bz2" || exit 1
     cd "subversion-${SUBVERSIONV}" && LDFLAGS="-Wl,--rpath=$HOME/opt/serf-$SERFV/lib,--enable-new-dtags" ./configure --with-serf="$HOME/opt/serf-$SERFV" --prefix="$HOME/opt/subversion-${SUBVERSIONV}" && make && make install && cd .. || exit 1
     cd opt && ln -nsf "subversion-${SUBVERSIONV}" "subversion" && cd .. || exit 1
