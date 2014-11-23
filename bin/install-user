@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+SUBVERSIONV="1.8.10"
 LIBUPNPPV="0.8.5"
 UPPLAYV="0.8.5"
 BISONVS=("2.1")
@@ -237,6 +238,17 @@ then
     cd "../../.."
     cd opt && ln -nsf "git-$GITV" "git" && cd .. || exit 1
     cd .bin && (for BIN in $(ls "../opt/git/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
+fi
+
+if [ "$ENABLE_SUBVERSION" = "yes" -a ! -e "opt/subversion-$SUBVERSIONV" ]
+then
+    wget "http://www.eu.apache.org/dist/subversion/subversion-${SUBVERSIONV}.tar.bz2" || exit 1
+    wget "http://www.eu.apache.org/dist/subversion/subversion-${SUBVERSIONV}.tar.bz2.asc" || exit 1
+    gpg --verify "subversion-${SUBVERSIONV}.tar.gz.asc" || exit 1
+    tar xf "subversion-${SUBVERSIONV}.tar.bz2" || exit 1
+    cd "subversion-${SUBVERSIONV}" && ./configure --prefix="$HOME/opt/subversion-${SUBVERSIONV}" && make && make install && cd .. || exit 1
+    cd opt && ln -nsf "subversion-${SUBVERSIONV}" "subversion" && cd .. || exit 1
+    rm -rf "subversion-${SUBVERSIONV}" "subversion-${SUBVERSIONV}.tar.bz2" "subversion-${SUBVERSIONV}.tar.bz2.asc" || exit 1
 fi
 
 if ! [ -e "opt/autoconf-${AUTOCONFV}" ]
