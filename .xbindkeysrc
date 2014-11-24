@@ -8,9 +8,17 @@
 "volume pulse increase"
   m:0x40 + c:112
 
+# Audio Raise
+"volume pulse increase"
+  m:0x0 + c:123
+
 # Win+PageDown
 "volume pulse decrease"
   m:0x40 + c:117
+
+# Audio Lower
+"volume pulse decrease"
+  m:0x0 + c:122
 
 # Win+S
 "xkbswitch"
