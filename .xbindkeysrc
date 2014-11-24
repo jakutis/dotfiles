@@ -1,8 +1,8 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
-# Win+C
+# Win+F8
 "xclip -o -selection primary|xclip -i -selection clipboard"
-  m:0x40 + c:54
+  m:0x40 + c:74
 
 # Win+PageUp
 "volume pulse increase"
