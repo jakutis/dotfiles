@@ -26,6 +26,7 @@ Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
 Bundle 'derekwyatt/vim-scala'
+Bundle 'scrooloose/nerdcommenter'
 call vundle#end()
 filetype plugin indent on
 
