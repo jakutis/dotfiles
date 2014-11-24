@@ -10,5 +10,6 @@ system screens mobile
 system brightness max
 system net $(zenity --entry --text="system net ?")
 start-pulseaudio-x11
+start-minidlna
 klipper
 awesome
