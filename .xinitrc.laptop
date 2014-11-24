@@ -12,4 +12,5 @@ system net $(zenity --entry --text="system net ?")
 start-pulseaudio-x11
 start-minidlna
 klipper
+xscreensaver -no-splash &
 awesome
