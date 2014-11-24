@@ -23,3 +23,23 @@
 # Print Screen
 "ksnapshot --current"
   m:0x0 + c:107
+
+# Win+Z
+"cmus-remote -C player-prev"
+  m:0x40 + c:52
+
+# Win+X
+"cmus-remote -C player-play"
+  m:0x40 + c:53
+
+# Win+C
+"cmus-remote -C player-pause"
+  m:0x40 + c:54
+
+# Win+V
+"cmus-remote -C player-stop"
+  m:0x40 + c:55
+
+# Win+B
+"cmus-remote -C player-next"
+  m:0x40 + c:56
