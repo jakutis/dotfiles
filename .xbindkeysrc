@@ -2,52 +2,52 @@
 
 # Win+F8
 "xclip -o -selection primary|xclip -i -selection clipboard"
-  m:0x40 + c:74
+  Mod4 + F8
 
 # Win+PageUp
 "volume pulse increase"
-  m:0x40 + c:112
+  Mod4 + Prior
 
 # Audio Raise
 "volume pulse increase"
-  m:0x0 + c:123
+  XF86AudioRaiseVolume
 
 # Win+PageDown
 "volume pulse decrease"
-  m:0x40 + c:117
+  Mod4 + Next
 
 # Audio Lower
 "volume pulse decrease"
-  m:0x0 + c:122
+  XF86AudioLowerVolume
 
 # Win+S
 "xkbswitch"
-  m:0x50 + c:39
+  Mod4 + s
 
 # Win+Home
 "blank;xscreensaver-command -lock"
-  m:0x40 + c:110
+  Mod4 + Home
 
 # Print Screen
 "ksnapshot --current"
-  m:0x0 + c:107
+  Print
 
 # Win+Z
 "cmus-remote -C player-prev"
-  m:0x40 + c:52
+  Mod4 + z
 
 # Win+X
 "cmus-remote -C player-play"
-  m:0x40 + c:53
+  Mod4 + x
 
 # Win+C
 "cmus-remote -C player-pause"
-  m:0x40 + c:54
+  Mod4 + c
 
 # Win+V
 "cmus-remote -C player-stop"
-  m:0x40 + c:55
+  Mod4 + v
 
 # Win+B
 "cmus-remote -C player-next"
-  m:0x40 + c:56
+  Mod4 + b
