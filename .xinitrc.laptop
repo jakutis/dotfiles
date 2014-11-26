@@ -6,9 +6,6 @@ xhost localhost
 xrdb -merge .Xresources
 update-xinput
 LOG_DIR="$HOME/etc/wiki/xwinlogger" nohup xwinlogger >/dev/null 2>&1 &
-system screens mobile
-system brightness max
-system net $(zenity --entry --text="system net ?")
 start-pulseaudio-x11
 start-minidlna
 klipper
