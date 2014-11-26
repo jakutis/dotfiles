@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+BEANSTALKDV="1.10"
 SCONSV="2.3.4"
 SERFV="1.3.8"
 SUBVERSIONV="1.8.10"
@@ -934,6 +935,14 @@ then
     ensure_git json-c https://github.com/json-c/json-c || exit 1
     (cd "repos/git/json-c" && git archive --format=tar --prefix=json-c-build/ "json-c-$JSONCV") | tar xf - || exit 1
     cd json-c-build && CFLAGS="-Wno-error=unused-but-set-variable" ./configure --prefix="$HOME/opt/json-c-$JSONCV" && make && make install && cd .. && rm -rf json-c-build || exit 1
+fi
+
+if ! [ -e "opt/beanstalkd-$BEANSTALKDV" ]
+then
+    ensure_git beanstalkd https://github.com/kr/beanstalkd || exit 1
+    (cd "repos/git/beanstalkd" && git archive --format=tar --prefix=beanstalkd-build/ "v$BEANSTALKDV") | tar xf - || exit 1
+    cd beanstalkd-build && make PREFIX="$HOME/opt/beanstalkd-$BEANSTALKDV" install && cd .. && rm -rf beanstalkd-build || exit 1
+    cd .bin && ln -nsf ../opt/beanstalkd-$BEANSTALKDV/bin/beanstalkd && cd .. || exit 1
 fi
 
 if ! [ -e "opt/jq-$JQV" ]
