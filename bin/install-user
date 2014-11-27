@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+AP4JPLAYERV="8bc872e"
 BEANSTALKDV="1.10"
 SCONSV="2.3.4"
 SERFV="1.3.8"
@@ -1235,3 +1236,16 @@ then
     cd .bin && ln -nsf "../opt/upplay/bin/upplay" && cd .. || exit 1
 fi
 
+if [ "$ENABLE_AP4JPLAYER" = "yes" -a ! -e "opt/ap4jplayer-$AP4JPLAYERV" ]
+then
+    ensure_git AP4J-Player https://github.com/carsonmcdonald/AP4J-Player
+    (cd "repos/git/AP4J-Player" && git archive --format=tar --prefix=ap4jplayer-build/ "$AP4JPLAYERV") | tar xf - || exit 1
+    cd ap4jplayer-build/build && ant && mv dist ../../opt/ap4jplayer-$AP4JPLAYERV && cd ../.. && rm -rf ap4jplayer-build || exit 1
+    echo '#/usr/bin/env bash' > .bin/ap4jplayer
+    echo 'echo ' >> .bin/ap4jplayer
+    echo 'echo Open http://localhost:7070/' >> .bin/ap4jplayer
+    echo 'echo ' >> .bin/ap4jplayer
+    echo "cd \"\$HOME/opt/ap4jplayer-$AP4JPLAYERV\"" >> .bin/ap4jplayer
+    echo 'java -jar AP4JPlayer.jar' >> .bin/ap4jplayer
+    chmod +x .bin/ap4jplayer
+fi
