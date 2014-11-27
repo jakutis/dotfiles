@@ -12,11 +12,8 @@ export HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
 
-if [ "$TERM" = "dumb" ]
+if [ "$TERM" != "dumb" ]
 then
-    export GREP_OPTIONS='--color=never'
-else
-    export GREP_OPTIONS='--color=auto'
     eval $(dircolors --bourne-shell "$HOME/.dircolors")
 fi
 
