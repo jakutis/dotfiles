@@ -2,6 +2,7 @@ alias title=settitle
 
 alias md='source $HOME/bin/md'
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 alias less='less -R'
 alias cp='cp -i'
 alias mv='mv -i'
