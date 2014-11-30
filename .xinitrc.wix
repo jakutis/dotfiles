@@ -7,4 +7,5 @@ update-xinput
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 start-minidlna
 xscreensaver -no-splash &
+autocutsel -selection PRIMARY -buttonup -fork
 awesome
