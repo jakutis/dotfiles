@@ -9,5 +9,6 @@ LOG_DIR="$HOME/etc/wiki/xwinlogger" nohup xwinlogger >/dev/null 2>&1 &
 start-pulseaudio-x11
 start-minidlna
 xscreensaver -no-splash &
+autocutsel -buttonup -fork
 autocutsel -selection PRIMARY -buttonup -fork
 awesome
