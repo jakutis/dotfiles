@@ -840,7 +840,7 @@ then
     cd "$HOME/repos/hg/vim" || exit 1
     hg checkout "$VIMV" || exit 1
     make distclean
-    ./configure --enable-pythoninterp=yes --with-features=huge --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    ./configure --enable-rubyinterp=yes --enable-pythoninterp=yes --with-features=huge --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
     cd "$HOME/opt"
     ln -nsf "vim-$VIMV" "vim"
     cd ../.bin
