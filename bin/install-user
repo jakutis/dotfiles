@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+DECK2PDFV="f506606"
 AP4JPLAYERV="8bc872e"
 BEANSTALKDV="1.10"
 SCONSV="2.3.4"
@@ -1234,6 +1235,15 @@ then
     cd upplay-build && qmake-qt4 PREFIX="$HOME/opt/upplay-$UPPLAYV" INCLUDEPATH="$HOME/opt/libupnpp-$LIBUPNPPV/include" QMAKE_LFLAGS="-Wl,--rpath=$HOME/opt/libupnpp-$LIBUPNPPV/lib,--enable-new-dtags -L$HOME/opt/libupnpp-$LIBUPNPPV/lib" && make install && cd .. && rm -rf upplay-build || exit 1
     cd opt && ln -nsf "upplay-$UPPLAYV" upplay && cd .. || exit 1
     cd .bin && ln -nsf "../opt/upplay/bin/upplay" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_DECK2PDF" = "yes" -a ! -e "opt/deck2pdf-$DECK2PDFV" ]
+then
+    ensure_git deck2pdf https://github.com/melix/deck2pdf
+    (cd "repos/git/deck2pdf" && git archive --format=tar --prefix=deck2pdf-build/ "$DECK2PDFV") | tar xf - || exit 1
+    cd ./deck2pdf-build && ./gradlew distZip && cd build/distributions && (ZIP=$(ls *);unzip "$ZIP" && mv "$(basename "$ZIP" .zip)" "$HOME/opt/deck2pdf-$DECK2PDFV") && cd ../../.. && rm -rf deck2pdf-build || exit 1
+    cd opt && ln -nsf "deck2pdf-$DECK2PDFV" deck2pdf && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/deck2pdf/bin/deck2pdf" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_AP4JPLAYER" = "yes" -a ! -e "opt/ap4jplayer-$AP4JPLAYERV" ]
