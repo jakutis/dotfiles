@@ -5,7 +5,7 @@ Xft.autohint:       true
 Xft.lcdfilter:      cddefault
 Xft.hintstyle:      hintfull
 Xft.hinting:        true
-Xft.antialias:      tru
+Xft.antialias:      true
 Xft.rgba:           rgb
 XTerm*faceName:     monospace:size=9:antialias=true
 XTerm*bellIsUrgent: true
