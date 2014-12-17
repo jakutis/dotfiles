@@ -53,8 +53,8 @@ then
         "application/pdf" | "image/vnd.djvu" | "application/postscript")
             okular -- "$FILE"
             ;;
-        "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/zip" )
-            libreoffice -- "$FILE"
+        "application/msword" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/zip" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" )
+            libreoffice "$FILE"
             ;;
         "application/x-bzip2" | "application/x-gzip")
             ls -lha -- "$FILE"
