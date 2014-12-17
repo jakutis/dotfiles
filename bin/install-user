@@ -21,7 +21,7 @@ TIGV="2.0.3"
 OPAMV="1.2.0"
 NGINXV="1.7.8"
 MYSQLSERVERVS=("5.1.73" "5.6.22")
-PHPVS=("5.5.19" "5.6.3")
+PHPVS=("5.5.20" "5.6.4")
 MAVENV="3.2.5"
 VAGRANTV="1.7.1"
 AUTOMAKEV="1.14.1"
@@ -348,7 +348,7 @@ mkdir --parents .phps || exit 1
 ensure_git php-build https://github.com/CHH/php-build || exit 1
 (cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" master) | tar xf - || exit 1
 rm -rf opt/php-build && cd php-build-build && PREFIX="$HOME/opt/php-build" ./install.sh && cd .. && rm -rf php-build-build || exit 1
-(cd "opt/php-build/share/php-build/definitions" && cat 5.5.16 | sed 's/http:/https:/' | sed 's/5.5.16/5.5.19/' > 5.5.19 && cat 5.6.0 | sed 's/http:/https:/' | sed 's/5.6.0/5.6.3/' > 5.6.3) || exit 1
+(cd "opt/php-build/share/php-build/definitions" && cat 5.5.16 | sed 's/http:/https:/' | sed 's/5.5.16/5.5.20/' > 5.5.20 && cat 5.6.0 | sed 's/http:/https:/' | sed 's/5.6.0/5.6.4/' > 5.6.4) || exit 1
 cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
 
 for PHPV in "${PHPVS[@]}"
