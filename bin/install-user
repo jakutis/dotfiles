@@ -348,14 +348,22 @@ mkdir --parents .phps || exit 1
 ensure_git php-build https://github.com/CHH/php-build || exit 1
 (cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" master) | tar xf - || exit 1
 rm -rf opt/php-build && cd php-build-build && PREFIX="$HOME/opt/php-build" ./install.sh && cd .. && rm -rf php-build-build || exit 1
-(cd "opt/php-build/share/php-build/definitions" && cat 5.5.16 | sed 's/http:/https:/' | sed 's/5.5.16/5.5.20/' > 5.5.20 && cat 5.6.0 | sed 's/http:/https:/' | sed 's/5.6.0/5.6.4/' > 5.6.4) || exit 1
 cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
 
+ensure_git php https://github.com/php/php-src.git || exit 1
 for PHPV in "${PHPVS[@]}"
 do
     if ! [ -e "opt/php-$PHPV" ]
     then
+        (cd "repos/git/php" && git archive --format=tar --prefix="$PHPV/" "php-$PHPV") > "$HOME/php-build.tar" || exit 1
+        echo "
+cd \$TMP/source && tar xf "$HOME/php-build.tar" && cd "$PHPV" && ./buildconf --copy --force && ./genfiles && build_package || exit 1
+install_pyrus
+install_xdebug "2.2.5"
+enable_builtin_opcache
+" > "opt/php-build/share/php-build/definitions/$PHPV"
         PHP_BUILD_CONFIGURE_OPTS="--with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt=shared --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl" php-build "$PHPV" "$HOME/opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
+        rm "$HOME/php-build.tar" || exit 1
         [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")" || exit 1
 
         ensure_git php-zmq https://github.com/mkoppanen/php-zmq || exit 1
