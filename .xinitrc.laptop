@@ -10,4 +10,6 @@ start-pulseaudio-x11
 start-minidlna
 xscreensaver -no-splash &
 autocutsel -selection PRIMARY -buttonup -fork
+autocutsel -selection SECONDARY -buttonup -fork
+autocutsel -selection CLIPBOARD -buttonup -fork
 awesome

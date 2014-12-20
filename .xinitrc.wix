@@ -8,4 +8,6 @@ google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
 start-minidlna
 xscreensaver -no-splash &
 autocutsel -selection PRIMARY -buttonup -fork
+autocutsel -selection SECONDARY -buttonup -fork
+autocutsel -selection CLIPBOARD -buttonup -fork
 awesome
