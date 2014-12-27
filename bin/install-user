@@ -90,12 +90,12 @@ PODCATCHERV="3.1.7"
 PODCATCHERCOMMIT="4407f386661b51c968d050c2e12b3059946781b1"
 MCABBERV="0.10.3"
 SVG2PDFV="301dd48"
-RMV="3"
-RV="${RMV}.1.1"
+RTAG="R-3-1-2"
+RV="3.1.2"
 GOV="1.3.3"
 YOUTUBEDLV="2014.12.17.2"
 VIMV="v7-4-559"
-COLOROUTV="1.0-3"
+COLOROUTV="1.1-0"
 TMUXV="1.9a"
 LIBEVENTV="2.0.21"
 ELINKSV="3379fc9"
@@ -474,16 +474,11 @@ fi
 
 if ! [ -e "opt/r-$RV" ]
 then
-    curl -L "http://stat.ethz.ch/CRAN/src/base/R-$RMV/R-${RV}.tar.gz" | tar zxf - || exit 1
-    cd "R-${RV}"
-    ./configure --enable-R-shlib --prefix="$HOME/opt/r-$RV" && make && make install || exit 1
-    cd ../opt
-    ln -s "r-$RV" "r"
-    cd ../.bin
-    ln -nsf "../opt/r-$RV/bin/R"
-    cd ..
-    rm -rf "R-${RV}"
-    echo 'install.packages(c("outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
+    svn co "https://svn.r-project.org/R/tags/$RTAG" r-build || exit 1
+    cd r-build && ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$RV" && make && make install && cd .. && rm -rf r-build || exit 1
+    cd opt && ln -nsf "r-$RV" "r" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/r-$RV/bin/R" && cd .. || exit 1
+    echo 'install.packages(c("gdata", "irr", "outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
     wget "http://www.lepem.ufc.br/jaa/colorout_${COLOROUTV}.tar.gz" || exit 1
     echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save || exit 1
     rm colorout_${COLOROUTV}.tar.gz
