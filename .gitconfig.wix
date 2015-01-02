@@ -22,6 +22,7 @@
     t = log --tags --show-notes --simplify-by-decoration --pretty='format:%ai %h %d %s'
     l = log --graph --decorate --oneline --stat --all
     b = branch -a
+    authors = shortlog -sne
 
 [web]
     browser = opera
