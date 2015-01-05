@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+GHCMODV="5.2.1.2"
 DECK2PDFV="f506606"
 AP4JPLAYERV="8bc872e"
 BEANSTALKDV="1.10"
@@ -906,6 +907,13 @@ if [ "$ENABLE_HAPPY" = "yes" -a ! -e "opt/happy-$HAPPYV" ]
 then
     mkdir -p "opt/happy-$HAPPYV" && cd "opt/happy-$HAPPYV" && cabal sandbox init --sandbox . && cabal install "happy==$HAPPYV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/happy-$HAPPYV/bin/happy" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_GHCMOD" = "yes" -a ! -e "opt/ghc-mod-$GHCMODV" ]
+then
+    mkdir -p "opt/ghc-mod-$GHCMODV" && cd "opt/ghc-mod-$GHCMODV" && cabal sandbox init --sandbox . && cabal install "ghc-mod==$GHCMODV" && cd ../.. || exit 1
+    cd .bin && ln -nsf "../opt/ghc-mod-$GHCMODV/bin/ghc-mod" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/ghc-mod-$GHCMODV/bin/ghc-modi" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_PANDOC" = "yes" -a ! -e "opt/pandoc-$PANDOCV" ]
