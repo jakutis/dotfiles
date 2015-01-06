@@ -36,11 +36,9 @@ else
 fi
 
 cat "$REFERENCES" | grep -v '^#' | (
-    FILES=()
     while read FILE
     do
-        FILES=("${FILES[@]}" "${FILE}.${EXT}")
+        mkdir -vp "$DIR/$(dirname "$FILE")"
+        cp -Lv "$HOME/etc/storage/books/${FILE}.${EXT}" "$DIR/$(dirname "$FILE")"
     done
-    cd "$HOME/etc/storage/books"
-    cp -L "${FILES[@]}" "$DIR"
 )
