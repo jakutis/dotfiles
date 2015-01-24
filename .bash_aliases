@@ -1,5 +1,6 @@
 alias title=settitle
 
+alias cd..='cd ..'
 alias md='source $HOME/bin/md'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
