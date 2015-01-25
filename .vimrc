@@ -1,4 +1,5 @@
 set rtp+=~/.vimcustom
+let dotfiles = readfile($XDG_CONFIG_HOME . "/dotfiles/dotfiles")[0]
 
 " Vundle
 set nocompatible
@@ -80,7 +81,7 @@ let g:syntastic_mode_map = {
      \}
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_php_phpmd_post_args = '$HOME/Desktop/DOTFILES/phpmd_ruleset.xml'
+let g:syntastic_php_phpmd_post_args = dotfiles . '/phpmd_ruleset.xml'
 
 " bling/vim-airline
 let g:airline_powerline_fonts = 0
@@ -204,7 +205,7 @@ map <Leader> <Plug>(easymotion-prefix)
 " source all .vimrc files in all parent directories, except the main .vimrc
 let dir = getcwd()
 while 1
-    if filereadable(dir . "/.vimrc") && dir != $HOME && dir != $HOME . "/Desktop/DOTFILES"
+    if filereadable(dir . "/.vimrc") && dir != $HOME && dir != dotfiles
         execute "source " . dir . "/.vimrc"
         call MyVIMRC(dir)
     endif
