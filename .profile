@@ -39,3 +39,5 @@ source "$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")/.profile.path"
 if [ -n "$BASH_VERSION" ]; then
     source "$HOME/.bashrc"
 fi
+
+cd "$HOME/Desktop"
