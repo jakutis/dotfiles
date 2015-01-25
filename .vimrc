@@ -167,8 +167,6 @@ set backspace=2
 " insertions
 nnoremap <F1> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1P
 noremap! <F1> <Esc>:let @1=system("date\|tr --delete '\n'")<CR>"1pa
-nnoremap <F2> <Esc>:let @1=system("cat $HOME/Desktop/DOTFILES/c_fun.tpl")<CR>"1P
-noremap! <F2> <Esc>:let @1=system("cat $HOME/Desktop/DOTFILES/c_fun.tpl")<CR>"1pa
 
 " ctags
 nnoremap <F4> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
