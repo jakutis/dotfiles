@@ -23,6 +23,7 @@
     l = log --graph --decorate --oneline --stat --all
     b = branch -a
     authors = shortlog -sne
+    history = log --follow --patch
 
 [web]
     browser = opera
