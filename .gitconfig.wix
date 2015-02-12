@@ -61,7 +61,9 @@
 
 [push]
     default = matching
+
 [http]
-	sslVerify = true
+    sslVerify = true
+
 [url "https://"]
-	insteadOf = git://
+    insteadOf = git://
