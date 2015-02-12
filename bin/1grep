@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+function display {
+    local PARENT="$1"
+    local PREFIX="===== "$PARENT""
+    while read LINE
+    do
+        echo "$PREFIX"
+        echo
+        echo "$LINE"
+        echo
+    done
+}
+
+function fail {
+    local FILE="$1"
+
+    echo "FAIL: $FILE ($(file --mime-type --brief "$FILE"))"
+}
+
+function compressedgrep {
+    local WORD="$1"
+    local FILE="$2"
+    local PARENT="$3"
+
+    local DIR="$(mktemp -d)"
+    if (exit 1) \
+        || tar -x -f "$FILE" -C "$DIR" 1>/dev/null 2>&1 \
+        || unzip "$FILE" -d "$DIR" 1>/dev/null 2>&1 \
+        || 7z x "-o${DIR}" -- "$FILE" 1>/dev/null 2>&1 \
+        || rar x "$FILE" "$DIR" 1>/dev/null 2>&1
+    then
+        dirgrep "$WORD" "$DIR" "${PARENT}"
+    else
+        local FILE2="$(mktemp --suffix=.txt)"
+        if (exit 1) \
+            || pdftotext "$FILE" - 1>"$FILE2" 2>/dev/null \
+            || gunzip --keep --stdout "$FILE" 1>"$FILE2" 2>/dev/null \
+            || bunzip2 --keep --stdout "$FILE" 1>"$FILE2" 2>/dev/null \
+            || xz --decompress --keep --stdout "$FILE" 1>"$FILE2" 2>/dev/null \
+            || lzma --decompress --keep --stdout "$FILE" 1>"$FILE2" 2>/dev/null \
+            || ebook-convert "$FILE" "$FILE2" 1>/dev/null 2>&1
+        then
+            filegrep "$WORD" "$FILE2" "$PARENT"
+        else
+            fail "$FILE"
+        fi
+        rm "$FILE2"
+    fi
+    rm -rf "$DIR"
+}
+
+function filegrep {
+    local PARENT="$3"
+    local FILENAME="$2"
+    local FILE="$(realpath "$FILENAME")"
+    local WORD="$1"
+    local MIME="$(file --brief --mime-type "$FILE")"
+
+    if ! [ "$MIME" = "image/png" -o "$MIME" = "image/jpeg" -o "$MIME" = "image/gif" -o "$MIME" = "video/mp4" -o "$MIME" = "inode/x-empty" ]
+    then
+        if [ "$MIME" = "text/plain" -o "$MIME" = "text/html" -o "$MIME" = "application/xml" ]
+        then
+            grep --ignore-case "$WORD" "$FILE"|display "$PARENT"
+        else
+            compressedgrep "$WORD" "$FILE" "$PARENT"
+        fi
+    fi
+}
+
+function dirgrep {
+    local DIR="$(realpath "$2")"
+    local WORD="$1"
+    local PARENT="$3"
+
+    cd "$DIR"
+    find -not -name . | while read FILE
+    do
+        cd "$DIR"
+        unknowngrep "$WORD" "$FILE" "${PARENT}/${FILE}"
+    done
+}
+
+function unknowngrep {
+    local WORD="$1"
+    local TARGET="$2"
+    local PARENT="$3"
+
+    if [ -d "$TARGET" ]
+    then
+        dirgrep "$WORD" "$TARGET" "$PARENT"
+    elif [ -f "$TARGET" ]
+    then
+        filegrep "$WORD" "$TARGET" "$PARENT"
+    else
+        fail "$TARGET"
+    fi
+}
+
+unknowngrep "$1" "$2" "$2"
