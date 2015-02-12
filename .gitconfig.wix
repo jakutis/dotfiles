@@ -51,13 +51,14 @@
     untracked = cyan
 
 [diff]
-    tool = vimdiff
+    tool = meld
 
 [difftool]
     prompt = false
 
 [merge]
-    tool = vimdiff
+    tool = meld
+
 [push]
     default = matching
 [http]
