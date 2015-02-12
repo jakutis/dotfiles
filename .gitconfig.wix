@@ -24,6 +24,7 @@
     b = branch -a
     authors = shortlog -sne
     history = log --follow --patch
+    showtool = "!sh -c 'if [ -z $1 ]; then REVISION=HEAD; else REVISION=$1; fi; git difftool $REVISION~ $REVISION' -"
 
 [web]
     browser = opera
