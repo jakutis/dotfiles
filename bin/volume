@@ -29,15 +29,15 @@ then
     amixer -c $CARD Master $CURVOL
 elif [ "$TYPE" = "pulse" ]
 then
-    DEFAULT_SINK="$(pactl stat | grep -i "Default Sink:" | cut --bytes=15-)"
+    DEFAULT_SINK="$(pactl info | grep -i "Default Sink:" | cut --bytes=15-)"
     if [ "$COMMAND" = "decrease" ]
     then
         pactl set-sink-mute $DEFAULT_SINK 0
-        pactl set-sink-volume $DEFAULT_SINK -- -5%
+        pactl set-sink-volume $DEFAULT_SINK -5%
     elif [ "$COMMAND" = "increase" ]
     then
         pactl set-sink-mute $DEFAULT_SINK 0
-        pactl set-sink-volume $DEFAULT_SINK -- +5%
+        pactl set-sink-volume $DEFAULT_SINK +5%
     else
         echo "Error: unknown command $COMMAND"
         exit 1
