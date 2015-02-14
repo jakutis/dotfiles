@@ -5,6 +5,7 @@ xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
 google-drive-ocamlfuse -skiptrash -headless -m /mnt/google
+start-pulseaudio-x11
 start-minidlna
 xscreensaver -no-splash &
 autocutsel -selection PRIMARY -buttonup -fork
