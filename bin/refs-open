@@ -11,7 +11,7 @@ fi
 
 if ! [ -f "$REFLIST" ]
 then
-    REFLIST="$HOME/etc/wiki/lists/$1"
+    REFLIST="$HOME/repos/git/wiki/lists/$1"
 fi
 
 if ! [ -f "$REFLIST" ]
