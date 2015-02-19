@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 
+LISTS="$HOME/repos/git/wiki/lists"
+
 if [ -z "$1" ]
 then
-    ls "$HOME/etc/wiki/lists"
+    ls "$LISTS"
     exit
 fi
 
 if [ -z "$2" ]
 then
-    cat "$HOME/etc/wiki/lists/$1"
+    cat "$LISTS/$1"
 else
-    if [ -n "$(cat "$HOME/etc/wiki/lists/$1"|grep -i "$2")" ]
+    if [ -n "$(cat "$LISTS/$1"|grep -i "$2")" ]
     then
         echo "Warning: given reference already exists in given list" 1>&2
         exit
     fi
-    echo "$2" >> "$HOME/etc/wiki/lists/$1"
+    echo "$2" >> "$LISTS/$1"
 fi
