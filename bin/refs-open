@@ -22,7 +22,7 @@ fi
 
 if [ -z "$2" ]
 then
-    REFDIR="$HOME/etc/storage/books"
+    REFDIR="$HOME/Archive/books"
     echo "Info: directory with references not specified, using ${REFDIR}." >&2
 else
     REFDIR="$(realpath "$2")"
