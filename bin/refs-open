@@ -36,6 +36,14 @@ else
     VIEWER="$3"
 fi
 
+if [ -z "$4" ]
+then
+    SAMEINSTANCE="true"
+    echo "Info: same instance mode flag not specified, using default 'true'." >&2
+else
+    SAMEINSTANCE="$4"
+fi
+
 if ! [ -d "$REFDIR" ]
 then
     echo "Error: directory with references \"$REFDIR\" does not exist." >&2
@@ -50,15 +58,33 @@ fi
 
 cd "$REFDIR"
 cat "$REFLIST" | grep -v '^#' | grep -v '^$' | (
-    FILES=()
-    while read REF
-    do
-        if [ -e "${REF}.djvu" ]
-        then
-            FILES=("${FILES[@]}" "${REF}.djvu")
-        else
-            FILES=("${FILES[@]}" "${REF}.pdf")
-        fi
-    done
-    "$VIEWER" "${FILES[@]}"
+    if [ "$SAMEINSTANCE" = "true" ]
+    then
+        FILES=()
+        while read REF
+        do
+            if [ -e "${REF}.djvu" ]
+            then
+                FILES=("${FILES[@]}" "${REF}.djvu")
+            elif [ -e "${REF}.pdf" ]
+            then
+                FILES=("${FILES[@]}" "${REF}.pdf")
+            fi
+        done
+        nohup "$VIEWER" "${FILES[@]}" 1>/dev/null 2>/dev/null &
+        sleep 0.1
+    else
+        while read REF
+        do
+            if [ -e "${REF}.djvu" ]
+            then
+                nohup "$VIEWER" "${REF}.djvu" 1>/dev/null 2>/dev/null &
+                sleep 0.1
+            elif [ -e "${REF}.pdf" ]
+            then
+                nohup "$VIEWER" "${REF}.pdf" 1>/dev/null 2>/dev/null &
+                sleep 0.1
+            fi
+        done
+    fi
 )
