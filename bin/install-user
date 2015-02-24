@@ -180,7 +180,7 @@ mkdir --parents ".bin"
 if [ -n "$VARIA" ]
 then
     ln -nsf "$VARIA/gitac" ".bin/gitac"
-    ln -nsf "$VARIA/gitD" ".bin/gitD"
+    ln -nsf "$VARIA/git-D" ".bin/git-D"
 
     pushd .
     mkdir --parents "$XDG_CONFIG_HOME/newsbeuter"
