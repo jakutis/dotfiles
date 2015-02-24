@@ -148,15 +148,11 @@ then
     exit 1
 fi
 
-VARIA=""
-if [ "$MACHINE" != "wix" ]
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+if [ -z "$VARIA" ]
 then
-    VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
-    if [ -z "$VARIA" ]
-    then
-        echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
-        exit 1
-    fi
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
+    exit 1
 fi
 
 cd "$HOME"
@@ -177,17 +173,14 @@ mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.db"
 mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
 
 mkdir --parents ".bin"
-if [ -n "$VARIA" ]
-then
-    ln -nsf "$VARIA/git-D" ".bin/git-D"
+ln -nsf "$VARIA/git-D" ".bin/git-D"
 
-    pushd .
-    mkdir --parents "$XDG_CONFIG_HOME/newsbeuter"
-    cd "$XDG_CONFIG_HOME/newsbeuter"
-    ln -nsf "$DOTFILES/.newsbeuter/config"
-    ln -nsf "$VARIA/news.txt" urls
-    popd
-fi
+pushd .
+mkdir --parents "$XDG_CONFIG_HOME/newsbeuter"
+cd "$XDG_CONFIG_HOME/newsbeuter"
+ln -nsf "$DOTFILES/.newsbeuter/config"
+ln -nsf "$VARIA/news.txt" urls
+popd
 
 mkdir --parents Downloads/rtorrent
 mkdir --parents .rtorrent.session
