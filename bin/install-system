@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+if [ -z "$MACHINE" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/machine" that contains the name of the current machine" 1>&2
+    exit 1
+fi
+
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+if [ -z "$VARIA" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
+    exit 1
+fi
+
 set -o verbose
 set -o xtrace
 
@@ -48,4 +62,15 @@ then
 else
     echo "Unknown package manager, only pacman and apt-get are supported"
     exit 1
+fi
+
+if [ "$MACHINE" = "server" ]
+then
+    ln -nsf "$VARIA/server/aliases" "/etc/aliases"
+    ln -nsf "$VARIA/server/apcupsd.conf" "/etc/apcupsd/apcupsd.conf"
+    ln -nsf "$VARIA/server/haproxy.cfg" "/etc/haproxy/haproxy.cfg"
+    ln -nsf "$VARIA/server/main.cf" "/etc/postfix/main.cf"
+    ln -nsf "$VARIA/server/transport" "/etc/postfix/transport"
+    ln -nsf "$VARIA/server/procmailrc" "/etc/procmailrc"
+    ln -nsf "$VARIA/server/rc.local" "/etc/rc.local"
 fi
