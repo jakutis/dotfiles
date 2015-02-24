@@ -50,7 +50,7 @@ then
     do
         if ! "$PACMAN" --query --list "$PKG" 1>/dev/null 2>&1
         then
-            yaourt --sync --noconfirm "$PKG"
+            yaourt --sync --noconfirm "$PKG" || exit 1
         fi
     done
 elif [ -n "$APTGET" ]
@@ -66,11 +66,11 @@ fi
 
 if [ "$MACHINE" = "server" ]
 then
-    ln -nsf "$VARIA/server/aliases" "/etc/aliases"
-    ln -nsf "$VARIA/server/apcupsd.conf" "/etc/apcupsd/apcupsd.conf"
-    ln -nsf "$VARIA/server/haproxy.cfg" "/etc/haproxy/haproxy.cfg"
-    ln -nsf "$VARIA/server/main.cf" "/etc/postfix/main.cf"
-    ln -nsf "$VARIA/server/transport" "/etc/postfix/transport"
-    ln -nsf "$VARIA/server/procmailrc" "/etc/procmailrc"
-    ln -nsf "$VARIA/server/rc.local" "/etc/rc.local"
+    ln -nsf "$VARIA/server/aliases" "/etc/aliases" || exit 1
+    ln -nsf "$VARIA/server/apcupsd.conf" "/etc/apcupsd/apcupsd.conf" || exit 1
+    ln -nsf "$VARIA/server/haproxy.cfg" "/etc/haproxy/haproxy.cfg" || exit 1
+    ln -nsf "$VARIA/server/main.cf" "/etc/postfix/main.cf" || exit 1
+    ln -nsf "$VARIA/server/transport" "/etc/postfix/transport" || exit 1
+    ln -nsf "$VARIA/server/procmailrc" "/etc/procmailrc" || exit 1
+    ln -nsf "$VARIA/server/rc.local" "/etc/rc.local" || exit 1
 fi
