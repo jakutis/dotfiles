@@ -360,7 +360,6 @@ do
         echo "
 cd \$TMP/source && tar xf "$HOME/php-build.tar" && cd "$PHPV" && ./buildconf --copy --force && ./genfiles && build_package || exit 1
 install_pyrus
-install_xdebug "2.2.5"
 enable_builtin_opcache
 " > "opt/php-build/share/php-build/definitions/$PHPV"
         PHP_BUILD_CONFIGURE_OPTS="--with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt=shared --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl" php-build "$PHPV" "$HOME/opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
