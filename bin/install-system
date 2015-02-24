@@ -50,7 +50,7 @@ then
     do
         if ! "$PACMAN" --query --list "$PKG" 1>/dev/null 2>&1
         then
-            yaourt --sync --noconfirm "$PKG" || exit 1
+            su -s /bin/bash -c "yaourt --sync --noconfirm $PKG" nobody || exit 1
         fi
     done
 elif [ -n "$APTGET" ]
