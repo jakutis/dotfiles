@@ -179,7 +179,6 @@ mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
 mkdir --parents ".bin"
 if [ -n "$VARIA" ]
 then
-    ln -nsf "$VARIA/gitac" ".bin/gitac"
     ln -nsf "$VARIA/git-D" ".bin/git-D"
 
     pushd .
