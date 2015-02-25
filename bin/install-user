@@ -522,7 +522,7 @@ if ! [ -e "opt/hub-$HUBV" ]
 then
     ensure_git hub https://github.com/github/hub || exit 1
     (cd "repos/git/hub" && git archive --format=tar --prefix=hub-build/ "v$HUBV") | tar xf - || exit 1
-    cd hub-build && bundle install && rake install prefix="$HOME/opt/hub-$HUBV" && cd .. && rm -rf hub-build || exit 1
+    cd hub-build && ./script/build && mkdir -p "../opt/hub-$HUBV/bin" && cp hub "../opt/hub-$HUBV/bin" && cd .. && rm -rf hub-build || exit 1
     cd opt && ln -nsf "hub-$HUBV" hub && cd .. || exit 1
     cd .bin && ln -nsf "../opt/hub/bin/hub" "hub" && cd .. || exit 1
 fi
