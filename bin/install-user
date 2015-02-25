@@ -398,7 +398,7 @@ else
     cd .nvm && git pull --rebase && cd .. || exit 1
 fi
 
-if ! [ -e ".nvm/v$NODEV" ]
+if ! [ -e ".nvm/versions/node/v$NODEV" ]
 then
     "$DOTFILES/bin/nodeup" "$NODEV"
 fi
