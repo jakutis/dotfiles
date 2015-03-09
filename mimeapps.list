@@ -4,6 +4,7 @@ application/pdf=kde4-okular.desktop;kde4-okularApplication_pdf.desktop;qpdfview.
 application/vnd.ms-htmlhelp=xchm.desktop;
 application/vnd.oasis.opendocument.spreadsheet=libreoffice.desktop;
 application/x-mobipocket-ebook=ebook-viewer.desktop;
+text/csv=libreoffice-2.desktop;
 text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
 
