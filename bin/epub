@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+N="$1"
+
 ls *.epub|while read EPUB
 do
     EPUB="$(basename "$EPUB" .epub)"
@@ -7,5 +9,8 @@ do
     then
         ebook-convert "${EPUB}.epub" "${EPUB}.azw3" || exit 1
     fi
-    mv "${EPUB}"* "$HOME/toread" || exit 1
+    if [ "$N" != "-n" ]
+    then
+        mv "${EPUB}"* "$HOME/toread" || exit 1
+    fi
 done
