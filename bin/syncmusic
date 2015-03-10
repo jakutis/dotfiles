@@ -7,9 +7,10 @@ then
     exit 1
 fi
 
-PODCASTLIST="$(cat "$CFG" | awk 'NR==1{print;exit}')"
-PODCASTDIR="$(cat "$CFG" | awk 'NR==2{print;exit}')"
-SOUNDCLOUD="$(cat "$CFG" | awk 'NR==3{print;exit}')"
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+PODCASTLIST="$VARIA/podcasts.txt"
+SOUNDCLOUDLIST="$VARIA/soundcloud.txt"
+PODCASTDIR="/home/jakutis/etc/storage/podcasts"
 
 function fix_podcast_tags {
     PODCAST="$1"
@@ -27,7 +28,7 @@ function fix_podcast_tags {
     )
 }
 
-for PODCAST in $SOUNDCLOUD
+cat "$SOUNDCLOUDLIST" | while read PODCAST
 do
     DIR="$PODCASTDIR/$PODCAST"
     mkdir "$DIR" -p
