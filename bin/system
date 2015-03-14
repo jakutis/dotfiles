@@ -19,7 +19,7 @@ VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help hibernate poweroff reboot net powersave screens brightness"
+    echo "Available commands: help hibernate suspend poweroff shutdown reboot restart powersave net screens battery brightness"
 }
 
 function stop {
