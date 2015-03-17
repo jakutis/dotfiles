@@ -26,7 +26,7 @@ do
     DIR="$PODCASTDIR/$PODCAST"
     mkdir "$DIR" -p
     echo "scsync $PODCAST"
-    scsync --directory="$DIR" --artist="$PODCAST"
+    scsync --gap=2419200000 --maxTracks=100 --directory="$DIR" --artist="$PODCAST"
     echo "tag $PODCAST"
 #    fix_podcast_tags "$PODCAST"
 done
