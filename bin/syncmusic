@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-CFG="$1"
-if ! [ -e "$CFG" ]
-then
-    echo Config file "$CFG" does not exist
-    exit 1
-fi
-
 VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 PODCASTLIST="$VARIA/podcasts.txt"
 SOUNDCLOUDLIST="$VARIA/soundcloud.txt"
