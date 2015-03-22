@@ -22,6 +22,7 @@
     t = log --tags --show-notes --simplify-by-decoration --pretty='format:%ai %h %d %s'
     l = log --graph --decorate --oneline --stat --all
     b = branch -a
+    s = stash list
     authors = shortlog -sne
     history = log --follow --patch
     showtool = "!sh -c 'if [ -z $1 ]; then REVISION=HEAD; else REVISION=$1; fi; git difftool $REVISION~ $REVISION' -"
