@@ -51,5 +51,5 @@ URxvt.print-pipe:   "cat > /dev/null"
 *color15:           t_white
 
 *cursorColor:       t_grey
-*background:        t_black
-*foreground:        t_white
+*background:        t_white
+*foreground:        t_black
