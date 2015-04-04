@@ -28,6 +28,7 @@ Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
 Bundle 'derekwyatt/vim-scala'
 Bundle 'scrooloose/nerdcommenter'
+Plugin 'rust-lang/rust.vim'
 call vundle#end()
 filetype plugin indent on
 
