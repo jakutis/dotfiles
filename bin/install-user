@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+CALIBREV="2.20.0"
 GHCMODV="5.2.1.2"
 DECK2PDFV="f506606"
 AP4JPLAYERV="8bc872e"
@@ -1244,6 +1245,13 @@ then
     cd ./deck2pdf-build && ./gradlew distZip && cd build/distributions && (ZIP=$(ls *);unzip "$ZIP" && mv "$(basename "$ZIP" .zip)" "$HOME/opt/deck2pdf-$DECK2PDFV") && cd ../../.. && rm -rf deck2pdf-build || exit 1
     cd opt && ln -nsf "deck2pdf-$DECK2PDFV" deck2pdf && cd .. || exit 1
     cd .bin && ln -nsf "../opt/deck2pdf/bin/deck2pdf" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_CALIBRE" = "yes" -a ! -e "opt/calibre-$CALIBREV" ]
+then
+    cd opt && mkdir calibre-$CALIBREV && ln -nsf calibre-$CALIBREV calibre && cd calibre-$CALIBREV || exit 1
+    curl -L http://download.calibre-ebook.com/$CALIBREV/calibre-$CALIBREV-x86_64.txz | tar Jxf - || exit 1
+    cd ../.. || exit 1
 fi
 
 if [ "$ENABLE_AP4JPLAYER" = "yes" -a ! -e "opt/ap4jplayer-$AP4JPLAYERV" ]
