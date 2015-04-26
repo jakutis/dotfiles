@@ -18,16 +18,18 @@ DIR="/mnt/$MOUNT"
 if [ -z "$(mount | grep " $DIR ")" ]
 then
     echo "Mounting $DIR"
-    su -c "mkdir -p "$DIR";chown $USER: "$DIR""
     if [ "$MOUNT" = "desktop" ]
     then
+        su -c "mkdir -p "$DIR";chown $USER: "$DIR""
         wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")"
         sshfs -o reconnect -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip"):/" "$DIR"
     elif [ "$MOUNT" = "server" ]
     then
+        su -c "mkdir -p "$DIR";chown $USER: "$DIR""
         sshfs -o reconnect jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "ipad" ]
     then
+        su -c "mkdir -p "$DIR";chown $USER: "$DIR""
         if [ -z "$SUBMOUNT" ]
         then
             ifuse "$DIR"
@@ -38,9 +40,9 @@ then
     then
         MOUNT="$(ls --sort=time /dev/sd?|head -n 1)"
         MOUNT="$(ls --sort=none ${MOUNT}*|tail -n 1)"
-        su -c "mount -o uid=$(id -u) "$MOUNT" "$DIR""
+        su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
     else
-        su -c "mount "$DIR""
+        su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount "$DIR""
     fi
 else
     echo "Unmounting $DIR"
