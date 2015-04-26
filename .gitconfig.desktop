@@ -24,7 +24,7 @@
     b = branch -a
     s = stash list
     authors = shortlog -sne
-    history = log --follow --patch
+    history = log --follow --patch --abbrev-commit
     showtool = "!sh -c 'if [ -z $1 ]; then REVISION=HEAD; else REVISION=$1; fi; git difftool $REVISION~ $REVISION' -"
 
 [web]
