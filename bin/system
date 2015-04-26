@@ -149,10 +149,7 @@ case "$CMD" in
         power poweroff
         ;;
     "suspend")
-        screens mobile
-        stop
         power suspend
-        reset
         ;;
     "hibernate")
         screens mobile
