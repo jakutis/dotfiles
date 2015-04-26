@@ -855,36 +855,7 @@ fi
 
 if ! [ -e "opt/git-annex-$GITANNEXV" ]
 then
-    ensure_git bloomfilter https://github.com/bos/bloomfilter || exit 1
-    (cd "$HOME/repos/git/bloomfilter" && git archive --format=tar --prefix=bloomfilter-build/ "1.2.6.10") | tar xf - || exit 1
-    cd bloomfilter-build && echo "
-ZGlmZiAtLWdpdCBhL0RhdGEvQmxvb21GaWx0ZXIuaHMgYi9EYXRhL0Jsb29tRmlsdGVyLmhzCmlu
-ZGV4IDY5NzExZWYuLmI5NTY2ZWEgMTAwNjQ0Ci0tLSBhL0RhdGEvQmxvb21GaWx0ZXIuaHMKKysr
-IGIvRGF0YS9CbG9vbUZpbHRlci5ocwpAQCAtOTMsNyArOTMsNyBAQCBpbXBvcnQgQ29udHJvbC5N
-b25hZCAobGlmdE0sIGZvck1fKQogaW1wb3J0IENvbnRyb2wuTW9uYWQuU1QgKFNULCBydW5TVCkK
-IGltcG9ydCBDb250cm9sLkRlZXBTZXEgKE5GRGF0YSguLikpCiBpbXBvcnQgRGF0YS5BcnJheS5C
-YXNlICh1bnNhZmVBdCwgdW5zYWZlUmVhZCwgdW5zYWZlV3JpdGUpCi1pbXBvcnQgRGF0YS5BcnJh
-eS5TVCAoU1RVQXJyYXksIHRoYXcsIHVuc2FmZUZyZWV6ZSkKK2ltcG9ydCBEYXRhLkFycmF5LkJh
-c2UgKFNUVUFycmF5LCB0aGF3LCB1bnNhZmVGcmVlemUpCiBpbXBvcnQgRGF0YS5BcnJheS5VbmJv
-eGVkIChVQXJyYXkpCiBpbXBvcnQgRGF0YS5CaXRzICgoLiYuKSwgKC58LikpCiBpbXBvcnQgRGF0
-YS5CbG9vbUZpbHRlci5BcnJheSAobmV3QXJyYXkpCkBAIC0yNjYsNyArMjY2LDcgQEAgZWxlbU1C
-IGVsdCBtYiA9IGxvb3AgKGhhc2hlc00gbWIgZWx0KQogZWxlbUIgOjogYSAtPiBCbG9vbSBhIC0+
-IEJvb2wKIGVsZW1CIGVsdCB1YiA9IGFsbCB0ZXN0IChoYXNoZXNVIHViIGVsdCkKICAgd2hlcmUg
-dGVzdCAob2ZmIDoqIGJpdCkgPSAoYml0QXJyYXlCIHViIGB1bnNhZmVBdGAgb2ZmKSAuJi4gKDEg
-YHNoaWZ0TGAgYml0KSAvPSAwCi0gICAgICAgICAgCisKIG1vZGlmeUIgOjogKGZvcmFsbCBzLiAo
-TUJsb29tIHMgYSAtPiBTVCBzIHopKSAgLS0gXiBtdXRhdGlvbiBmdW5jdGlvbiAocmVzdWx0IGlz
-IGRpc2NhcmRlZCkKICAgICAgICAgLT4gQmxvb20gYQogICAgICAgICAtPiBCbG9vbSBhCmRpZmYg
-LS1naXQgYS9EYXRhL0Jsb29tRmlsdGVyL0FycmF5LmhzIGIvRGF0YS9CbG9vbUZpbHRlci9BcnJh
-eS5ocwppbmRleCBlMDg1YmJlLi5kOTQ3NTdhIDEwMDY0NAotLS0gYS9EYXRhL0Jsb29tRmlsdGVy
-L0FycmF5LmhzCisrKyBiL0RhdGEvQmxvb21GaWx0ZXIvQXJyYXkuaHMKQEAgLTMsNyArMyw4IEBA
-CiAKIG1vZHVsZSBEYXRhLkJsb29tRmlsdGVyLkFycmF5IChuZXdBcnJheSkgd2hlcmUKIAotaW1w
-b3J0IENvbnRyb2wuTW9uYWQuU1QgKFNULCB1bnNhZmVJT1RvU1QpCitpbXBvcnQgQ29udHJvbC5N
-b25hZC5TVCAoU1QpCitpbXBvcnQgQ29udHJvbC5Nb25hZC5TVC5VbnNhZmUgKHVuc2FmZUlPVG9T
-VCkKIGltcG9ydCBEYXRhLkFycmF5LkJhc2UgKE1BcnJheSwgU1RVQXJyYXkoLi4pLCB1bnNhZmVO
-ZXdBcnJheV8pCiAjaWYgX19HTEFTR09XX0hBU0tFTExfXyA+PSA3MDQKIGltcG9ydCBGb3JlaWdu
-LkMuVHlwZXMgKENJbnQoLi4pLCBDU2l6ZSguLikpCg==
-" | base64 -d | patch -p1 && cd .. || exit 1
-    mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal sandbox add-source "$HOME/bloomfilter-build" && cabal install "network<2.6" && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -feed -quvi -tahoe cryptohash -desktopnotify -ekg" && cd ../.. && rm -rf "bloomfilter-build" || exit 1
+    mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal install "base<4.8" && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -tdfa -feed -quvi -tahoe -desktopnotify -torrentparser -ekg -network-uri" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
 fi
