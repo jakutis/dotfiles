@@ -29,8 +29,13 @@ Bundle "garbas/vim-snipmate"
 Bundle 'derekwyatt/vim-scala'
 Bundle 'scrooloose/nerdcommenter'
 Plugin 'rust-lang/rust.vim'
+Plugin 'yegappan/mru'
 call vundle#end()
 filetype plugin indent on
+
+" MRU
+noremap! <C-o> <Esc>:MRU<CR>
+nnoremap <C-o> <Esc>:MRU<CR>
 
 " security
 set nomodeline
