@@ -86,7 +86,7 @@ let g:syntastic_mode_map = {
      \ 'passive_filetypes': ['html', 'java', 'c', 'gcc', 'cpp'],
      \}
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jshint', 'jscs']
 let g:syntastic_php_phpmd_post_args = dotfiles . '/phpmd_ruleset.xml'
 
 " bling/vim-airline
