@@ -36,6 +36,9 @@ call vundle#end()
 filetype plugin indent on
 set laststatus=2
 
+" saving
+set noeol
+
 " MRU
 noremap! <C-o> <Esc>:MRU<CR>
 nnoremap <C-o> <Esc>:MRU<CR>
