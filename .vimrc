@@ -30,6 +30,7 @@ Bundle 'derekwyatt/vim-scala'
 Bundle 'scrooloose/nerdcommenter'
 Plugin 'rust-lang/rust.vim'
 Plugin 'yegappan/mru'
+Plugin 'tpope/vim-fugitive'
 call vundle#end()
 filetype plugin indent on
 
