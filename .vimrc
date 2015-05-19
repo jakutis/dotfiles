@@ -34,6 +34,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'cakebaker/scss-syntax.vim'
 call vundle#end()
 filetype plugin indent on
+set laststatus=2
 
 " MRU
 noremap! <C-o> <Esc>:MRU<CR>
