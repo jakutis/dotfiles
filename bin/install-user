@@ -472,7 +472,7 @@ then
     cd opt && ln -nsf "r-$RV" "r" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/r-$RV/bin/R" && cd .. || exit 1
     echo 'install.packages(c("gdata", "irr", "outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
-    wget "http://www.lepem.ufc.br/jaa/colorout_${COLOROUTV}.tar.gz" || exit 1
+    wget "http://www.lepem.ufc.br/jaa/vimr/colorout_${COLOROUTV}.tar.gz" || exit 1
     echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save || exit 1
     rm colorout_${COLOROUTV}.tar.gz
 fi
