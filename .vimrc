@@ -31,6 +31,7 @@ Bundle 'scrooloose/nerdcommenter'
 Plugin 'rust-lang/rust.vim'
 Plugin 'yegappan/mru'
 Plugin 'tpope/vim-fugitive'
+Plugin 'cakebaker/scss-syntax.vim'
 call vundle#end()
 filetype plugin indent on
 
