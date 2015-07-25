@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+DIR="$(pwd)"
+
+while [ ! -e "$DIR/.jscsrc" ]
+do
+    DIR="$(dirname "$DIR")"
+    if [ "$DIR" != "/" ]
+    then
+        exit 0
+    fi
+done
+
+jscs --config "$DIR/.jscsrc" --fix $1 >/dev/null

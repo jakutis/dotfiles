@@ -224,3 +224,7 @@ while 1
     endif
     let dir = fnamemodify(expand(dir), ":h")
 endwhile
+
+" autoformat javascript on save
+autocmd bufwritepost *.js silent !autoformat-js %
+set autoread
