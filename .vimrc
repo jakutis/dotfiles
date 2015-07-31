@@ -38,6 +38,7 @@ set laststatus=2
 
 " saving
 set noeol
+set binary
 
 " MRU
 noremap! <C-o> <Esc>:MRU<CR>
