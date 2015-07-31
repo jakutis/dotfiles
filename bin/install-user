@@ -200,7 +200,7 @@ then
 fi
 
 touch .xbindkeys.noauto
-for RC in bin .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .vimcustom .rtorrent.rc .fonts.conf.d .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
+for RC in bin .bashrc .profile .bash_aliases .jshintrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
@@ -208,6 +208,7 @@ ln -nsf "$DOTFILES/.xinitrc.$MACHINE" ".xinitrc"
 ln -nsf "$DOTFILES/.Xmodmap.$MACHINE" ".Xmodmap"
 ln -nsf "$DOTFILES/.gitconfig.$MACHINE" ".gitconfig"
 ln -nsf "$DOTFILES/.config/awesome.$MACHINE" "$XDG_CONFIG_HOME/awesome"
+ln -nsf "$DOTFILES/.config/fontconfig" "$XDG_CONFIG_HOME/fontconfig"
 mkdir --parents .mc
 mkdir --parents .irssi
 mkdir --parents .VirtualBox
