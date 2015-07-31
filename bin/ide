@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+if [ -n "$1" ]
+then
+    SESSION_NAME="$1"
+else
+    SESSION_NAME="$(basename $(pwd))"
+fi
+if ! tty --silent
+then
+    urxvt -e bash -c "ide $SESSION_NAME"
+    exit
+fi
+
+NEW_ARGS=""
+
+SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
+echo "new-window -n vim 'vim; echo vim;bash'" >> "$SESSION_FILE"
+echo "new-window -n gitsh 'gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
+echo "new-window -n tig 'tig;echo tig;bash'" >> "$SESSION_FILE"
+
+DETACHED="$2"
+if [ "$DETACHED" = "detached" ]
+then
+    NEW_ARGS=" -d"
+fi
+
+tmux attach-session -t "$SESSION_NAME" || tmux new-session${NEW_ARGS} -s "$SESSION_NAME" "tmux source-file "$SESSION_FILE""
+rm "$SESSION_FILE"
