@@ -1065,9 +1065,8 @@ then
     git clone https://github.com/dmedvinsky/mutt-ics || exit 1
     cd mutt-ics
     pip install -r requirements.txt || exit 1
-    chmod +x src/main.py
     cd ../../.bin
-    ln -s ../opt/mutt-ics/src/main.py mutt-ics
+    ln -s ../opt/mutt-ics/bin/mutt-ics mutt-ics
     cd ..
 fi
 
