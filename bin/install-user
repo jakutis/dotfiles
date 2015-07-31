@@ -858,7 +858,7 @@ then
     cd .bin && ln -nsf "../opt/alex-$ALEXV/bin/alex" && cd .. || exit 1
 fi
 
-if [ "$ENABLE_HAPPY" = "yes" -a ! -e "opt/happy-$HAPPYV" ]
+if ! [ -e "opt/happy-$HAPPYV" ]
 then
     mkdir -p "opt/happy-$HAPPYV" && cd "opt/happy-$HAPPYV" && cabal sandbox init --sandbox . && cabal install "happy==$HAPPYV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/happy-$HAPPYV/bin/happy" && cd .. || exit 1
