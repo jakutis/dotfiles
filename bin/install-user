@@ -93,7 +93,7 @@ SVG2PDFV="301dd48"
 RTAG="R-3-2-0"
 RV="3.2.0"
 GOV="1.3.3"
-YOUTUBEDLV="2015.05.15"
+YOUTUBEDLV="2015.07.18"
 VIMV="v7-4-729"
 COLOROUTV="1.1-0"
 TMUXV="2.0"
@@ -632,15 +632,6 @@ then
     cd .bin && ln -nsf "../opt/elinks/bin/elinks" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
-then
-    ensure_git youtube-dl https://github.com/rg3/youtube-dl || exit 1
-    (cd "repos/git/youtube-dl" && git archive --format=tar --prefix=youtube-dl-build/ "$YOUTUBEDLV") | tar xf - || exit 1
-    cd youtube-dl-build && make && make install PREFIX="$HOME/opt/youtube-dl-$YOUTUBEDLV" && cd .. && rm -rf youtube-dl-build || exit 1
-    cd opt && ln -nsf "youtube-dl-$YOUTUBEDLV" youtube-dl && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/youtube-dl/bin/youtube-dl" && cd .. || exit 1
-fi
-
 if ! [ -e "opt/libevent-$LIBEVENTV" ]
 then
     curl -L "https://github.com/downloads/libevent/libevent/libevent-$LIBEVENTV-stable.tar.gz" | tar zxf -
@@ -885,6 +876,15 @@ then
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/pandoc" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/json2yaml" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/yaml2json" && cd .. || exit 1
+fi
+
+if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
+then
+    ensure_git youtube-dl https://github.com/rg3/youtube-dl || exit 1
+    (cd "repos/git/youtube-dl" && git archive --format=tar --prefix=youtube-dl-build/ "$YOUTUBEDLV") | tar xf - || exit 1
+    cd youtube-dl-build && make && make install PREFIX="$HOME/opt/youtube-dl-$YOUTUBEDLV" && cd .. && rm -rf youtube-dl-build || exit 1
+    cd opt && ln -nsf "youtube-dl-$YOUTUBEDLV" youtube-dl && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/youtube-dl/bin/youtube-dl" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
