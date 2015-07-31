@@ -705,7 +705,7 @@ then
     rm -rf "libxslt-$XSLTV"
 fi
 
-if ! [ -e "opt/fuse-$FUSEV" ]
+if [ "$ENABLE_FUSE" = "yes" -a ! -e "opt/fuse-$FUSEV" ]
 then
     ensure_git fuse http://git.code.sf.net/p/fuse/fuse || exit 1
     cd "repos/git/fuse" || exit 1
