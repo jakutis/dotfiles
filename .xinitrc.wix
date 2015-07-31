@@ -4,7 +4,6 @@ xhost localhost
 xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
-start-pulseaudio-x11
 start-minidlna
 xscreensaver -no-splash &
 autocutsel -selection SECONDARY -buttonup -fork
