@@ -871,7 +871,7 @@ then
     cd .bin && ln -nsf "../opt/ghc-mod-$GHCMODV/bin/ghc-modi" && cd .. || exit 1
 fi
 
-if [ "$ENABLE_PANDOC" = "yes" -a ! -e "opt/pandoc-$PANDOCV" ]
+if ! [ -e "opt/pandoc-$PANDOCV" ]
 then
     mkdir -p "opt/pandoc-$PANDOCV" && cd "opt/pandoc-$PANDOCV" && cabal sandbox init --sandbox . && cabal install "pandoc==$PANDOCV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/pandoc" && cd .. || exit 1
