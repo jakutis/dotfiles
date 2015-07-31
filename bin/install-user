@@ -1157,7 +1157,7 @@ fi
 
 if ! [ -e "texmf/tex/latex/polyglossia" ]
 then
-    mkdir -p "texmf" && cd "texmf" && curl -L http://mirrors.ctan.org/install/macros/latex/contrib/polyglossia.tds.zip | nodezip -x /dev/stdin && cd .. || exit 1
+    mkdir -p "texmf" && cd "texmf" && curl -L http://mirrors.ctan.org/install/macros/latex/contrib/polyglossia.tds.zip | bsdtar -xvf- && cd .. || exit 1
 fi
 
 if [ "$ENABLE_FIT2TCX" = "yes" -a ! -e "opt/fit2tcx-$FIT2TCXV" ]
