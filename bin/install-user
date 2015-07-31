@@ -79,7 +79,7 @@ PYTHONMAINV="2.7.8"
 QPDFVIEWV="0.4.14"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.22.4.0"
-GITANNEXV="5.20150508"
+GITANNEXV="5.20150710"
 PANDOCV="1.13.2.1"
 NEWSBEUTERV="2.9"
 NEWSBEUTERCOMMIT="r2.9"
@@ -857,7 +857,7 @@ fi
 
 if ! [ -e "opt/git-annex-$GITANNEXV" ]
 then
-    mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal install "base<4.8" && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -tdfa -feed -quvi -tahoe -desktopnotify -torrentparser -ekg -network-uri" && cd ../.. || exit 1
+    mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -tdfa -feed -quvi -tahoe -desktopnotify -torrentparser -ekg -network-uri" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
 fi
