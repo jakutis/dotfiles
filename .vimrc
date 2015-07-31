@@ -100,6 +100,7 @@ let g:syntastic_mode_map = {
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:syntastic_javascript_checkers = ['jshint', 'jscs']
 let g:syntastic_php_phpmd_post_args = dotfiles . '/phpmd_ruleset.xml'
+autocmd BufRead,BufNewFile *.scss let g:syntastic_scss_checkers=[]
 
 " bling/vim-airline
 let g:airline_powerline_fonts = 0
