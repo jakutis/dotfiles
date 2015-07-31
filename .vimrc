@@ -43,6 +43,11 @@ set binary
 " MRU
 noremap! <C-o> <Esc>:MRU<CR>
 nnoremap <C-o> <Esc>:MRU<CR>
+let MRU_Filename_Format = {
+        \   'formatter': 'v:val',
+        \   'parser': '^.*$',
+        \   'syntax': '^.*$'
+        \}
 
 " security
 set nomodeline
