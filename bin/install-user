@@ -852,7 +852,7 @@ then
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
 fi
 
-if [ "$ENABLE_ALEX" = "yes" -a ! -e "opt/alex-$ALEXV" ]
+if ! [ -e "opt/alex-$ALEXV" ]
 then
     mkdir -p "opt/alex-$ALEXV" && cd "opt/alex-$ALEXV" && cabal sandbox init --sandbox . && cabal install "alex==$ALEXV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/alex-$ALEXV/bin/alex" && cd .. || exit 1
