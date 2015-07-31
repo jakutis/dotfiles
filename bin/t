@@ -13,7 +13,8 @@ VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 CONFIG_FILE="$VARIA/tmux/$SESSION_NAME"
 if ! [ -s "$CONFIG_FILE" -a -f "$CONFIG_FILE" ]
 then
-    echo "Error: session \"$SESSION_NAME\" is not defined" 1>&2
+    echo -e "Error: session \"$SESSION_NAME\" is not defined\nAvailable definitions:" 1>&2
+    ls -1 "$VARIA/tmux" 1>&2
     exit 1
 fi
 
