@@ -71,7 +71,7 @@ FFMPEGV="2.6.2"
 MP4V2PATH="/trunk"
 MP4V2REV="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
 MP4V2V="$MP4V2V"
-ANTV="1.9.4"
+ANTV="1.9.6"
 NZBGETV="14.2"
 PYTHONV="3.4.3"
 PYTHONVERSIONFILE="3.4"
@@ -485,7 +485,10 @@ fi
 
 if ! [ -e "opt/apache-ant-$ANTV" ]
 then
-    curl -L http://apache.mirror.vu.lt/apache/ant/binaries/apache-ant-$ANTV-bin.tar.bz2 | tar jxf - || exit 1
+    wget http://apache.mirror.serveriai.lt//ant/binaries/apache-ant-$ANTV-bin.tar.bz2 || exit 1
+    (echo "$(curl https://www.apache.org/dist/ant/binaries/apache-ant-$ANTV-bin.tar.bz2.sha512) apache-ant-$ANTV-bin.tar.bz2"|sha512sum --check) || exit 1
+    cat apache-ant-$ANTV-bin.tar.bz2 | tar jxf - || exit 1
+    rm apache-ant-$ANTV-bin.tar.bz2 || exit 1
     mv "apache-ant-$ANTV" opt && cd opt && ln -nsf "apache-ant-$ANTV" "apache-ant" || exit 1
     cd ../.bin && ln -nsf "../opt/apache-ant/bin/ant" || exit 1
     cd ..
