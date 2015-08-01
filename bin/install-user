@@ -5,7 +5,7 @@ set -o xtrace
 
 CALIBREV="2.20.0"
 GHCMODV="5.2.1.2"
-DECK2PDFV="f506606"
+DECK2PDFV="68d4e8e"
 AP4JPLAYERV="8bc872e"
 BEANSTALKDV="1.10"
 SCONSV="2.3.4"
@@ -1196,7 +1196,15 @@ if [ "$ENABLE_DECK2PDF" = "yes" -a ! -e "opt/deck2pdf-$DECK2PDFV" ]
 then
     ensure_git deck2pdf https://github.com/melix/deck2pdf
     (cd "repos/git/deck2pdf" && git archive --format=tar --prefix=deck2pdf-build/ "$DECK2PDFV") | tar xf - || exit 1
+
+    ORIG_PATH="$PATH"
+    ORIG_JAVA_HOME="$JAVA_HOME"
+    export JAVA_HOME="$HOME/opt/jdk-1.8"
+    export PATH="$JAVA_HOME/bin:$PATH"
     cd ./deck2pdf-build && ./gradlew distZip && cd build/distributions && (ZIP=$(ls *);unzip "$ZIP" && mv "$(basename "$ZIP" .zip)" "$HOME/opt/deck2pdf-$DECK2PDFV") && cd ../../.. && rm -rf deck2pdf-build || exit 1
+    export PATH="$ORIG_PATH"
+    export JAVA_HOME="$ORIG_JAVA_HOME"
+
     cd opt && ln -nsf "deck2pdf-$DECK2PDFV" deck2pdf && cd .. || exit 1
     cd .bin && ln -nsf "../opt/deck2pdf/bin/deck2pdf" && cd .. || exit 1
 fi
