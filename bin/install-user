@@ -594,9 +594,8 @@ fi
 if [ "$ENABLE_LIBVPX" = "yes" -a ! -e "opt/libvpx-$LIBVPXV" ]
 then
     ensure_git libvpx https://chromium.googlesource.com/webm/libvpx || exit 1
-    cd "repos/git/libvpx" && git co "v$LIBVPXV" || exit 1
-    ./configure --enable-shared --enable-static --disable-runtime-cpu-detect --enable-multithread --enable-vp9-postproc --enable-postproc --enable-vp9 --enable-vp8 --disable-internal-stats --disable-mem-tracker --disable-fast-unaligned --disable-unit-tests --disable-docs --disable-examples --enable-libs --disable-install-docs --enable-install-bins --enable-install-libs --enable-install-srcs --cpu=native --enable-optimizations --enable-pic --disable-ccache --disable-debug --disable-gprof --disable-gcov --prefix="$HOME/opt/libvpx-$LIBVPXV" && make && make install || exit 1
-    cd ../../..
+    (cd "repos/git/libvpx" && git archive --format=tar --prefix=libvpx-build/ "v$LIBVPXV") | tar xf - || exit 1
+    cd libvpx-build && ./configure --enable-shared --enable-static --disable-runtime-cpu-detect --enable-multithread --enable-vp9-postproc --enable-postproc --enable-vp9 --enable-vp8 --disable-internal-stats --disable-mem-tracker --disable-fast-unaligned --disable-unit-tests --disable-docs --disable-examples --enable-libs --disable-install-docs --enable-install-bins --enable-install-libs --enable-install-srcs --cpu=native --enable-optimizations --enable-pic --disable-ccache --disable-debug --disable-gprof --disable-gcov --prefix="$HOME/opt/libvpx-$LIBVPXV" && make && make install && cd .. && rm -r libvpx-build || exit 1
     cd opt && ln -nsf "libvpx-$LIBVPXV" "libvpx" && cd .. || exit 1
 fi
 
