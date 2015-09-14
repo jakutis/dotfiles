@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.1">
+  <head>
+    <title>The Old Reader</title>
+    <dateCreated>Mon, 14 Sep 2015 11:44:39 GMT</dateCreated>
+    <dateModified>Mon, 14 Sep 2015 11:44:39 GMT</dateModified>
+    <ownerName>Vytautas Jakutis</ownerName>
+    <ownerEmail>vytautas@jakut.is</ownerEmail>
+  </head>
+  <body>
+    <outline title="Subscriptions" text="Subscriptions">
+      <outline type="rss" title="Lietuvos bankas - Publikacijos" text="Lietuvos bankas - Publikacijos" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/publikacijos.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Teisinė informacija" text="Lietuvos bankas - Teisinė informacija" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/teisine_informacija_1.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Euro įvedimas Lietuvoje" text="Lietuvos bankas - Euro įvedimas Lietuvoje" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/euro_ivedimas_lietuvoje.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Mes Europoje" text="Lietuvos bankas - Mes Europoje" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/mes_europoje.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - SEPA" text="Lietuvos bankas - SEPA" htmlUrl="http://lb.lt/" xmlUrl="http://lb.lt/sepa_1.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Oficialus sistemų ir jų dalyvių sąrašas" text="Lietuvos bankas - Oficialus sistemų ir jų dalyvių sąrašas" htmlUrl="http://lb.lt/" xmlUrl="http://lb.lt/oficialus_sistemu_ir_ju_dalyviu_sarasas.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Mokėjimai" text="Lietuvos bankas - Mokėjimai" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/mokejimai_1.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Statistika" text="Lietuvos bankas - Statistika" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/statistika.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Monetų kūrimas" text="Lietuvos bankas - Monetų kūrimas" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/monetu_kurimas_1.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Banknotai ir monetos" text="Lietuvos bankas - Banknotai ir monetos" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/banknotai_ir_monetos.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Finansinis stabilumas" text="Lietuvos bankas - Finansinis stabilumas" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/finansinis_stabilumas_1.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Makroekonominės prognozės" text="Lietuvos bankas - Makroekonominės prognozės" htmlUrl="http://lb.lt/" xmlUrl="http://lb.lt/makroekonomines_prognozes.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Lietuvos ekonomika" text="Lietuvos bankas - Lietuvos ekonomika" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/lietuvos_ekonomika.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Priežiūra" text="Lietuvos bankas - Priežiūra" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/prieziura.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Ekonominis švietimas" text="Lietuvos bankas - Ekonominis švietimas" htmlUrl="http://lb.lt/" xmlUrl="http://lb.lt/ekonominis_svietimas.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Darbas ir praktika" text="Lietuvos bankas - Darbas ir praktika" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/darbas_ir_praktika.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Tarptautiniai ryšiai" text="Lietuvos bankas - Tarptautiniai ryšiai" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/tarptautiniai_rysiai.rss?ln=lt"/>
+      <outline type="rss" title="Lietuvos bankas - Naujienos" text="Lietuvos bankas - Naujienos" htmlUrl="http://www.lb.lt/" xmlUrl="http://lb.lt/naujienos.rss?ln=lt"/>
+      <outline type="rss" title="DailyJS" text="DailyJS" htmlUrl="http://dailyjs.com/" xmlUrl="http://feeds.feedburner.com/dailyjs"/>
+      <outline type="rss" title="JavaScript Weekly" text="JavaScript Weekly" htmlUrl="http://javascriptweekly.com/" xmlUrl="http://javascriptweekly.com/rss/1l2656kh"/>
+      <outline type="rss" title="HTML5 Weekly" text="HTML5 Weekly" htmlUrl="http://html5weekly.com/" xmlUrl="http://html5weekly.com/rss/1i5nk332"/>
+      <outline type="rss" title="Node Weekly" text="Node Weekly" htmlUrl="http://nodeweekly.com/" xmlUrl="http://nodeweekly.com/rss/1chajkgo"/>
+      <outline type="rss" title="Echo JS" text="Echo JS" htmlUrl="http://www.echojs.com&#10;" xmlUrl="http://www.echojs.com/rss"/>
+      <outline type="rss" title="Open Web Platform Daily Digest" text="Open Web Platform Daily Digest" htmlUrl="http://webplatformdaily.org/" xmlUrl="http://feeds.feedburner.com/OpenWebPlatformDailyDigest"/>
+      <outline type="rss" title="Badass JavaScript" text="Badass JavaScript" htmlUrl="http://badassjs.com/" xmlUrl="http://rss.badassjs.com"/>
+      <outline type="rss" title="Dave Atchley" text="Dave Atchley" htmlUrl="http://www.datchley.name/" xmlUrl="http://www.datchley.name/rss/"/>
+      <outline type="rss" title="Latest Articles in International" text="Latest Articles in International" htmlUrl="http://articlefeeds.nasdaq.com" xmlUrl="http://articlefeeds.nasdaq.com/nasdaq/categories?category=International"/>
+      <outline type="rss" title="Latest Articles in Bonds" text="Latest Articles in Bonds" htmlUrl="http://articlefeeds.nasdaq.com" xmlUrl="http://articlefeeds.nasdaq.com/nasdaq/categories?category=Bonds"/>
+      <outline type="rss" title="Latest Articles in Basics" text="Latest Articles in Basics" htmlUrl="http://articlefeeds.nasdaq.com" xmlUrl="http://articlefeeds.nasdaq.com/nasdaq/categories?category=Basics"/>
+      <outline type="rss" title="Latest Articles in Economy" text="Latest Articles in Economy" htmlUrl="http://articlefeeds.nasdaq.com" xmlUrl="http://articlefeeds.nasdaq.com/nasdaq/categories?category=Economy"/>
+      <outline type="rss" title="Europe homepage" text="Europe homepage" htmlUrl="http://www.ft.com/home/europe" xmlUrl="http://www.ft.com/rss/home/europe"/>
+      <outline type="rss" title="The Code Whisperer" text="The Code Whisperer" htmlUrl="http://blog.thecodewhisperer.com/" xmlUrl="http://blog.thecodewhisperer.com/atom.xml"/>
+      <outline type="rss" title="Systemsight: Create. Impress. Expand." text="Systemsight: Create. Impress. Expand." htmlUrl="http://lrv.lt/en/news" xmlUrl="http://lrv.lt/en/news/rss"/>
+      <outline type="rss" title="Techmeme" text="Techmeme" htmlUrl="http://www.techmeme.com/" xmlUrl="http://techmeme.com/feed.xml"/>
+      <outline type="rss" title="Re/code" text="Re/code" htmlUrl="http://recode.net" xmlUrl="http://recode.net/feed/"/>
+      <outline type="rss" title="M" text="M" htmlUrl="http://visdargalvoju.tumblr.com/" xmlUrl="http://visdargalvoju.tumblr.com/rss"/>
+      <outline type="rss" title="QQ - inside.out - nuotrupos" text="QQ - inside.out - nuotrupos" htmlUrl="http://qq.dreamy.ws/blogV2" xmlUrl="http://qq.dreamy.ws/blogV2/feed/"/>
+      <outline type="rss" title="BZN start" text="BZN start" htmlUrl="http://www.bznstart.lt/" xmlUrl="http://www.bznstart.lt/verslas.rss"/>
+      <outline type="rss" title="Intellectual Mathematics" text="Intellectual Mathematics" htmlUrl="http://intellectualmathematics.com" xmlUrl="http://intellectualmathematics.com/feed/"/>
+      <outline type="rss" title="BerlinVC" text="BerlinVC" htmlUrl="http://www.berlinvc.com" xmlUrl="http://www.berlinvc.com/feed/"/>
+      <outline type="rss" title="Lietuvių Fondas Iš kartos į kartą" text="Lietuvių Fondas Iš kartos į kartą" htmlUrl="http://www.lithuanianfoundation.org/LT" xmlUrl="http://lithuanianfoundation.com/LT/feed/"/>
+      <outline type="rss" title="Mark Burgess, Oslo: Personal" text="Mark Burgess, Oslo: Personal" htmlUrl="http://cfengine.com/markburgess//blog.html" xmlUrl="http://markburgess.org/blog_feed.xml"/>
+      <outline type="rss" title="Daring Fireball" text="Daring Fireball" htmlUrl="http://daringfireball.net/" xmlUrl="http://daringfireball.net/feeds/main"/>
+      <outline type="rss" title="Aten Labs" text="Aten Labs" htmlUrl="http://atenlabs.com/blog" xmlUrl="http://atenlabs.com/blog/feed/"/>
+      <outline type="rss" title="ACM Queue - All Queue Content" text="ACM Queue - All Queue Content" htmlUrl="http://queue.acm.org/Curmudgeon" xmlUrl="http://queue.acm.org/rss/feeds/queuecontent.xml"/>
+      <outline type="rss" title="Laughing Meme" text="Laughing Meme" htmlUrl="http://laughingmeme.org" xmlUrl="http://laughingmeme.org/feed/atom/"/>
+      <outline type="rss" title="Death to Bullshit" text="Death to Bullshit" htmlUrl="http://blog.deathtobullshit.com/" xmlUrl="http://blog.deathtobullshit.com/rss"/>
+      <outline type="rss" title="A Responsive Web Design Podcast" text="A Responsive Web Design Podcast" htmlUrl="http://responsivewebdesign.com/podcast/" xmlUrl="http://responsivewebdesign.com/podcast/feed.xml"/>
+      <outline type="rss" title="NodeUp" text="NodeUp" htmlUrl="http://nodeup.com" xmlUrl="http://feeds.feedburner.com/NodeUp"/>
+      <outline type="rss" title="Adventures in Angular" text="Adventures in Angular" htmlUrl="http://www.adventuresinangular.com" xmlUrl="http://feeds.feedwrench.com/AdventuresInAngular.rss"/>
+      <outline type="rss" title="The Freelancers' Show" text="The Freelancers' Show" htmlUrl="http://www.freelancersshow.com" xmlUrl="http://feeds.feedwrench.com/TheFreelancersShow.rss"/>
+      <outline type="rss" title="JavaScript Jabber" text="JavaScript Jabber" htmlUrl="http://javascriptjabber.com" xmlUrl="http://feeds.feedwrench.com/JavaScriptJabber.rss"/>
+      <outline type="rss" title="The Web Ahead" text="The Web Ahead" htmlUrl="http://5by5.tv/webahead" xmlUrl="http://feeds.5by5.tv/webahead"/>
+      <outline type="rss" title="ShopTalk" text="ShopTalk" htmlUrl="http://shoptalkshow.com" xmlUrl="http://shoptalkshow.com/feed/podcast"/>
+      <outline type="rss" title="SysadminCasts" text="SysadminCasts" htmlUrl="https://sysadmincasts.com/" xmlUrl="https://sysadmincasts.com/feed.rss"/>
+      <outline type="rss" title="NSScreencast (free videos)" text="NSScreencast (free videos)" htmlUrl="http://nsscreencast.com" xmlUrl="http://nsscreencast.com/feed"/>
+      <outline type="rss" title="CSS-Tricks" text="CSS-Tricks" htmlUrl="https://css-tricks.com" xmlUrl="http://feeds.feedburner.com/CssTricks"/>
+    </outline>
+  </body>
+</opml>
