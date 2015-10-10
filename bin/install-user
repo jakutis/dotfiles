@@ -512,7 +512,7 @@ if ! [ -e "opt/sbt-$SBTV" ]
 then
     ensure_git sbt https://github.com/sbt/sbt || exit 1
     git clone repos/git/sbt sbt-build && cd sbt-build && git co "v$SBTV" && cd .. || exit 1
-    cd sbt-build && wget https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$SBTV/sbt-launch.jar && java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M -jar ./sbt-launch.jar package && mkdir ../opt/sbt-$SBTV && mv ./sbt-launch/target/sbt-launch-$SBTV.jar "../opt/sbt-$SBTV/sbt-launch.jar" && cd .. && rm -rf sbt-build || exit 1
+    cd sbt-build && wget https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/$SBTV/sbt-launch.jar && java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M -jar ./sbt-launch.jar package && mkdir ../opt/sbt-$SBTV && mv ./launch/target/sbt-launch.jar "../opt/sbt-$SBTV/sbt-launch.jar" && cd .. && rm -rf sbt-build || exit 1
     cd opt && ln -nsf "sbt-$SBTV" sbt && cd .. || exit 1
 fi
 
