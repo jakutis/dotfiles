@@ -1,3 +1,4 @@
 set format_playlist=%y - %a - %l - %n. %t %{path}%=%d
 set output_plugin=pulse
 set status_display_program=/home/jakutis/repos/git/varia/last-cmus.py
+add /home/jakutis/Archive/music
