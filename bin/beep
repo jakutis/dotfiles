@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-paplay /usr/share/sounds/gnome/default/alerts/glass.ogg
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+paplay "$DOTFILES/glass.ogg"
