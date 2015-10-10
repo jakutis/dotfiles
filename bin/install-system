@@ -73,4 +73,5 @@ then
     ln -nsf "$VARIA/server/transport" "/etc/postfix/transport" || exit 1
     ln -nsf "$VARIA/server/procmailrc" "/etc/procmailrc" || exit 1
     ln -nsf "$VARIA/server/rc.local" "/etc/rc.local" || exit 1
+    ln -nsf "$VARIA/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
 fi
