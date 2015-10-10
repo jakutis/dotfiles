@@ -6,6 +6,7 @@ xbindkeys
 update-xinput
 start-minidlna
 xscreensaver -no-splash &
+xcompmgr &
 autocutsel -selection SECONDARY -buttonup -fork
 autocutsel -selection CLIPBOARD -buttonup -fork
 awesome
