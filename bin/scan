@@ -17,4 +17,4 @@ then
     exit
 fi
 
-scanimage --format=tiff --batch="$1-%d.tiff" --resolution 150 --mode Color -pv $(cat "$SCANNER") $2
+scanimage --format=tiff --batch="$1-%d.tiff" --resolution 150dpi -pv $(cat "$SCANNER") $2
