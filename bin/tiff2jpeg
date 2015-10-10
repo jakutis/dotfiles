@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for A in $(ls *tiff)
-do
-    echo "$A"
-    convert "$A" $(basename "$A" .tiff).jpeg
-done
