@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+xhost localhost
+xrdb -merge "$HOME/.Xresources"
+xbindkeys
+update-xinput
+start-minidlna
+xscreensaver -no-splash &
+autocutsel -selection SECONDARY -buttonup -fork
+autocutsel -selection CLIPBOARD -buttonup -fork
+awesome
