@@ -4,7 +4,7 @@ set -o verbose
 set -o xtrace
 
 CALIBREV="2.20.0"
-GHCMODV="5.2.1.2"
+GHCMODV="5.4.0.0"
 DECK2PDFV="68d4e8e"
 AP4JPLAYERV="8bc872e"
 BEANSTALKDV="1.10"
