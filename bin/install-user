@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+VLCLIBDE265V="0.1.7"
 CALIBREV="2.20.0"
 GHCMODV="5.4.0.0"
 DECK2PDFV="68d4e8e"
@@ -1176,6 +1177,14 @@ then
     ensure_git libupnpp https://github.com/medoc92/libupnpp || exit 1
     (cd "repos/git/libupnpp" && git archive --format=tar --prefix=libupnpp-build/ "libupnpp-v$LIBUPNPPV") | tar xf - || exit 1
     cd libupnpp-build && ./autogen.sh && ./configure --prefix="$HOME/opt/libupnpp-$LIBUPNPPV" && make && make install && cd .. && rm -rf libupnpp-build || exit 1
+fi
+
+if [ ! -e "$HOME/.local/share/vlc/plugins/libde265/$VLCLIBDE265V" ]
+then
+    ensure_git vlc-libde265 https://github.com/strukturag/vlc-libde265 || exit 1
+    (cd "repos/git/vlc-libde265" && git archive --format=tar --prefix=vlc-libde265-build/ "$VLCLIBDE265V") | tar xf - || exit 1
+    cd vlc-libde265-build && ./autogen.sh && ./configure --prefix="$HOME/.local/share/vlc/plugins" && make && make install && cd .. && rm -rf vlc-libde265-build || exit 1
+    pushd . && cd $HOME/.local/share/vlc/plugins && touch "lib/$VLCLIBDE265V" && mv lib libde265 && popd || exit 1
 fi
 
 if [ "$ENABLE_UPPLAY" = "yes" -a ! -e "opt/upplay-$UPPLAYV" ]
