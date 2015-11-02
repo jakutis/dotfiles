@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
 VLCLIBDE265V="0.1.7"
 CALIBREV="2.20.0"
 GHCMODV="5.4.0.0"
@@ -1232,4 +1233,13 @@ then
     echo "cd \"\$HOME/opt/ap4jplayer-$AP4JPLAYERV\"" >> .bin/ap4jplayer
     echo 'java -jar AP4JPlayer.jar' >> .bin/ap4jplayer
     chmod +x .bin/ap4jplayer
+fi
+
+if [ ! -e "$HOME/opt/go-mtpfs-$GOMTPFSV" ]
+then
+    ensure_git go-mtpfs https://github.com/hanwen/go-mtpfs || exit 1
+    (cd "repos/git/go-mtpfs" && git archive --format=tar --prefix=go-mtpfs-build/ "$GOMTPFSV") | tar xf - || exit 1
+    export GOPATH="$(pwd)/go-mtpfs-gopath"
+    cd go-mtpfs-build && go get -d && go build && mv go-mtpfs-build "../opt/go-mtpfs-$GOMTPFSV" && cd .. && rm -rf go-mtpfs-build go-mtpfs-gopath || exit 1
+    cd .bin && ln -nsf "../opt/go-mtpfs-$GOMTPFSV" go-mtpfs && cd .. || exit 1
 fi
