@@ -1249,7 +1249,7 @@ if [ ! -e "$HOME/opt/docker-$DOCKERV" ]
 then
     ensure_git docker https://github.com/docker/docker || exit 1
     git clone repos/git/docker docker-build || exit 1
-    cd docker-build && git checkout "v$DOCKERV" && make binary && cat bundles/latest/binary/docker > "$HOME/opt/docker-$DOCKERV" && cd .. && rm -rf docker-build || exit 1
+    cd docker-build && git checkout "v$DOCKERV" && make binary && cat bundles/$DOCKERV/binary/docker-$DOCKERV > "$HOME/opt/docker-$DOCKERV" && cd .. && rm -rf docker-build || exit 1
     chmod +x "$HOME/opt/docker-$DOCKERV" || exit 1
     cd .bin && ln -nsf "../opt/docker-$DOCKERV" docker && cd .. || exit 1
 fi
