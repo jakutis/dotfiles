@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+EVENT="$1"
+
+function iso-date {
+  date '+%Y-%m-%d %H:%M:%S'
+}
+
+function notify {
+  notify-send --expire-time=10000 "${1}${2}"
+}
+
+function status {
+  if [ -z "$PREPEND" ]
+  then
+    PREPEND="The time is $(iso-date)."
+  fi
+
+  notify "${PREPEND} $(tail -n 1 "$LOG") ${APPEND}"
+}
+
+function ticktock {
+  REMAINING="$1"
+  INTERVAL="60"
+  while [ "$REMAINING" -gt "0" ]
+  do
+    PREPEND="The time is $(iso-date)." APPEND="Minutes remaining: ${REMAINING}. " status
+    sleep $INTERVAL
+    REMAINING=$((REMAINING - 1))
+  done
+  LAST="$(tail -n 1 "$LOG")"
+  notify-send --icon=$HOME/check64.png --expire-time=1000000000 "${LAST} And you have now finished it! Woohoo!"
+  beep
+}
+
+function command {
+  COMMAND=$1
+  DURATION=$2
+  if [ -e "$PIDFILE" ]
+  then
+    PREPEND="Ignoring your request to start a ${COMMAND}." status
+    exit 1
+  fi
+
+  (
+    echo $BASHPID > "$PIDFILE"
+    echo "At $(iso-date) you started a ${COMMAND}." >> "$LOG"
+    ticktock $DURATION
+    echo "At $(iso-date) you finished a ${COMMAND}." >> "$LOG"
+    rm "$PIDFILE"
+  ) &
+  disown
+}
+
+LOG="$HOME/.pomodoro-log"
+PIDFILE="$HOME/.pomodoro-pid"
+
+if [ "$EVENT" = "pomodoro" ]
+then
+  command pomodoro 25
+elif [ "$EVENT" = "status" ]
+then
+  status
+elif [ "$EVENT" = "interruption" ]
+then
+  if [ ! -e "$PIDFILE" ]
+  then
+    PREPEND="Ignoring your request to log an interruption." status
+    exit 1
+  fi
+
+  kill -9 "$(cat "$PIDFILE")"
+  rm "$PIDFILE"
+
+  notify "$(tail -n 1 "$LOG") But you have been interrupted!"
+  echo "At $(iso-date) you were interrupted." >> "$LOG"
+elif [ "$EVENT" = "longbreak" ]
+then
+  command longbreak 30
+elif [ "$EVENT" = "shortbreak" ]
+then
+  command shortbreak 5
+fi
