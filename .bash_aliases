@@ -1,5 +1,10 @@
 alias title=settitle
 
+alias po='pomodoro pomodoro'
+alias pst='pomodoro status'
+alias pin='pomodoro interruption'
+alias plo='pomodoro longbreak'
+alias psh='pomodoro shortbreak'
 alias s='system'
 alias cd..='cd ..'
 alias md='source $HOME/bin/md'
