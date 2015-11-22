@@ -29,7 +29,7 @@ then
         sshfs -o reconnect jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "android" ]
     then
-        nohup go-mtpfs -android=true /mnt/android 1>/dev/null 2>&1 &
+        jmtpfs /mnt/android 1>/dev/null 2>&1 &
     elif [ "$MOUNT" = "ipad" ]
     then
         su -c "mkdir -p "$DIR";chown $USER: "$DIR""
