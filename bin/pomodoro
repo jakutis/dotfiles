@@ -21,7 +21,7 @@ function status {
 
 function ticktock {
   REMAINING="$1"
-  INTERVAL="60"
+  INTERVAL="$2"
   while [ "$REMAINING" -gt "0" ]
   do
     PREPEND="The time is $(iso-date)." APPEND="Minutes remaining: ${REMAINING}. " status
@@ -35,7 +35,8 @@ function ticktock {
 
 function command {
   COMMAND=$1
-  DURATION=$2
+  INTERVALS=$2
+  UNIT=$3
   if [ -e "$PIDFILE" ]
   then
     PREPEND="Ignoring your request to start a ${COMMAND}." status
@@ -46,7 +47,7 @@ function command {
     echo $BASHPID > "$PIDFILE"
     cmus-remote -C player-play
     echo "At $(iso-date) you started a ${COMMAND}." >> "$LOG"
-    ticktock $DURATION
+    ticktock $INTERVALS $UNIT
     cmus-remote -C player-pause
     echo "At $(iso-date) you finished a ${COMMAND}." >> "$LOG"
     rm "$PIDFILE"
@@ -59,7 +60,7 @@ PIDFILE="$HOME/.pomodoro-pid"
 
 if [ "$EVENT" = "pomodoro" ]
 then
-  command pomodoro 25
+  command pomodoro 5 300
 elif [ "$EVENT" = "status" ]
 then
   status
@@ -79,8 +80,8 @@ then
   echo "At $(iso-date) you were interrupted." >> "$LOG"
 elif [ "$EVENT" = "longbreak" ]
 then
-  command longbreak 30
+  command longbreak 6 300
 elif [ "$EVENT" = "shortbreak" ]
 then
-  command shortbreak 5
+  command shortbreak 1 300
 fi
