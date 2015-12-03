@@ -24,7 +24,7 @@ function ticktock {
   INTERVAL="$2"
   while [ "$REMAINING" -gt "0" ]
   do
-    PREPEND="The time is $(iso-date)." APPEND="Minutes remaining: ${REMAINING}. " status
+    PREPEND="The time is $(iso-date)." APPEND="Minutes remaining: $(((REMAINING * INTERVAL) / 60)). " status
     sleep $INTERVAL
     REMAINING=$((REMAINING - 1))
   done
