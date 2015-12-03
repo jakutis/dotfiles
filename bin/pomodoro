@@ -58,13 +58,13 @@ function command {
 LOG="$HOME/.pomodoro-log"
 PIDFILE="$HOME/.pomodoro-pid"
 
-if [ "$EVENT" = "pomodoro" ]
+if [ "${EVENT:0:1}" = "p" ]
 then
   command pomodoro 5 300
 elif [ "$EVENT" = "status" ]
 then
   status
-elif [ "$EVENT" = "interruption" ]
+elif [ "${EVENT:0:1}" = "i" ]
 then
   if [ ! -e "$PIDFILE" ]
   then
@@ -78,10 +78,10 @@ then
   cmus-remote -C player-pause
   notify "$(tail -n 1 "$LOG") But you have been interrupted!"
   echo "At $(iso-date) you were interrupted." >> "$LOG"
-elif [ "$EVENT" = "longbreak" ]
+elif [ "${EVENT:0:1}" = "l" ]
 then
   command longbreak 6 300
-elif [ "$EVENT" = "shortbreak" ]
+elif [ "${EVENT:0:1}" = "s" ]
 then
   command shortbreak 1 300
 fi
