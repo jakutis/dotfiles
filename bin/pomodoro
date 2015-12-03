@@ -61,7 +61,7 @@ PIDFILE="$HOME/.pomodoro-pid"
 if [ "${EVENT:0:1}" = "p" ]
 then
   command pomodoro 5 300
-elif [ "$EVENT" = "status" ]
+elif [ "${EVENT:0:2}" = "st" ]
 then
   status
 elif [ "${EVENT:0:1}" = "i" ]
