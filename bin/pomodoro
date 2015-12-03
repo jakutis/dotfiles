@@ -44,8 +44,10 @@ function command {
 
   (
     echo $BASHPID > "$PIDFILE"
+    cmus-remote -C player-play
     echo "At $(iso-date) you started a ${COMMAND}." >> "$LOG"
     ticktock $DURATION
+    cmus-remote -C player-pause
     echo "At $(iso-date) you finished a ${COMMAND}." >> "$LOG"
     rm "$PIDFILE"
   ) &
@@ -72,6 +74,7 @@ then
   kill -9 "$(cat "$PIDFILE")"
   rm "$PIDFILE"
 
+  cmus-remote -C player-pause
   notify "$(tail -n 1 "$LOG") But you have been interrupted!"
   echo "At $(iso-date) you were interrupted." >> "$LOG"
 elif [ "$EVENT" = "longbreak" ]
