@@ -219,6 +219,9 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " kien/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
 
+" airblade/vim-gitgutter
+let g:gitgutter_max_signs = 1000
+
 " Lokaltog/vim-easymotion
 map <Leader> <Plug>(easymotion-prefix)
 
