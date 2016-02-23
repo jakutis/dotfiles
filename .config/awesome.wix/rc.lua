@@ -74,7 +74,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }, s, layouts[1])
 end
 -- }}}
 
@@ -93,8 +93,6 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
-                                     menu = mymainmenu })
 -- }}}
 
 -- {{{ Wibox
@@ -105,6 +103,7 @@ mytextclock = awful.widget.textclock({ align = "right" })
 mysystray = widget({ type = "systray" })
 
 -- Create a wibox for each screen and add it
+mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -166,6 +165,21 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(function(c)
                                               return awful.widget.tasklist.label.currenttags(c, s)
                                           end, mytasklist.buttons)
+    -- Create the wibox
+    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    -- Add widgets to the wibox - order matters
+    mywibox[s].widgets = {
+        {
+            mytaglist[s],
+            mypromptbox[s],
+            layout = awful.widget.layout.horizontal.leftright
+        },
+        mylayoutbox[s],
+        mytextclock,
+        s == 1 and mysystray or nil,
+        mytasklist[s],
+        layout = awful.widget.layout.horizontal.rightleft
+    }
 
 end
 -- }}}
@@ -244,6 +258,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+    awful.key({ modkey,           }, "y",      function (c) c.sticky = not c.sticky  end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
