@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 EVENT="$1"
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 
 function iso-date {
   date '+%Y-%m-%d %H:%M:%S'
@@ -29,7 +30,7 @@ function ticktock {
     REMAINING=$((REMAINING - 1))
   done
   LAST="$(tail -n 1 "$LOG")"
-  notify-send --icon=$HOME/check64.png --expire-time=1000000000 "${LAST} And you have now finished it! Woohoo!"
+  notify-send --icon="$DOTFILES/check64.png" --expire-time=1000000000 "${LAST} And you have now finished it! Woohoo!"
   beep
 }
 
