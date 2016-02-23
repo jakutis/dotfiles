@@ -15,7 +15,7 @@ fi
 NEW_ARGS=""
 
 SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
-echo "new-window -n vim 'vim; echo vim;bash'" >> "$SESSION_FILE"
+echo "new-window -n vim 'export PATH=\"\$(pwd)/node_modules/.bin:\$PATH\";vim;echo vim;bash'" >> "$SESSION_FILE"
 echo "new-window -n gitsh 'gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
 echo "new-window -n tig 'tig;echo tig;bash'" >> "$SESSION_FILE"
 
