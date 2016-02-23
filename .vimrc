@@ -40,6 +40,9 @@ set laststatus=2
 set noeol
 set binary
 
+" highlight current line
+set cursorline
+
 " MRU
 noremap! <C-o> <Esc>:MRU<CR>
 nnoremap <C-o> <Esc>:MRU<CR>
