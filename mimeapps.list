@@ -1,13 +1,14 @@
 [Added Associations]
 application/epub+zip=ebook-viewer.desktop;
-application/pdf=kde4-okular.desktop;kde4-okularApplication_pdf.desktop;qpdfview.desktop;acroread.desktop;xpdf.desktop;gimp.desktop;
+application/pdf=AdobeReader.desktop;konqueror-2.desktop;kde4-okular.desktop;kde4-okularApplication_pdf.desktop;qpdfview.desktop;xpdf.desktop;gimp.desktop;display-im6.q16.desktop;vprerex.desktop;display-im6.desktop;
 application/vnd.ms-htmlhelp=xchm.desktop;
 application/vnd.oasis.opendocument.spreadsheet=libreoffice.desktop;
 application/x-mobipocket-ebook=ebook-viewer.desktop;
+inode/directory=kde4-kfmclient_dir.desktop;
 text/csv=libreoffice-2.desktop;
 text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
 
 [Default Applications]
-application/pdf=qpdfview.desktop
+application/pdf=AdobeReader.desktop
 x-scheme-handler/http=www.desktop;
