@@ -32,6 +32,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'yegappan/mru'
 Plugin 'tpope/vim-fugitive'
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'dhruvasagar/vim-table-mode'
 call vundle#end()
 filetype plugin indent on
 set laststatus=2
