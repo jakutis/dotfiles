@@ -921,7 +921,7 @@ fi
 if ! [ -e "opt/jq-$JQV" ]
 then
     ensure_git jq https://github.com/stedolan/jq || exit 1
-    cd "repos/git/jq" && git co "$JQCOMMIT" && autoreconf -i && ./configure --prefix="$HOME/opt/jq-$JQV" && make && make install && cd ../../..|| exit 1
+    cd "repos/git/jq" && git co "$JQCOMMIT" && autoreconf -i && ./configure --prefix="$HOME/opt/jq-$JQV" --disable-maintainer-mode && make && make install && cd ../../..|| exit 1
     cd opt && ln -nsf "jq-$JQV" "jq" && cd .. || exit 1
     cd .bin && (for BIN in $(ls "../opt/jq/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
