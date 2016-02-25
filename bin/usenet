@@ -4,15 +4,23 @@ VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 COOKIE="$(cat "$VARIA/easynews-cookie")"
 SEARCH="$1"
 
-PAR=$(curl --get --header "Cookie: ${COOKIE}" --data-urlencode "gps=${SEARCH}" 'https://members.easynews.com/2.0/search/solr-search/?fly=2&pby=100&pno=1&s1=dtime&s1d=-&s2=nrfile&s2d=%2B&s3=dsize&s3d=%2B&sS=0&d1t=&d2t=&b1t=&b2t=&px1t=&px2t=&fps1t=&fps2t=&bps1t=&bps2t=&hz1t=&hz2t=&rn1t=&rn2t=&st=adv&safeO=0&sb=1' | jq -r '.data|map({filename:[.["0"],.["2"]]|join(""), type})|map(select(.type == "PARITY"))|map(.filename)|.[]' | head -n 1)
+PAR=$(curl --silent --get --header "Cookie: ${COOKIE}" --data-urlencode "gps=${SEARCH}" 'https://members.easynews.com/2.0/search/solr-search/?fly=2&pby=100&pno=1&s1=dtime&s1d=-&s2=nrfile&s2d=%2B&s3=dsize&s3d=%2B&sS=0&d1t=&d2t=&b1t=&b2t=&px1t=&px2t=&fps1t=&fps2t=&bps1t=&bps2t=&hz1t=&hz2t=&rn1t=&rn2t=&st=adv&safeO=0&sb=1' | jq -r '.data|map({filename:[.["0"],.["2"]]|join(""), type})|map(select(.type == "PARITY"))|map(.filename)|.[]' | head -n 1)
 
-mkdir "$PAR" && cd "$PAR" || exit 1
-curl --get --header "Cookie: ${COOKIE}" --data-urlencode "fname=${PAR}" "https://members.easynews.com/2.0/api/dlpar" | jq -c '.data | map({dl:[.["0"], .["35"], .["2"]] | join(""),filename:[.["10"], .["11"]] | join("")}) | .[]' | while read FILE
+if [ -e "$PAR" ]
+then
+  exit
+fi
+
+mkdir "$PAR"
+cd "$PAR"
+
+curl --silent --get --header "Cookie: ${COOKIE}" --data-urlencode "fname=${PAR}" "https://members.easynews.com/2.0/api/dlpar" | jq -c '.data | map({dl:[.["0"], .["35"], .["2"]] | join(""),filename:[.["10"], .["11"]] | join("")}) | .[]' | while read FILE
 do
   DL="$(echo "$FILE" | jq -r .dl)"
   FILENAME="$(echo "$FILE" | jq -r .filename)"
-  curl -L --header "Cookie: ${COOKIE}" "https://members.easynews.com/dl/${DL}/${DL}" > "${FILENAME}"
+  curl --silent -L --header "Cookie: ${COOKIE}" "https://members.easynews.com/dl/${DL}/${DL}" > "${FILENAME}"
 done
+
 rar x *.part1.rar || rar x *.rar
 
 echo "$PAR is ready"
