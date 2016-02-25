@@ -8,6 +8,7 @@ PAR=$(curl --silent --get --header "Cookie: ${COOKIE}" --data-urlencode "gps=${S
 
 if [ -e "$PAR" ]
 then
+  echo "$PAR is already ready"
   exit
 fi
 
@@ -23,4 +24,4 @@ done
 
 rar x *.part1.rar || rar x *.rar
 
-echo "$PAR is ready"
+echo "$PAR is now ready"
