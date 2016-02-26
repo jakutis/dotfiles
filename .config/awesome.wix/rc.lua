@@ -97,7 +97,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, '%Y-%m-%d %H:%M %Z')
+mytextclock = awful.widget.textclock({ align = "right" }, '%Y-%m-%d %H:%M %Z ')
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
