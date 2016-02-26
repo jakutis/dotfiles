@@ -97,7 +97,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+mytextclock = awful.widget.textclock({ align = "right" }, '%Y-%m-%d %H:%M %Z, %A')
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -169,16 +169,16 @@ for s = 1, screen.count() do
     mywibox[s] = awful.wibox({ position = "top", screen = s })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
-        {
-            mytaglist[s],
-            mypromptbox[s],
-            layout = awful.widget.layout.horizontal.leftright
-        },
-        mylayoutbox[s],
         mytextclock,
-        s == 1 and mysystray or nil,
-        mytasklist[s],
-        layout = awful.widget.layout.horizontal.rightleft
+        mytaglist[s],
+        mypromptbox[s],
+        mylayoutbox[s],
+        {
+          s == 1 and mysystray or nil,
+          mytasklist[s],
+          layout = awful.widget.layout.horizontal.rightleft
+        },
+        layout = awful.widget.layout.horizontal.leftright
     }
 
 end
