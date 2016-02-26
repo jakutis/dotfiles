@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# https://github.com/rukshn/pomodoro ???
+
 EVENT="$1"
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 
