@@ -97,7 +97,7 @@ RTAG="R-3-2-0"
 RV="3.2.2"
 GOV="1.6"
 YOUTUBEDLV="2016.02.27"
-VIMV="v7.4.827"
+VIMV="7.4.1444"
 COLOROUTV="1.1-1"
 TMUXV="2.0"
 LIBEVENTV="2.0.21"
@@ -824,18 +824,18 @@ fi
 
 if ! [ -e "opt/vim-$VIMV" ]
 then
-    ensure_hg vim https://vim.googlecode.com/hg/ || exit 1
-    cd "$HOME/repos/hg/vim" || exit 1
-    hg checkout "$VIMV" || exit 1
+    ensure_git vim https://github.com/vim/vim || exit 1
+    (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
+    cd "vim-build" || exit 1
     make distclean
     ./configure --enable-rubyinterp=yes --enable-pythoninterp=yes --with-features=huge --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    cd .. && rm -rf vim-build || exit 1
     cd "$HOME/opt"
     ln -nsf "vim-$VIMV" "vim"
     cd ../.bin
     ln -nsf "../opt/vim/bin/vim"
     ln -nsf "../opt/vim/bin/vimdiff"
     cd ..
-    rm -rf vim
 fi
 
 mkdir --parents .vimtmp .vimbackup .vimsession
