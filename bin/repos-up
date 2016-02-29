@@ -37,7 +37,7 @@ do
                 fi
                 ;;
             "git")
-                git fetch --all --tags 1>/dev/null 2>&1 || echo "FAILED to fetch"
+                GIT_TERMINAL_PROMPT=0 git fetch --all --tags 1>/dev/null 2>&1 || echo "FAILED to fetch"
                 git tag | diff -ru "$CFG/$TYPE/$REPO" -
                 git tag > "$CFG/$TYPE/$REPO"
                 ;;
