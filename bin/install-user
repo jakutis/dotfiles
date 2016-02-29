@@ -184,7 +184,7 @@ ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
 popd
 
-mkdir --parents Downloads/rtorrent
+mkdir --parents Desktop/rtorrent
 mkdir --parents .rtorrent.session
 
 mkdir --parents ".cmus"
