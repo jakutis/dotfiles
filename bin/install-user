@@ -1184,7 +1184,7 @@ then
     cd libupnpp-build && ./autogen.sh && ./configure --prefix="$HOME/opt/libupnpp-$LIBUPNPPV" && make && make install && cd .. && rm -rf libupnpp-build || exit 1
 fi
 
-if [ ! -e "$HOME/.local/share/vlc/plugins/libde265/$VLCLIBDE265V" ]
+if [ "$ENABLE_VLC_LIBDE265" = "yes" -a ! -e "$HOME/.local/share/vlc/plugins/libde265/$VLCLIBDE265V" ]
 then
     ensure_git vlc-libde265 https://github.com/strukturag/vlc-libde265 || exit 1
     (cd "repos/git/vlc-libde265" && git archive --format=tar --prefix=vlc-libde265-build/ "$VLCLIBDE265V") | tar xf - || exit 1
