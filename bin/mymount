@@ -41,9 +41,14 @@ then
         fi
     elif [ "$MOUNT" = "floppy" ]
     then
-        MOUNT="$(ls --sort=time /dev/sd?|head -n 1)"
-        MOUNT="$(ls --sort=none ${MOUNT}*|tail -n 1)"
-        su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
+        if [ -z "$SUBMOUNT" ]
+        then
+            MOUNT="$(ls --sort=time /dev/sd?|head -n 1)"
+            MOUNT="$(ls --sort=none ${MOUNT}*|tail -n 1)"
+            su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
+        else
+            su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o loop,uid=$(id -u) \"$SUBMOUNT\" "$DIR""
+        fi
     else
         su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount "$DIR""
     fi
