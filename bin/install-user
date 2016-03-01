@@ -3,7 +3,7 @@
 set -o verbose
 set -o xtrace
 
-DOCKERV="1.8.3"
+DOCKERV="1.10.2"
 GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
 VLCLIBDE265V="0.1.7"
 CALIBREV="2.43.0"
