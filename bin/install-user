@@ -203,7 +203,7 @@ then
 fi
 
 touch .xbindkeys.noauto
-for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
+for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .asoundrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
@@ -218,6 +218,10 @@ mkdir --parents .VirtualBox
 mkdir --parents .vimbackup
 mkdir --parents .vimtmp
 mkdir --parents .vimsession
+mkdir --parents .vim
+ln -nsf "$DOTFILES/.vimrc" .vimrc
+ln -nsf "$DOTFILES/.vimrc" .vim/init.vim
+ln -nsf "$(pwd)/.vim" "$XDG_CONFIG_HOME/nvim"
 
 function ensure_svn {
     REPO="$1"
@@ -256,7 +260,8 @@ function ensure_hg {
     fi
 }
 
-ensure_git_dir .linuxbrew https://github.com/Linuxbrew/linuxbrew
+ensure_git_dir .linuxbrew https://github.com/Linuxbrew/linuxbrew || exit 1
+brew install nvim || exit 1
 
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
