@@ -17,6 +17,8 @@ export LC_MESSAGES="$LANG"
 export LC_ALL="$LANG"
 
 export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
+export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"

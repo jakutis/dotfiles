@@ -230,15 +230,19 @@ function ensure_svn {
     fi
 }
 
-function ensure_git {
+function ensure_git_dir {
     REPO="$1"
     URL="$2"
-    if [ ! -e "repos/git/$REPO" ]
+    if [ ! -e "$REPO" ]
     then
-        mkdir -p repos/git && cd repos/git && git clone "$URL" "$REPO" && cd ../.. || exit 1
+        git clone "$URL" "$REPO" || exit 1
     else
-        cd "repos/git/$REPO" && git fetch --all --tags && cd ../../.. || exit 1
+        pushd . && cd "$REPO" && git fetch --all --tags && popd || exit 1
     fi
+}
+
+function ensure_git {
+    ensure_git_dir "repos/git/$1" "$2"
 }
 
 function ensure_hg {
@@ -251,6 +255,8 @@ function ensure_hg {
         cd "repos/hg/$REPO" && hg pull && cd ../../.. || exit 1
     fi
 }
+
+ensure_git_dir .linuxbrew https://github.com/Linuxbrew/linuxbrew
 
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
