@@ -2,11 +2,17 @@
 
 shopt -s histappend
 shopt -s checkwinsize
+shopt -s cmdhist
+shopt -s autocd
+set -o noclobber
 set -o vi
 
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
-export PROMPT_COMMAND="echo -ne '\a'"
+export CDPATH="."
+export PROMPT_DIRTRIM=2
+export PROMPT_COMMAND="history -a;echo -ne '\a'"
+export HISTTIMEFORMAT='%F %T '
 export PS1="\\u@$MACHINE:\\w\\\$ "
 export HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
