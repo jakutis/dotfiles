@@ -1,5 +1,5 @@
 [core]
-    editor = vim
+    editor = emacs -nw
     filemode = false
     autocrlf = false
 
