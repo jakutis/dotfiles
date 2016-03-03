@@ -260,9 +260,6 @@ function ensure_hg {
     fi
 }
 
-ensure_git_dir .linuxbrew https://github.com/Linuxbrew/linuxbrew || exit 1
-brew install nvim || exit 1
-
 if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
 then
     ensure_git git https://github.com/git/git || exit 1

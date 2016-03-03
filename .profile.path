@@ -9,8 +9,6 @@ PATH="$HOME/.rvm/bin:$PATH"
 PATH="$HOME/.composer/vendor/bin:$PATH"
 PATH="$HOME/opt/erlang/bin:$PATH"
 
-PATH="$HOME/.linuxbrew/bin:$PATH"
-
 PATH="$HOME/opt/matlab/bin:$PATH"
 PATH="$HOME/opt/calibre:$PATH"
 PATH="$HOME/opt/mysql/bin:$PATH"
