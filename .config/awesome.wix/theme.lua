@@ -5,7 +5,7 @@ theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squaref
 theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
 
 theme.bg_normal     = "#000000"
-theme.bg_focus      = "#fdf6e3"
+theme.bg_focus      = "#ffffff"
 theme.bg_urgent     = "#000000"
 theme.bg_minimize   = "#000000"
 

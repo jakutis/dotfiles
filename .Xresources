@@ -31,7 +31,7 @@ URxvt.print-pipe:   "cat > /dev/null"
 #define t_cyan            #3e999f
 #define t_brightcyan      #54ced6
 #define t_lightgrey       #d6d6d6
-#define t_white           #fdf6e3
+#define t_white           #ffffff
 
 *color0:            t_black
 *color8:            t_grey
