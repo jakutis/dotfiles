@@ -33,7 +33,7 @@ export ACLOCAL_PATH="/usr/share/aclocal"
 export ELECTRON_PATH="$HOME/opt/electron/electron"
 
 export BROWSER="$(cat "$XDG_CONFIG_HOME/dotfiles/browser")"
-export EDITOR="emacs -nw"
+export EDITOR="nvim"
 
 source "$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")/.profile.path"
 
