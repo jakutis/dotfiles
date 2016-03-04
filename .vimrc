@@ -7,31 +7,15 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'vim-scripts/taglist.vim'
-Plugin 'timcharper/textile.vim'
 Plugin 'elzr/vim-json'
 Plugin 'scrooloose/syntastic'
 Plugin 'bling/vim-airline'
 Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'airblade/vim-gitgutter'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
-Plugin 'Chiel92/vim-autoformat'
 Plugin 'kien/ctrlp.vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'joonty/vdebug'
-Plugin 'jeetsukumaran/vim-buffergator'
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "garbas/vim-snipmate"
-Bundle 'derekwyatt/vim-scala'
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'rust-lang/rust.vim'
-Plugin 'yegappan/mru'
 Plugin 'tpope/vim-fugitive'
-Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'dhruvasagar/vim-table-mode'
 call vundle#end()
 filetype plugin indent on
