@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+EMACSV="24.5"
 NEOVIMV="0.1.2"
 DOCKERV="1.10.2"
 GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
@@ -868,6 +869,14 @@ then
     vim +PluginUpdate +qall || exit 1
 else
     git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall || exit 1
+fi
+
+if ! [ -e "opt/emacs-$EMACSV" ]
+then
+    ensure_git emacs http://git.savannah.gnu.org/r/emacs.git || exit 1
+    (cd "repos/git/emacs" && git archive --format=tar --prefix=emacs-build/ "emacs-$EMACSV") | tar xf - || exit 1
+    cd emacs-build && ./autogen.sh all && ./configure --prefix="$HOME/opt/emacs-$EMACSV" && make install && cd .. && rm -rf emacs-build || exit 1
+    cd .bin && ln -nsf "../opt/emacs-$EMACSV/bin/emacs" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/git-annex-$GITANNEXV" ]
