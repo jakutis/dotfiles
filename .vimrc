@@ -9,7 +9,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'elzr/vim-json'
 Plugin 'scrooloose/syntastic'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kien/ctrlp.vim'
