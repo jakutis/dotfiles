@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+NEOVIMV="0.1.2"
 DOCKERV="1.10.2"
 GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
 VLCLIBDE265V="0.1.7"
@@ -832,7 +833,20 @@ else
     opam update || exit 1
 fi
 
-if ! [ -e "opt/vim-$VIMV" ]
+if ! [ -e "opt/neovim-$NEOVIMV" ]
+then
+    ensure_git neovim https://github.com/neovim/neovim || exit 1
+    (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "v$NEOVIMV") | tar xf - || exit 1
+    cd "neovim-build" && make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim-$NEOVIMV" && make install && cd .. && rm -rf neovim-build || exit 1
+    cd .bin || exit 1
+    rm -f vi && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vi || exit 1
+    rm -f vim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vim || exit 1
+    rm -f nvim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" nvim || exit 1
+    rm -f vimdiff && echo 'nvim -d "$@"' > vimdiff && chmod +x vimdiff || exit 1
+    cd .. || exit 1
+fi
+
+if [ false -a ! -e "opt/vim-$VIMV" ]
 then
     ensure_git vim https://github.com/vim/vim || exit 1
     (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
