@@ -9,7 +9,6 @@ set -o vi
 
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
-export CDPATH="."
 export PROMPT_DIRTRIM=2
 export PROMPT_COMMAND="history -a;echo -ne '\a'"
 export HISTTIMEFORMAT='%F %T '
