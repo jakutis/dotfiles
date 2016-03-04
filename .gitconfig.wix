@@ -1,5 +1,5 @@
 [core]
-    editor = emacs -nw
+    editor = e
     filemode = false
     autocrlf = false
 
