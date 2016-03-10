@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo -ne "\e]2;$@\a\e]1;$@\a"
+if [ -n "$TMUX" ]
+then
+  echo -ne "\033k$@\033\\"
+fi

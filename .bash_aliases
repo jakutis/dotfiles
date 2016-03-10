@@ -1,5 +1,3 @@
-alias title=settitle
-
 alias po='pomodoro pomodoro'
 alias pst='pomodoro status'
 alias pin='pomodoro interruption'
