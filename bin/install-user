@@ -186,8 +186,11 @@ ln -nsf "$DOTFILES/.newsbeuter/config"
 ln -nsf "$VARIA/news.txt" urls
 popd
 
-mkdir --parents Desktop/rtorrent
-mkdir --parents .rtorrent.session
+if [ "$MACHINE" = "server" ]
+then
+  mkdir --parents Desktop/rtorrent
+  mkdir --parents .rtorrent.session
+fi
 
 mkdir --parents ".cmus"
 cd ".cmus"
