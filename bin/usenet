@@ -6,6 +6,12 @@ SEARCH="$1"
 
 PAR=$(curl --silent --get --header "Cookie: ${COOKIE}" --data-urlencode "gps=${SEARCH}" 'https://members.easynews.com/2.0/search/solr-search/?fly=2&pby=100&pno=1&s1=dtime&s1d=-&s2=nrfile&s2d=%2B&s3=dsize&s3d=%2B&sS=0&d1t=&d2t=&b1t=&b2t=&px1t=&px2t=&fps1t=&fps2t=&bps1t=&bps2t=&hz1t=&hz2t=&rn1t=&rn2t=&st=adv&safeO=0&sb=1' | jq -r '.data|map({filename:[.["0"],.["2"]]|join(""), type})|map(select(.type == "PARITY"))|map(.filename)|.[]' | head -n 1)
 
+if [ -z "$PAR" ]
+then 
+  echo "Search failed"
+  exit
+fi
+
 if [ -e "$PAR" ]
 then
   echo "$PAR is already ready"
