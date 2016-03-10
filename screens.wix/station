@@ -4,6 +4,3 @@ xrandr \
   --output HDMI1 --auto --rotate normal --preferred --primary \
   --output VGA1 --auto --rotate normal --right-of HDMI1 \
   --output eDP1 --auto --rotate normal --below HDMI1
-xset s on
-xset s blank
-xset s 300

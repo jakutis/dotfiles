@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-xrandr --output eDP1 --auto --output DP1 --auto --above eDP1 --output VGA1 --off
-xset s off
-xset s noblank

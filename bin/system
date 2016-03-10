@@ -54,16 +54,22 @@ function screens {
     then
         "$DOTFILES/screens.$MACHINE/$CFG"
     else
-        if [ -n "$CFG" ]
+        echo "Configuration is not a preset, parsing the definition"
+        SCREEN="${CFG%%:*}"
+        POSITION="${CFG#*:}"
+        if [ "$POSITION" = "only" ]
         then
-            echo "Screen configuration \"$CFG\" not found." 1>&2
+          xrandr --output "$SCREEN" --auto $(xrandr|grep connected|sed -e 's/^\(\w*\) .*$/--output \1 --off /'|grep -v "$SCREEN")
         else
-            echo "Please specify screen configuration." 1>&2
+          xrandr --output eDP1 --auto --output "$SCREEN" --auto "--${POSITION}" eDP1 $(xrandr|grep connected|sed -e 's/^\(\w*\) .*$/--output \1 --off /'|grep -v "$SCREEN"|grep -v "eDP1")
         fi
-        echo "Existing configurations are:" 1>&2
+        echo "Existing presets are:" 1>&2
         ls -1 "$DOTFILES/screens.$MACHINE" 1>&2
-        exit 1
     fi
+
+    xset s off
+    xset s noblank
+    xset s 300
 }
 
 if [ -z "$CMD" ]
