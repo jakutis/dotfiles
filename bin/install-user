@@ -4,7 +4,8 @@ set -o verbose
 set -o xtrace
 
 EMACSV="24.5"
-NEOVIMV="0.1.2"
+NEOVIMV="b030c905060f5275be5ef23e54030fdd4ab0dc2c"
+NEOVIMCOMMIT="b030c905060f5275be5ef23e54030fdd4ab0dc2c"
 DOCKERV="1.10.2"
 GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
 VLCLIBDE265V="0.1.7"
@@ -840,7 +841,7 @@ fi
 if ! [ -e "opt/neovim-$NEOVIMV" ]
 then
     ensure_git neovim https://github.com/neovim/neovim || exit 1
-    (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "v$NEOVIMV") | tar xf - || exit 1
+    (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "$NEOVIMCOMMIT") | tar xf - || exit 1
     cd "neovim-build" && make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim-$NEOVIMV" && make install && cd .. && rm -rf neovim-build || exit 1
     cd .bin || exit 1
     rm -f vi && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vi || exit 1
