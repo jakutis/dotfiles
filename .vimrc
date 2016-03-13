@@ -184,7 +184,7 @@ noremap! <F5> <Esc>:make!<CR>
 nnoremap <F5> <Esc>:make!<CR>
 
 " clipboard
-nnoremap <F8> <Esc>:call system('xclip -selection clipboard', @0)<CR>
+set clipboard=unnamed,unnamedplus
 
 " mouse
 set mouse=
