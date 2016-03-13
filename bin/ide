@@ -15,9 +15,9 @@ fi
 NEW_ARGS=""
 
 SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
-echo "new-window -n e 'settitle \$(basename \"\$(pwd)\")-e;export PATH=\"\$(pwd)/node_modules/.bin:\$PATH\";e;echo e;bash'" >> "$SESSION_FILE"
-echo "new-window -n gitsh 'settitle \$(basename \"\$(pwd)\")-gitsh;gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
-echo "new-window -n tig 'settitle \$(basename \"\$(pwd)\")-tig;tig;echo tig;bash'" >> "$SESSION_FILE"
+echo "new-window -n e 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle e;export PATH=\"\$(pwd)/node_modules/.bin:\$PATH\";e;echo e;bash'" >> "$SESSION_FILE"
+echo "new-window -n gitsh 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle gitsh;gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
+echo "new-window -n tig 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle tig;tig;echo tig;bash'" >> "$SESSION_FILE"
 
 DETACHED="$2"
 if [ "$DETACHED" = "detached" ]
