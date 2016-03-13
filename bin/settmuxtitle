@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo -ne "\033k$@\033\\"
