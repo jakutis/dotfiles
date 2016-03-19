@@ -102,7 +102,7 @@ RV="3.2.4"
 GOV="1.6"
 YOUTUBEDLV="2016.02.27"
 VIMV="7.4.1444"
-COLOROUTV="1.1-1"
+COLOROUTV="1.1-2"
 TMUXV="2.0"
 LIBEVENTV="2.0.21"
 ELINKSV="3379fc9"
@@ -489,7 +489,7 @@ then
     cd opt && ln -nsf "r-$RV" "r" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/r-$RV/bin/R" && cd .. || exit 1
     echo 'install.packages(c("gdata", "irr", "outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
-    wget "http://www.lepem.ufc.br/jaa/vimr/colorout_${COLOROUTV}.tar.gz" || exit 1
+    wget "https://github.com/jalvesaq/colorout/releases/download/v${COLOROUTV}/colorout_${COLOROUTV}.tar.gz" || exit 1
     echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save || exit 1
     rm colorout_${COLOROUTV}.tar.gz
 fi
