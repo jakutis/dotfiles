@@ -401,7 +401,6 @@ then
     composer global require phpmd/phpmd:2.0.* || exit 1
 fi
 composer global update || exit 1
-fi
 
 curl -L https://raw.githubusercontent.com/yrashk/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
 
