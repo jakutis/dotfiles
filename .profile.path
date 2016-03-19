@@ -2,7 +2,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export GVM_ROOT="$HOME/.gvm"
 export PERLBREW_ROOT="$HOME/.perl5"
 
-PATH="/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/lib/mutt"
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 PATH="$HOME/opt/ghc/bin:$PATH"
 PATH="$HOME/.rvm/bin:$PATH"
