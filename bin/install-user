@@ -890,7 +890,7 @@ then
     cd .bin && ln -nsf "../opt/emacs-$EMACSV/bin/emacs" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/git-annex-$GITANNEXV" ]
+if [ "$ENABLE_GITANNEX" = "yes" -a ! -e "opt/git-annex-$GITANNEXV" ]
 then
     mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -tdfa -feed -quvi -tahoe -desktopnotify -torrentparser -ekg -network-uri" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" && cd .. || exit 1
@@ -991,7 +991,7 @@ then
     (curl -L "http://www.libimobiledevice.org/downloads/libimobiledevice-${IMOBILEDEVICEV}.tar.bz2" | tar jxf -) && cd "libimobiledevice-${IMOBILEDEVICEV}" && LDFLAGS="-L$(pyenv prefix)/lib -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplistv-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libplist-${PLISTV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/include" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}" && make && make install && cd .. && rm -rf "libimobiledevice-${IMOBILEDEVICEV}" || exit 1
 fi
 
-if ! [ -e "opt/ideviceinstaller-$IDEVICEINSTALLERV" ]
+if [ "$ENABLE_IDEVICEINSTALLER" = "yes" -a ! -e "opt/ideviceinstaller-$IDEVICEINSTALLERV" ]
 then
     ensure_git ideviceinstaller https://github.com/libimobiledevice/ideviceinstaller || exit 1
     ((cd "repos/git/ideviceinstaller" && git archive --format=tar --prefix=ideviceinstaller-build/ "$IDEVICEINSTALLERCOMMIT") | tar xf -) && cd "ideviceinstaller-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ideviceinstaller-${IDEVICEINSTALLERV}" && make && make install && cd .. && rm -rf "ideviceinstaller-build" || exit 1
@@ -1027,7 +1027,7 @@ then
     cd ".."
 fi
 
-if ! [ -e "opt/qpdfview-$QPDFVIEWV" ]
+if [ "$ENABLE_QPDFVIEW" = "yes" -a ! -e "opt/qpdfview-$QPDFVIEWV" ]
 then
     if [ ! -e "repos/bzr/qpdfview" ]
     then
