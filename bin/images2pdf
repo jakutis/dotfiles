@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-if [ -z "$(which pdftk 2>/dev/null)" ]
-then
-    echo "Please install pdftk"
-    exit 1
-fi
-
 if [ -z "$(which convert 2>/dev/null)" ]
 then
     echo "Please install ImageMagick"
@@ -42,5 +36,5 @@ do
   PDFS+=("${FILE}.pdf")
 done
 
-pdftk "${PDFS[@]}" cat output "$1"
+pdfunite "${PDFS[@]}" "$1"
 rm "${PDFS[@]}"
