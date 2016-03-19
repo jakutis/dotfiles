@@ -65,6 +65,7 @@ GLIBCV="2.21"
 LLVMV="3.4"
 XSLTV="1.1.28"
 BIBERV="2.1"
+PERLBREWV="0.75"
 PERLV="5.22.0"
 FAACV="1.28"
 MACV="3.99-u4-b5-s7"
@@ -733,7 +734,9 @@ then
 fi
 
 ensure_git App-perlbrew https://github.com/gugod/App-perlbrew || exit 1
-bash ./repos/git/App-perlbrew/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
+(cd "repos/git/App-perlbrew" && git archive --format=tar --prefix=perlbrew-build/ "release-$PERLBREWV") | tar xf - || exit 1
+bash ./perlbrew-build/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
+rm -rf perlbrew-build || exit 1
 
 if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
 then
