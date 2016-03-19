@@ -19,6 +19,7 @@ set -o xtrace
 
 PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
+DNF="$(which dnf 2>/dev/null)"
 
 if [ -n "$PACMAN" ]
 then
@@ -62,6 +63,11 @@ then
 else
     echo "Unknown package manager, only pacman and apt-get are supported"
     exit 1
+elif [ -n "$DNF" ]
+then
+    systemctl disable gdm
+    dnf update
+    dnf install roxterm awesome automake osmo leafpad texinfo gcc gcc-c++ okular python konqueror libreoffice claws-mail gstreamer-plugins-bad-free-extras gstreamer-plugins-good-extras kmplayer gstreamer1-vaapi xcompmgr reinstall llvm tmux libtool-ltdl-devel mercurial pavucontrol libyaml-devel readline-devel zlib-devel libffi-devel openssl-devel libtool bison sqlite-devel subversion gcc-gfortran build-dep R bzr sshfs flac-devel pulseaudio-libs-devel xbindkeys parcellite cmake mc libxml2-devel ack mirage meld ocaml dstat || exit 1
 fi
 
 if [ "$MACHINE" = "server" ]
