@@ -464,6 +464,8 @@ GEM_DIR=$(rvm gemdir 2>/dev/null)
 if ! [ -e "$GVM_ROOT" ]
 then
     git clone https://github.com/moovweb/gvm "$GVM_ROOT" && mkdir "$GVM_ROOT/logs" && source "$GVM_ROOT/scripts/gvm-default" || exit 1
+    export GOROOT_BOOTSTRAP="$HOME/go"
+    curl -L https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz | tar zx || exit 1
 else
     pushd .
     cd "$GVM_ROOT"
@@ -481,6 +483,7 @@ then
     gvm alias delete default
     gvm install "go${GOV}" && gvm alias create default "go${GOV}" && gvm use default || exit 1
 fi
+rm -rf "$HOME/go"
 
 if ! [ -e "opt/r-$RV" ]
 then
