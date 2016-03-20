@@ -57,8 +57,8 @@ LIBVPXV="1.5.0"
 GITV="2.7.1"
 MIRALLV="2.1.1"
 QTKEYCHAINV="v0.5.0"
-FUSETAG="fuse_2_9_4"
-FUSEV="2.9.4"
+FUSETAG="fuse_2_9_5"
+FUSEV="2.9.5"
 AUTOCONFV="2.69"
 GITSHV="0.10"
 GLIBCV="2.21"
@@ -728,7 +728,7 @@ fi
 
 if [ "$ENABLE_FUSE" = "yes" -a ! -e "opt/fuse-$FUSEV" ]
 then
-    ensure_git fuse http://git.code.sf.net/p/fuse/fuse || exit 1
+    ensure_git fuse https://github.com/libfuse/libfuse || exit 1
     cd "repos/git/fuse" || exit 1
     git co "$FUSETAG" || exit 1
     ./makeconf.sh && ./configure --prefix="$HOME/opt/fuse-$FUSEV" --enable-lib --disable-util --enable-rpath && make && make install || exit 1
