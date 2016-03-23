@@ -59,9 +59,9 @@ function screens {
         POSITION="${CFG#*:}"
         if [ "$POSITION" = "only" ]
         then
-          xrandr --output "$SCREEN" --auto $(xrandr|grep connected|sed -e 's/^\(\w*\) .*$/--output \1 --off /'|grep -v "$SCREEN")
+          xrandr --output "$SCREEN" --auto $(xrandr|grep connected|sed -e 's/^\([A-Z0-9a-z-]*\) .*$/--output \1 --off /'|grep -v "$SCREEN")
         else
-          xrandr --output eDP1 --auto --output "$SCREEN" --auto "--${POSITION}" eDP1 $(xrandr|grep connected|sed -e 's/^\(\w*\) .*$/--output \1 --off /'|grep -v "$SCREEN"|grep -v "eDP1")
+          xrandr --output eDP1 --auto --output "$SCREEN" --auto "--${POSITION}" eDP1 $(xrandr|grep connected|sed -e 's/^\([A-Z0-9a-z-]*\) .*$/--output \1 --off /'|grep -v "$SCREEN"|grep -v "eDP1")
         fi
         echo "Existing presets are:" 1>&2
         ls -1 "$DOTFILES/screens.$MACHINE" 1>&2
