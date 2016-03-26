@@ -18,6 +18,9 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'raichoo/purescript-vim'
+Plugin 'frigoeu/psc-ide-vim'
+Plugin 'lambdatoast/elm.vim'
 call vundle#end()
 filetype plugin indent on
 set laststatus=2
