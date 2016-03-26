@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+var MediaRendererClient = require('upnp-mediarenderer-client');
+var SSDPClient = require('node-ssdp').Client;
+
+var client = new SSDPClient();
+client.on('response', function (_headers, statusCode, rinfo) {
+  var headers = {};
+  Object.keys(_headers).forEach(function (header) {
+    headers[header.toLowerCase()] = _headers[header];
+  });
+  play({
+    mediaRendererUrl: headers.location,
+    streamUrl: process.argv[2]
+  });
+});
+client.search('urn:schemas-upnp-org:service:RenderingControl:1');
+
+function play(parameters) {
+  var client = new MediaRendererClient(parameters.mediaRendererUrl);
+
+  client.load(parameters.streamUrl, {
+    autoplay: true
+  }, function(err, result) {
+    if (err) {
+      console.log(err.stack);
+      return process.exit(1);
+    }
+    process.exit(0);
+  });
+}
