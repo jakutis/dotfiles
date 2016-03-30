@@ -31,7 +31,7 @@ then
             www -- "$FILE"
             ;;
         "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska")
-            mplayer -- "$FILE"
+            cvlc -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
             mirage -- "$FILE"
