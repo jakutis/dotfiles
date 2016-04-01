@@ -22,6 +22,7 @@ Plugin 'raichoo/purescript-vim'
 Plugin 'frigoeu/psc-ide-vim'
 Plugin 'lambdatoast/elm.vim'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'derekwyatt/vim-scala'
 call vundle#end()
 filetype plugin indent on
 set laststatus=2
