@@ -120,6 +120,7 @@ highlight nonText ctermbg=NONE
 let g:session_autoload = 'no'
 let g:session_directory = '~/.vimsession'
 let g:session_autosave = 'yes'
+set ssop-=options
 
 " Chiel92/vim-autoformat
 let g:formatprg_html = "tidy"
