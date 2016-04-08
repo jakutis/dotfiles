@@ -27,6 +27,11 @@ call vundle#end()
 filetype plugin indent on
 set laststatus=2
 
+" window management
+set wmh=0
+nmap <A-j> <c-w>j<c-w>_
+nmap <A-k> <c-w>k<c-w>_
+
 " saving
 set noeol
 set binary
