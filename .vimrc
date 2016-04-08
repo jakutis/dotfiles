@@ -103,6 +103,10 @@ autocmd BufRead,BufNewFile *.scss let g:syntastic_scss_checkers=[]
 
 " bling/vim-airline
 let g:airline_powerline_fonts = 0
+let g:airline_left_sep = '»'
+let g:airline_right_sep = '«'
+let g:jakutis_init_wd = getcwd()
+let g:airline_section_c = '%{expand("%:p")[len(g:jakutis_init_wd):]}'
 
 " chriskempson/tomorrow-theme
 syntax on
