@@ -179,6 +179,7 @@ set nohidden
 
 " indenting
 set expandtab
+set shiftround
 set smarttab
 set wildmenu
 set wildmode=list:longest,full
