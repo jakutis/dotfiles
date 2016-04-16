@@ -34,6 +34,7 @@ macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
 macro compose A "<attach-message>?<toggle-mailboxes>" "attach message(s) to this message"
 
 bind index \' next-unread
+bind index N search-opposite
 
 ignore *
 unignore date: from: to: subject: cc:
