@@ -6,6 +6,9 @@ then
   if tty --silent
   then
       SUDO="sudo"
+  elif [ "$(which kdesu 2>/dev/null)" != "" ]
+  then
+      SUDO="kdesu"
   else
       SUDO="gksudo"
   fi
