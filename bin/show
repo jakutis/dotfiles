@@ -18,6 +18,9 @@ then
     MIME="$(file --dereference --brief --mime-type -- "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
     case "$MIME" in
+        "image/svg+xml")
+            inkview -- "$FILE"
+            ;;
         "text/troff")
             man -- "$FILE"
             ;;
@@ -30,7 +33,7 @@ then
         "text/html")
             www -- "$FILE"
             ;;
-        "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska")
+        "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts")
             cvlc -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
