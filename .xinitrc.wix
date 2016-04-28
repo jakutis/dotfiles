@@ -4,7 +4,6 @@ xhost localhost
 xrdb -merge "$HOME/.Xresources"
 xbindkeys
 update-xinput
-start-minidlna
 xscreensaver -no-splash &
 xcompmgr &
 parcellite &
