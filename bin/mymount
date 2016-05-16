@@ -29,7 +29,7 @@ then
         sshfs -o reconnect jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "android" ]
     then
-        jmtpfs /mnt/android 1>/dev/null 2>&1 &
+        su -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device 1 "$DIR" -o gid=$(id -u),allow_other"
     elif [ "$MOUNT" = "ipad" ]
     then
         su -c "mkdir -p "$DIR";chown $USER: "$DIR""
@@ -54,10 +54,5 @@ then
     fi
 else
     echo "Unmounting $DIR"
-    if [ "$MOUNT" = "android" ]
-    then
-      fusermount -u "$DIR"
-    else
-      su -c "umount -f "$DIR""
-    fi
+    su -c "umount -f "$DIR""
 fi
