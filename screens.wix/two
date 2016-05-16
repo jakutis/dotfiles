@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+xrandr \
+  --output HDMI-1 --auto --rotate normal --preferred --primary \
+  --output eDP-1 --auto --rotate normal --below HDMI-1
