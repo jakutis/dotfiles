@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+phantomjs <(echo "require('webpage').create().open(require('system').args[1]);") http://localhost:8880/
