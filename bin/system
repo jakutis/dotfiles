@@ -53,9 +53,11 @@ function reset {
 
 function screens {
     CFG="$1"
+    shift
+
     if [ -f "$DOTFILES/screens.$MACHINE/$CFG" ]
     then
-        "$DOTFILES/screens.$MACHINE/$CFG"
+        "$DOTFILES/screens.$MACHINE/$CFG" "$@"
     else
         echo "Configuration is not a preset, parsing the definition"
         SCREEN="${CFG%%:*}"
@@ -135,7 +137,8 @@ case "$CMD" in
         echo "Status:         $(cat "$BATTERY/status")"
         ;;
     "screens")
-        screens "$2"
+        shift
+        screens "$@"
         ;;
     "net")
         "$VARIA/$MACHINE/rc.power"
