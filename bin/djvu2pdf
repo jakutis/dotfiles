@@ -56,6 +56,6 @@ do
     pdfbeads -o ../page-${PAGE}.pdf 1>>log 2>&1 || exit 1
     cd ..
 done
-pdftk $(ls *pdf) cat output "$PDF" || exit 1
+pdfunite $(ls *pdf) "$PDF" || exit 1
 cd /
 rm -rf "$DIR"
