@@ -84,6 +84,8 @@ autocmd VimEnter * syn region  texComment     start="\\begin{\w\+code}" end="\\e
 
 " scrooloose/syntastic
 let g:syntastic_tex_chktex_args = "--inputfiles --nowarn 8"
+let g:syntastic_python_python_exec = '/usr/bin/python3.4'
+let g:syntastic_python_pylint_exe = '/usr/bin/python3.4 -m pylint'
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_enable_signs = 1
