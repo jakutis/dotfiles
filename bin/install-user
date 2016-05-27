@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+LIBAVV="11.7"
 EMACSV="24.5"
 NEOVIMV="b030c905060f5275be5ef23e54030fdd4ab0dc2c"
 NEOVIMCOMMIT="b030c905060f5275be5ef23e54030fdd4ab0dc2c"
@@ -502,6 +503,19 @@ then
     curl -L "http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz" | tar zx || exit 1
     cd js-1.8.5/js/src && ./configure --prefix="$HOME/opt/js-1.8.5" && make && make install || exit 1
     cd ../../.. && rm -rf js-1.8.5 || exit 1
+fi
+
+
+if ! [ -e "opt/libav-${LIBAVV}" ]
+then
+    ensure_git libav https://git.libav.org/libav.git || exit 1
+    (cd "repos/git/libav" && git archive --format=tar --prefix=libav-build/ "v$LIBAVV") | tar xf - || exit 1
+    (cd libav-build && ./configure --prefix="$HOME/opt/libav-$LIBAVV" && make && make install) || exit 1
+    rm -rf libav-build || exit 1
+    cd opt && ln -nsf "libav-$LIBAVV" libav && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/libav/bin/avconv" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/libav/bin/avplay" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/libav/bin/avprobe" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/apache-ant-$ANTV" ]
