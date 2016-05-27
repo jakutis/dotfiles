@@ -184,7 +184,7 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mytextclock)
+    --left_layout:add(mytextclock)
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
