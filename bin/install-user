@@ -490,7 +490,23 @@ rm -rf "$HOME/go"
 if ! [ -e "opt/r-$RV" ]
 then
     svn co "https://svn.r-project.org/R/tags/$RTAG" r-build || exit 1
-    cd r-build && ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$RV" && make && make install && cd .. && rm -rf r-build || exit 1
+    cd r-build && ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$RV" || exit 1;
+    cd src/extra/xz
+    patch <<'EOF'
+diff -ru vienas/Makefile.in du/Makefile.in
+--- vienas/Makefile.in	2016-05-27 18:46:12.674367038 +0300
++++ du/Makefile.in	2016-05-27 18:46:50.717368701 +0300
+@@ -58,7 +58,7 @@
+ 	touch stamp
+ 
+ liblzma.a: $(liblzma_a_OBJECTS)
+-	$rm -f $@
++	rm -f $@
+ 	$(AR) -cr $@ $(liblzma_a_OBJECTS)
+ 	$(RANLIB) $@
+EOF
+    cd ../../..
+    make && make install && cd .. && rm -rf r-build || exit 1
     cd opt && ln -nsf "r-$RV" "r" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/r-$RV/bin/R" && cd .. || exit 1
     echo 'install.packages(c("gdata", "irr", "outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
