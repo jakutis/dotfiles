@@ -22,7 +22,31 @@ VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help hibernate suspend poweroff shutdown reboot restart powersave net screens battery brightness"
+    echo "Available commands: help hibernate suspend poweroff shutdown reboot restart powersave net screens battery brightness fan"
+}
+
+function fan {
+  LEVEL="$1"
+  if [ -z "$LEVEL" ]
+  then
+    cat /proc/acpi/ibm/fan
+  else
+    if [ "$LEVEL" = "off" ]
+    then
+      LEVEL="0"
+    elif [ "$LEVEL" = "low" ]
+    then
+      LEVEL="2"
+    elif [ "$LEVEL" = "medium" ]
+    then
+      LEVEL="4"
+    elif [ "$LEVEL" = "maximum" ]
+    then
+      LEVEL="7"
+    fi
+    # LEVEL can be number and auto and disengaged
+    echo "level $LEVEL" > /proc/acpi/ibm/fan
+  fi
 }
 
 function stop {
@@ -168,6 +192,10 @@ case "$CMD" in
         stop
         power hibernate
         reset
+        ;;
+    "fan")
+        shift
+        fan "$@"
         ;;
     "help")
         help
