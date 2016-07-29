@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+MEDIAPLAYER="cvlc"
+
 FILE="$1"
 
 if [ -z "$FILE" ]
@@ -34,7 +36,7 @@ then
             www -- "$FILE"
             ;;
         "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg")
-            cvlc -- "$FILE"
+            $MEDIAPLAYER -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
             mirage -- "$FILE"
@@ -80,9 +82,13 @@ then
             fi
             ;;
         "application/octet-stream" | "application/x-dosexec")
-            if [ "$(file --brief -- "$FILE")" = "MS Windows HtmlHelp Data" ]
+            BRIEF=$(file --brief -- "$FILE")
+            if [ "$BRIEF" = "MS Windows HtmlHelp Data" ]
             then
                 xchm -- "$FILE"
+            elif [ "$BRIEF" = "ISO Media, MPEG v4 system, 3GPP" ]
+            then
+                $MEDIAPLAYER -- "$FILE"
             else
                 hexdump -C -- "$FILE" | less
             fi
