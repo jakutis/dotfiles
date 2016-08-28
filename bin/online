@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+PROTOCOL="$1"
+HOST="$2"
+
+if [ "$PROTOCOL" = "http" -o "$PROTOCOL" = "https" ]
+then
+  while true; do sleep 1 && echo OK GO && wget "${PROTOCOL}://${HOST}/" -O /dev/null || break; done;
+elif [ "$PROTOCOL" = "icmp" ]
+then
+  while true; do sleep 1 && echo OK GO && ping -D -O -c 3 -W 3 -U -v "$HOST" || break; done;
+else
+  echo "Error: unknown protocol $PROTOCOL, only http and icmp are supported" 1>&2
+  exit 1
+fi
