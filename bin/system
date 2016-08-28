@@ -139,10 +139,10 @@ case "$CMD" in
         elif [ "$ARG" = "less" ]
         then
             echo $(($CURRENT - $STEP)) > "$DIR/brightness"
-        elif [ "$ARG" = "max" ]
+        elif [ "$ARG" = "max" -o "$ARG" = "maximum" ]
         then
             echo "$MAX" > "$DIR/brightness"
-        elif [ "$ARG" = "min" ]
+        elif [ "$ARG" = "min" -o "$ARG" = "minimum" ]
         then
             echo "$MIN" > "$DIR/brightness"
         elif [ "${ARG:(-1)}" = "%" ]
