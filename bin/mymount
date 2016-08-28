@@ -43,8 +43,15 @@ then
     then
         if [ -z "$SUBMOUNT" ]
         then
-            MOUNT="$(ls --sort=time /dev/sd?|head -n 1)"
-            MOUNT="$(ls --sort=none ${MOUNT}*|tail -n 1)"
+            for BASE in mmcblk sd
+            do
+                MOUNT="$(ls --sort=time /dev/${BASE}?|head -n 1)"
+                if [ -n "$MOUNT" ]
+                then
+                    MOUNT="$(ls --sort=none ${MOUNT}*|tail -n 1)"
+                    break
+                fi
+            done
             su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
         else
             su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o loop,uid=$(id -u) \"$SUBMOUNT\" "$DIR""
