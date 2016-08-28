@@ -145,7 +145,7 @@ endfunction
 "autocmd BufRead,BufWrite COMMIT_EDITMSG,*.m,*.cpp,*.h,*.py,*.js,*.c,*.go,*.html,*.R call EnableColorColumn()
 
 " line numbers
-set relativenumber
+set norelativenumber
 set number
 
 " current working directory
