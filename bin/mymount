@@ -26,7 +26,7 @@ then
     elif [ "$MOUNT" = "server" ]
     then
         su -c "mkdir -p "$DIR";chown $USER: "$DIR""
-        sshfs -o reconnect jakutis@jakut.is:/ "$DIR"
+        sshfs -o reconnect,allow_root jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "android" ]
     then
         su -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device 1 "$DIR" -o gid=$(id -u),allow_other"
