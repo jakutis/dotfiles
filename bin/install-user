@@ -82,9 +82,8 @@ MP4V2REV="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
 MP4V2V="$MP4V2V"
 ANTV="1.9.6"
 NZBGETV="15.0"
-PYTHONV="3.5.0"
+PYTHONV="3.5.2"
 PYTHONVERSIONFILE="3.5"
-PYTHONMAINV="2.7.10"
 QPDFVIEWV="0.4.16"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.22.7.0"
@@ -795,10 +794,10 @@ fi
 if ! [ -e "$PYENV_ROOT" ]
 then
     git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
-    CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONMAINV" || exit 1
+    CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONV" || exit 1
     eval "$(pyenv init -)" || exit 1
-    pyenv shell "$PYTHONMAINV" || exit 1
-    pyenv global "$PYTHONMAINV" || exit 1
+    pyenv shell "$PYTHONV" || exit 1
+    pyenv global "$PYTHONV" || exit 1
     for PACKAGE in cython lxml six jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
     do
         PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
@@ -813,13 +812,7 @@ else
     cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
     eval "$(pyenv init -)" || exit 1
 fi
-pyenv shell "$PYTHONMAINV"
-
-if ! [ -e "$PYENV_ROOT/versions/$PYTHONV" ]
-then
-    pyenv install "$PYTHONV" || exit 1
-    echo "$PYTHONV" > "$PYENV_ROOT/version$PYTHONVERSIONFILE"
-fi
+pyenv shell "$PYTHONV"
 
 if ! [ -e "opt/ghc-$GHCV" ]
 then
