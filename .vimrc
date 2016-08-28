@@ -222,6 +222,8 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 " kien/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
+let g:ctrlp_max_files = 0
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " airblade/vim-gitgutter
 let g:gitgutter_max_signs = 1000
