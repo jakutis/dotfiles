@@ -3,6 +3,7 @@
 set -o verbose
 set -o xtrace
 
+CALCURSEV="4.1.0"
 LIBAVV="11.7"
 EMACSV="24.5"
 NEOVIMV="b030c905060f5275be5ef23e54030fdd4ab0dc2c"
@@ -1329,4 +1330,13 @@ then
     cd docker-build && git checkout "v$DOCKERV" && make binary && cat bundles/$DOCKERV/binary/docker-$DOCKERV > "$HOME/opt/docker-$DOCKERV" && cd .. && sudo rm -rf docker-build || exit 1
     chmod +x "$HOME/opt/docker-$DOCKERV" || exit 1
     cd .bin && ln -nsf "../opt/docker-$DOCKERV" docker && cd .. || exit 1
+fi
+
+if [ "$ENABLE_CALCURSE" = "yes" -a ! -e "opt/calcurse-$CALCURSEV" ]
+then
+    ensure_git calcurse git://git.calcurse.org/calcurse.git || exit 1
+    git clone "repos/git/calcurse" calcurse-build || exit 1
+    (eval "$(pyenv init -)" && pyenv install --skip-existing 2.7.12 && pyenv shell 2.7.12 && cd "calcurse-build" && git co "v$CALCURSEV" && ./autogen.sh && ./configure --prefix="$HOME/opt/calcurse-${CALCURSEV}" && make && make install && cd .. && rm -rf "calcurse-build") || exit 1
+    cd opt && ln -nsf "calcurse-${CALCURSEV}" "calcurse" && cd .. || exit 1
+    cd .bin && (for BIN in $(ls ../opt/calcurse/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
