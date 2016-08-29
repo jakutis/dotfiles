@@ -35,7 +35,7 @@ then
         "text/html")
             www -- "$FILE"
             ;;
-        "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg")
+        "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg" | "video/x-ms-asf")
             $MEDIAPLAYER -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
@@ -86,7 +86,7 @@ then
             if [ "$BRIEF" = "MS Windows HtmlHelp Data" ]
             then
                 xchm -- "$FILE"
-            elif [ "$BRIEF" = "ISO Media, MPEG v4 system, 3GPP" ]
+            elif [ "$BRIEF" = "ISO Media, MPEG v4 system, 3GPP" -o "$BRIEF" = "Ogg data" ]
             then
                 $MEDIAPLAYER -- "$FILE"
             else
