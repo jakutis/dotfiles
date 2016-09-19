@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 MEDIAPLAYER="mplayer"
+EBOOKVIEWER="ebook-viewer"
 
 FILE="$1"
 
@@ -53,7 +54,7 @@ then
             fi
             ;;
         "application/epub+zip")
-            ebook-viewer -- "$FILE"
+            "$EBOOKVIEWER" -- "$FILE"
             ;;
         "application/pdf" | "image/vnd.djvu" | "application/postscript")
             okular -- "$FILE"
@@ -89,6 +90,9 @@ then
             elif [ "$BRIEF" = "ISO Media, MPEG v4 system, 3GPP" -o "$BRIEF" = "Ogg data" ]
             then
                 $MEDIAPLAYER -- "$FILE"
+            elif [ "$(echo "$BRIEF"| cut -f 1 -d '"')" = "Mobipocket E-book " ]
+            then
+              "$EBOOKVIEWER" -- "$FILE"
             else
                 hexdump -C -- "$FILE" | less
             fi
