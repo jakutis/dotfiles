@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+ITEM="$1"
+STORAGE_ROOT="/mnt/server/home/jakutis/etc/storage.incoming"
+STORAGE="${STORAGE_ROOT}${ITEM}"
+DESKTOP="$HOME/etc/storage${ITEM}"
+
+if [ ! -e "$STORAGE_ROOT/moves/36DG1324.FIT" ]
+then
+  echo "Please do \`mymount server\` when internet connection is working" 1>&2
+  exit 1
+fi
+
+if [ ! -n "${ITEM}" ]
+then
+  echo "Refusing to sync everything, please give an argument on what to sync." 1>&2
+  exit 1
+fi
+
+if [ ! -e "$STORAGE" ]
+then
+  echo "Please ensure that $STORAGE exists" 1>&2
+  exit 1
+fi
+
+rsync --one-file-system --archive --verbose --progress --delete "${STORAGE}/" "${DESKTOP}/"
