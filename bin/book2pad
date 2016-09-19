@@ -86,7 +86,7 @@ def addbooks(root_dir, books):
         dest = os.path.dirname(plist)
         fail_list = []
 
-        bar_len = int(int(os.popen('stty size', 'r').read().split()[1])*.75)
+        bar_len = 1#int(int(os.popen('stty size', 'r').read().split()[1])*.75)
         step_len = 0
         print('Start transferring...')
         sys.stdout.write("[%s]" % (" " * (bar_len+1)))
