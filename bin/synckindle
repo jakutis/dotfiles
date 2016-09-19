@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+KINDLE_ROOT="/mnt/floppy"
+KINDLE="$KINDLE_ROOT/documents"
+DESKTOP="$HOME/Desktop/books/kindle"
+
+if [ ! -e "$KINDLE_ROOT/system/com.amazon.ebook.booklet.reader" ]
+then
+  echo "Please do \`mymount floppy\` when Kindle is plugged in" 1>&2
+  exit 1
+fi
+
+diff <(ls "$DESKTOP" | sort) <(ls "$KINDLE" | sort) | grep -e '^<' | cut -b 3- | while read BOOK
+do
+  echo "Copying from Desktop to Kindle: $BOOK"
+  cp "$DESKTOP/$BOOK" "$KINDLE/$BOOK"
+done
+
+diff <(ls "$DESKTOP" | sort) <(ls "$KINDLE" | sort) | grep -e '^>' | cut -b 3- | while read BOOK
+do
+  echo "Copying from Kindle to Desktop: $BOOK"
+  cp "$KINDLE/$BOOK" "$DESKTOP/$BOOK"
+done
