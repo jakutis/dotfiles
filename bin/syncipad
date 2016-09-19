@@ -4,15 +4,21 @@ IPAD_ROOT="/mnt/ipad"
 IPAD="$IPAD_ROOT/Books/Purchases"
 DESKTOP="$HOME/Desktop/books/ipad"
 
+if [ ! -e "$IPAD_ROOT/Books/com.apple.ibooks-sync.plist" ]
+then
+  echo "Please do \`mymount ipad\` when iPad is plugged in" 1>&2
+  exit 1
+fi
+
 eval "$(pyenv init -)" && pyenv shell 3.5.2
 
-diff <(ls "$DESKTOP" | sort) <(ls "$IPAD" | sort) | grep -e '<' | cut -b 3- | while read BOOK
+diff <(ls "$DESKTOP" | sort) <(ls "$IPAD" | grep -v Purchases.plist | sort) | grep -e '^<' | cut -b 3- | while read BOOK
 do
   echo "Copying from Desktop to iPad: $BOOK"
   book2pad -d "$IPAD_ROOT" "$DESKTOP/$BOOK" 1>/dev/null || exit 1
 done
 
-diff <(ls "$DESKTOP" | sort) <(ls "$IPAD" | sort) | grep -e '>' | cut -b 3- | while read BOOK
+diff <(ls "$DESKTOP" | sort) <(ls "$IPAD" | grep -v Purchases.plist | sort) | grep -e '^>' | cut -b 3- | while read BOOK
 do
   echo "Copying from iPad to Desktop: $BOOK"
   cp "$IPAD/$BOOK" "$DESKTOP/$BOOK"
