@@ -17,10 +17,10 @@ then
   exit 1
 fi
 
-if [ ! -e "$STORAGE" ]
+if [ ! -d "$STORAGE" ]
 then
-  echo "Please ensure that $STORAGE exists" 1>&2
+  echo "Please ensure that $STORAGE exists and is a directory" 1>&2
   exit 1
 fi
 
-rsync --one-file-system --archive --verbose --progress --delete "${STORAGE}/" "${DESKTOP}/"
+mkdir -p "${DESKTOP}" && rsync --one-file-system --archive --verbose --progress --delete "${STORAGE}/" "${DESKTOP}/" || exit 1
