@@ -21,6 +21,9 @@ then
     MIME="$(file --dereference --brief --mime-type -- "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
     case "$MIME" in
+        "image/x-xcf")
+            gimp -- "$FILE"
+            ;;
         "image/svg+xml")
             inkview -- "$FILE"
             ;;
