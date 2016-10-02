@@ -16,7 +16,7 @@ do
   cp "$DESKTOP/$BOOK" "$KINDLE/$BOOK"
 done
 
-diff <(ls "$DESKTOP" | sort) <(ls "$KINDLE" | sort) | grep -e '^>' | cut -b 3- | while read BOOK
+diff <(ls "$DESKTOP" | sort) <(ls "$KINDLE" | sort) | grep -e '^>' | cut -b 3- | grep -v -e '.han$' | grep -v -e '.mbp$' | while read BOOK
 do
   echo "Copying from Kindle to Desktop: $BOOK"
   cp "$KINDLE/$BOOK" "$DESKTOP/$BOOK"
