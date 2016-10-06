@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-ITEM="$1"
-STORAGE_ROOT="/mnt/server/home/jakutis/etc/storage.incoming"
+ITEM="$2"
+STORAGE_ROOT="/mnt/server/home/jakutis/etc/$1"
 STORAGE="${STORAGE_ROOT}${ITEM}"
 DESKTOP="$HOME/etc/storage${ITEM}"
 
