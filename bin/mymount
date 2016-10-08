@@ -20,19 +20,19 @@ then
     echo "Mounting $DIR"
     if [ "$MOUNT" = "desktop" ]
     then
-        su -c "mkdir -p "$DIR";chown $USER: "$DIR""
+        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
         wake "$(cat "$HOME/.varia/desktop/network/ip-wake")" "$(cat "$HOME/.varia/desktop/network/mac")"
         sshfs -o reconnect -p "$(cat "$HOME/.varia/desktop/network/port")" "$(cat "$HOME/.varia/desktop/network/user")@$(cat "$HOME/.varia/desktop/network/ip"):/" "$DIR"
     elif [ "$MOUNT" = "server" ]
     then
-        su -c "mkdir -p "$DIR";chown $USER: "$DIR""
+        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
         sshfs -o reconnect,allow_root jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "android" ]
     then
-        su -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device 1 "$DIR" -o gid=$(id -u),allow_other"
+        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device 1 "$DIR" -o gid=$(id -u),allow_other"
     elif [ "$MOUNT" = "ipad" ]
     then
-        su -c "mkdir -p "$DIR";chown $USER: "$DIR""
+        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
         if [ -z "$SUBMOUNT" ]
         then
             ifuse "$DIR"
@@ -52,14 +52,14 @@ then
                     break
                 fi
             done
-            su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
+            sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
         else
-            su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o loop,uid=$(id -u) \"$SUBMOUNT\" "$DIR""
+            sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o loop,uid=$(id -u) \"$SUBMOUNT\" "$DIR""
         fi
     else
-        su -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount "$DIR""
+        sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount "$DIR""
     fi
 else
     echo "Unmounting $DIR"
-    su -c "umount -f "$DIR""
+    sudo bash -c "umount -f "$DIR""
 fi
