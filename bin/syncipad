@@ -1,25 +1,40 @@
 #!/usr/bin/env bash
 
 IPAD_ROOT="/mnt/ipad"
-IPAD="$IPAD_ROOT/Books/Purchases"
-DESKTOP="$HOME/Desktop/books/ipad"
 
-if [ ! -e "$IPAD_ROOT/Books/com.apple.ibooks-sync.plist" ]
+if [ -n "$(ls --almost-all "$IPAD_ROOT")" ]
 then
-  echo "Please do \`mymount ipad\` when iPad is plugged in" 1>&2
+  echo "Error: ipad has to be unmounted" 1>&2
   exit 1
 fi
 
+mymount ipad || exit 1
 eval "$(pyenv init -)" && pyenv shell 3.5.2
-
-diff <(ls "$DESKTOP" | sort) <(ls "$IPAD" | grep -v Purchases.plist | sort) | grep -e '^<' | cut -b 3- | while read BOOK
+BOOKS_IPAD="$IPAD_ROOT/Books/Purchases"
+BOOKS_DESKTOP="$HOME/Desktop/sync/book"
+diff <(ls "$BOOKS_DESKTOP" | sort) <(ls "$BOOKS_IPAD" | grep -v Purchases.plist | sort) | grep -e '^<' | cut -b 3- | while read BOOK
 do
   echo "Copying from Desktop to iPad: $BOOK"
-  book2pad -d "$IPAD_ROOT" "$DESKTOP/$BOOK" 1>/dev/null || exit 1
+  book2pad -d "$IPAD_ROOT" "$BOOKS_DESKTOP/$BOOK" 1>/dev/null || exit 1
 done
-
-diff <(ls "$DESKTOP" | sort) <(ls "$IPAD" | grep -v Purchases.plist | sort) | grep -e '^>' | cut -b 3- | while read BOOK
+diff <(ls "$BOOKS_DESKTOP" | sort) <(ls "$BOOKS_IPAD" | grep -v Purchases.plist | sort) | grep -e '^>' | cut -b 3- | while read BOOK
 do
   echo "Copying from iPad to Desktop: $BOOK"
-  cp "$IPAD/$BOOK" "$DESKTOP/$BOOK"
+  cp "$BOOKS_IPAD/$BOOK" "$BOOKS_DESKTOP/$BOOK"
 done
+mymount ipad || exit 1
+
+mymount ipad:com.433labs.PlainText || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/repos/git/wiki/ipad/" || exit 1
+mymount ipad || exit 1
+
+mymount ipad:com.firecore.infuse.pro || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/video/" "$IPAD_ROOT/"  || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/video/"  || exit 1
+mymount ipad || exit 1
+
+mymount ipad:com.epmakes.capricciofull || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audio/" "$IPAD_ROOT/" || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/audio/" || exit 1
+mymount ipad || exit 1
+
