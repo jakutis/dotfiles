@@ -2,6 +2,7 @@
     editor = e
     filemode = false
     autocrlf = false
+    ignorecase = false
 
 [user]
     name = Vytautas Jakutis
