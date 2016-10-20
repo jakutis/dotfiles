@@ -92,7 +92,7 @@ PANDOCV="1.15.0.6"
 NEWSBEUTERV="2.9"
 NEWSBEUTERCOMMIT="r2.9"
 MOSHV="1.2.5"
-NODEV="6.9.0"
+NODEV="6.9.1"
 ERLANGV="18.1.1"
 PODCATCHERV="3.1.7"
 PODCATCHERCOMMIT="4407f386661b51c968d050c2e12b3059946781b1"
@@ -1333,3 +1333,4 @@ then
     cd opt && ln -nsf "calcurse-${CALCURSEV}" "calcurse" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/calcurse/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
+https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
