@@ -34,7 +34,11 @@ rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "
 mymount ipad || exit 1
 
 mymount ipad:com.epmakes.capricciofull || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audio/" "$IPAD_ROOT/" || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/audio/" || exit 1
+mkdir --parents "$IPAD_ROOT/audiobook" || exit 1
+mkdir --parents "$IPAD_ROOT/music" || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audiobook/" "$IPAD_ROOT/audiobook/" || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/audiobook/" "$HOME/Desktop/sync/audiobook/" || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/music/" "$IPAD_ROOT/music/" || exit 1
+rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/music/" "$HOME/Desktop/sync/music/" || exit 1
 mymount ipad || exit 1
 
