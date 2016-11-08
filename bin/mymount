@@ -29,7 +29,11 @@ then
         sshfs -o reconnect,allow_root jakutis@jakut.is:/ "$DIR"
     elif [ "$MOUNT" = "android" ]
     then
-        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device 1 "$DIR" -o gid=$(id -u),allow_other"
+        if [ -z "$SUBMOUNT" ]
+        then
+          SUBMOUNT="1"
+        fi
+        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device "$SUBMOUNT" "$DIR" -o gid=$(id -u),allow_other"
     elif [ "$MOUNT" = "ipad" ]
     then
         sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
