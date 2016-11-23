@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+if [ -z "$CMD" ]; then
+  echo -n "Please provide the command [ENTER]: "
+  read CMD
+fi
+
+if [ -z "$ARGUMENTS" ]; then
+  echo -n "Please provide space-separated list of first arguments for the command [ENTER]: "
+  read ARGUMENTS
+fi
+
+arguments=( $ARGUMENTS )
+
+tmux new-window "$CMD ${arguments[0]}"
+unset arguments[0];
+for i in "${arguments[@]}"; do
+  tmux split-window -h  "$CMD $i"
+  tmux select-layout tiled > /dev/null
+done
+tmux select-pane -t 0
+tmux set-window-option synchronize-panes on > /dev/null
