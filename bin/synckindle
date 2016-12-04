@@ -2,7 +2,7 @@
 
 KINDLE_ROOT="/mnt/floppy"
 KINDLE="$KINDLE_ROOT/documents"
-DESKTOP="$HOME/Desktop/tosync/kindle"
+DESKTOP="$HOME/Desktop/sync/kindle"
 
 if [ ! -e "$KINDLE_ROOT/system/com.amazon.ebook.booklet.reader" ]
 then
