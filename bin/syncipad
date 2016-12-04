@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+CLEAR="no"
+if [ "$1" = "clear" ]
+then
+  CLEAR="yes"
+fi
+
+REMOVE="no"
+if [ "$1" = "remove" ]
+then
+  REMOVE="yes"
+fi
+
 IPAD_ROOT="/mnt/ipad"
 
 if [ -n "$(ls --almost-all "$IPAD_ROOT")" ]
@@ -7,38 +19,106 @@ then
   echo "Error: ipad has to be unmounted" 1>&2
   exit 1
 fi
+idevicepair pair || exit 1
 
 mymount ipad || exit 1
-eval "$(pyenv init -)" && pyenv shell 3.5.2
 BOOKS_IPAD="$IPAD_ROOT/Books/Purchases"
-BOOKS_DESKTOP="$HOME/Desktop/sync/book"
-diff <(ls "$BOOKS_DESKTOP" | sort) <(ls "$BOOKS_IPAD" | grep -v Purchases.plist | sort) | grep -e '^<' | cut -b 3- | while read BOOK
-do
-  echo "Copying from Desktop to iPad: $BOOK"
-  book2pad -d "$IPAD_ROOT" "$BOOKS_DESKTOP/$BOOK" 1>/dev/null || exit 1
-done
-diff <(ls "$BOOKS_DESKTOP" | sort) <(ls "$BOOKS_IPAD" | grep -v Purchases.plist | sort) | grep -e '^>' | cut -b 3- | while read BOOK
-do
-  echo "Copying from iPad to Desktop: $BOOK"
-  cp "$BOOKS_IPAD/$BOOK" "$BOOKS_DESKTOP/$BOOK"
-done
+BOOKS_DESKTOP="$HOME/Desktop/sync/ibooks"
+if [ "$CLEAR" = "yes" ]
+then
+  echo "# Clearing iBooks"
+  rm --force --recursive "$IPAD_ROOT/Books"
+  echo "# Clearing Photos"
+  rm --force --recursive "$IPAD_ROOT/DCIM" "$IPAD_ROOT/Photos" "$IPAD_ROOT/PhotoData"
+elif [ "$REMOVE" = "yes" ]
+then
+  for I in $(seq 2 $#)
+  do
+    ARG="${!I}"
+    ITEM="${ARG#*/}"
+    CLASS="${ARG%%/*}"
+    if [ "$CLASS" = "ibooks" ]
+    then
+      rm "$BOOKS_DESKTOP/$ITEM" || exit 1
+      rm "$BOOKS_IPAD/$ITEM" || exit 1
+    fi
+  done
+else
+  eval "$(pyenv init -)" && pyenv shell 3.5.2
+  mkdir --parents "$BOOKS_DESKTOP" || exit 1
+  diff <(ls "$BOOKS_DESKTOP" | sort) <(ls "$BOOKS_IPAD" | grep -v Purchases.plist | sort) | grep -e '^<' | cut -b 3- | while read BOOK
+  do
+    echo "# Copying a book from Desktop to iPad: $BOOK"
+    book2pad -d "$IPAD_ROOT" "$BOOKS_DESKTOP/$BOOK" 1>/dev/null || exit 1
+  done
+  diff <(ls "$BOOKS_DESKTOP" | sort) <(ls "$BOOKS_IPAD" | grep -v Purchases.plist | sort) | grep -e '^>' | cut -b 3- | while read BOOK
+  do
+    echo "# Copying a book from iPad to Desktop: $BOOK"
+    cp "$BOOKS_IPAD/$BOOK" "$BOOKS_DESKTOP/$BOOK"
+  done
+  mkdir --parents "$HOME/Desktop/sync/photos" || exit 1
+  mkdir --parents "$IPAD_ROOT/DCIM/100APPLE" || exit 1
+  rm --force --recursive "$IPAD_ROOT/DCIM/.MISC" || exit 1
+  echo "# Copying photos from Desktop to iPad"
+  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/photos/" "$IPAD_ROOT/DCIM/100APPLE/"  || exit 1
+  echo "# Copying photos from iPad to Desktop"
+  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/DCIM/100APPLE/" "$HOME/Desktop/sync/photos/"  || exit 1
+fi
 mymount ipad || exit 1
 
 mymount ipad:com.433labs.PlainText || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/repos/git/wiki/ipad/" || exit 1
+mkdir --parents "$HOME/repos/git/wiki/ipad" || exit 1
+if [ "$CLEAR" = "yes" ]
+then
+  echo "# Clearing PlainText"
+  rm --force --recursive "$IPAD_ROOT/"*
+elif [ "$REMOVE" = "yes" ]
+then
+  exit 1
+else
+  echo "# Copying notes from iPad to Desktop"
+  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/repos/git/wiki/ipad/" || exit 1
+fi
 mymount ipad || exit 1
 
 mymount ipad:com.firecore.infuse.pro || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/video/" "$IPAD_ROOT/"  || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/video/"  || exit 1
+if [ "$CLEAR" = "yes" ]
+then
+  echo "# Clearing Infuse Pro"
+  rm --force --recursive "$IPAD_ROOT/"*
+elif [ "$REMOVE" = "yes" ]
+then
+  exit 1
+else
+  mkdir --parents "$HOME/Desktop/sync/video" || exit 1
+  echo "# Copying videos from Desktop to iPad"
+  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/video/" "$IPAD_ROOT/"  || exit 1
+  echo "# Copying videos from iPad to Desktop"
+  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/video/"  || exit 1
+fi
 mymount ipad || exit 1
 
 mymount ipad:com.epmakes.capricciofull || exit 1
-mkdir --parents "$IPAD_ROOT/audiobook" || exit 1
-mkdir --parents "$IPAD_ROOT/music" || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audiobook/" "$IPAD_ROOT/audiobook/" || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/audiobook/" "$HOME/Desktop/sync/audiobook/" || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/music/" "$IPAD_ROOT/music/" || exit 1
-rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/music/" "$HOME/Desktop/sync/music/" || exit 1
+if [ "$CLEAR" = "yes" ]
+then
+  echo "# Clearing Capriccio"
+  rm --force --recursive "$IPAD_ROOT/"*
+elif [ "$REMOVE" = "yes" ]
+then
+  exit 1
+else
+  mkdir --parents "$IPAD_ROOT/audiobook" || exit 1
+  mkdir --parents "$IPAD_ROOT/music" || exit 1
+  mkdir --parents "$HOME/Desktop/sync/music" || exit 1
+  mkdir --parents "$HOME/Desktop/sync/audiobook" || exit 1
+  echo "# Copying audiobooks from Desktop to iPad"
+  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audiobook/" "$IPAD_ROOT/audiobook/" || exit 1
+  echo "# Copying audiobooks from iPad to Desktop"
+  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/audiobook/" "$HOME/Desktop/sync/audiobook/" || exit 1
+  echo "# Copying music from Desktop to iPad"
+  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/music/" "$IPAD_ROOT/music/" || exit 1
+  echo "# Copying music from iPad to Desktop"
+  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/music/" "$HOME/Desktop/sync/music/" || exit 1
+fi
 mymount ipad || exit 1
 
