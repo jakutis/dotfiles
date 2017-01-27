@@ -19,6 +19,10 @@ then
   exit 0
 fi
 
+echo "$INPUT: Converting to wav"
+WAV="$(mktemp --suffix=.wav)"
+ffmpeg -loglevel quiet -nostats -y -i "$INPUT" -f wav "$WAV" </dev/null || exit 1
 echo "$INPUT: Converting to mp3"
-ffmpeg -loglevel quiet -nostats -i "$INPUT" -f wav - 2>/dev/null | lame --silent -V0 - "$OUTPUT"
+lame --silent -V0 "$WAV" "$OUTPUT" || exit 1
+rm "$WAV"
 echo "$INPUT: Done"
