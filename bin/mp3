@@ -9,4 +9,4 @@ then
   exit 0
 fi
 
-ffmpeg -i "$FILE" -f wav - | lame -V0 - "$(basename "$FILE" "$EXT")"
+ffmpeg -i "$FILE" -f wav - | lame -V0 - "$(basename "$FILE" "$EXT").mp3"
