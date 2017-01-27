@@ -6,14 +6,19 @@ EXT="${INPUT##*.}"
 
 if [ "$EXT" = "mp3" ]
 then
+  echo "$INPUT: Nothing to do. Already an mp3 file."
   exit 0
 fi
 
+cd "$(dirname "$INPUT")"
 OUTPUT="$(basename "$INPUT" "$EXT")mp3"
 
 if [ -e "$OUTPUT" ]
 then
+  echo "$INPUT: Nothing to do. An mp3 file already exists."
   exit 0
 fi
 
-ffmpeg -i "$INPUT" -f wav - | lame -V0 - "$OUTPUT"
+echo "$INPUT: Converting to mp3"
+ffmpeg -loglevel quiet -nostats -i "$INPUT" -f wav - 2>/dev/null | lame --silent -V0 - "$OUTPUT"
+echo "$INPUT: Done"
