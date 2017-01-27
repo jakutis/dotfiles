@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-FILE="$1"
+INPUT="$1"
 
-EXT="${FILE##*.}"
+EXT="${INPUT##*.}"
 
 if [ "$EXT" = "mp3" ]
 then
   exit 0
 fi
 
-ffmpeg -i "$FILE" -f wav - | lame -V0 - "$(basename "$FILE" "$EXT")mp3"
+OUTPUT="$(basename "$INPUT" "$EXT")mp3"
+
+if [ -e "$OUTPUT" ]
+then
+  exit 0
+fi
+
+ffmpeg -i "$INPUT" -f wav - | lame -V0 - "$OUTPUT"
