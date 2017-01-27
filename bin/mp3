@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+FILE="$1"
+
+EXT="${FILE##*.}"
+
+if [ "$EXT" = "mp3" ]
+then
+  exit 0
+fi
+
+ffmpeg -i "$FILE" -f wav - | lame -V0 - "$(basename "$FILE" "$EXT")"
