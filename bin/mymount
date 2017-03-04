@@ -27,6 +27,10 @@ then
     then
         sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
         sshfs -o reconnect,allow_root jakutis@jakut.is:/ "$DIR"
+    elif [ "$MOUNT" = "owncloud" ]
+    then
+        sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
+        sudo mount -t davfs -o uid=jakutis https://vytautasjakutis.com/remote.php/webdav "$DIR"
     elif [ "$MOUNT" = "android" ]
     then
         if [ -z "$SUBMOUNT" ]
