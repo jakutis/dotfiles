@@ -3,6 +3,9 @@ set send_charset="utf-8"
 macro compose <f2> "C^U/tmp/email.markdown\noa^U/tmp/email.markdown\nukFpandoc -s -f markdown -t html\ny^T^Utext/html; charset=utf-8\n"
 set wait_key=no
 
+set mime_forward
+set mime_forward_rest=yes
+
 set mbox_type=Maildir
 set folder="~/Maildir"
 set mask="!^\\.[^.]"
@@ -13,8 +16,6 @@ set spoolfile="~/Maildir"
 
 auto_view text/html
 alternative_order text/plain text/html
-
-auto_view application/ics text/calendar
 
 set from="vytautas@jakut.is"
 set hostname="jakut.is"
