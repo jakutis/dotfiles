@@ -3,32 +3,42 @@
 VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 PODCASTLIST="$VARIA/podcasts.txt"
 SOUNDCLOUDLIST="$VARIA/soundcloud.txt"
-PODCASTDIR="/home/jakutis/etc/storage/podcasts"
+PODCASTDIR="$(pwd)"
 
 function fix_podcast_tags {
     PODCAST="$1"
-    ls $PODCASTDIR/$PODCAST/*.mp3 | (
+    ls "$PODCASTDIR/$PODCAST"/*.mp3 | (
         while read FILE
         do
-            INFO="$(audiotools info "$FILE")"
+            ID3_ARTIST="$(id3info "$FILE" | grep '^=== TPE1' | cut -f 2 -d ':' | xargs)"
+            ID3_SONG="$(id3info "$FILE" | grep '^=== TIT2' | cut -f 2 -d ':' | xargs)"
+            ID3_ALBUM="$(id3info "$FILE" | grep '^=== TALB' | cut -f 2 -d ':' | xargs)"
             TITLE="$(basename "$FILE" .mp3)"
-            if ! [ "$(echo "$INFO" | awk 'NR==1{print;exit}')" = "$PODCAST" -a "$(echo "$INFO" | awk 'NR==2{print;exit}')" = "$TITLE" -a "$(echo "$INFO" | awk 'NR==3{print;exit}')" = "$PODCAST" ]
+            if ! [ "$ID3_ARTIST" = "$PODCAST" -a "$ID3_SONG" = "$TITLE" -a "$ID3_ALBUM" = "$PODCAST" ]
             then
-                eyeD3 --remove-all "$FILE"
-                id3tag --artist="$PODCAST" --song="$TITLE" --album="$PODCAST" "$FILE"
+                TIME=$(date --date=@$(stat --format=%Y "$FILE") --utc '+%Y-%m-%d %H-%M-%S')
+
+                mv "$FILE" "$PODCASTDIR/$PODCAST/$TIME ${TITLE}.mp3"
+                FILE="$PODCASTDIR/$PODCAST/$TIME ${TITLE}.mp3"
+                TITLE="$TIME $TITLE"
+
+                # TODO track, total, year
+                id3convert --strip "$FILE"
+                id3tag --artist="$PODCAST" --song="$TITLE" --album="$PODCAST" --genre="Other" "$FILE"
             fi
         done
     )
 }
 
-cat "$SOUNDCLOUDLIST" | while read PODCAST
+#cat "$SOUNDCLOUDLIST" | while read PODCAST
+echo -n | while read PODCAST
 do
     DIR="$PODCASTDIR/$PODCAST"
     mkdir "$DIR" -p
     echo "scsync $PODCAST"
     scsync --gap=2419200000 --maxTracks=100 --directory="$DIR" --artist="$PODCAST"
     echo "tag $PODCAST"
-#    fix_podcast_tags "$PODCAST"
+    fix_podcast_tags "$PODCAST"
 done
 
 cat "$PODCASTLIST" | (
@@ -39,8 +49,8 @@ cat "$PODCASTLIST" | (
         DIR="$PODCASTDIR/$PODCAST"
         echo "podcatcher $PODCAST"
         mkdir "$DIR" -p
-        podcatcher -d "$PODCASTDIR/.podcatcher" -D "$DIR" --no-perfeed -s 0 -S chron -m 0 -f 0 "$URL"
+        podcatcher -d "$PODCASTDIR/.podcatcher" -D "$DIR" --no-perfeed -s 0 -S chron -m 0 -f 0 --restrictednames "$URL"
         echo "tag $PODCAST"
-#        fix_podcast_tags "$PODCAST"
+        fix_podcast_tags "$PODCAST"
     done
 )
