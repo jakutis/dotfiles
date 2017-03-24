@@ -167,8 +167,9 @@ fi
 
 cd "$HOME"
 
-mkdir --parents ".local/share/applications"
-cd ".local/share/applications"
+mkdir --parents "$XDG_DATA_HOME/dotfiles"
+mkdir --parents "$XDG_DATA_HOME/applications"
+cd "$XDG_DATA_HOME/applications"
 for APP in $(ls "$DOTFILES/applications")
 do
     ln -nsf "$DOTFILES/applications/$APP"
