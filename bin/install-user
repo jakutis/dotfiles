@@ -227,13 +227,6 @@ ln -nsf "$DOTFILES/.config/fontconfig" "$XDG_CONFIG_HOME/fontconfig"
 mkdir --parents .mc
 mkdir --parents .irssi
 mkdir --parents .VirtualBox
-mkdir --parents .vimbackup
-mkdir --parents .vimtmp
-mkdir --parents .vimsession
-mkdir --parents .vim
-ln -nsf "$DOTFILES/.vimrc" .vimrc
-ln -nsf "$DOTFILES/.vimrc" .vim/init.vim
-ln -nsf "$(pwd)/.vim" "$XDG_CONFIG_HOME/nvim"
 
 function ensure_svn {
     REPO="$1"
@@ -901,12 +894,17 @@ then
     cd ..
 fi
 
-mkdir --parents .vimtmp .vimbackup .vimsession
+mkdir --parents .vimtmp .vimbackup .vimsession || exit 1
+ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
+
 if [ -e ".vim" ]
 then
-    vim +PluginUpdate +qall || exit 1
+  vim +PluginUpdate +qall || exit 1
 else
-    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall || exit 1
+  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim || exit 1
+  ln -nsf "$DOTFILES/.vimrc" .vim/init.vim || exit 1
+  ln -nsf "$(pwd)/.vim" "$XDG_CONFIG_HOME/nvim" || exit 1
+  vim +PluginInstall +qall || exit 1
 fi
 
 if ! [ -e "opt/emacs-$EMACSV" ]
