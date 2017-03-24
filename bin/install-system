@@ -87,3 +87,8 @@ then
     ln -nsf "$VARIA/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
 fi
 
+if [ "$MACHINE" = "wix" ]
+then
+  systemctl disable NetworkManager && systemctl stop NetworkManager || exit 1
+  ln -nsf "$VARIA/wix/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
+fi
