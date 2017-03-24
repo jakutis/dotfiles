@@ -310,7 +310,7 @@ then
     cd .bin && (for BIN in $(ls ../opt/automake/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
-if ! [ -e "opt/llvm-${LLVMV}" ]
+if [ "$ENABLE_LLVM" = "yes" -a ! -e "opt/llvm-${LLVMV}" ]
 then
     curl -L "http://llvm.org/releases/${LLVMV}/llvm-${LLVMV}.src.tar.gz" | tar zxf - || exit 1
     curl -L "http://llvm.org/releases/${LLVMV}/clang-${LLVMV}.src.tar.gz" | tar zxf - || exit 1
@@ -324,7 +324,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/glibc-$GLIBCV" ]
+if [ "$ENABLE_GLIBC" = "yes" -a ! -e "opt/glibc-$GLIBCV" ]
 then
     curl -L "http://ftp.gnu.org/gnu/glibc/glibc-${GLIBCV}.tar.xz" | tar Jxf - || exit 1
     mkdir "glibc-build"
@@ -346,81 +346,93 @@ do
     fi
 done
 
-ensure_git_dir .emacs.d https://github.com/syl20bnr/spacemacs
+if [ "$ENABLE_EMACS" = "yes" ]
+then
+    ensure_git_dir .emacs.d https://github.com/syl20bnr/spacemacs
+fi
 
-ensure_git php-version https://github.com/wilmoore/php-version || exit 1
-(cd opt && rm -rf php-version && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version/" master) | tar xf -) || exit 1
-mkdir --parents .phps || exit 1
+if [ "$ENABLE_PHP" = "yes" ]
+then
+    ensure_git php-version https://github.com/wilmoore/php-version || exit 1
+    (cd opt && rm -rf php-version && (cd "../repos/git/php-version" && git archive --format=tar --prefix="php-version/" master) | tar xf -) || exit 1
+    mkdir --parents .phps || exit 1
 
-ensure_git php-build https://github.com/CHH/php-build || exit 1
-(cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" master) | tar xf - || exit 1
-rm -rf opt/php-build && cd php-build-build && PREFIX="$HOME/opt/php-build" ./install.sh && cd .. && rm -rf php-build-build || exit 1
-cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
+    ensure_git php-build https://github.com/CHH/php-build || exit 1
+    (cd "repos/git/php-build" && git archive --format=tar --prefix="php-build-build/" master) | tar xf - || exit 1
+    rm -rf opt/php-build && cd php-build-build && PREFIX="$HOME/opt/php-build" ./install.sh && cd .. && rm -rf php-build-build || exit 1
+    cd .bin && ln -nsf "../opt/php-build/bin/php-build" && cd .. || exit 1
 
-ensure_git php https://github.com/php/php-src.git || exit 1
-for PHPV in "${PHPVS[@]}"
-do
-    if ! [ -e "opt/php-$PHPV" ]
-    then
-        (cd "repos/git/php" && git archive --format=tar --prefix="$PHPV/" "php-$PHPV") > "$HOME/php-build.tar" || exit 1
-        echo "
-cd \$TMP/source && tar xf "$HOME/php-build.tar" && cd "$PHPV" && ./buildconf --copy --force && ./genfiles && build_package || exit 1
-install_pyrus
-enable_builtin_opcache
-" > "opt/php-build/share/php-build/definitions/$PHPV"
-        PHP_BUILD_CONFIGURE_OPTS="--with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt=shared --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl" php-build "$PHPV" "$HOME/opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
-        rm "$HOME/php-build.tar" || exit 1
-        [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")" || exit 1
-
-        if ! [ "${PHPV:0:4}" != "5.7." ]
+    ensure_git php https://github.com/php/php-src.git || exit 1
+    for PHPV in "${PHPVS[@]}"
+    do
+        if ! [ -e "opt/php-$PHPV" ]
         then
-          ensure_git php-zmq https://github.com/mkoppanen/php-zmq || exit 1
-          (cd "repos/git/php-zmq" && git archive --format=tar --prefix=php-zmq-build/ "$PHPZMQV") | tar xf - || exit 1
-          cd php-zmq-build && phpize && ./configure && make && make install && cd .. && rm -rf php-zmq-build || exit 1
+            (cd "repos/git/php" && git archive --format=tar --prefix="$PHPV/" "php-$PHPV") > "$HOME/php-build.tar" || exit 1
+            echo "
+    cd \$TMP/source && tar xf "$HOME/php-build.tar" && cd "$PHPV" && ./buildconf --copy --force && ./genfiles && build_package || exit 1
+    install_pyrus
+    enable_builtin_opcache
+    " > "opt/php-build/share/php-build/definitions/$PHPV"
+            PHP_BUILD_CONFIGURE_OPTS="--with-openssl --with-pdo-mysql --enable-apc --enable-fpm --enable-zip --enable-mbstring --with-gd --with-zlib --with-curl --enable-fileinfo --with-bz2 --enable-intl --with-mcrypt=shared --with-openssl --enable-exif --with-fpm-user=www-data --with-fpm-group=www-data --with-mysql --enable-pcntl" php-build "$PHPV" "$HOME/opt/php-$PHPV" && cd .phps && ln -nsf "../opt/php-$PHPV" "$PHPV" && cd .. && echo "$PHPV" > .php || exit 1
+            rm "$HOME/php-build.tar" || exit 1
+            [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")" || exit 1
 
-          ensure_git xdebug https://github.com/xdebug/xdebug || exit 1
-          (cd "repos/git/xdebug" && git archive --format=tar --prefix=xdebug-build/ "$XDEBUGTAG") | tar xf - || exit 1
-          cd xdebug-build && phpize && ./configure --enable-xdebug && make && make install && cd .. && rm -rf xdebug-build || exit 1
+            if ! [ "${PHPV:0:4}" != "5.7." ]
+            then
+              ensure_git php-zmq https://github.com/mkoppanen/php-zmq || exit 1
+              (cd "repos/git/php-zmq" && git archive --format=tar --prefix=php-zmq-build/ "$PHPZMQV") | tar xf - || exit 1
+              cd php-zmq-build && phpize && ./configure && make && make install && cd .. && rm -rf php-zmq-build || exit 1
+
+              ensure_git xdebug https://github.com/xdebug/xdebug || exit 1
+              (cd "repos/git/xdebug" && git archive --format=tar --prefix=xdebug-build/ "$XDEBUGTAG") | tar xf - || exit 1
+              cd xdebug-build && phpize && ./configure --enable-xdebug && make && make install && cd .. && rm -rf xdebug-build || exit 1
+            fi
         fi
+    done
+
+    curl -L https://getcomposer.org/composer.phar > .bin/composer && chmod +x .bin/composer || exit 1
+    if [ -z "$(which phpcs)" ]
+    then
+        composer global require squizlabs/php_codesniffer:1.5.* || exit 1
     fi
-done
-
-curl -L https://getcomposer.org/composer.phar > .bin/composer && chmod +x .bin/composer || exit 1
-if [ -z "$(which phpcs)" ]
-then
-    composer global require squizlabs/php_codesniffer:1.5.* || exit 1
-fi
-if [ -z "$(which phpunit)" ]
-then
-    composer global require phpunit/phpunit:4.2.* || exit 1
-fi
-if [ -z "$(which phpmd)" ]
-then
-    composer global require phpmd/phpmd:2.0.* || exit 1
-fi
-composer global update || exit 1
-
-curl -L https://raw.githubusercontent.com/yrashk/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
-
-if ! [ -e "opt/erlang-$ERLANGV" ]
-then
-    kerl build git https://github.com/erlang/otp.git OTP-$ERLANGV $ERLANGV && kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV" || exit 1
-    cd opt && ln -nsf "erlang-$ERLANGV" "erlang" && cd .. || exit 1
+    if [ -z "$(which phpunit)" ]
+    then
+        composer global require phpunit/phpunit:4.2.* || exit 1
+    fi
+    if [ -z "$(which phpmd)" ]
+    then
+        composer global require phpmd/phpmd:2.0.* || exit 1
+    fi
+    composer global update || exit 1
 fi
 
-if ! [ -e ".nvm" ]
+if [ "$ENABLE_ERLANG" = "yes" ]
 then
-    git clone https://github.com/creationix/nvm .nvm && source .nvm/nvm.sh || exit 1
-else
-    cd .nvm && git pull --rebase && cd .. || exit 1
+    curl -L https://raw.githubusercontent.com/yrashk/kerl/master/kerl > .bin/kerl && chmod +x .bin/kerl && kerl update releases || exit 1
+
+    if ! [ -e "opt/erlang-$ERLANGV" ]
+    then
+        kerl build git https://github.com/erlang/otp.git OTP-$ERLANGV $ERLANGV && kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV" || exit 1
+        cd opt && ln -nsf "erlang-$ERLANGV" "erlang" && cd .. || exit 1
+    fi
 fi
 
-if ! [ -e ".nvm/versions/node/v$NODEV" ]
+if [ "$ENABLE_NODE" = "yes" ]
 then
-    "$DOTFILES/bin/nodeup" "$NODEV"
+    if ! [ -e ".nvm" ]
+    then
+        git clone https://github.com/creationix/nvm .nvm && source .nvm/nvm.sh || exit 1
+    else
+        cd .nvm && git pull --rebase && cd .. || exit 1
+    fi
+
+    if ! [ -e ".nvm/versions/node/v$NODEV" ]
+    then
+        "$DOTFILES/bin/nodeup" "$NODEV"
+    fi
 fi
 
-if ! [ -e "opt/imagemagick-${IMAGEMAGICKV}" ]
+if [ "$ENABLE_IMAGEMAGICK" = "yes" -a ! -e "opt/imagemagick-${IMAGEMAGICKV}" ]
 then
     curl -L "http://www.imagemagick.org/download/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
     cd "ImageMagick-${IMAGEMAGICKV}" && ./configure --prefix=${HOME}/opt/imagemagick-${IMAGEMAGICKV} --with-quantum-depth=8 --with-modules --without-perl --with-bzlib --with-x --with-zlib --with-autotrace --without-dps --with-djvu --with-fftw --without-fpx --with-fontconfig --with-freetype --with-gslib --with-gvc --with-jbig --with-jpeg --with-lcms --with-lcms2 --without-openjp2 --with-lqr --with-lzma --with-mupdf --with-openexr --with-pango --with-png --with-rsvg --with-tiff --without-webp --with-wmf --with-xml --disable-hdri --enable-deprecated --enable-opencl --enable-openmp && make && make install || exit 1
@@ -436,54 +448,62 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/graphicsmagick-${GRAPHICSMAGICKV}" ]
+if [ "$ENABLE_GRAPHICSMAGICK" = "yes" -a ! -e "opt/graphicsmagick-${GRAPHICSMAGICKV}" ]
 then
     ensure_hg graphicsmagick http://hg.code.sf.net/p/graphicsmagick/code || exit 1
     (cd "$HOME/repos/hg/graphicsmagick" && hg archive -r "$GRAPHICSMAGICKTAG" ../../../graphicsmagick-build) || exit 1
     cd graphicsmagick-build && ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install && cd .. && rm -rf graphicsmagick-build || exit 1
 fi
 
-if ! [ -e ".rvm" ]
+if [ "$ENABLE_RUBY" = "yes" ]
 then
-    curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --autolibs=read-fail || exit 1
-else
-    rvm get head || exit 1
-fi
-source .rvm/scripts/rvm
-
-if ! [ -e ".rvm/rubies/ruby-$RUBYV" ]
-then
-    rvm install "$RUBYV" && rvm --default use "$RUBYV" && rvm default || exit 1
-    LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass blankslate haml bundler lolcat || exit 1
-    rvm docs generate-ri || exit 1
-fi
-GEM_DIR=$(rvm gemdir 2>/dev/null)
-
-if ! [ -e "$GVM_ROOT" ]
-then
-    git clone https://github.com/moovweb/gvm "$GVM_ROOT" && mkdir "$GVM_ROOT/logs" && source "$GVM_ROOT/scripts/gvm-default" || exit 1
-    export GOROOT_BOOTSTRAP="$HOME/go"
-    curl -L https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz | tar zx || exit 1
-else
-    pushd .
-    cd "$GVM_ROOT"
-    if ! [ -e ".git" ]
+    if ! [ -e ".rvm" ]
     then
-        mv git.bak .git
+        curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --autolibs=read-fail || exit 1
+    else
+        rvm get head || exit 1
     fi
-    git pull --rebase || exit 1
-    popd
-    source "$GVM_ROOT/scripts/gvm-default" || exit 1
+    source .rvm/scripts/rvm
+
+    if ! [ -e ".rvm/rubies/ruby-$RUBYV" ]
+    then
+        rvm install "$RUBYV" && rvm --default use "$RUBYV" && rvm default || exit 1
+        #LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass blankslate haml bundler lolcat || exit 1
+        gem install jekyll compass bundler haml rainbow scss-lint || exit 1
+        gem install tilt --version 2.0.6 || exit 1
+        rvm docs generate-ri || exit 1
+    fi
+    GEM_DIR=$(rvm gemdir 2>/dev/null)
 fi
 
-if ! [ -e "$GVM_ROOT/gos/go${GOV}" ]
+if [ "$ENABLE_GO" = "yes" ]
 then
-    gvm alias delete default
-    gvm install "go${GOV}" && gvm alias create default "go${GOV}" && gvm use default || exit 1
-fi
-rm -rf "$HOME/go"
+    if ! [ -e "$GVM_ROOT" ]
+    then
+        git clone https://github.com/moovweb/gvm "$GVM_ROOT" && mkdir "$GVM_ROOT/logs" && source "$GVM_ROOT/scripts/gvm-default" || exit 1
+        export GOROOT_BOOTSTRAP="$HOME/go"
+        curl -L https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz | tar zx || exit 1
+    else
+        pushd .
+        cd "$GVM_ROOT"
+        if ! [ -e ".git" ]
+        then
+            mv git.bak .git
+        fi
+        git pull --rebase || exit 1
+        popd
+        source "$GVM_ROOT/scripts/gvm-default" || exit 1
+    fi
 
-if ! [ -e "opt/r-$RV" ]
+    if ! [ -e "$GVM_ROOT/gos/go${GOV}" ]
+    then
+        gvm alias delete default
+        gvm install "go${GOV}" && gvm alias create default "go${GOV}" && gvm use default || exit 1
+    fi
+    rm -rf "$HOME/go"
+fi
+
+if [ "$ENABLE_R" = "yes" -a ! -e "opt/r-$RV" ]
 then
     svn co "https://svn.r-project.org/R/tags/$RTAG" r-build || exit 1
     cd r-build && ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$RV" || exit 1;
@@ -519,7 +539,7 @@ then
 fi
 
 
-if ! [ -e "opt/libav-${LIBAVV}" ]
+if [ "$ENABLE_LIBAV" = "yes" -a ! -e "opt/libav-${LIBAVV}" ]
 then
     ensure_git libav https://git.libav.org/libav.git || exit 1
     (cd "repos/git/libav" && git archive --format=tar --prefix=libav-build/ "v$LIBAVV") | tar xf - || exit 1
@@ -531,7 +551,7 @@ then
     cd .bin && ln -nsf "../opt/libav/bin/avprobe" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/apache-ant-$ANTV" ]
+if [ "$ENABLE_ANT" = "yes" -a ! -e "opt/apache-ant-$ANTV" ]
 then
     wget http://apache.mirror.serveriai.lt//ant/binaries/apache-ant-$ANTV-bin.tar.bz2 || exit 1
     (echo "$(curl https://www.apache.org/dist/ant/binaries/apache-ant-$ANTV-bin.tar.bz2.sha512) apache-ant-$ANTV-bin.tar.bz2"|sha512sum --check) || exit 1
@@ -542,7 +562,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/apache-maven-${MAVENV}" ]
+if [ "$ENABLE_MAVEN" = "yes" -a ! -e "opt/apache-maven-${MAVENV}" ]
 then
     ensure_git maven https://github.com/apache/maven || exit 1
     (cd "repos/git/maven" && git archive --format=tar --prefix=maven-build/ "maven-$MAVENV") | tar xf - || exit 1
@@ -550,7 +570,7 @@ then
     rm -rf maven-build && cd .bin && ln -nsf "../opt/apache-maven/bin/mvn" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/scala-$SCALAV" ]
+if [ "$ENABLE_SCALA" = "yes" -a ! -e "opt/scala-$SCALAV" ]
 then
     ensure_git scala https://github.com/scala/scala || exit 1
     git clone repos/git/scala scala-build && cd scala-build && git co "v$SCALAV" && ant && mv build/pack "$HOME/opt/scala-$SCALAV" && cd .. && rm -rf scala-build || exit 1
@@ -561,7 +581,7 @@ then
     done
 fi
 
-if ! [ -e "opt/sbt-$SBTV" ]
+if [ "$ENABLE_SBT" = "yes" -a ! -e "opt/sbt-$SBTV" ]
 then
     ensure_git sbt https://github.com/sbt/sbt || exit 1
     git clone repos/git/sbt sbt-build && cd sbt-build && git co "v$SBTV" && cd .. || exit 1
@@ -569,7 +589,7 @@ then
     cd opt && ln -nsf "sbt-$SBTV" sbt && cd .. || exit 1
 fi
 
-if ! [ -e "opt/hub-$HUBV" ]
+if [ "$ENABLE_HUB" = "yes" -a ! -e "opt/hub-$HUBV" ]
 then
     ensure_git hub https://github.com/github/hub || exit 1
     (cd "repos/git/hub" && git archive --format=tar --prefix=hub-build/ "v$HUBV") | tar xf - || exit 1
@@ -578,7 +598,7 @@ then
     cd .bin && ln -nsf "../opt/hub/bin/hub" "hub" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/tig-$TIGV" ]
+if [ "$ENABLE_TIG" = "yes" -a ! -e "opt/tig-$TIGV" ]
 then
     ensure_git tig https://github.com/jonas/tig || exit 1
     (cd "repos/git/tig" && git archive --format=tar --prefix=tig-build/ "tig-$TIGV") | tar xf - || exit 1
@@ -587,7 +607,7 @@ then
     cd .bin && ln -nsf "../opt/tig/bin/tig" "tig" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/nginx-$NGINXV" ]
+if [ "$ENABLE_NGINX" = "yes" -a ! -e "opt/nginx-$NGINXV" ]
 then
     ensure_hg nginx http://hg.nginx.org/nginx || exit 1
     (cd "$HOME/repos/hg/nginx" && hg archive -r "release-$NGINXV" ../../../nginx-build) || exit 1
@@ -596,30 +616,32 @@ then
     cd .bin && ln -nsf "../opt/nginx/sbin/nginx" nginx && cd .. || exit 1
 fi
 
-
-for MYSQLSERVERV in "${MYSQLSERVERVS[@]}"
-do
-    TMP="$MYSQLSERVERV"
-    MYSQLSERVERMAJORV=${TMP%%.*}
-    TMP="${TMP#*.}"
-    MYSQLSERVERMINORV=${TMP%%.*}
-    if ! [ -e "opt/mysql-server-$MYSQLSERVERV" ]
-    then
-        if [ ! -e "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" ]
+if [ "$ENABLE_MYSQLSERVER" = "yes" ]
+then
+    for MYSQLSERVERV in "${MYSQLSERVERVS[@]}"
+    do
+        TMP="$MYSQLSERVERV"
+        MYSQLSERVERMAJORV=${TMP%%.*}
+        TMP="${TMP#*.}"
+        MYSQLSERVERMINORV=${TMP%%.*}
+        if ! [ -e "opt/mysql-server-$MYSQLSERVERV" ]
         then
-            mkdir -p repos/bzr && cd repos/bzr && bzr branch "lp:mysql-server/${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" "mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && cd ../.. || exit 1
+            if [ ! -e "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" ]
+            then
+                mkdir -p repos/bzr && cd repos/bzr && bzr branch "lp:mysql-server/${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" "mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && cd ../.. || exit 1
+            fi
+            (cd "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && bzr export --revision=tag:mysql-$MYSQLSERVERV "$HOME/mysql-server-build") || exit 1
+            if [ "${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" = "5.1" ]
+            then
+                cd mysql-server-build && PATH="$HOME/opt/bison-2.1/bin:$PATH" ./BUILD/autorun.sh && PATH="$HOME/opt/bison-2.1/bin:$PATH" CC="gcc" CXX="gcc" CXXFLAGS="-felide-constructors -fno-exceptions -fno-rtti" ./configure --prefix="$HOME/opt/mysql-server-$MYSQLSERVERV" --with-plugins=all && PATH="$HOME/opt/bison-2.1/bin:$PATH" make && PATH="$HOME/opt/bison-2.1/bin:$PATH" make install && cd .. && rm -rf mysql-server-build || exit 1
+            else
+                cd mysql-server-build && cmake . -DCMAKE_INSTALL_PREFIX="$HOME/opt/mysql-server-$MYSQLSERVERV" && make && make install && cd .. && rm -rf mysql-server-build || exit 1
+            fi
         fi
-        (cd "repos/bzr/mysql-server-${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" && bzr export --revision=tag:mysql-$MYSQLSERVERV "$HOME/mysql-server-build") || exit 1
-        if [ "${MYSQLSERVERMAJORV}.${MYSQLSERVERMINORV}" = "5.1" ]
-        then
-            cd mysql-server-build && PATH="$HOME/opt/bison-2.1/bin:$PATH" ./BUILD/autorun.sh && PATH="$HOME/opt/bison-2.1/bin:$PATH" CC="gcc" CXX="gcc" CXXFLAGS="-felide-constructors -fno-exceptions -fno-rtti" ./configure --prefix="$HOME/opt/mysql-server-$MYSQLSERVERV" --with-plugins=all && PATH="$HOME/opt/bison-2.1/bin:$PATH" make && PATH="$HOME/opt/bison-2.1/bin:$PATH" make install && cd .. && rm -rf mysql-server-build || exit 1
-        else
-            cd mysql-server-build && cmake . -DCMAKE_INSTALL_PREFIX="$HOME/opt/mysql-server-$MYSQLSERVERV" && make && make install && cd .. && rm -rf mysql-server-build || exit 1
-        fi
-    fi
-done
+    done
+fi
 
-if ! [ -e "opt/mp4v2-$MP4V2V" ]
+if [ "$ENABLE_MP4V2" = "yes" -a ! -e "opt/mp4v2-$MP4V2V" ]
 then
     if [ ! -e "repos/svn/mp4v2" ]
     then
@@ -629,7 +651,7 @@ then
     cd ./mp4v2-build && autoreconf -fiv && ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install && cd .. || exit 1
 fi
 
-if ! [ -e "opt/faac-$FAACV" ]
+if [ "$ENABLE_FAAC" = "yes" -a ! -e "opt/faac-$FAACV" ]
 then
     curl -L "http://optimate.dl.sourceforge.net/project/faac/faac-src/faac-1.28/faac-1.28.tar.gz" | tar zxf - || exit 1
     cd "faac-$FAACV"
@@ -671,7 +693,7 @@ then
     cd .bin && ln -nsf "../opt/cmus/bin/cmus" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/elinks-$ELINKSV" ]
+if [ "$ENABLE_ELINKS" = "yes" -a ! -e "opt/elinks-$ELINKSV" ]
 then
     ensure_git elinks http://elinks.cz/elinks.git || exit 1
     cd "repos/git/elinks" && git co "$ELINKSV" || exit 1
@@ -681,7 +703,7 @@ then
     cd .bin && ln -nsf "../opt/elinks/bin/elinks" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/libevent-$LIBEVENTV" ]
+if [ "$ENABLE_LIBEVENT" = "yes" -a ! -e "opt/libevent-$LIBEVENTV" ]
 then
     curl -L "https://github.com/libevent/libevent/releases/download/release-$LIBEVENTV-stable/libevent-$LIBEVENTV-stable.tar.gz" | tar zxf -
     cd "libevent-$LIBEVENTV-stable"
@@ -690,7 +712,7 @@ then
     rm -rf "libevent-$LIBEVENTV-stable"
 fi
 
-if ! [ -e "opt/tmux-$TMUXV" ]
+if [ "$ENABLE_TMUX" = "yes" -a ! -e "opt/tmux-$TMUXV" ]
 then
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUXV}/tmux-${TMUXV}.tar.gz" | tar zxf -
     cd "tmux-$TMUXV"
@@ -704,7 +726,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/nzbget-$NZBGETV" ]
+if [ "$ENABLE_NZBGET" = "yes" -a ! -e "opt/nzbget-$NZBGETV" ]
 then
     curl -L "http://sourceforge.net/projects/nzbget/files/nzbget-${NZBGETV}.tar.gz" | tar zxf -
     cd "nzbget-${NZBGETV}"
@@ -731,7 +753,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/podcatcher-$PODCATCHERV" ]
+if [ "$ENABLE_PODCATCHER" = "yes" -a ! -e "opt/podcatcher-$PODCATCHERV" ]
 then
     ensure_git podcatcher https://github.com/doga/podcatcher || exit 1
     (cd "repos/git/podcatcher" && git archive --format=tar --prefix=podcatcher-build/ "$PODCATCHERCOMMIT") | tar xf - || exit 1
@@ -739,7 +761,7 @@ then
     cd .bin && ln -nsf ../opt/podcatcher/bin/podcatcher && cd .. || exit 1
 fi
 
-if ! [ -e "opt/libxslt-$XSLTV" ]
+if [ "$ENABLE_XSLT" = "yes" -a ! -e "opt/libxslt-$XSLTV" ]
 then
     curl -L ftp://xmlsoft.org/libxslt/libxslt-${XSLTV}.tar.gz | tar zxf - || exit 1
     cd "libxslt-$XSLTV"
@@ -763,109 +785,121 @@ then
     cd "opt" && ln -nsf "fuse-$FUSEV" "fuse" && cd ".."
 fi
 
-ensure_git App-perlbrew https://github.com/gugod/App-perlbrew || exit 1
-(cd "repos/git/App-perlbrew" && git archive --format=tar --prefix=perlbrew-build/ "release-$PERLBREWV") | tar xf - || exit 1
-bash ./perlbrew-build/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
-rm -rf perlbrew-build || exit 1
-
-if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
+if [ "$ENABLE_PERL" = "yes" ]
 then
-    perlbrew install "perl-$PERLV" || exit 1
-    perlbrew switch "perl-$PERLV" || exit 1
-    perlbrew alias delete default
-    perlbrew alias create "perl-$PERLV" default || exit 1
+    ensure_git App-perlbrew https://github.com/gugod/App-perlbrew || exit 1
+    (cd "repos/git/App-perlbrew" && git archive --format=tar --prefix=perlbrew-build/ "release-$PERLBREWV") | tar xf - || exit 1
+    bash ./perlbrew-build/perlbrew-install && source "$PERLBREW_ROOT/etc/bashrc" || exit 1
+    rm -rf perlbrew-build || exit 1
 
-    for PACKAGE in File::Which Readonly::XS
-    do
-        cpan "$PACKAGE" || exit 1
-    done
-
-    curl -L https://github.com/plk/biber/archive/v${BIBERV}.tar.gz|tar zxf - || exit 1
-    cd "biber-$BIBERV"
-    cpan -f . || exit 1
-    cd ..
-    rm -rf "biber-$BIBERV"
-fi
-
-if ! [ -e "$PYENV_ROOT" ]
-then
-    git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
-    CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONV" || exit 1
-    eval "$(pyenv init -)" || exit 1
-    pyenv shell "$PYTHONV" || exit 1
-    pyenv global "$PYTHONV" || exit 1
-    for PACKAGE in cython lxml six jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
-    do
-        PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
-    done
-
-    # required for https://github.com/dmedvinsky/mutt-ics
-    pip install brownie
-    pip install icalendar
-
-    git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
-else
-    cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
-    eval "$(pyenv init -)" || exit 1
-fi
-pyenv shell "$PYTHONV"
-
-if ! [ -e "opt/ghc-$GHCV" ]
-then
-    ensure_git ghc https://git.haskell.org/ghc.git || exit 1
-    ensure_git cabal https://github.com/haskell/cabal || exit 1
-    GHCSYSTEMV="$(ghc --numeric-version)"
-    if [ "$(echo -e "$GHCSYSTEMV\n7.6.3"|sort --version-sort|head -n 1)" = "$GHCSYSTEMV" ]
+    if ! [ -e "$PERLBREW_ROOT/perls/perl-$PERLV" ]
     then
-        curl -L "https://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - && cd ghc-7.6.3 && ./configure --prefix="$(pwd)/ghc-7.6.3-temp" && make install && cd .. || exit 1
-        export PATH="$(pwd)/ghc-7.6.3/ghc-7.6.3-temp/bin:$PATH"
-        echo "Installed temporary ghc-7.6.3"
+        perlbrew install "perl-$PERLV" || exit 1
+        perlbrew switch "perl-$PERLV" || exit 1
+        perlbrew alias delete default
+        perlbrew alias create "perl-$PERLV" default || exit 1
+
+        for PACKAGE in File::Which Readonly::XS
+        do
+            cpan "$PACKAGE" || exit 1
+        done
+
+        curl -L https://github.com/plk/biber/archive/v${BIBERV}.tar.gz|tar zxf - || exit 1
+        cd "biber-$BIBERV"
+        cpan -f . || exit 1
+        cd ..
+        rm -rf "biber-$BIBERV"
+    fi
+fi
+
+if [ "$ENABLE_PYTHON" = "yes" ]
+then
+    if ! [ -e "$PYENV_ROOT" ]
+    then
+        git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
+        CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONV" || exit 1
+        eval "$(pyenv init -)" || exit 1
+        pyenv shell "$PYTHONV" || exit 1
+        pyenv global "$PYTHONV" || exit 1
+        for PACKAGE in cython lxml six jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
+        do
+            PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
+        done
+
+        # required for https://github.com/dmedvinsky/mutt-ics
+        pip install brownie
+        pip install icalendar
+
+        git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
+    else
+        cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
+        eval "$(pyenv init -)" || exit 1
+    fi
+    pyenv shell "$PYTHONV"
+fi
+
+if [ "$ENABLE_HASKELL" = "yes" ]
+then
+    if ! [ -e "opt/ghc-$GHCV" ]
+    then
+        ensure_git ghc https://git.haskell.org/ghc.git || exit 1
+        ensure_git cabal https://github.com/haskell/cabal || exit 1
+        GHCSYSTEMV="$(ghc --numeric-version)"
+        if [ "$(echo -e "$GHCSYSTEMV\n7.6.3"|sort --version-sort|head -n 1)" = "$GHCSYSTEMV" ]
+        then
+            curl -L "https://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-$(uname -m)-unknown-linux.tar.bz2" | tar jxf - && cd ghc-7.6.3 && ./configure --prefix="$(pwd)/ghc-7.6.3-temp" && make install && cd .. || exit 1
+            export PATH="$(pwd)/ghc-7.6.3/ghc-7.6.3-temp/bin:$PATH"
+            echo "Installed temporary ghc-7.6.3"
+        fi
+
+        (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
+        rm -rf .cabal .ghc && cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
+        echo "Installed temporary cabal-install"
+
+        "$HOME/.cabal/bin/cabal" install happy && "$HOME/.cabal/bin/cabal" install alex || exit 1
+        echo "Installed temporary happy and alex"
+
+        GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
+        git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && (echo ".|$(git tag -l "ghc-$GHCV-release" -n9999|tail -n+3|sed -e 's/^    //')" > A && ./utils/fingerprint/fingerprint.py restore -f A && rm A) && PATH="$HOME/.cabal/bin:$PATH" perl boot && PATH="$HOME/.cabal/bin:$PATH" ./configure --prefix="$HOME/opt/ghc-$GHCV" && PATH="$HOME/.cabal/bin:$PATH" make -j3 && PATH="$HOME/.cabal/bin:$PATH" make install && cd .. && rm -rf ghc-build .cabal .ghc ghc-7.6.3 && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
     fi
 
-    (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
-    rm -rf .cabal .ghc && cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
-    echo "Installed temporary cabal-install"
+    if ! [ -e "opt/cabal-install-$CABALINSTALLV" ]
+    then
+        (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
+        cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
+        mkdir "opt/cabal-install-$CABALINSTALLV" && cd "opt/cabal-install-$CABALINSTALLV" && "$HOME/.cabal/bin/cabal" sandbox init --sandbox . && "$HOME/.cabal/bin/cabal" install "cabal-install==$CABALINSTALLV" && cd ../.. && rm -rf .cabal .ghc || exit 1
+        cd .bin && ln -nsf "../opt/cabal-install-$CABALINSTALLV/bin/cabal" && cd .. || exit 1
+    fi
 
-    "$HOME/.cabal/bin/cabal" install happy && "$HOME/.cabal/bin/cabal" install alex || exit 1
-    echo "Installed temporary happy and alex"
-
-    GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
-    git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && (echo ".|$(git tag -l "ghc-$GHCV-release" -n9999|tail -n+3|sed -e 's/^    //')" > A && ./utils/fingerprint/fingerprint.py restore -f A && rm A) && PATH="$HOME/.cabal/bin:$PATH" perl boot && PATH="$HOME/.cabal/bin:$PATH" ./configure --prefix="$HOME/opt/ghc-$GHCV" && PATH="$HOME/.cabal/bin:$PATH" make -j3 && PATH="$HOME/.cabal/bin:$PATH" make install && cd .. && rm -rf ghc-build .cabal .ghc ghc-7.6.3 && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
+    cabal update || exit 1
 fi
 
-if ! [ -e "opt/cabal-install-$CABALINSTALLV" ]
+if [ "$ENABLE_OCAML" = "yes" ]
 then
-    (cd "repos/git/cabal" && git archive --format=tar --prefix=cabal-build/ "cabal-install-v$CABALINSTALLV") | tar xf - || exit 1
-    cd cabal-build/cabal-install && sh bootstrap.sh && "$HOME/.cabal/bin/cabal" update && cd ../.. && rm -rf cabal-build || exit 1
-    mkdir "opt/cabal-install-$CABALINSTALLV" && cd "opt/cabal-install-$CABALINSTALLV" && "$HOME/.cabal/bin/cabal" sandbox init --sandbox . && "$HOME/.cabal/bin/cabal" install "cabal-install==$CABALINSTALLV" && cd ../.. && rm -rf .cabal .ghc || exit 1
-    cd .bin && ln -nsf "../opt/cabal-install-$CABALINSTALLV/bin/cabal" && cd .. || exit 1
+    if ! [ -e "opt/opam-$OPAMV" ]
+    then
+        ensure_git opam https://github.com/ocaml/opam || exit 1
+        (cd "repos/git/opam" && git archive --format=tar --prefix=opam-build/ "$OPAMV") | tar xf - || exit 1
+        cd opam-build && ./configure --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make && make install && cd .. && rm -rf opam-build || exit 1
+        cd opt && ln -nsf "opam-$OPAMV" "opam" && cd .. || exit 1
+        cd .bin && ln -nsf "../opt/opam/bin/opam" && cd .. || exit 1
+        cd .bin && ln -nsf "../opt/opam/bin/opam-installer" && cd .. || exit 1
+        cd .bin && ln -nsf "../opt/opam/bin/opam-admin" && cd .. || exit 1
+    fi
+
+    if ! [ -e ".opam" ]
+    then
+        opam init || exit 1
+        for PACKAGE in google-drive-ocamlfuse
+        do
+            opam install "$PACKAGE" || exit 1
+        done
+    else
+        opam update || exit 1
+    fi
 fi
 
-cabal update || exit 1
-
-if ! [ -e "opt/opam-$OPAMV" ]
-then
-    ensure_git opam https://github.com/ocaml/opam || exit 1
-    (cd "repos/git/opam" && git archive --format=tar --prefix=opam-build/ "$OPAMV") | tar xf - || exit 1
-    cd opam-build && ./configure --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make && make install && cd .. && rm -rf opam-build || exit 1
-    cd opt && ln -nsf "opam-$OPAMV" "opam" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/opam/bin/opam" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/opam/bin/opam-installer" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/opam/bin/opam-admin" && cd .. || exit 1
-fi
-
-if ! [ -e ".opam" ]
-then
-    opam init || exit 1
-    for PACKAGE in google-drive-ocamlfuse
-    do
-        opam install "$PACKAGE" || exit 1
-    done
-else
-    opam update || exit 1
-fi
-
-if ! [ -e "opt/neovim-$NEOVIMV" ]
+if [ "$ENABLE_NEOVIM" = "yes" -a ! -e "opt/neovim-$NEOVIMV" ]
 then
     ensure_git neovim https://github.com/neovim/neovim || exit 1
     (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "$NEOVIMCOMMIT") | tar xf - || exit 1
@@ -907,7 +941,7 @@ else
   vim +PluginInstall +qall || exit 1
 fi
 
-if ! [ -e "opt/emacs-$EMACSV" ]
+if [ "$ENABLE_EMACS" = "yes" -a ! -e "opt/emacs-$EMACSV" ]
 then
     ensure_git emacs http://git.savannah.gnu.org/r/emacs.git || exit 1
     (cd "repos/git/emacs" && git archive --format=tar --prefix=emacs-build/ "emacs-$EMACSV") | tar xf - || exit 1
@@ -922,13 +956,13 @@ then
     cd .bin && ln -nsf "../opt/git-annex-$GITANNEXV/bin/git-annex" git-annex-shell && cd .. || exit 1
 fi
 
-if ! [ -e "opt/alex-$ALEXV" ]
+if [ "$ENABLE_ALEX" = "yes" -a ! -e "opt/alex-$ALEXV" ]
 then
     mkdir -p "opt/alex-$ALEXV" && cd "opt/alex-$ALEXV" && cabal sandbox init --sandbox . && cabal install "alex==$ALEXV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/alex-$ALEXV/bin/alex" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/happy-$HAPPYV" ]
+if [ "$ENABLE_HAPPY" = "yes" -a ! -e "opt/happy-$HAPPYV" ]
 then
     mkdir -p "opt/happy-$HAPPYV" && cd "opt/happy-$HAPPYV" && cabal sandbox init --sandbox . && cabal install "happy==$HAPPYV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/happy-$HAPPYV/bin/happy" && cd .. || exit 1
@@ -941,7 +975,7 @@ then
     cd .bin && ln -nsf "../opt/ghc-mod-$GHCMODV/bin/ghc-modi" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/pandoc-$PANDOCV" ]
+if [ "$ENABLE_PANDOC" = "yes" -a ! -e "opt/pandoc-$PANDOCV" ]
 then
     mkdir -p "opt/pandoc-$PANDOCV" && cd "opt/pandoc-$PANDOCV" && cabal sandbox init --sandbox . && cabal install "pandoc==$PANDOCV" && cd ../.. || exit 1
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/pandoc" && cd .. || exit 1
@@ -956,7 +990,7 @@ else
     .bin/youtube-dl -U || exit 1
 fi
 
-if ! [ -e "opt/mosh-$MOSHV" ]
+if [ "$ENABLE_MOSH" = "yes" -a ! -e "opt/mosh-$MOSHV" ]
 then
     wget "http://mosh.mit.edu/mosh-${MOSHV}.tar.gz"
     tar xf mosh-$MOSHV.tar.gz
@@ -973,14 +1007,14 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/json-c-$JSONCV" ]
+if [ "$ENABLE_JSONC" = "yes" -a ! -e "opt/json-c-$JSONCV" ]
 then
     ensure_git json-c https://github.com/json-c/json-c || exit 1
     (cd "repos/git/json-c" && git archive --format=tar --prefix=json-c-build/ "json-c-$JSONCV") | tar xf - || exit 1
     cd json-c-build && CFLAGS="-Wno-error=unused-but-set-variable" ./configure --prefix="$HOME/opt/json-c-$JSONCV" && make && make install && cd .. && rm -rf json-c-build || exit 1
 fi
 
-if ! [ -e "opt/beanstalkd-$BEANSTALKDV" ]
+if [ "$ENABLE_BEANSTALKD" = "yes" ! -e "opt/beanstalkd-$BEANSTALKDV" ]
 then
     ensure_git beanstalkd https://github.com/kr/beanstalkd || exit 1
     (cd "repos/git/beanstalkd" && git archive --format=tar --prefix=beanstalkd-build/ "v$BEANSTALKDV") | tar xf - || exit 1
@@ -1022,7 +1056,7 @@ then
     ((cd "repos/git/ideviceinstaller" && git archive --format=tar --prefix=ideviceinstaller-build/ "$IDEVICEINSTALLERCOMMIT") | tar xf -) && cd "ideviceinstaller-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ideviceinstaller-${IDEVICEINSTALLERV}" && make && make install && cd .. && rm -rf "ideviceinstaller-build" || exit 1
 fi
 
-if ! [ -e "opt/ifuse-$IFUSEV" ]
+if [ "$ENABLE_IFUSE" = "yes" -a ! -e "opt/ifuse-$IFUSEV" ]
 then
     (curl -L "http://www.libimobiledevice.org/downloads/ifuse-${IFUSEV}.tar.bz2" | tar jxf -) && cd "ifuse-${IFUSEV}" && LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libplist-${PLISTV}/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${IMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libplist-${PLISTV}/lib/pkgconfig" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/ifuse-${IFUSEV}" && make && make install && cd .. && rm -rf "ifuse-${IFUSEV}" && (cd .bin && ln -s ../opt/ifuse-$IFUSEV/bin/ifuse) || exit 1
 fi
@@ -1040,16 +1074,19 @@ then
 fi
 fi
 
-exit 1 # TODO
-ensure_git libimobiledevice https://github.com/libimobiledevice/libimobiledevice || exit 1
-(cd "repos/git/libimobiledevice" && git archive --format=tar --prefix=libimobiledevice-build/ "$LIBIMOBILEDEVICECOMMIT") | tar xf - || exit 1
-cd "libimobiledevice-build" && ./autogen.sh && ./configure --prefix="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}" && make && make install && cd .. && rm -r "libimobiledevice-build" || exit 1
+if false
+then
+    exit 1 # TODO
+    ensure_git libimobiledevice https://github.com/libimobiledevice/libimobiledevice || exit 1
+    (cd "repos/git/libimobiledevice" && git archive --format=tar --prefix=libimobiledevice-build/ "$LIBIMOBILEDEVICECOMMIT") | tar xf - || exit 1
+    cd "libimobiledevice-build" && ./autogen.sh && ./configure --prefix="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}" && make && make install && cd .. && rm -r "libimobiledevice-build" || exit 1
 
-ensure_git ifuse https://github.com/libimobiledevice/ifuse || exit 1
-(cd "repos/git/ifuse" && git archive --format=tar --prefix=ifuse-build/ "$IFUSECOMMIT") | tar xf - || exit 1
-cd "ifuse-build" && NOCONFIGURE=yes ./autogen.sh && PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib/pkgconfig" LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib,--enable-new-dtags" ./configure --prefix="$HOME/opt/ifuse-${IFUSEV}" && make && make install && cd .. && rm -r "ifuse-build"
+    ensure_git ifuse https://github.com/libimobiledevice/ifuse || exit 1
+    (cd "repos/git/ifuse" && git archive --format=tar --prefix=ifuse-build/ "$IFUSECOMMIT") | tar xf - || exit 1
+    cd "ifuse-build" && NOCONFIGURE=yes ./autogen.sh && PKG_CONFIG_PATH="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib/pkgconfig" LDFLAGS="-Wl,--rpath=$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib,--enable-new-dtags" ./configure --prefix="$HOME/opt/ifuse-${IFUSEV}" && make && make install && cd .. && rm -r "ifuse-build"
+fi
 
-if ! [ -e "opt/newsbeuter-$NEWSBEUTERV" ]
+if [ "$ENABLE_NEWSBEUTER" = "yes" -a ! -e "opt/newsbeuter-$NEWSBEUTERV" ]
 then
     ensure_git newsbeuter https://github.com/akrennmair/newsbeuter || exit 1
     (cd "repos/git/newsbeuter" && git archive --format=tar --prefix=newsbeuter-build/ "$NEWSBEUTERCOMMIT") | tar xf - || exit 1
@@ -1079,7 +1116,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/mcabber-$MCABBERV" ]
+if [ "$ENABLE_MCABBER" = "yes" -a ! -e "opt/mcabber-$MCABBERV" ]
 then
     curl -L "http://mcabber.com/files/mcabber-${MCABBERV}.tar.bz2" | tar jxf -
     cd mcabber-$MCABBERV
@@ -1092,7 +1129,7 @@ then
     rm -rf mcabber-$MCABBERV
 fi
 
-if ! [ -e "opt/mac-$MACV" ]
+if [ "$ENABLE_MAC" = "yes" -a ! -e "opt/mac-$MACV" ]
 then
     curl -L "http://www.etree.org/shnutils/shntool/support/formats/ape/unix/$MACV/mac-$MACV.tar.gz" | tar zxf - || exit 1
     cd "mac-$MACV"
@@ -1104,7 +1141,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/svg2pdf-$SVG2PDFV" ]
+if [ "$ENABLE_SVG2PDF" = "yes" -a ! -e "opt/svg2pdf-$SVG2PDFV" ]
 then
     ensure_git svg2pdf git://people.freedesktop.org/~cworth/svg2pdf || exit 1
     (cd "repos/git/svg2pdf" && git archive --format=tar --prefix=svg2pdf-build/ "$SVG2PDFV") | tar xf - || exit 1
@@ -1139,7 +1176,7 @@ then
     rm -rf sfnt2woff
 fi
 
-if ! [ -e ".bin/mutt-ics" ]
+if [ "$ENABLE_MUTTICS" = "yes" -a ! -e ".bin/mutt-ics" ]
 then
     cd "$HOME/opt"
     git clone https://github.com/dmedvinsky/mutt-ics || exit 1
@@ -1150,7 +1187,7 @@ then
     cd ..
 fi
 
-if ! [ -e "opt/leptonica-$LEPTONICAV" ]
+if [ "$ENABLE_LEPTONICA" = "yes" -a ! -e "opt/leptonica-$LEPTONICAV" ]
 then
     pushd .
     curl -L "http://leptonica.googlecode.com/files/leptonica-${LEPTONICAV}.tar.bz2" | tar jxf - && cd "leptonica-$LEPTONICAV" || exit 1
@@ -1160,7 +1197,7 @@ then
     popd
 fi
 
-if ! [ -e "opt/jbig2enc-$JBIG2ENCV" ]
+if [ "$ENABLE_JBIG2ENC" = "yes" -a ! -e "opt/jbig2enc-$JBIG2ENCV" ]
 then
     ensure_git jbig2enc https://github.com/agl/jbig2enc || exit 1
     pushd .
@@ -1173,7 +1210,7 @@ then
     popd
 fi
 
-if ! [ -e "opt/gitsh-$GITSHV" ]
+if [ "$ENABLE_GITSH" = "yes" -a ! -e "opt/gitsh-$GITSHV" ]
 then
     ensure_git gitsh https://github.com/thoughtbot/gitsh || exit 1
     (cd "repos/git/gitsh" && git archive --format=tar --prefix=gitsh-build/ "v$GITSHV") | tar xf - || exit 1
@@ -1182,7 +1219,7 @@ then
     cd .bin && ln -nsf "../opt/gitsh/bin/gitsh" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/pdflib-lite-$PDFLIBV" ]
+if [ "$ENABLE_PDFLIB" = "yes" -a ! -e "opt/pdflib-lite-$PDFLIBV" ]
 then
     curl -L "http://www.pdflib.com/binaries/PDFlib/${PDFLIBVV}/PDFlib-Lite-${PDFLIBV}.tar.gz" | tar zxf - || exit 1
     cd "PDFlib-Lite-${PDFLIBV}" && ./configure --prefix="$HOME/opt/pdflib-lite-${PDFLIBV}" && make && make install && cd .. && rm -rf "PDFlib-Lite-${PDFLIBV}" || exit 1
@@ -1230,7 +1267,7 @@ then
     cd .bin && echo "LD_LIBRARY_PATH=\"\$HOME/opt/mirall-$MIRALLV/lib:\$HOME/opt/qtkeychain-$QTKEYCHAINV/lib/x86_64-linux-gnu\" \"\$HOME/opt/mirall-$MIRALLV/bin/owncloudcmd\"" > owncloudcmd && chmod +x owncloudcmd && cd ..
 fi
 
-if [ ! -e "texmf/tex/latex/biblatex-iso690" -o "$(cat texmf/tex/latex/biblatex-iso690/VERSION)" != "$BIBLATEXISO690V" ]
+if [ "$ENABLE_BIBLATEXISO690" = "yes" -a [ ! -e "texmf/tex/latex/biblatex-iso690" -o "$(cat texmf/tex/latex/biblatex-iso690/VERSION)" != "$BIBLATEXISO690V" ]]
 then
     (mkdir -p texmf/tex/latex && cd texmf/tex/latex && rm -rf biblatex-iso690 && curl -L https://github.com/michal-h21/biblatex-iso690/archive/${BIBLATEXISO690V}.tar.gz | tar zxf - && mv biblatex-iso690-${BIBLATEXISO690V} biblatex-iso690 && echo ${BIBLATEXISO690V} > biblatex-iso690/VERSION) || exit 1
 fi
@@ -1318,7 +1355,7 @@ then
     chmod +x .bin/ap4jplayer
 fi
 
-if [ ! -e "$HOME/opt/go-mtpfs-$GOMTPFSV" ]
+if [ "$ENABLE_GOMTPFS" = "yes" -a ! -e "$HOME/opt/go-mtpfs-$GOMTPFSV" ]
 then
     ensure_git go-mtpfs https://github.com/hanwen/go-mtpfs || exit 1
     (cd "repos/git/go-mtpfs" && git archive --format=tar --prefix=go-mtpfs-build/ "$GOMTPFSV") | tar xf - || exit 1
@@ -1327,7 +1364,7 @@ then
     cd .bin && ln -nsf "../opt/go-mtpfs-$GOMTPFSV" go-mtpfs && cd .. || exit 1
 fi
 
-if [ ! -e "$HOME/opt/docker-$DOCKERV" ]
+if [ "$ENABLE_DOCKER" = "yes" -a ! -e "$HOME/opt/docker-$DOCKERV" ]
 then
     ensure_git docker https://github.com/docker/docker || exit 1
     git clone repos/git/docker docker-build || exit 1
@@ -1344,4 +1381,4 @@ then
     cd opt && ln -nsf "calcurse-${CALCURSEV}" "calcurse" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/calcurse/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
-https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
+#https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
