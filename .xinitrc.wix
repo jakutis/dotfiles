@@ -7,4 +7,5 @@ update-xinput
 xscreensaver -no-splash &
 xcompmgr &
 parcellite &
+dropbox start
 awesome
