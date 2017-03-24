@@ -104,7 +104,6 @@ SVG2PDFV="301dd48"
 RTAG="R-3-2-4"
 RV="3.3.1"
 GOV="1.6"
-YOUTUBEDLV="2016.02.27"
 VIMV="7.4.1444"
 COLOROUTTAG="v1.2-2"
 COLOROUTV="1.1-2"
@@ -951,13 +950,11 @@ then
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/yaml2json" && cd .. || exit 1
 fi
 
-if ! [ -e "opt/youtube-dl-$YOUTUBEDLV" ]
+if ! [ -e ".bin/youtube-dl" ]
 then
-    ensure_git youtube-dl https://github.com/rg3/youtube-dl || exit 1
-    (cd "repos/git/youtube-dl" && git archive --format=tar --prefix=youtube-dl-build/ "$YOUTUBEDLV") | tar xf - || exit 1
-    cd youtube-dl-build && make && make install PREFIX="$HOME/opt/youtube-dl-$YOUTUBEDLV" && cd .. && rm -rf youtube-dl-build || exit 1
-    cd opt && ln -nsf "youtube-dl-$YOUTUBEDLV" youtube-dl && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/youtube-dl/bin/youtube-dl" && cd .. || exit 1
+    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o .bin/youtube-dl && chmod +x .bin/youtube-dl || exit 1
+else
+    .bin/youtube-dl -U || exit 1
 fi
 
 if ! [ -e "opt/mosh-$MOSHV" ]
