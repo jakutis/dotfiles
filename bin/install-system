@@ -73,6 +73,8 @@ else
     exit 1
 fi
 
+echo "setting up configs"
+
 if [ "$MACHINE" = "server" ]
 then
     ln -nsf "$VARIA/server/aliases" "/etc/aliases" || exit 1
