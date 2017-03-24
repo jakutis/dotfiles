@@ -4,6 +4,7 @@ application/pdf=AdobeReader.desktop;konqueror-2.desktop;kde4-okular.desktop;kde4
 application/vnd.ms-htmlhelp=xchm.desktop;
 application/vnd.oasis.opendocument.spreadsheet=libreoffice.desktop;
 application/x-mobipocket-ebook=ebook-viewer.desktop;
+image/jpeg=mirage.desktop;kde4-okularApplication_kimgio.desktop;gimp.desktop;eog.desktop;feh.desktop;shotwell-viewer.desktop;
 inode/directory=kde4-kfmclient_dir.desktop;
 text/csv=libreoffice-2.desktop;
 text/plain=leafpad.desktop;
