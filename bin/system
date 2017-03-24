@@ -171,6 +171,7 @@ case "$CMD" in
         "$VARIA/$MACHINE/rc.local.modem.stop"
         "$VARIA/$MACHINE/rc.local.wifi.stop"
         nohup "$VARIA/networks/cfg-${2}" 1>"$XDG_DATA_HOME/dotfiles/net.log" 2>&1 &
+        echo "for debug info, see $XDG_DATA_HOME/dotfiles/net.log"
         ;;
     "powersave")
         "$VARIA/networks/vanilla"
