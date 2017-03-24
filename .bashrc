@@ -45,4 +45,4 @@ function marks {
 }
 
 source "$HOME/.bash_aliases"
-eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
+[ -n "$(which pyenv)" ] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
