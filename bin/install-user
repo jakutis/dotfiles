@@ -949,6 +949,11 @@ then
     cd .bin && ln -nsf "../opt/emacs-$EMACSV/bin/emacs" && cd .. || exit 1
 fi
 
+if [ "$ENABLE_CTOP" = "yes" ]
+then
+  curl https://raw.githubusercontent.com/yadutaf/ctop/master/cgroup_top.py > .bin/ctop && chmod +x .bin/ctop || exit 1
+fi
+
 if [ "$ENABLE_GITANNEX" = "yes" -a ! -e "opt/git-annex-$GITANNEXV" ]
 then
     mkdir -p "opt/git-annex-$GITANNEXV" && cd "opt/git-annex-$GITANNEXV" && cabal sandbox init --sandbox . && cabal install "git-annex==$GITANNEXV" --flags="-s3 -webdav -inotify -dbus -assistant -webapp -webapp-secure -pairing -xmpp dns production -android -androidsplice -testsuite -tdfa -feed -quvi -tahoe -desktopnotify -torrentparser -ekg -network-uri" && cd ../.. || exit 1
