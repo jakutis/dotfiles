@@ -85,8 +85,8 @@ MP4V2REV="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
 MP4V2V="$MP4V2V"
 ANTV="1.10.1"
 NZBGETV="15.0"
-PYTHONV="3.5.2"
-PYTHONVERSIONFILE="3.5"
+PYTHONV="3.6.1"
+PYTHONVERSIONFILE="3.6"
 QPDFVIEWV="0.4.16"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.22.7.0"
@@ -821,14 +821,10 @@ then
         eval "$(pyenv init -)" || exit 1
         pyenv shell "$PYTHONV" || exit 1
         pyenv global "$PYTHONV" || exit 1
-        for PACKAGE in cython lxml six jsbeautifier pygments ocrodjvu python-djvulibre fuse-python fusepy reportlab term2048
+        for PACKAGE in cython lxml six jsbeautifier pygments python-djvulibre fusepy reportlab term2048 brownie icalendar
         do
             PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
         done
-
-        # required for https://github.com/dmedvinsky/mutt-ics
-        pip install brownie
-        pip install icalendar
 
         git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
     else
