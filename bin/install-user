@@ -894,46 +894,49 @@ then
     fi
 fi
 
-if [ "$ENABLE_NEOVIM" = "yes" -a ! -e "opt/neovim-$NEOVIMV" ]
+if [ "$ENABLE_VIM" = "yes" ]
 then
-    ensure_git neovim https://github.com/neovim/neovim || exit 1
-    (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "$NEOVIMCOMMIT") | tar xf - || exit 1
-    cd "neovim-build" && make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim-$NEOVIMV" && make install && cd .. && rm -rf neovim-build || exit 1
-    cd .bin || exit 1
-    rm -f vi && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vi || exit 1
-    rm -f vim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vim || exit 1
-    rm -f nvim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" nvim || exit 1
-    rm -f vimdiff && echo 'nvim -d "$@"' > vimdiff && chmod +x vimdiff || exit 1
-    cd .. || exit 1
-fi
+  if [ -e "opt/neovim-$NEOVIMV" ]
+  then
+      ensure_git neovim https://github.com/neovim/neovim || exit 1
+      (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "$NEOVIMCOMMIT") | tar xf - || exit 1
+      cd "neovim-build" && make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim-$NEOVIMV" && make install && cd .. && rm -rf neovim-build || exit 1
+      cd .bin || exit 1
+      rm -f vi && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vi || exit 1
+      rm -f vim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vim || exit 1
+      rm -f nvim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" nvim || exit 1
+      rm -f vimdiff && echo 'nvim -d "$@"' > vimdiff && chmod +x vimdiff || exit 1
+      cd .. || exit 1
+  fi
 
-if [ false -a ! -e "opt/vim-$VIMV" ]
-then
-    ensure_git vim https://github.com/vim/vim || exit 1
-    (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
-    cd "vim-build" || exit 1
-    make distclean
-    ./configure --enable-rubyinterp=yes --enable-pythoninterp=yes --with-features=huge --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
-    cd .. && rm -rf vim-build || exit 1
-    cd "$HOME/opt"
-    ln -nsf "vim-$VIMV" "vim"
-    cd ../.bin
-    ln -nsf "../opt/vim/bin/vim"
-    ln -nsf "../opt/vim/bin/vimdiff"
-    cd ..
-fi
+  if [ false -a ! -e "opt/vim-$VIMV" ]
+  then
+      ensure_git vim https://github.com/vim/vim || exit 1
+      (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
+      cd "vim-build" || exit 1
+      make distclean
+      ./configure --enable-rubyinterp=yes --enable-pythoninterp=yes --with-features=huge --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+      cd .. && rm -rf vim-build || exit 1
+      cd "$HOME/opt"
+      ln -nsf "vim-$VIMV" "vim"
+      cd ../.bin
+      ln -nsf "../opt/vim/bin/vim"
+      ln -nsf "../opt/vim/bin/vimdiff"
+      cd ..
+  fi
 
-mkdir --parents .vimtmp .vimbackup .vimsession || exit 1
-ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
+  mkdir --parents .vimtmp .vimbackup .vimsession || exit 1
+  ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 
-if [ -e ".vim" ]
-then
-  vim +PluginUpdate +qall || exit 1
-else
-  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim || exit 1
-  ln -nsf "$DOTFILES/.vimrc" .vim/init.vim || exit 1
-  ln -nsf "$(pwd)/.vim" "$XDG_CONFIG_HOME/nvim" || exit 1
-  vim +PluginInstall +qall || exit 1
+  if [ -e ".vim" ]
+  then
+    vim +PluginUpdate +qall || exit 1
+  else
+    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim || exit 1
+    ln -nsf "$DOTFILES/.vimrc" .vim/init.vim || exit 1
+    ln -nsf "$(pwd)/.vim" "$XDG_CONFIG_HOME/nvim" || exit 1
+    vim +PluginInstall +qall || exit 1
+  fi
 fi
 
 if [ "$ENABLE_EMACS" = "yes" -a ! -e "opt/emacs-$EMACSV" ]
