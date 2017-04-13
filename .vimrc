@@ -27,6 +27,10 @@ call vundle#end()
 filetype plugin indent on
 set laststatus=2
 
+" persistent undo
+set undodir=~/.vimundo
+set undofile
+
 " window management
 set wmh=0
 nmap <A-j> <c-w>j<c-w>_

@@ -925,7 +925,7 @@ then
       cd ..
   fi
 
-  mkdir --parents .vimtmp .vimbackup .vimsession || exit 1
+  mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
   ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 
   if [ -e ".vim" ]
