@@ -4,6 +4,10 @@ function remove {
   echo "$@" | xargs --max-args=1 rm --force --verbose --recursive
 }
 
+function is_dir_empty {
+  [ "$(ls -am "$1")" = "., .." ] && return 0 || return 1
+}
+
 CLEAR="no"
 if [ "$1" = "clear" ]
 then
@@ -141,6 +145,10 @@ else
   rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/video/" "$IPAD_ROOT/"  || exit 1
   echo "# Copying videos from iPad to Desktop"
   rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/video/"  || exit 1
+  if is_dir_empty "$HOME/Desktop/sync/video/Inbox"
+  then
+    rm -rf "$HOME/Desktop/sync/video/Inbox"
+  fi
 fi
 mymount ipad || exit 1
 
