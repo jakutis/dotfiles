@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+OWNCLOUD="/mnt/owncloud"
+cd "$HOME/Desktop"
+SYNC="./sync"
+
+function is_dir_empty {
+  [ "$(ls -am "$1")" = "., .." ] && return 0 || return 1
+}
+
+if ! is_dir_empty "$OWNCLOUD"
+then
+  echo "Please unmount "$OWNCLOUD"" 1>&2
+  exit 1
+fi
+
+syncipad || exit 1
+mymount owncloud || exit 1
+DATE="$(date +%Y-%m-%d)"
+
+if ! is_dir_empty "$SYNC/ibooks"
+then
+  mv -v "$SYNC/ibooks" "$OWNCLOUD/Documents/articles/$DATE" || exit 1
+fi
+
+if ! is_dir_empty "$SYNC/photos"
+then
+  mv -v "$SYNC/photos" "$OWNCLOUD/Documents/photos/$DATE" || exit 1
+fi
+
+if ! is_dir_empty "$SYNC/music"
+then
+  mv -v "$SYNC/music" "$OWNCLOUD/Documents/music/$DATE" || exit 1
+fi
+
+if ! is_dir_empty "$SYNC/video"
+then
+  mv -v "$SYNC/video" "$OWNCLOUD/Documents/videos/$DATE" || exit 1
+fi
+
+if ! is_dir_empty "$SYNC/audiobook"
+then
+  mv -v "$SYNC/audiobook" "$OWNCLOUD/Documents/audiobooks/$DATE" || exit 1
+fi
+
+rm -rfv "$SYNC"
