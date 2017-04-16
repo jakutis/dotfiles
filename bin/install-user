@@ -986,11 +986,14 @@ then
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/yaml2json" && cd .. || exit 1
 fi
 
-if ! [ -e ".bin/youtube-dl" ]
+if [ "$ENABLE_YOUTUBEDL" = "yes" ]
 then
-    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o .bin/youtube-dl && chmod +x .bin/youtube-dl || exit 1
-else
-    .bin/youtube-dl -U || exit 1
+  if ! [ -e ".bin/youtube-dl" ]
+  then
+      curl -L https://yt-dl.org/downloads/latest/youtube-dl -o .bin/youtube-dl && chmod +x .bin/youtube-dl || exit 1
+  else
+      .bin/youtube-dl -U || exit 1
+  fi
 fi
 
 if [ "$ENABLE_MOSH" = "yes" -a ! -e "opt/mosh-$MOSHV" ]
