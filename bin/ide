@@ -18,7 +18,6 @@ SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
 echo "new-window -n e 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle e;export PATH=\"\$(pwd)/node_modules/.bin:\$PATH\";e;echo e;bash'" >> "$SESSION_FILE"
 echo "new-window -n gitsh 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle gitsh;gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
 echo "new-window -n tig 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle tig;tig;echo tig;bash'" >> "$SESSION_FILE"
-echo "new-window -n vifm 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle vifm;vifm . .;echo vifm;bash'" >> "$SESSION_FILE"
 
 DETACHED="$2"
 if [ "$DETACHED" = "detached" ]
