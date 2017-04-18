@@ -18,29 +18,33 @@ syncipad || exit 1
 mymount owncloud || exit 1
 DATE="$(date +%Y-%m-%d)"
 
+function move {
+  mkdir --parents "$2" && find "$1" -maxdepth 1 -mindepth 1 -print0 | xargs -0 mv --no-clobber --verbose --target-directory="$2" || return 1
+}
+
 if ! is_dir_empty "$SYNC/ibooks"
 then
-  mv -v "$SYNC/ibooks" "$OWNCLOUD/Documents/articles/$DATE" || exit 1
+  move "$SYNC/ibooks" "$OWNCLOUD/Documents/articles/$DATE" || exit 1
 fi
 
 if ! is_dir_empty "$SYNC/photos"
 then
-  mv -v "$SYNC/photos" "$OWNCLOUD/Documents/photos/$DATE" || exit 1
+  move "$SYNC/photos" "$OWNCLOUD/Documents/photos/$DATE" || exit 1
 fi
 
 if ! is_dir_empty "$SYNC/music"
 then
-  mv -v "$SYNC/music" "$OWNCLOUD/Documents/music/$DATE" || exit 1
+  move "$SYNC/music" "$OWNCLOUD/Documents/music/$DATE" || exit 1
 fi
 
 if ! is_dir_empty "$SYNC/video"
 then
-  mv -v "$SYNC/video" "$OWNCLOUD/Documents/videos/$DATE" || exit 1
+  move "$SYNC/video" "$OWNCLOUD/Documents/videos/$DATE" || exit 1
 fi
 
 if ! is_dir_empty "$SYNC/audiobook"
 then
-  mv -v "$SYNC/audiobook" "$OWNCLOUD/Documents/audiobooks/$DATE" || exit 1
+  move "$SYNC/audiobook" "$OWNCLOUD/Documents/audiobooks/$DATE" || exit 1
 fi
 
 rm -rfv "$SYNC"
