@@ -7,7 +7,7 @@ PODCASTDIR="$(pwd)"
 
 function fix_podcast_tags {
     PODCAST="$1"
-    ls "$PODCASTDIR/$PODCAST"/*.mp3 | (
+    find "$PODCASTDIR/$PODCAST" -maxdepth 1 | grep '\.mp3$' | (
         while read FILE
         do
             ID3_ARTIST="$(id3info "$FILE" | grep '^=== TPE1' | cut -f 2 -d ':' | xargs)"
