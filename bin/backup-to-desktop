@@ -1,0 +1,2 @@
+rsync -xav --progress --delete /mnt/server/home/jakutis/etc/storage.incoming/ ../etc/storage.incoming/ && rsync -xav --progress --delete /mnt/server/home/jakutis/etc/storage/ ../etc/storage/
+ls|while read A; do (cd "$A";git-pull-if-clean); done
