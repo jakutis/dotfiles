@@ -8,4 +8,5 @@ xscreensaver -no-splash &
 xcompmgr &
 parcellite &
 dropbox start
+cd Desktop
 awesome
