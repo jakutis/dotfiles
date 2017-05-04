@@ -47,4 +47,4 @@ then
   move "$SYNC/audiobook" "$OWNCLOUD/Documents/audiobooks/$DATE" || exit 1
 fi
 
-rm -rfv "$SYNC"
+rm -rfv "$SYNC" && syncipad clear ibooks/ photos/ music/ audiobook/ video/
