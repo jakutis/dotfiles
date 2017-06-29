@@ -116,117 +116,124 @@ else
 fi
 mymount ipad || exit 1
 
-mymount ipad:com.firecore.infuse.pro || exit 1
-if [ "$CLEAR" = "yes" ]
+mymount ipad:com.firecore.infuse.pro
+if [ "$?" = "0" ]
 then
-  for I in $(seq 2 $#)
-  do
-    ARG="${!I}"
-    ITEM="${ARG#*/}"
-    CLASS="${ARG%%/*}"
-    if [ "$CLASS" = "video" ]
-    then
-      if [ -z "$ITEM" ]
-      then
-        echo " Clear video"
-        remove "$IPAD_ROOT/"*
-      else
-        echo " Clear video/$ITEM"
-        remove "$IPAD_ROOT/$ITEM"
-      fi
-    fi
-  done
-elif [ "$REMOVE" = "yes" ]
-then
-  echo NOOP remove videos
-else
-  mkdir --parents "$HOME/Desktop/sync/video" || exit 1
-  echo "# Copying videos from Desktop to iPad"
-  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/video/" "$IPAD_ROOT/"  || exit 1
-  echo "# Copying videos from iPad to Desktop"
-  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/video/"  || exit 1
-  if is_dir_empty "$HOME/Desktop/sync/video/Inbox"
+  if [ "$CLEAR" = "yes" ]
   then
-    rm -rf "$HOME/Desktop/sync/video/Inbox"
+    for I in $(seq 2 $#)
+    do
+      ARG="${!I}"
+      ITEM="${ARG#*/}"
+      CLASS="${ARG%%/*}"
+      if [ "$CLASS" = "video" ]
+      then
+        if [ -z "$ITEM" ]
+        then
+          echo " Clear video"
+          remove "$IPAD_ROOT/"*
+        else
+          echo " Clear video/$ITEM"
+          remove "$IPAD_ROOT/$ITEM"
+        fi
+      fi
+    done
+  elif [ "$REMOVE" = "yes" ]
+  then
+    echo NOOP remove videos
+  else
+    mkdir --parents "$HOME/Desktop/sync/video" || exit 1
+    echo "# Copying videos from Desktop to iPad"
+    rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/video/" "$IPAD_ROOT/"  || exit 1
+    echo "# Copying videos from iPad to Desktop"
+    rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/" "$HOME/Desktop/sync/video/"  || exit 1
+    if is_dir_empty "$HOME/Desktop/sync/video/Inbox"
+    then
+      rm -rf "$HOME/Desktop/sync/video/Inbox"
+    fi
   fi
+  mymount ipad || exit 1
 fi
-mymount ipad || exit 1
 
-mymount ipad:com.epmakes.capricciofull || exit 1
-if [ "$CLEAR" = "yes" ]
+mymount ipad:com.epmakes.capricciofull
+if [ "$?" = "0" ]
 then
-  for I in $(seq 2 $#)
-  do
-    ARG="${!I}"
-    ITEM="${ARG#*/}"
-    CLASS="${ARG%%/*}"
-    if [ "$CLASS" = "music" ]
-    then
-      if [ -z "$ITEM" ]
+  if [ "$CLEAR" = "yes" ]
+  then
+    for I in $(seq 2 $#)
+    do
+      ARG="${!I}"
+      ITEM="${ARG#*/}"
+      CLASS="${ARG%%/*}"
+      if [ "$CLASS" = "music" ]
       then
-        echo " Clear music"
-        remove "$IPAD_ROOT/music"
-      else
-        echo " Clear music/$ITEM"
-        remove "$IPAD_ROOT/music/$ITEM"
+        if [ -z "$ITEM" ]
+        then
+          echo " Clear music"
+          remove "$IPAD_ROOT/music"
+        else
+          echo " Clear music/$ITEM"
+          remove "$IPAD_ROOT/music/$ITEM"
+        fi
       fi
-    fi
-    if [ "$CLASS" = "audiobook" ]
-    then
-      if [ -z "$ITEM" ]
+      if [ "$CLASS" = "audiobook" ]
       then
-        echo " Clear audiobook"
-        remove "$IPAD_ROOT/audiobook"
-      else
-        echo " Clear audiobook/$ITEM"
-        remove "$IPAD_ROOT/audiobook/$ITEM"
+        if [ -z "$ITEM" ]
+        then
+          echo " Clear audiobook"
+          remove "$IPAD_ROOT/audiobook"
+        else
+          echo " Clear audiobook/$ITEM"
+          remove "$IPAD_ROOT/audiobook/$ITEM"
+        fi
       fi
-    fi
-  done
+    done
 
-elif [ "$REMOVE" = "yes" ]
-then
-  for I in $(seq 2 $#)
-  do
-    ARG="${!I}"
-    ITEM="${ARG#*/}"
-    CLASS="${ARG%%/*}"
-    if [ "$CLASS" = "music" ]
-    then
-      if [ -z "$ITEM" ]
+  elif [ "$REMOVE" = "yes" ]
+  then
+    for I in $(seq 2 $#)
+    do
+      ARG="${!I}"
+      ITEM="${ARG#*/}"
+      CLASS="${ARG%%/*}"
+      if [ "$CLASS" = "music" ]
       then
-        echo " Remove music"
-        remove "$HOME/Desktop/sync/music"
-      else
-        echo " Remove music/$ITEM"
-        remove "$HOME/Desktop/sync/music/$ITEM"
+        if [ -z "$ITEM" ]
+        then
+          echo " Remove music"
+          remove "$HOME/Desktop/sync/music"
+        else
+          echo " Remove music/$ITEM"
+          remove "$HOME/Desktop/sync/music/$ITEM"
+        fi
       fi
-    fi
-    if [ "$CLASS" = "audiobook" ]
-    then
-      if [ -z "$ITEM" ]
+      if [ "$CLASS" = "audiobook" ]
       then
-        echo " Remove audiobook"
-        remove "$HOME/Desktop/sync/audiobook"
-      else
-        echo " Remove audiobook/$ITEM"
-        remove "$HOME/Desktop/sync/audiobook/$ITEM"
+        if [ -z "$ITEM" ]
+        then
+          echo " Remove audiobook"
+          remove "$HOME/Desktop/sync/audiobook"
+        else
+          echo " Remove audiobook/$ITEM"
+          remove "$HOME/Desktop/sync/audiobook/$ITEM"
+        fi
       fi
-    fi
-  done
-else
-  mkdir --parents "$IPAD_ROOT/audiobook" || exit 1
-  mkdir --parents "$IPAD_ROOT/music" || exit 1
-  mkdir --parents "$HOME/Desktop/sync/music" || exit 1
-  mkdir --parents "$HOME/Desktop/sync/audiobook" || exit 1
-  echo "# Copying audiobooks from Desktop to iPad"
-  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audiobook/" "$IPAD_ROOT/audiobook/" || exit 1
-  echo "# Copying audiobooks from iPad to Desktop"
-  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/audiobook/" "$HOME/Desktop/sync/audiobook/" || exit 1
-  echo "# Copying music from Desktop to iPad"
-  rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/music/" "$IPAD_ROOT/music/" || exit 1
-  echo "# Copying music from iPad to Desktop"
-  rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/music/" "$HOME/Desktop/sync/music/" || exit 1
+    done
+  else
+    mkdir --parents "$IPAD_ROOT/audiobook" || exit 1
+    mkdir --parents "$IPAD_ROOT/music" || exit 1
+    mkdir --parents "$HOME/Desktop/sync/music" || exit 1
+    mkdir --parents "$HOME/Desktop/sync/audiobook" || exit 1
+    echo "# Copying audiobooks from Desktop to iPad"
+    rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/audiobook/" "$IPAD_ROOT/audiobook/" || exit 1
+    echo "# Copying audiobooks from iPad to Desktop"
+    rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/audiobook/" "$HOME/Desktop/sync/audiobook/" || exit 1
+    echo "# Copying music from Desktop to iPad"
+    rsync --recursive --times --one-file-system --verbose --progress "$HOME/Desktop/sync/music/" "$IPAD_ROOT/music/" || exit 1
+    echo "# Copying music from iPad to Desktop"
+    rsync --recursive --times --one-file-system --verbose --progress "$IPAD_ROOT/music/" "$HOME/Desktop/sync/music/" || exit 1
+  fi
+  mymount ipad || exit 1
 fi
-mymount ipad || exit 1
 
+echo OK, synced.
