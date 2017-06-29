@@ -11,7 +11,7 @@ alias grep='grep --color=auto'
 alias less='less -R'
 alias cp='cp -i'
 alias mv='mv -i'
-alias ll='ls --dereference --all --human-readable -l --'
+alias ll='ls -l --sort=time --reverse --dereference --all --human-readable --'
 alias l1='ls --almost-all --dereference -1 --'
 alias duf='ls -goR | grep -v ^d | awk "{sum += \$3} END{print sum}"'
 
