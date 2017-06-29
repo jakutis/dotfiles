@@ -5,6 +5,10 @@ cd "$HOME/Desktop"
 SYNC="./sync"
 
 function is_dir_empty {
+  if [ ! -e "$1" ]
+  then
+    return 0
+  fi
   [ "$(ls -am "$1")" = "., .." ] && return 0 || return 1
 }
 
