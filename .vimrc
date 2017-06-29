@@ -2,6 +2,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'sbdchd/neoformat'
 Plug 'junegunn/fzf', { 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
@@ -10,6 +11,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-syntastic/syntastic'
 Plug 'Quramy/tsuquyomi'
+Plug 'airblade/vim-rooter'
 call plug#end()
 
 " vim-syntastic/syntastic
