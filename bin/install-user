@@ -906,7 +906,7 @@ fi
 
 if [ "$ENABLE_VIM" = "yes" ]
 then
-  if [ false -a ! -e "opt/neovim-$NEOVIMV" ]
+  if [ "0" = "1" -a ! -e "opt/neovim-$NEOVIMV" ]
   then
       ensure_git neovim https://github.com/neovim/neovim || exit 1
       (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "$NEOVIMCOMMIT") | tar xf - || exit 1
