@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FLAGS="--user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist --audio-buffer-size=4096"
+FLAGS="--no-default-browser-check --user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist --audio-buffer-size=4096"
 
 for BIN in chrome google-chrome-stable google-chrome chromium-browser chromium
 do
