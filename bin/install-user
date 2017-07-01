@@ -540,7 +540,7 @@ EOF
     rm colorout_${COLOROUTV}.tar.gz
 fi
 
-if ! [ -e "opt/js-1.8.5" ]
+if [ "$ENABLE_JS" = "yes" -a ! -e "opt/js-1.8.5" ]
 then
     curl -L "http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz" | tar zx || exit 1
     cd js-1.8.5/js/src && ./configure --prefix="$HOME/opt/js-1.8.5" && make && make install || exit 1
