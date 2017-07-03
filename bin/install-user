@@ -1057,7 +1057,7 @@ then
     ((cd "repos/git/libplist" && git archive --format=tar --prefix=libplist-build/ "$PLISTCOMMIT") | tar xf -) && cd "libplist-build" && NOCONFIGURE="yes" ./autogen.sh && LDFLAGS="-L$(pyenv prefix)/lib" CC=clang CXX=clang++ ./configure --prefix="$HOME/opt/libplist-${PLISTV}" && make && make install && cd .. && rm -rf "libplist-build" || exit 1
 fi
 
-if ! [ -e "opt/libusbmuxd-$LIBUSBMUXDV" ]
+if [ ! -e "opt/libusbmuxd-$LIBUSBMUXDV" ]
 then
     ensure_git libusbmuxd https://github.com/libimobiledevice/libusbmuxd || exit 1
     ((cd "repos/git/libusbmuxd" && git archive --format=tar --prefix=libusbmuxd-build/ "$LIBUSBMUXDV") | tar xf -) || exit 1
