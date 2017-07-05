@@ -153,6 +153,16 @@ then
     ENABLE_QTKEYCHAIN="yes"
 fi
 
+if [ "$ENABLE_USBMUXD" = "yes" ]
+then
+    ENABLE_LIBIMOBILEDEVICE="yes"
+fi
+
+if [ "$ENABLE_IFUSE" = "yes" ]
+then
+    ENABLE_LIBIMOBILEDEVICE="yes"
+fi
+
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 if [ -z "$DOTFILES" ]
 then
