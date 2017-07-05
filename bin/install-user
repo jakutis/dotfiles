@@ -1051,7 +1051,7 @@ then
     cd .bin && ln -nsf ../opt/beanstalkd-$BEANSTALKDV/bin/beanstalkd && cd .. || exit 1
 fi
 
-if ! [ -e "opt/jq-$JQV" ]
+if [ "$ENABLE_JQ" = "yes" -a ! -e "opt/jq-$JQV" ]
 then
     ensure_git jq https://github.com/stedolan/jq || exit 1
     cd "repos/git/jq" && git co "$JQCOMMIT" && autoreconf -i && ./configure --prefix="$HOME/opt/jq-$JQV" --disable-maintainer-mode && make && make install && cd ../../..|| exit 1
