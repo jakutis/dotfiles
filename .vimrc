@@ -54,8 +54,8 @@ function! neoformat#formatters#javascript#prettier() abort
 endfunction
 
 " junegunn/fzf
-noremap! <C-p> <Esc>:FZF<CR>
-nnoremap <C-p> <Esc>:FZF<CR>
+noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
+nnoremap <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
 
 " chriskempson/tomorrow-theme
 set background=light
@@ -96,8 +96,10 @@ set laststatus=2
 set norelativenumber
 set number
 
-" current working directory
+" set current working directory to that of the file
 set autochdir
+autocmd BufEnter * lcd %:p:h
+let g:rooter_manual_only = 1
 
 " folding
 set nofoldenable
