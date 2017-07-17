@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+diff -ru <(echo "$1" | jq -S .) <(echo "$2" | jq -S .)
