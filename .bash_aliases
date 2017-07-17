@@ -37,3 +37,4 @@ alias highlight='highlight --fragment --inline-css'
 alias zz='7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on'
 alias p='ps aux|grep -i'
 alias timed="stdbuf -i0 -o0 -e0 awk '{now=strftime(\"%F %T%z\t\");sub(/^/, now);print}'"
+alias youtube-dl="youtube-dl --prefer-ffmpeg"
