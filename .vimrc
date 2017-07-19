@@ -38,7 +38,7 @@ endfunction
 function! neoformat#formatters#typescript#prettier() abort
     return {
     \ 'exe': 'prettier',
-    \ 'args': ['--single-quote', '--print-width', '120', '--parser', 'typescript'],
+    \ 'args': ['--single-quote', '--print-width', '100', '--parser', 'typescript'],
     \ 'stdin': 1
     \ }
 endfunction
@@ -48,7 +48,7 @@ endfunction
 function! neoformat#formatters#javascript#prettier() abort
     return {
     \ 'exe': 'prettier',
-    \ 'args': ['--single-quote', '--print-width', '120', '--parser', 'typescript'],
+    \ 'args': ['--single-quote', '--print-width', '100', '--parser', 'typescript'],
     \ 'stdin': 1
     \ }
 endfunction
