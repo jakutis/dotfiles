@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
-FIRST="eDP-1"
-SECOND="$1"
-if [ "$SECOND" = "" ]
-then
-  SECOND="HDMI-1"
-fi
+FIRST="$1"
+SECOND="$2"
 
 xrandr \
-  --output "$SECOND" --auto --rotate normal --preferred --primary \
-  --output "$FIRST" --auto --rotate normal --below "$SECOND"
+  --output "eDP-1" --off \
+  --output "$FIRST" --auto --rotate normal --preferred --primary \
+  --output "$SECOND" --auto --rotate left --right-of "$FIRST"
