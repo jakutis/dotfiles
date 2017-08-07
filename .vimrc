@@ -32,6 +32,12 @@ augroup fmt
   autocmd!
   autocmd BufWritePre * Neoformat
 augroup END
+function! neoformat#formatters#html#enabled() abort
+    return []
+endfunction
+function! neoformat#formatters#scss#enabled() abort
+    return []
+endfunction
 function! neoformat#formatters#typescript#enabled() abort
     return ['prettier']
 endfunction
