@@ -3,7 +3,6 @@
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s cmdhist
-shopt -s autocd
 set -o noclobber
 set -o vi
 
