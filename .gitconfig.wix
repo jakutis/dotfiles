@@ -9,6 +9,7 @@
     email = jakutis@wix.com
 
 [alias]
+    fin = "!sh -c 'git stash -k && git ci -va && git pull --rebase && git p && git stash pop'"
     co = checkout
     st = status
     ci = commit
