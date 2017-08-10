@@ -29,7 +29,7 @@
   Mod4 + Home
 
 # Print Screen
-"ksnapshot --current"
+"shutter -f"
   Print
 
 # Win+Z
