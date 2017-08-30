@@ -38,8 +38,11 @@ endfunction
 function! neoformat#formatters#scss#enabled() abort
     return []
 endfunction
+function! neoformat#formatters#json#enabled() abort
+    return []
+endfunction
 function! neoformat#formatters#typescript#enabled() abort
-    return ['prettier']
+    return []
 endfunction
 function! neoformat#formatters#typescript#prettier() abort
     return {
@@ -49,7 +52,7 @@ function! neoformat#formatters#typescript#prettier() abort
     \ }
 endfunction
 function! neoformat#formatters#javascript#enabled() abort
-    return ['prettier']
+    return []
 endfunction
 function! neoformat#formatters#javascript#prettier() abort
     return {
