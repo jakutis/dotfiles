@@ -7,7 +7,6 @@ update-xinput
 xscreensaver -no-splash &
 xcompmgr &
 parcellite &
-osmo &
 dropbox start
 cd Desktop
 awesome
