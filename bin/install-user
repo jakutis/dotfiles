@@ -322,7 +322,7 @@ then
 fi
 
 
-if ! [ -e "opt/automake-${AUTOMAKEV}" ]
+if [ "$ENABLE_AUTOMAKE" = "yes" -a ! -e "opt/automake-${AUTOMAKEV}" ]
 then
     ensure_git automake http://git.savannah.gnu.org/r/automake.git || exit 1
     (cd "repos/git/automake" && git archive --format=tar --prefix=automake-build/ "v$AUTOMAKEV") | tar xf - || exit 1
