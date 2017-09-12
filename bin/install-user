@@ -1154,7 +1154,7 @@ then
     rm text2pdf.c
 fi
 
-if ! [ -e ".bin/sfnt2woff" -a -e ".bin/woff2sfnt" ]
+if [ "$ENABLE_SFNT2WOFF" = "yes" -a ! -e ".bin/sfnt2woff" -a -e ".bin/woff2sfnt" ]
 then
     mkdir sfnt2woff
     cd sfnt2woff
