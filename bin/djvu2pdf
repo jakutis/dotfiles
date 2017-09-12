@@ -51,8 +51,11 @@ do
     echo "Page $PAGE from interval [$PAGESTART; $PAGEFINISH]"
     mkdir "page-$PAGE"
     cd "page-$PAGE"
+    echo djvu2hocr
     djvu2hocr -p $PAGE "$DJVU" | sed 's/ocrx/ocr/g' > page.html || exit 1
+    echo ddjvu
     ddjvu -verbose -format=tiff -page=$PAGE "$DJVU" page.tif 1>>log 2>&1 || exit 1
+    echo pdfbeads
     pdfbeads -o ../page-${PAGE}.pdf 1>>log 2>&1 || exit 1
     cd ..
 done
