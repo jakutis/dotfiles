@@ -4,7 +4,7 @@ if [ -n "$1" ]
 then
     SESSION_NAME="$1"
 else
-    SESSION_NAME="$(basename $(pwd) | tr '.' '-')tmuxpleasecompareuntiltheend"
+    SESSION_NAME="$(basename $(pwd) | tr '.' '-')-$(pwd | md5sum | cut -f 1 -d ' ')"
 fi
 if ! tty --silent
 then
