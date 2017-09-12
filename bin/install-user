@@ -186,12 +186,6 @@ fi
 
 cd "$HOME"
 
-if [ ! -d "Dropbox" ]
-then
-  echo "Please install dropbox" 1>&2
-  exit 1
-fi
-
 ln -s "Dropbox/Apps/PlainText 2/repos-up" ".repos-up"
 
 mkdir --parents "$XDG_DATA_HOME/dotfiles"
