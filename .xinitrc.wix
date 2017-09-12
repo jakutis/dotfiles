@@ -6,6 +6,7 @@ xbindkeys
 update-xinput
 xscreensaver -no-splash &
 xcompmgr &
+start-pulseaudio-x11
 parcellite &
 dropbox start
 cd Desktop
