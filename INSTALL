@@ -1,0 +1,32 @@
+- download and install fedora core minimal
+- install awesome
+- install xorg-x11-server-Xorg
+- install xdm
+- run awesome
+- install git
+- copy .ssh folder
+- git clone git@jakut.is:DOTFILES repos/git/dotfiles
+- git clone git@jakut.is:VARIA repos/git/varia
+
+- mkdir .config/dotfiles -p
+- echo /home/jakutis/repos/git/varia > .config/dotfiles/varia
+- echo /home/jakutis/repos/git/dotfiles > .config/dotfiles/dotfiles
+- ln -s /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:19/PNP0C09:00/PNP0C0A:00/power_supply/BAT0 .config/dotfiles/battery
+- echo wix > .config/dotfiles/machine
+- echo firefox > .config/dotfiles/browser
+
+- su -
+- XDG_CONFIG_HOME=/home/jakutis/.config ./repos/git/dotfiles/bin/install-system 
+- ENABLE_GITSH=yes ENABLE_YOUTUBEDL=yes ENABLE_NODE=yes ENABLE_RUBY=yes ENABLE_PYTHON=yes XDG_CONFIG_HOME=/home/jakutis/.config XDG_CONFIG_DATA=/home/jakutis/.local/share ./repos/git/dotfiles/bin/install-user
+- rm .bash_profile
+- install google chrome
+- download and install java to ~/opt and link .config/dotfiles/java
+- reboot
+ln -s /sys/devices/pci0000:00/0000:00:1f.6/net eth
+- get iwlwifi-8265-ucode-22.361476.0.tgz and cp iwlwifi-*.ucode /lib/firmware
+ln -s /sys/devices/pci0000:00/0000:00:1c.0/0000:03:00.0/net wlan
+pip install python-djvulibre
+pip install lxml
+pyenv shell 2.7.13
+gem install iconv
+gem install pdfbeads
