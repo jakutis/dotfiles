@@ -1,9 +1,0 @@
-clear control
-clear mod1
-clear lock
-keycode 37 = Caps_Lock
-keycode 64 = Control_L
-keycode 66 = Alt_L
-add control = Control_L Control_R
-add mod1 = Alt_L
-add lock = Caps_Lock
