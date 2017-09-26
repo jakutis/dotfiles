@@ -8,6 +8,6 @@ xscreensaver -no-splash &
 xcompmgr &
 start-pulseaudio-x11
 parcellite &
-dropbox start
+nohup ./.dropbox-dist/dropboxd 1>/dev/null 2>/dev/null &
 cd Desktop
 awesome
