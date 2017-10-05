@@ -91,7 +91,7 @@ function screens {
           xrandr --output "$SCREEN" --auto $(xrandr|grep connected|sed -e 's/^\([A-Z0-9a-z-]*\) .*$/--output \1 --off /'|grep -v "$SCREEN")
         else
           DEFAULT="eDP-1"
-          xrandr --output "$DEFAULT" --auto --output "$SCREEN" --auto "--${POSITION}" "$DEFAULT" $(xrandr|grep connected|sed -e 's/^\([A-Z0-9a-z-]*\) .*$/--output \1 --off /'|grep -v "$SCREEN"|grep -v "$DEFAULT")
+          xrandr --output "$DEFAULT" --preferred --primary --auto --output "$SCREEN" --auto "--${POSITION}" "$DEFAULT" $(xrandr|grep connected|sed -e 's/^\([A-Z0-9a-z-]*\) .*$/--output \1 --off /'|grep -v "$SCREEN"|grep -v "$DEFAULT")
         fi
         echo "Existing presets are:" 1>&2
         ls -1 "$DOTFILES/screens.$MACHINE" 1>&2
