@@ -50,6 +50,11 @@ cat "$PODCASTLIST" | (
         echo "podcatcher $PODCAST"
         mkdir "$DIR" -p
         podcatcher -d "$PODCASTDIR/.podcatcher" -D "$DIR" --no-perfeed -s 0 -S chron -m 0 -f 0 --restrictednames "$URL"
+        if [ "$?" != "0" ]
+        then
+          echo $PODCAST failed
+          exit 1
+        fi
         echo "tag $PODCAST"
         fix_podcast_tags "$PODCAST"
     done
