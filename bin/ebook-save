@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+FILENAME="$1"
+FILENAMENOEXT="${FILENAME%.*}"
+
+[ -n "$(which pyenv)" ] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
+pyenv shell system
+
+ebook-convert-all "$FILENAME" || exit 1
+
+if [ "$(ls /mnt/owncloud|wc -l)" = "0" ]
+then
+  mymount owncloud || exit 1
+fi
+if [ "$(ls /mnt/server|wc -l)" = "0" ]
+then
+  mymount server || exit 1
+fi
+
+BOOKS="/mnt/owncloud/Documents/books/$(date +%F)"
+mkdir -p "$BOOKS" && cp -v "${FILENAMENOEXT}."* "$BOOKS" || exit 1
+
+cp -rv "$FILENAMENOEXT" "/mnt/server/files/public/books" || exit 1
