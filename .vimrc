@@ -12,7 +12,12 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-syntastic/syntastic'
 Plug 'Quramy/tsuquyomi'
 Plug 'airblade/vim-rooter'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 call plug#end()
+
+" mxw/vim-jsx
+let g:jsx_ext_required = 0
 
 " vim-syntastic/syntastic
 let g:syntastic_check_on_open = 1
