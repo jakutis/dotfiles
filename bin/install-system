@@ -58,9 +58,19 @@ then
     done
 elif [ -n "$APTGET" ]
 then
-    "$APTGET" install wget && wget --quiet https://www.virtualbox.org/download/oracle_vbox.asc --output-document=- | apt-key add - || exit 1
-    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - || exit 1
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+    "$APTGET" install apt-transport-https wget || exit 1
+
+    if [ -z "$(grep virtualbox /etc/apt/sources.list)" ]
+    then
+        wget --quiet --output-document=- https://www.virtualbox.org/download/oracle_vbox.asc | apt-key add - || exit 1
+        wget --quiet --output-document=- https://www.virtualbox.org/download/oracle_vbox_2016.asc | apt-key add - || exit 1
+        echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
+    fi
+    if [ -z "$(grep docker /etc/apt/sources.list)" ]
+    then
+        wget --quiet --output-document=- https://download.docker.com/linux/debian/gpg | apt-key add - || exit 1
+        echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" >> /etc/apt/sources.list
+    fi
 
     "$APTGET" update || exit 1
     # add when these are in official repositories: gdk-pixbuf-psd autopep8 vicious sage-mathematics skype skype-call-recorder teamviewer virtualbox-ext-oracle jbig2enc thttpd libpoppler-glib4
