@@ -157,10 +157,15 @@ case "$CMD" in
         ;;
     "battery")
         BATTERY="$XDG_CONFIG_HOME/dotfiles/battery"
-        echo "Energy factory: $(cat "$BATTERY/energy_full_design")"
-        echo "Energy full:    $(cat "$BATTERY/energy_full")"
-        echo "Energy now:     $(cat "$BATTERY/energy_now")"
-        echo "Status:         $(cat "$BATTERY/status")"
+        PREFIX="energy"
+        if [ ! -e "$BATTERY/${PREFIX}_full_design" ]
+        then
+          PREFIX="charge"
+        fi
+        echo "After purchase: $(cat "$BATTERY/${PREFIX}_full_design")"
+        echo "When full:      $(cat "$BATTERY/${PREFIX}_full")"
+        echo "Now:            $(cat "$BATTERY/${PREFIX}_now")"
+        echo "Mode:           $(cat "$BATTERY/status")"
         ;;
     "screens")
         shift
