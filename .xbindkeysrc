@@ -1,5 +1,21 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
+# Keyboard brightness raise
+"system keyboard more"
+  XF86KbdBrightnessUp
+
+# Keyboard brightness lower
+"system keyboard less"
+  XF86KbdBrightnessDown
+
+# Screen brightness raise
+"system brightness more"
+  XF86MonBrightnessUp
+
+# Screen brightness lower
+"system brightness less"
+  XF86MonBrightnessDown
+
 # Win+F8
 "xclip -o -selection primary|xclip -i -selection clipboard"
   Mod4 + F8
