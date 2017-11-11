@@ -124,6 +124,11 @@ IMAGEMAGICKV="7.0.1-6"
 CMUSV="2.7.1"
 CMUSCOMMIT="v$CMUSV"
 
+if [ "$ENABLE_GITSH" = "yes" ]
+then
+    ENABLE_RUBY="yes"
+fi
+
 if [ "$ENABLE_UPPLAY" = "yes" ]
 then
     ENABLE_LIBUPNPP="yes"
