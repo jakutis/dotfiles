@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
-if [ "$(cat "$HOME/.xkblayout")" = "us" ]
+if [ "$(cat "$HOME/.xkblayout")" = "lt" ]
 then
-    #setxkbmap -layout lt -variant us -symbols "pc+lt(us)+inet(evdev)"
-    setxkbmap -layout lt
-    echo lt > "$HOME/.xkblayout"
+    setxkbmap -layout de
+    echo de > "$HOME/.xkblayout"
 else
-    setxkbmap -layout us
-    echo us > "$HOME/.xkblayout"
+    setxkbmap -layout lt -variant us -symbols "pc+lt(us)+inet(evdev)"
+    echo lt > "$HOME/.xkblayout"
 fi
 
 xmodmap "$HOME/.Xmodmap"
