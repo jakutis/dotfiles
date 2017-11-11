@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-if [ "$(cat "$HOME/.xkblayout")" = "de" ]
+if [ "$(cat "$HOME/.xkblayout")" = "us" ]
 then
-    update-xinput
+    #setxkbmap -layout lt -variant us -symbols "pc+lt(us)+inet(evdev)"
+    setxkbmap -layout lt
     echo lt > "$HOME/.xkblayout"
 else
-    setxkbmap -layout de
-    echo de > "$HOME/.xkblayout"
+    setxkbmap -layout us
+    echo us > "$HOME/.xkblayout"
 fi
+
+xmodmap "$HOME/.Xmodmap"
