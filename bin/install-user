@@ -15,6 +15,7 @@ fi
 set -o verbose
 set -o xtrace
 
+DOCKERCOMPOSEV="1.17.1"
 CALCURSEV="4.1.0"
 LIBAVV="11.7"
 EMACSV="24.5"
@@ -1374,4 +1375,11 @@ then
     cd opt && ln -nsf "calcurse-${CALCURSEV}" "calcurse" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/calcurse/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
+
+if [ "$ENABLE_DOCKERCOMPOSE" = "yes" ]
+then
+  curl -L "https://github.com/docker/compose/releases/download/${DOCKERCOMPOSEV}/docker-compose-$(uname -s)-$(uname -m)" -o "${HOME}/.bin/docker-compose"
+  chmod +x "${HOME}/.bin/docker-compose"
+fi
+
 #https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
