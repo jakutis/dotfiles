@@ -102,6 +102,44 @@ function screens {
     xset s 300
 }
 
+function brightness {
+  DIR="$1"
+  ARG="$2"
+  if ! [ -d "$DIR" ]
+  then
+      echo "Symlink $DIR does not exist, please create it, e.g. ln -s /sys/devices/platform/applesmc.768/leds/smc::kbd_backlight \"$DIR\"" 1>&2
+      exit 1
+  fi
+  CURRENT="$(cat "$DIR/brightness")"
+  MAX="$(cat "$DIR/max_brightness")"
+  MIN="0"
+  RANGE=$(($MAX - $MIN))
+  STEP=$(($RANGE / 20))
+
+  if [ "$ARG" = "" ]
+  then
+      echo "$CURRENT"
+  elif [ "$ARG" = "more" ]
+  then
+      echo $(($CURRENT + $STEP)) > "$DIR/brightness"
+  elif [ "$ARG" = "less" ]
+  then
+      echo $(($CURRENT - $STEP)) > "$DIR/brightness"
+  elif [ "$ARG" = "max" -o "$ARG" = "maximum" ]
+  then
+      echo "$MAX" > "$DIR/brightness"
+  elif [ "$ARG" = "min" -o "$ARG" = "minimum" ]
+  then
+      echo "$MIN" > "$DIR/brightness"
+  elif [ "${ARG:(-1)}" = "%" ]
+  then
+      PERCENT="${ARG::-1}"
+      echo $(($MIN + $PERCENT * $RANGE / 100)) > "$DIR/brightness"
+  else
+      echo $ARG > "$DIR/brightness"
+  fi
+}
+
 if [ -z "$CMD" ]
 then
     echo "Error: no command given" 1>&2
@@ -110,49 +148,11 @@ then
 fi
 
 case "$CMD" in
+    "keyboard")
+        brightness "$XDG_CONFIG_HOME/dotfiles/keyboard" "$2"
+        ;;
     "brightness")
-        DIR="$XDG_CONFIG_HOME/dotfiles/brightness"
-        ARG="$2"
-
-        if ! [ -d "$DIR" ]
-        then
-            echo "Symlink $DIR does not exist, please create it, e.g. ln -s /sys/devices/pci0000:00/0000:00:02.0/backlight/acpi_video0 \"$DIR\"" 1>&2
-            exit 1
-        fi
-        CURRENT="$(cat "$DIR/brightness")"
-        MAX="$(cat "$DIR/max_brightness")"
-        MIN="0"
-        RANGE=$(($MAX - $MIN))
-        STEP=$(($RANGE / 20))
-
-        if [ "$ARG" = "" ]
-        then
-            echo "$CURRENT"
-        elif [ "$ARG" = "save" ]
-        then
-            echo "$CURRENT" > "$XDG_DATA_HOME/dotfiles/lastbrightness"
-        elif [ "$ARG" = "saved" ]
-        then
-            cat "$XDG_DATA_HOME/dotfiles/lastbrightness" > "$DIR/brightness"
-        elif [ "$ARG" = "more" ]
-        then
-            echo $(($CURRENT + $STEP)) > "$DIR/brightness"
-        elif [ "$ARG" = "less" ]
-        then
-            echo $(($CURRENT - $STEP)) > "$DIR/brightness"
-        elif [ "$ARG" = "max" -o "$ARG" = "maximum" ]
-        then
-            echo "$MAX" > "$DIR/brightness"
-        elif [ "$ARG" = "min" -o "$ARG" = "minimum" ]
-        then
-            echo "$MIN" > "$DIR/brightness"
-        elif [ "${ARG:(-1)}" = "%" ]
-        then
-            PERCENT="${ARG::-1}"
-            echo $(($MIN + $PERCENT * $RANGE / 100)) > "$DIR/brightness"
-        else
-            echo $ARG > "$DIR/brightness"
-        fi
+        brightness "$XDG_CONFIG_HOME/dotfiles/brightness" "$2"
         ;;
     "battery")
         BATTERY="$XDG_CONFIG_HOME/dotfiles/battery"
