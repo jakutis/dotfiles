@@ -39,7 +39,7 @@ then
         "text/html")
             www -- "$FILE"
             ;;
-        "audio/x-flac" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg" | "video/x-ms-asf" | "audio/x-m4a")
+        "audio/x-flac" | "audio/ogg" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg" | "video/x-ms-asf" | "audio/x-m4a")
             $MEDIAPLAYER -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
