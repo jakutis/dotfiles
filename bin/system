@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-if [ "$(id -u)" != "0" ]
+CMD="$1"
+
+if [ "$(id -u)" != "0" -a "$CMD" != "brightness" -a "$CMD" != "battery" -a "$CMD" != "keyboard" ]
 then
   ARGS="$@"
   if tty --silent
@@ -16,7 +18,6 @@ then
   exit
 fi
 
-CMD="$1"
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
