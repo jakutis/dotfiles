@@ -92,6 +92,7 @@ then
     ln -nsf "$VARIA/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
 else
     ln -nsf "$VARIA/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
+    ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
     for SRV in NetworkManager ejabberd sshd ModemManager mysql apache2 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd
     do
         systemctl disable $SRV && systemctl stop $SRV || exit 1

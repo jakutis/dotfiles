@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -n "$(cat /proc/acpi/wakeup | grep LID0 | grep enabled)" ]
+then
+  echo LID0 > /proc/acpi/wakeup
+fi
+
+chmod a+w /home/jakutis/.config/dotfiles/brightness/brightness
+chmod a+w /home/jakutis/.config/dotfiles/keyboard/brightness
