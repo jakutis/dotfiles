@@ -7,11 +7,12 @@ xset s noexpose
 xset s off
 xset b off
 xset r rate 250 50
-setxkbmap -layout lt -variant us -symbols "pc+lt(us)+inet(evdev)"
+rm ~/.xkblayout
+xkbswitch
 
 if [ "$MACHINE" = "wix" ]
 then
-    xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Off" 1
+  xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Off" 1
 elif [ "$MACHINE" = "laptop" ]
 then
   xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
@@ -19,8 +20,6 @@ then
   xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 8 6 7 4 5
   xinput disable "SynPS/2 Synaptics TouchPad"
 fi
-
-xmodmap "$HOME/.Xmodmap"
 
 if [ -n "$(which synclient 2>/dev/null)" ]
 then
