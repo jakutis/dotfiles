@@ -1,7 +1,8 @@
 [Desktop Entry]
-Type=Application
-Exec=www
-Icon=konqueror
 Name=WWW
-Categories=System;
-NoDisplay=true
+Exec=www %U
+Terminal=false
+Icon=google-chrome
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
