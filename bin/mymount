@@ -40,7 +40,7 @@ then
         sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR";simple-mtpfs --device "$SUBMOUNT" "$DIR" -o gid=$(id -u),allow_other"
     elif [ "$MOUNT" = "ipad" ]
     then
-        echo "Make sure usbmuxd is running as root, e.g.: /home/jakutis/opt/usbmuxd-1.1.0/sbin/usbmuxd -f -v"
+        echo "Make sure usbmuxd is running as root, e.g.: sudo $(which usbmuxd) -f -v"
         sudo bash -c "mkdir -p "$DIR";chown $USER: "$DIR""
         if [ -z "$SUBMOUNT" ]
         then
