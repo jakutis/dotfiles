@@ -2,10 +2,12 @@
 !control     Control_L (0x25),  Control_R (0x69)
 !mod1        Alt_L (0x40),  Alt_L (0xcc)
 !mod4        Super_L (0x85),  Super_R (0x86),  Super_L (0xce),  Hyper_L (0xcf)
+!mod5        ISO_Level3_Shift (0x5c),  Mode_switch (0xcb)
 clear lock
 clear control
 clear mod1
 clear mod4
+clear mod5
 
 !keycode 9 = Escape
 keycode 9 = Super_L
@@ -18,7 +20,7 @@ keycode 133 = Control_L
 !keycode 64 = Alt_L
 keycode 64 = Alt_L
 !keycode 134 = Super_R
-keycode 134 = Control_R
+keycode 134 = ISO_Level3_Shift
 !keycode 108 = Alt_R
 keycode 108 = Alt_R
 
@@ -28,3 +30,4 @@ add control = Control_R
 add mod1 = Alt_L
 add mod1 = Alt_R
 add mod4 = Super_L
+add mod5 = ISO_Level3_Shift
