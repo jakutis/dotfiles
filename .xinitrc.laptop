@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-cd "$HOME"
-source .profile
 xhost localhost
-xrdb -merge .Xresources
+xrdb -merge "$HOME/.Xresources"
+xbindkeys
 update-xinput
-LOG_DIR="$HOME/etc/wiki/xwinlogger" nohup xwinlogger >/dev/null 2>&1 &
-start-pulseaudio-x11
-start-minidlna
 xscreensaver -no-splash &
-autocutsel -selection PRIMARY -buttonup -fork
-autocutsel -selection SECONDARY -buttonup -fork
-autocutsel -selection CLIPBOARD -buttonup -fork
+xcompmgr &
+start-pulseaudio-x11
+parcellite &
+nohup ./.dropbox-dist/dropboxd 1>/dev/null 2>/dev/null &
+cd Desktop
 awesome

@@ -1,5 +1,5 @@
 [core]
-    editor = vim
+    editor = e
     filemode = false
     autocrlf = false
     ignorecase = false
@@ -9,6 +9,7 @@
     email = vytautas@jakut.is
 
 [alias]
+    fin = "!sh -c 'git stash -k && git ci -va && git pull --rebase && git p && git stash pop'"
     co = checkout
     st = status
     ci = commit
@@ -53,13 +54,13 @@
     untracked = cyan
 
 [diff]
-    tool = vimdiff
+    tool = meld
 
 [difftool]
     prompt = false
 
 [merge]
-    tool = vimdiff
+    tool = meld
 
 [push]
     default = matching
@@ -69,3 +70,8 @@
 
 [url "https://"]
     insteadOf = git://
+[pager]
+	diff = diff-so-fancy | less --tabs=4 -RFX
+	show = diff-so-fancy | less --tabs=4 -RFX
+[credential]
+	helper = cache
