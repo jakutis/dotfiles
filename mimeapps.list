@@ -9,7 +9,9 @@ inode/directory=kde4-kfmclient_dir.desktop;
 text/csv=libreoffice-2.desktop;
 text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
+x-scheme-handler/https=www.desktop;
 
 [Default Applications]
 application/pdf=AdobeReader.desktop
 x-scheme-handler/http=www.desktop;
+x-scheme-handler/https=www.desktop;
