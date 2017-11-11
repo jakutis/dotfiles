@@ -90,10 +90,10 @@ then
     ln -nsf "$VARIA/server/procmailrc" "/etc/procmailrc" || exit 1
     ln -nsf "$VARIA/server/rc.local" "/etc/rc.local" || exit 1
     ln -nsf "$VARIA/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
-fi
-
-if [ "$MACHINE" = "wix" ]
-then
-  systemctl disable NetworkManager && systemctl stop NetworkManager || exit 1
-  ln -nsf "$VARIA/wix/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
+else
+    ln -nsf "$VARIA/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
+    for SRV in NetworkManager ejabberd sshd ModemManager mysql apache2 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd
+    do
+        systemctl disable $SRV && systemctl stop $SRV || exit 1
+    done
 fi
