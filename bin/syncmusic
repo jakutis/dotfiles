@@ -11,8 +11,11 @@ function fix_podcast_tags {
         while read FILE
         do
             NEWFILE="$(echo "$FILE" | tr "'" "_")"
-            mv "$FILE" "$NEWFILE"
-            FILE="$NEWFILE"
+            if [ "$NEWFILE" != "$FILE" ]
+            then
+              mv "$FILE" "$NEWFILE"
+              FILE="$NEWFILE"
+            fi
 
             ID3_ARTIST="$(id3info "$FILE" | grep '^=== TPE1' | cut -f 2 -d ':' | xargs)"
             ID3_SONG="$(id3info "$FILE" | grep '^=== TIT2' | cut -f 2 -d ':' | xargs)"
