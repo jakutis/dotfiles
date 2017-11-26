@@ -219,6 +219,14 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
+            awful.widget.watch('bash -c \'echo -e "scale=2;\n$(cat ' .. os.getenv("HOME") .. '/.config/dotfiles/battery/charge_now) / $(cat ' .. os.getenv("HOME") .. '/.config/dotfiles/battery/charge_full_design) * 100" | bc -l\'', 10, function (widget, stdout)
+                percent = math.floor(tonumber(stdout));
+                if percent < 33 then
+                    widget.markup = '<span background="red" foreground="white" size="x-large">' .. percent .. '%</span>';
+                else
+                    widget.markup = percent .. '%';
+                end
+            end, wibox.widget.textbox()),
             mytextclock,
             s.mylayoutbox,
         },
