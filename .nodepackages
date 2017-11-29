@@ -1,4 +1,5 @@
 serve
+heroku-cli
 trello-backup
 npmedge
 diff-so-fancy
