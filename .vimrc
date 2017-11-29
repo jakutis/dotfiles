@@ -28,6 +28,7 @@ let g:syntastic_enable_highlighting = 1
 let g:syntastic_auto_jump = 0
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_scss_checkers = []
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
