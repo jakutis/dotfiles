@@ -30,3 +30,4 @@ export PATH
 [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use default 1>/dev/null
 [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")"
 [[ -s "$HOME/.opam/opam-init/init.sh" ]] && . "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null
+[[ -s "$HOME/opt/google-cloud-sdk/path.bash.inc" ]] && . "$HOME/opt/google-cloud-sdk/path.bash.inc" 1>/dev/null 2>/dev/null
