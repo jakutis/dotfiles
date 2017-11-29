@@ -8,4 +8,4 @@ xrandr \
   --output "eDP-1" --off \
   --output "$FIRST" --auto  --rotate right\
   --output "$SECOND" --auto --rotate normal --left-of "$FIRST" --preferred --primary \
-  --output "$THIRD" --auto --rotate left --left-of "$SECOND"
+  --output "$THIRD" --auto --rotate normal --left-of "$SECOND"
