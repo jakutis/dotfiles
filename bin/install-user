@@ -217,6 +217,7 @@ fi
 mkdir --parents ".cmus"
 cd ".cmus"
 ln -nsf "$DOTFILES/.cmus/rc"
+ln -nsf "$HOME/Dropbox/Apps/Byword/cmus-playlists" "$HOME/.cmus/playlists"
 cd ..
 
 mkdir --parents ".elinks"
