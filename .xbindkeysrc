@@ -48,6 +48,10 @@
 "shutter -f"
   Print
 
+# Print Screen
+"shutter -f"
+  XF86LaunchA
+
 # Win+Z
 "cmus-remote -C player-prev"
   Mod4 + z
