@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+FILENAME="$1"
+
+if [ "$(ls /mnt/owncloud|wc -l)" = "0" ]
+then
+  mymount owncloud || exit 1
+fi
+
+ARTICLES="/mnt/owncloud/Documents/articles/$(date +%F)"
+mkdir -p "$ARTICLES" && cp -v "${FILENAME}" "$ARTICLES" || exit 1
