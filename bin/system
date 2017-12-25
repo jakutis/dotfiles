@@ -193,7 +193,9 @@ case "$CMD" in
         power poweroff
         ;;
     "suspend")
-        power suspend
+        "$HOME/bin/blank" || exit 1
+        xscreensaver-command -lock || exit 1
+        power suspend || exit 1
         ;;
     "hibernate")
         screens mobile
