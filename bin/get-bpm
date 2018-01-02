@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ffmpeg -i "$1" -f f32le -acodec pcm_f32le -ar 44100 -ac 1 - 2>/dev/null | bpm -m 60 -x 220 || exit 1
