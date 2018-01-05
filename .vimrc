@@ -123,8 +123,8 @@ set nofoldenable
 let paste_mode = 0
 set pastetoggle=<F9>
 
-" ^ and $ around lines
-set list
+" no ^ and $ around lines
+set nolist
 
 " file formats
 set ffs=unix
