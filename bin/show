@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MEDIAPLAYER="mplayer"
+MEDIAPLAYER="vlc"
 EBOOKVIEWER="ebook-viewer"
 
 FILE="$1"
