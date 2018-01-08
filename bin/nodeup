@@ -16,6 +16,7 @@ then
 fi
 
 source "$HOME/.nvm/nvm.sh"
+pyenv shell system
 
 nvm install "v$NEWVERSION"
 nvm alias default $NEWVERSION
