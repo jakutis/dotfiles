@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if [ "$(id -u)" != "0" -a "$CMD" != "brightness" -a "$CMD" != "battery" -a "$CMD" != "keyboard" ]
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "keyboard" ])
 then
   ARGS="$@"
   if tty --silent
