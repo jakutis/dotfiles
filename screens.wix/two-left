@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+FIRST="$1"
+SECOND="$2"
+
+xrandr \
+  --output "eDP-1" --off \
+  --output "$FIRST" --auto --rotate normal --preferred --primary \
+  --output "$SECOND" --auto --rotate left --left-of "$FIRST"
