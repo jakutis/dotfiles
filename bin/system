@@ -166,7 +166,9 @@ case "$CMD" in
         echo "When full:      $(cat "$BATTERY/${PREFIX}_full")"
         echo "Now:            $(cat "$BATTERY/${PREFIX}_now")"
         echo "Mode:           $(cat "$BATTERY/status")"
-        echo "Current now:    $(cat "$BATTERY/current_now")"
+        [ -r "$BATTERY/current_now" ] && echo "Current now:    $(cat "$BATTERY/current_now")"
+        [ -r "$BATTERY/power_now" ] && echo "Power now:      $(cat "$BATTERY/power_now")"
+        [ -r "$BATTERY/voltage_now" ] && echo "Voltage now:    $(cat "$BATTERY/voltage_now")"
         ;;
     "screens")
         shift
