@@ -80,6 +80,11 @@ function screens {
     CFG="$1"
     shift
 
+    for SCREEN in $(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1)
+    do
+      xrandr --output "$SCREEN" --off
+    done
+
     if [ -f "$DOTFILES/screens/$CFG" ]
     then
         "$DOTFILES/screens/$CFG" "$@"

@@ -5,4 +5,4 @@ SECOND="$2"
 
 xrandr \
   --output "$FIRST" --auto --rotate normal --preferred --primary \
-  --output "$SECOND" --auto --rotate left --right-of "$FIRST"
+  --output "$SECOND" --auto --rotate normal --below "$FIRST"

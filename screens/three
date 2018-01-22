@@ -5,7 +5,6 @@ SECOND="$2"
 THIRD="$3"
 
 xrandr \
-  --output "eDP-1" --off \
   --output "$FIRST" --auto  --rotate right\
   --output "$SECOND" --auto --rotate normal --left-of "$FIRST" --preferred --primary \
   --output "$THIRD" --auto --rotate normal --left-of "$SECOND"
