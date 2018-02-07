@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-FIRST="$1"
-SECOND="$2"
-THIRD="$3"
+LEFT="$1"
+CENTER="$2"
+RIGHT="$3"
 
 xrandr \
-  --output "$FIRST" --auto  --rotate right\
-  --output "$SECOND" --auto --rotate normal --left-of "$FIRST" --preferred --primary \
-  --output "$THIRD" --auto --rotate normal --left-of "$SECOND"
+  --output "$LEFT" --auto  --rotate left \
+  --output "$CENTER" --auto --rotate normal --right-of "$LEFT" --preferred --primary \
+  --output "$RIGHT" --auto --rotate right --right-of "$CENTER"
