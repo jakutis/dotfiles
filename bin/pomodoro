@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# https://github.com/rukshn/pomodoro ???
-
 EVENT="$1"
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 
@@ -10,6 +8,7 @@ function iso-date {
 }
 
 function notify {
+  echo "${1}${2}"
   notify-send --expire-time=10000 "${1}${2}"
 }
 
@@ -96,4 +95,7 @@ then
 elif [ "${EVENT:0:1}" = "s" ]
 then
   command shortbreak 1 300
+else
+  echo "You gave an unknown command."
+  echo "The recognized commands are: 's' for short break, 'l' for long break, 'i' for interruption, 'st' for status, 'p' for pomodoro."
 fi
