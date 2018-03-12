@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+cd "$HOME"
 xhost localhost
-xrdb -merge "$HOME/.Xresources"
+xrdb -merge .Xresources
 xbindkeys
 update-xinput
 xscreensaver -no-splash &
