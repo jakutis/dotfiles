@@ -82,6 +82,7 @@ function screens {
 
     for SCREEN in $(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1)
     do
+      echo xrandr --output "$SCREEN" --off
       xrandr --output "$SCREEN" --off
     done
 
