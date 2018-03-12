@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sudo killall dhclient
+sudo dhclient -v $1
