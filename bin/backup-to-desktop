@@ -1,4 +1,6 @@
-rsync -xav --progress --delete /mnt/server/home/jakutis/etc/storage.incoming/ ~/etc/storage.incoming/ && rsync -xav --progress --delete /mnt/server/home/jakutis/etc/storage/ ~/etc/storage/
-cd ~/etc/gitolite-admin && git pull --rebase
-cd ~/repos/git
-(cat ~/etc/gitolite-admin/conf/gitolite.conf |grep repo|cut -c 6-;ls) | sort | uniq | while read A; do (cd "$A" && git-pull-if-clean || git clone git@jakut.is:$A); done
+rsync -xav --progress --delete /mnt/server/home/jakutis/unsorted/ ~/unsorted/ || exit 1
+rsync -xav --progress --delete /mnt/server/home/jakutis/etc/storage.incoming/ ~/etc/storage.incoming/ || exit 1
+rsync -xav --progress --delete /mnt/server/home/jakutis/etc/storage/ ~/etc/storage/ || exit 1
+cd ~/etc/gitolite-admin && git pull --rebase || exit 1
+cd ~/repos/git || exit 1
+(cat ~/etc/gitolite-admin/conf/gitolite.conf |grep repo|cut -c 6-;ls) | sort | uniq | while read A; do (cd "$A" && git-pull-if-clean || git clone git@jakut.is:$A); done || exit 1
