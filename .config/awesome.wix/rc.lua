@@ -219,12 +219,21 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            awful.widget.watch('bash -c \'FREE=$(free -b|head -n 2|tail -n 1|tr --squeeze-repeats " " "_"|cut -d _ -f 4);BUFF=$(free -b|head -n 2|tail -n 1|tr --squeeze-repeats " " "_"|cut -d _ -f 6);echo $((FREE + $BUFF));\'', 10, function (widget, stdout)
+                free_bytes = math.floor(tonumber(stdout));
+                free_gigabytes = math.floor((free_bytes * 100) / (1024 * 1024 * 1024) + 0.5) / 100;
+                if free_gigabytes < 0.5 then
+                    widget.markup = ' <span background="red" foreground="white" size="x-large">' .. free_gigabytes .. ' GiB</span> ';
+                else
+                    widget.markup = ' ' .. free_gigabytes .. ' GiB ';
+                end
+            end, wibox.widget.textbox()),
             awful.widget.watch('bash -c \'echo -e "scale=2;\n$(cat ' .. os.getenv("HOME") .. '/.config/dotfiles/battery/energy_now) / $(cat ' .. os.getenv("HOME") .. '/.config/dotfiles/battery/energy_full_design) * 100" | bc -l\'', 10, function (widget, stdout)
                 percent = math.floor(tonumber(stdout));
                 if percent < 33 then
-                    widget.markup = '<span background="red" foreground="white" size="x-large">' .. percent .. '%</span>';
+                    widget.markup = ' <span background="red" foreground="white" size="x-large">' .. percent .. '%</span> ';
                 else
-                    widget.markup = percent .. '%';
+                    widget.markup = ' ' .. percent .. '% ';
                 end
             end, wibox.widget.textbox()),
             mytextclock,
