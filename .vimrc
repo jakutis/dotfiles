@@ -14,6 +14,7 @@ Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'lifepillar/vim-solarized8'
+Plug 'suan/vim-instant-markdown'
 call plug#end()
 
 " mxw/vim-jsx
