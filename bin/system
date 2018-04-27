@@ -80,16 +80,35 @@ function screens {
     CFG="$1"
     shift
 
-    for SCREEN in $(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1)
-    do
-      echo xrandr --output "$SCREEN" --off
-      xrandr --output "$SCREEN" --off
-    done
+    CONNECTED=$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)
 
     if [ -f "$DOTFILES/screens/$CFG" ]
     then
-        "$DOTFILES/screens/$CFG" "$@"
+        SCREENS="$@"
+        while [ -n "$1" ]
+        do
+          if [ -z "$(echo " $CONNECTED " | grep " $1 ")" ]
+          then
+            echo "$1 not connected"
+            exit 1
+          fi
+          shift
+        done
+
+        for SCREEN in $CONNECTED
+        do
+          echo xrandr --output "$SCREEN" --off
+          xrandr --output "$SCREEN" --off
+        done
+
+        "$DOTFILES/screens/$CFG" $SCREENS
     else
+        for SCREEN in $CONNECTED
+        do
+          echo xrandr --output "$SCREEN" --off
+          xrandr --output "$SCREEN" --off
+        done
+
         echo "Configuration is not a preset, parsing the definition"
         SCREEN="${CFG%%:*}"
         POSITION="${CFG#*:}"
