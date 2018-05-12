@@ -28,25 +28,60 @@ function help {
 
 function fan {
   LEVEL="$1"
-  if [ -z "$LEVEL" ]
+  IBM="/proc/acpi/ibm/fan"
+  APPLE="/sys/devices/platform/applesmc.768"
+  if [ -e "$IBM" ]
   then
-    cat /proc/acpi/ibm/fan
-  else
-    if [ "$LEVEL" = "off" ]
+    if [ -z "$LEVEL" ]
     then
-      LEVEL="0"
-    elif [ "$LEVEL" = "low" ]
-    then
-      LEVEL="2"
-    elif [ "$LEVEL" = "medium" ]
-    then
-      LEVEL="4"
-    elif [ "$LEVEL" = "maximum" ]
-    then
-      LEVEL="7"
+      cat "$IBM"
+    else
+      if [ "$LEVEL" = "minimum" -o "$LEVEL" = "min" -o "$LEVEL" = "low" ]
+      then
+        LEVEL="0"
+      elif [ "$LEVEL" = "medium" -o "$LEVEL" = "med" ]
+      then
+        LEVEL="4"
+      elif [ "$LEVEL" = "maximum" -o "$LEVEL" = "max" -o "$LEVEL" = "high" ]
+      then
+        LEVEL="7"
+      elif [ "$LEVEL" = "automatic" -o "$LEVEL" = "auto" ]
+      then
+        LEVEL="auto"
+      fi
+      # LEVEL can be number and auto and disengaged
+      echo "level $LEVEL" > "$IBM"
     fi
-    # LEVEL can be number and auto and disengaged
-    echo "level $LEVEL" > /proc/acpi/ibm/fan
+  elif [ -e "$APPLE" ]
+  then
+    MIN=$(cat "$APPLE/fan1_min")
+    MAX=$(cat "$APPLE/fan1_max")
+    if [ -z "$LEVEL" ]
+    then
+      cat "$APPLE/fan1_output"
+    else
+      if [ "$LEVEL" = "minimum" -o "$LEVEL" = "min" -o "$LEVEL" = "low" ]
+      then
+        echo "1" > "$APPLE/fan1_manual"
+        echo "$MIN" > "$APPLE/fan1_output"
+      elif [ "$LEVEL" = "medium" -o "$LEVEL" = "med" ]
+      then
+        echo "1" > "$APPLE/fan1_manual"
+        echo $((MIN+(MAX-MIN)/2)) > "$APPLE/fan1_output"
+      elif [ "$LEVEL" = "maximum" -o "$LEVEL" = "max" -o "$LEVEL" = "high" ]
+      then
+        echo "1" > "$APPLE/fan1_manual"
+        echo "$MAX" > "$APPLE/fan1_output"
+      elif [ "$LEVEL" = "automatic" -o "$LEVEL" = "auto" ]
+      then
+        echo "0" > "$APPLE/fan1_manual"
+      else
+        echo "1" > "$APPLE/fan1_manual"
+        echo "$LEVEL" > "$APPLE/fan1_output"
+      fi
+    fi
+  else
+    echo "Unrecognized fan device"
   fi
 }
 
