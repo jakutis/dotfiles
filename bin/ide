@@ -18,6 +18,8 @@ SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
 echo "new-window -n e 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle e;e;echo e;bash'" >> "$SESSION_FILE"
 echo "new-window -n gitsh 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle gitsh;gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
 echo "new-window -n tig 'TMUX= settitle \$(basename \"\$(pwd)\");settmuxtitle tig;tig;echo tig;bash'" >> "$SESSION_FILE"
+echo "last-window -t '$SESSION_NAME'" >> "$SESSION_FILE"
+echo "select-pane -t 'gitsh'" >> "$SESSION_FILE"
 
 DETACHED="$2"
 if [ "$DETACHED" = "detached" ]
