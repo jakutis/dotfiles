@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+"$VARIA/x/$1"
