@@ -1,6 +1,11 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'sbdchd/neoformat'
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'leafgarland/typescript-vim'
@@ -15,7 +20,15 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'lifepillar/vim-solarized8'
 Plug 'suan/vim-instant-markdown'
+Plug 'Shougo/deoplete.nvim'
 call plug#end()
+
+" advised by https://github.com/autozimu/LanguageClient-neovim
+set hidden
+let g:LanguageClient_serverCommands = {
+    \ 'reason': ['ocaml-language-server', '--stdio'],
+    \ 'ocaml': ['ocaml-language-server', '--stdio'],
+    \ }
 
 " mxw/vim-jsx
 let g:jsx_ext_required = 0
