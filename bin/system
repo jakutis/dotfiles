@@ -184,10 +184,20 @@ function brightness {
       echo "$CURRENT"
   elif [ "$ARG" = "more" ]
   then
-      echo $(($CURRENT + $STEP)) > "$DIR/brightness"
+      if [ "$(($CURRENT + $STEP))" -gt "$MAX" ]
+      then
+          echo $MAX > "$DIR/brightness"
+      else
+          echo $(($CURRENT + $STEP)) > "$DIR/brightness"
+      fi
   elif [ "$ARG" = "less" ]
   then
-      echo $(($CURRENT - $STEP)) > "$DIR/brightness"
+      if [ "$(($CURRENT - $STEP))" -lt "$MIN" ]
+      then
+          echo $MIN > "$DIR/brightness"
+      else
+          echo $(($CURRENT - $STEP)) > "$DIR/brightness"
+      fi
   elif [ "$ARG" = "max" -o "$ARG" = "maximum" ]
   then
       echo "$MAX" > "$DIR/brightness"
