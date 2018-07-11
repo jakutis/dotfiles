@@ -5,5 +5,10 @@ then
   echo LID0 > /proc/acpi/wakeup
 fi
 
+if [ -n "$(cat /proc/acpi/wakeup | grep XHC1 | grep enabled)" ]
+then
+  echo XHC1 > /proc/acpi/wakeup
+fi
+
 chmod a+w /home/jakutis/.config/dotfiles/brightness/brightness
 chmod a+w /home/jakutis/.config/dotfiles/keyboard/brightness
