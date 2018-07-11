@@ -48,39 +48,11 @@ let g:syntastic_scss_checkers = []
 let g:airline_powerline_fonts = 0
 
 " sbdchd/neoformat
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * Neoformat
-augroup END
-function! neoformat#formatters#html#enabled() abort
-    return []
-endfunction
-function! neoformat#formatters#scss#enabled() abort
-    return []
-endfunction
-function! neoformat#formatters#json#enabled() abort
-    return []
-endfunction
-function! neoformat#formatters#typescript#enabled() abort
-    return []
-endfunction
-function! neoformat#formatters#typescript#prettier() abort
-    return {
-    \ 'exe': 'prettier',
-    \ 'args': ['--single-quote', '--print-width', '100', '--parser', 'typescript'],
-    \ 'stdin': 1
-    \ }
-endfunction
-function! neoformat#formatters#javascript#enabled() abort
-    return []
-endfunction
-function! neoformat#formatters#javascript#prettier() abort
-    return {
-    \ 'exe': 'prettier',
-    \ 'args': ['--single-quote', '--print-width', '100', '--parser', 'typescript'],
-    \ 'stdin': 1
-    \ }
-endfunction
+let g:neoformat_enabled_html = []
+let g:neoformat_enabled_scss = []
+let g:neoformat_enabled_json = []
+let g:neoformat_enabled_typescript = []
+let g:neoformat_enabled_javascript = []
 
 " junegunn/fzf
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
