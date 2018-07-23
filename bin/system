@@ -132,8 +132,11 @@ function screens {
 
         for SCREEN in $CONNECTED
         do
-          echo xrandr --output "$SCREEN" --off
-          xrandr --output "$SCREEN" --off
+          if [ -z "$(echo " $SCREENS " | grep " $SCREEN ")" ]
+          then
+            echo xrandr --output "$SCREEN" --off
+            xrandr --output "$SCREEN" --off
+          fi
         done
 
         "$DOTFILES/screens/$CFG" $SCREENS
