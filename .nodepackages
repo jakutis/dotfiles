@@ -10,3 +10,4 @@ ocaml-language-server
 reason-cli@3.2.0-linux
 instant-markdown-d
 remotedebug-ios-webkit-adapter
+ndb
