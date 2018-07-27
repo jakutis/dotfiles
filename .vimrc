@@ -1,5 +1,6 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
+Plug 'Quramy/tsuquyomi'
 Plug 'sbdchd/neoformat'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
@@ -32,6 +33,10 @@ let g:LanguageClient_serverCommands = {
 
 " mxw/vim-jsx
 let g:jsx_ext_required = 0
+
+" Quramy/tsuquyomi
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 
 " vim-syntastic/syntastic
 let g:syntastic_check_on_open = 1
