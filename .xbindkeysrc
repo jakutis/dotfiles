@@ -40,6 +40,10 @@
 "system suspend"
   Mod4 + XF86PowerOff
 
+# Win+End
+"system suspend"
+  Mod4 + End
+
 # Win+S
 "xkbswitch"
   Mod4 + s
