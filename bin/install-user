@@ -171,16 +171,7 @@ then
     exit 1
 fi
 
-VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
-if [ -z "$VARIA" ]
-then
-    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
-    exit 1
-fi
-
 cd "$HOME"
-
-ln -s "Dropbox/Apps/PlainText 2/repos-up" ".repos-up"
 
 mkdir --parents "$XDG_DATA_HOME/dotfiles"
 mkdir --parents "$XDG_DATA_HOME/applications"
@@ -199,14 +190,16 @@ mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.db"
 mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
 
 mkdir --parents ".bin"
-ln -nsf "$VARIA/git-D" ".bin/git-D"
 
-pushd .
-mkdir --parents "$XDG_CONFIG_HOME/newsbeuter"
-cd "$XDG_CONFIG_HOME/newsbeuter"
-ln -nsf "$DOTFILES/.newsbeuter/config"
-ln -nsf "$VARIA/news.txt" urls
-popd
+if [ "$ENABLE_NEWSBEUTER" = "yes" ]
+then
+  pushd .
+  mkdir --parents "$XDG_CONFIG_HOME/newsbeuter"
+  cd "$XDG_CONFIG_HOME/newsbeuter"
+  ln -nsf "$DOTFILES/.newsbeuter/config"
+  ln -nsf "$(cat "$XDG_CONFIG_HOME/dotfiles/varia")/news.txt" urls
+  popd
+fi
 
 if [ "$MACHINE" = "server" ]
 then
@@ -224,11 +217,6 @@ mkdir --parents ".elinks"
 cd ".elinks"
 ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
-
-if [ "$MACHINE" = "laptop" ]
-then
-    ln -nsf "$VARIA/scanner-pixma" "$XDG_CONFIG_HOME/dotfiles/scanner"
-fi
 
 touch .xbindkeys.noauto
 for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .nodepackages .screenrc .xinitrc .xsession .asoundrc
