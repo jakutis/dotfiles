@@ -1,21 +1,5 @@
 #!/usr/bin/env bash
 
-MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
-if [ -z "$MACHINE" ]
-then
-    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/machine" that contains the name of the current machine" 1>&2
-    exit 1
-fi
-
-echo "MACHINE=$MACHINE"
-
-VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
-if [ -z "$VARIA" ]
-then
-    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
-    exit 1
-fi
-
 set -o verbose
 set -o xtrace
 
@@ -90,6 +74,23 @@ else
 fi
 
 echo "setting up configs"
+
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+if [ -z "$MACHINE" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/machine" that contains the name of the current machine" 1>&2
+    exit 1
+fi
+
+echo "MACHINE=$MACHINE"
+
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+if [ -z "$VARIA" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
+    exit 1
+fi
+
 
 if [ "$MACHINE" = "server" ]
 then
