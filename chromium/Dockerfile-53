@@ -1,0 +1,7 @@
+FROM ubuntu:14.04.5
+
+RUN apt-get update && apt-get install -y chromium-browser curl gconf-service libatomic1 libgcrypt11 libgnome-keyring0 libpci3 libspeechd2 libgconf-2-4 libgtk2.0-0 && apt-get remove -y chromium-codecs-ffmpeg-extra && curl -L \
+    https://launchpad.net/~canonical-chromium-builds/+archive/ubuntu/stage/+build/11199193/+files/chromium-browser_53.0.2785.143-0ubuntu0.14.04.1.1145_amd64.deb \
+    > a.deb && curl -L \
+    https://launchpad.net/~canonical-chromium-builds/+archive/ubuntu/stage/+build/11199193/+files/chromium-codecs-ffmpeg_53.0.2785.143-0ubuntu0.14.04.1.1145_amd64.deb \
+    > b.deb && dpkg -i a.deb b.deb || true

@@ -1,0 +1,6 @@
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install -y curl && \
+    curl https://launchpad.net/~canonical-chromium-builds/+archive/ubuntu/stage/+build/15466531/+files/chromium-browser_69.0.3497.100-0ubuntu0.16.04.1_amd64.deb > a.deb && \
+    curl https://launchpad.net/~canonical-chromium-builds/+archive/ubuntu/stage/+build/15466529/+files/chromium-codecs-ffmpeg_69.0.3497.100-0ubuntu0.18.04.1_amd64.deb > b.deb && \
+    apt install -y a.deb b.deb

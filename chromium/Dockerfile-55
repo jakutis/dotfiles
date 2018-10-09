@@ -1,0 +1,7 @@
+FROM ubuntu:16.04
+
+RUN apt-get update && apt-get install -y chromium-browser curl gconf-service libgconf-2-4 libgtk2.0-0 && apt-get remove -y chromium-codecs-ffmpeg-extra && curl -L \
+    https://launchpad.net/~canonical-chromium-builds/+archive/ubuntu/stage/+build/11570920/+files/chromium-browser_55.0.2883.87-0ubuntu1.1326_amd64.deb \
+    > a.deb && curl -L \
+    https://launchpad.net/~canonical-chromium-builds/+archive/ubuntu/stage/+build/11570920/+files/chromium-codecs-ffmpeg_55.0.2883.87-0ubuntu1.1326_amd64.deb \
+    > b.deb && dpkg -i a.deb b.deb || true
