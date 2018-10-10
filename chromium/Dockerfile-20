@@ -1,0 +1,7 @@
+FROM ubuntu:12.04
+
+RUN apt-get update && apt-get install -y libnss3-1d libpango1.0-0 libudev0 libgcrypt11 libgnome-keyring0 chromium-browser curl gconf-service libgconf-2-4 libgtk2.0-0 && dpkg --remove chromium-browser chromium-codecs-ffmpeg-extra chromium-codecs-ffmpeg chromium-browser-l10n && curl -L \
+    http://launchpadlibrarian.net/115100367/chromium-browser_20.0.1132.47~r144678-0ubuntu0.12.04.1_amd64.deb \
+    > a.deb && curl -L \
+    http://launchpadlibrarian.net/115100369/chromium-codecs-ffmpeg_20.0.1132.47~r144678-0ubuntu0.12.04.1_amd64.deb \
+    > b.deb && dpkg -i b.deb a.deb || true

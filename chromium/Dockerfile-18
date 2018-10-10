@@ -1,0 +1,7 @@
+FROM ubuntu:12.04
+
+RUN apt-get update && apt-get install -y libnss3-1d libpango1.0-0 libudev0 libgcrypt11 libgnome-keyring0 chromium-browser curl gconf-service libgconf-2-4 libgtk2.0-0 && dpkg --remove chromium-browser chromium-codecs-ffmpeg-extra chromium-codecs-ffmpeg chromium-browser-l10n && curl -L \
+    http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/c/chromium-browser/chromium-browser_18.0.1025.151~r130497-0ubuntu1_amd64.deb \
+    > a.deb && curl -L \
+    http://ftp.ubuntu.com/ubuntu/ubuntu/pool/universe/c/chromium-browser/chromium-codecs-ffmpeg_18.0.1025.151~r130497-0ubuntu1_amd64.deb \
+    > b.deb && dpkg -i b.deb a.deb || true
