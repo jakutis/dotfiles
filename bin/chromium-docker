@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+xhost +
 docker run -e DISPLAY=$DISPLAY --privileged -v /home/jakutis/.Xauthority:/root/.Xauthority -v /tmp/.X11-unix:/tmp/.X11-unix -it "$1" /usr/bin/chromium-browser --no-sandbox --user-data-dir=/root/chrome-data
