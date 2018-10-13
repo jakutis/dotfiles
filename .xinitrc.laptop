@@ -10,8 +10,7 @@ xcompmgr &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
-rm dropbox.log -f
-nohup ./.dropbox-dist/dropboxd 1>/dev/null 2>&1 &
+dropbox start
 nohup redshift -o -l 54.68:25.32 -b 0.3:0.3 -t 2700K:2700K 1>/dev/null 2>&1 &
 cd Desktop
 awesome
