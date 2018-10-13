@@ -44,7 +44,7 @@ HUBV="2.2.3"
 SBTV="0.13.11"
 SCALAV="2.11.8"
 TIGV="2.3.3"
-OPAMV="1.2.2"
+OPAMV="2.0.0"
 NGINXV="1.9.12"
 MYSQLSERVERVS=("5.1.73" "5.6.22")
 PHPVS=("5.5.32" "5.6.18" "7.0.3")
@@ -887,7 +887,7 @@ then
     then
         ensure_git opam https://github.com/ocaml/opam || exit 1
         (cd "repos/git/opam" && git archive --format=tar --prefix=opam-build/ "$OPAMV") | tar xf - || exit 1
-        cd opam-build && ./configure --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make && make install && cd .. && rm -rf opam-build || exit 1
+        cd opam-build && ./configure --exec-prefix="$HOME/opt/opam-exec-$OPAMV" --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make && make install && cd .. && rm -rf opam-build || exit 1
         cd opt && ln -nsf "opam-$OPAMV" "opam" && cd .. || exit 1
         cd .bin && ln -nsf "../opt/opam/bin/opam" && cd .. || exit 1
         cd .bin && ln -nsf "../opt/opam/bin/opam-installer" && cd .. || exit 1
