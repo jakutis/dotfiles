@@ -110,8 +110,8 @@ PODCATCHERV="3.1.7"
 PODCATCHERCOMMIT="4407f386661b51c968d050c2e12b3059946781b1"
 MCABBERV="1.0.2"
 SVG2PDFV="301dd48"
-RTAG="R-3-2-4"
-RV="3.3.1"
+RTAG="R-3-5-1"
+RV="3.5.1"
 GOV="1.10.2"
 COLOROUTTAG="v1.2-2"
 COLOROUTV="1.1-2"
@@ -517,21 +517,24 @@ if [ "$ENABLE_R" = "yes" -a ! -e "opt/r-$RV" ]
 then
     svn co "https://svn.r-project.org/R/tags/$RTAG" r-build || exit 1
     cd r-build && ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$RV" || exit 1;
-    cd src/extra/xz
-    patch <<'EOF'
+    if false
+    then
+      cd src/extra/xz
+      patch <<'EOF'
 diff -ru vienas/Makefile.in du/Makefile.in
 --- vienas/Makefile.in	2016-05-27 18:46:12.674367038 +0300
 +++ du/Makefile.in	2016-05-27 18:46:50.717368701 +0300
 @@ -58,7 +58,7 @@
- 	touch stamp
- 
- liblzma.a: $(liblzma_a_OBJECTS)
+        touch stamp
+
+liblzma.a: $(liblzma_a_OBJECTS)
 -	$rm -f $@
 +	rm -f $@
- 	$(AR) -cr $@ $(liblzma_a_OBJECTS)
- 	$(RANLIB) $@
+        $(AR) -cr $@ $(liblzma_a_OBJECTS)
+        $(RANLIB) $@
 EOF
-    cd ../../..
+      cd ../../..
+    fi
     make && make install && cd .. && rm -rf r-build || exit 1
     cd opt && ln -nsf "r-$RV" "r" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/r-$RV/bin/R" && cd .. || exit 1
