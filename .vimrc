@@ -139,9 +139,10 @@ set smarttab
 set wildmenu
 set wildmode=list:longest,full
 set shiftwidth=2
-set softtabstop=2
+set softtabstop=0
 set autoindent
 set backspace=2
+set tabstop=2
 
 " clipboard
 set clipboard=unnamed,unnamedplus
