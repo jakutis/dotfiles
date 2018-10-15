@@ -22,6 +22,7 @@ Plug 'mxw/vim-jsx'
 Plug 'lifepillar/vim-solarized8'
 Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
+Plug 'jremmen/vim-ripgrep'
 call plug#end()
 
 " advised by https://github.com/autozimu/LanguageClient-neovim
@@ -62,6 +63,10 @@ let g:neoformat_enabled_javascript = []
 " junegunn/fzf
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
 nnoremap <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
+
+" jremmen/vim-ripgrep
+let g:rg_derive_root = 1
+let g:rg_highlight = 1
 
 " chriskempson/tomorrow-theme
 set background=light
