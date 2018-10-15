@@ -63,6 +63,13 @@ let g:neoformat_enabled_javascript = []
 " junegunn/fzf
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
 nnoremap <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
+noremap! <C-o> <Esc>:execute 'RipGrep'<CR>
+nnoremap <C-o> <Esc>:execute 'RipGrep'<CR>
+command! -bang -nargs=* RipGrep
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] },
+  \   <bang>0)
 
 " jremmen/vim-ripgrep
 let g:rg_derive_root = 1
