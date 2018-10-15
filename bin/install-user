@@ -94,8 +94,8 @@ MP4V2REV="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
 MP4V2V="$MP4V2V"
 ANTV="1.10.1"
 NZBGETV="15.0"
-PYTHONV="3.6.4"
-PYTHONVERSIONFILE="3.6"
+PYTHONV="3.7.0"
+PYTHONVERSIONFILE="3.7"
 QPDFVIEWV="0.4.16"
 QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.22.7.0"
@@ -839,8 +839,6 @@ then
         do
             PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
         done
-
-        git clone https://github.com/wetneb/pygments_maple && cd pygments_maple && python setup.py install && cd .. && rm -rf pygments_maple || exit 1
     else
         cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
         eval "$(pyenv init -)" || exit 1
