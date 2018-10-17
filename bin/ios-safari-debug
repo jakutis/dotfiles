@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+DOTFILES="$(cat "$HOME/.config/dotfiles/dotfiles")"
+
+if [ -z "$(docker images ios-safari-debug -q)" ]
+then
+  (cd "$DOTFILES/chromium" && docker build -t ios-safari-debug -f "Dockerfile-ios-safari-debug" .)
+fi
+
+docker run -t -i --privileged -e DISPLAY=$DISPLAY \
+  -v "/tmp/.X11-unix:/tmp/.X11-unix" \
+  -v "$HOME/.Xauthority:/root/.Xauthority" \
+  -v "/dev/bus/usb:/dev/bus/usb" \
+  ios-safari-debug tmux new-session -s ios-safari-debug \; \
+  neww -n chromium "su -c 'mkdir /home/user/.config/chromium/Default -p && touch /home/user/.config/chromium/First\ Run && echo {} > /home/user/.config/chromium/Default/Preferences && chromium-browser --no-first-run' - user" \; \
+  neww -n usbmux "usbmuxd --foreground" \; \
+  neww -n adapter "su -c 'remotedebug_ios_webkit_adapter --port=9229' - user" \; \
+  selectw -t usbmux \; attach-session -t ios-safari-debug

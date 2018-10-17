@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y tmux curl git autoconf automake libusb-dev libusb-1.0-0-dev libplist-dev libplist++-dev usbmuxd libtool libimobiledevice-dev chromium-browser && useradd -s /bin/bash user && mkdir /home/user && chown user: /home/user
+USER user
+WORKDIR /home/user
+
+RUN echo 'export PATH="/home/user/opt/node/bin:/home/user/opt/ios-webkit-debug-proxy/bin:$PATH"' > .profile
+
+RUN mkdir opt
+RUN curl https://nodejs.org/dist/v8.12.0/node-v8.12.0-linux-x64.tar.xz | tar Jxf -
+RUN mv node-v8.12.0-linux-x64 opt/node
+RUN bash -c "source .profile && npm install -g remotedebug-ios-webkit-adapter"
+
+RUN git clone https://github.com/google/ios-webkit-debug-proxy && cd ios-webkit-debug-proxy && ./autogen.sh && ./configure --prefix="/home/user/opt/ios-webkit-debug-proxy" && make && make install && cd .. && rm -rf ios-webkit-debug-proxy
+
+USER root
