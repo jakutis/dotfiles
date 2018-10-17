@@ -15,6 +15,7 @@ fi
 set -o verbose
 set -o xtrace
 
+IOS_WEBKIT_DEBUG_PROXYV="ec4b619cb02dd46c9de0c901b9e88c0775b0a535"
 LIBUSBMUXDV="c724e70fb52ba45291dc73a2e369c0c5bae0ec2e"
 LIBIMOBILEDEVICEV="5a85432719fb3d18027d528f87d2a44b76fd3e12"
 USBMUXDV="46bdf3ec90acf3916ee8aba622a7da9da5eb8e06"
@@ -1377,6 +1378,15 @@ then
     (eval "$(pyenv init -)" && pyenv install --skip-existing 2.7.12 && pyenv shell 2.7.12 && cd "calcurse-build" && git co "v$CALCURSEV" && ./autogen.sh && ./configure --prefix="$HOME/opt/calcurse-${CALCURSEV}" && make && make install && cd .. && rm -rf "calcurse-build") || exit 1
     cd opt && ln -nsf "calcurse-${CALCURSEV}" "calcurse" && cd .. || exit 1
     cd .bin && (for BIN in $(ls ../opt/calcurse/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
+fi
+
+if [ "$ENABLE_IOS_WEBKIT_DEBUG_PROXY" = "yes" -a ! -e "$HOME/opt/ios-webkit-debug-proxy-$IOS_WEBKIT_DEBUG_PROXYV" ]
+then
+    ensure_git ios-webkit-debug-proxy https://github.com/google/ios-webkit-debug-proxy || exit 1
+    (cd "repos/git/ios-webkit-debug-proxy" && git archive --format=tar --prefix=ios-webkit-debug-proxy-build/ "$IOS_WEBKIT_DEBUG_PROXYV") | tar xf - || exit 1
+    cd ios-webkit-debug-proxy-build && ./autogen.sh && ./configure --prefix="$HOME/opt/ios-webkit-debug-proxy-$IOS_WEBKIT_DEBUG_PROXYV" && make && make install && cd .. && rm -rf tig-build || exit 1
+    cd opt && ln -nsf "ios-webkit-debug-proxy-$IOS_WEBKIT_DEBUG_PROXYV" ios-webkit-debug-proxy && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/ios-webkit-debug-proxy/bin/ios_webkit_debug_proxy" ios_webkit_debug_proxy && cd .. || exit 1
 fi
 
 if [ "$ENABLE_DOCKERCOMPOSE" = "yes" ]
