@@ -52,6 +52,7 @@ let g:syntastic_scss_checkers = []
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
+let g:airline_theme='dark'
 
 " sbdchd/neoformat
 let g:neoformat_enabled_html = []
@@ -76,7 +77,7 @@ let g:rg_derive_root = 1
 let g:rg_highlight = 1
 
 " chriskempson/tomorrow-theme
-set background=light
+set background=dark
 colorscheme solarized8
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
