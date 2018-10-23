@@ -1,5 +1,5 @@
-URxvt*font:         xft:monospace:size=9:antialias=true
-URxvt*boldFont:     xft:monospace:size=9:antialias=true
+URxvt*font:         xft:monospace:size=11:antialias=true
+URxvt*boldFont:     xft:monospace:size=11:antialias=true
 URxvt.letterSpace:  -1
 Xft.autohint:       true
 Xft.lcdfilter:      cddefault
@@ -7,7 +7,7 @@ Xft.hintstyle:      hintfull
 Xft.hinting:        true
 Xft.antialias:      true
 Xft.rgba:           rgb
-XTerm*faceName:     monospace:size=9:antialias=true
+XTerm*faceName:     monospace:size=11:antialias=true
 XTerm*bellIsUrgent: true
 URxvt*urgentOnBell: true
 XTerm*termName:     xterm-256color
