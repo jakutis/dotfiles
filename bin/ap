@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+if [ -z "$WIFI" -o -z "$BRIDGE" -o -z "$BRIDGE_IP" -o -z "$BRIDGE_IP2" -o -z "$BRIDGE_MASK" -o -z "$WPA_SUPPLICANT_CONF" -o -z "$HOSTAPD_CONF_TEMPLATE" -o -z "$PASSWORD" -o -z "$SSID" ]
+then
+  echo one of these variables are empty:
+  echo "(values here are for example)"
+  echo WIFI=wlp3s0
+  echo BRIDGE=br0
+  echo BRIDGE_IP=10.0.0.1
+  echo BRIDGE_IP2=10.0.0.254
+  echo BRIDGE_MASK=255.255.255.0
+  echo WPA_SUPPLICANT_CONF=/etc/wpa_supplicant.conf
+  echo HOSTAPD_CONF_TEMPLATE=/home/jakutis/repos/git/dotfiles/hostapd.conf.template
+  echo PASSWORD=password
+  echo SSID=jakutis-laptop
+  exit 1
+fi
+
+if [ ! -r "$HOSTAPD_CONF_TEMPLATE" ]
+then
+  echo "HOSTAPD_CONF_TEMPLATE is not readable: $HOSTAPD_CONF_TEMPLATE"
+  exit 1
+fi
+
+if [ ! -r "$WPA_SUPPLICANT_CONF" ]
+then
+  echo "WPA_SUPPLICANT_CONF is not readable: $WPA_SUPPLICANT_CONF"
+  exit 1
+fi
+
+HOSTAPD_CONF="$(mktemp --dry-run)"
+
+function finish {
+  kill $(cat wpa_supplicant.pid)
+  kill $(cat hostapd.pid)
+  iw dev "${WIFI}_sta" del
+  iw dev "${WIFI}_ap" del
+  ip link delete "${BRIDGE}" type bridge
+  rm "$HOSTAPD_CONF"
+}
+trap finish EXIT
+
+iw dev "${WIFI}" interface add "${WIFI}_sta" type managed addr 12:34:56:78:ab:c0
+iw dev "${WIFI}" interface add "${WIFI}_ap" type managed addr 12:34:56:78:ab:c0
+macchanger --random "${WIFI}_sta"
+macchanger --random "${WIFI}_ap"
+ip link add name "${BRIDGE}" type bridge
+ip link set "${BRIDGE}" up
+cat "$HOSTAPD_CONF_TEMPLATE" \
+  | FIND=__PASSWORD__ REPLACE="${PASSWORD}" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
+  | FIND=__BRIDGE__ REPLACE="${BRIDGE}" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
+  | FIND=__INTERFACE__ REPLACE="${WIFI}_ap" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
+  | FIND=__SSID__ REPLACE="${SSID}" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
+  > "${HOSTAPD_CONF}"
+hostapd -P "$(pwd)/hostapd.pid" -B "${HOSTAPD_CONF}"
+echo 1 > /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -o "${WIFI}_sta" -j MASQUERADE
+ip addr add "${BRIDGE_IP}/24" dev "${BRIDGE}:0"
+ip addr add "${BRIDGE_IP2}/24" dev "${BRIDGE}:1"
+wpa_supplicant -P "$(pwd)/wpa_supplicant.pid" -B "-i${WIFI}_sta" "-c${WPA_SUPPLICANT_CONF}"
+dhclient -d "${WIFI}_sta"
