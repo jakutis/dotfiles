@@ -7,7 +7,7 @@ then
   (cd "$DOTFILES/chromium" && docker build -t ios-safari-debug -f "Dockerfile-ios-safari-debug" .)
 fi
 
-docker run -t -i --privileged -e DISPLAY=$DISPLAY \
+docker run --rm -t -i --privileged -e DISPLAY=$DISPLAY \
   -v "/tmp/.X11-unix:/tmp/.X11-unix" \
   -v "$HOME/.Xauthority:/root/.Xauthority" \
   -v "/dev/bus/usb:/dev/bus/usb" \
