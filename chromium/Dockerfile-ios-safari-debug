@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y tmux curl git autoconf automake libusb-dev libusb-1.0-0-dev libplist-dev libplist++-dev usbmuxd libtool libimobiledevice-dev chromium-browser && useradd -s /bin/bash user && mkdir /home/user && chown user: /home/user
+RUN apt-get update && apt-get install -y libimobiledevice-utils aptitude tmux curl git autoconf automake libusb-dev libusb-1.0-0-dev libplist-dev libplist++-dev usbmuxd libtool libimobiledevice-dev chromium-browser && useradd -s /bin/bash user && mkdir /home/user && chown user: /home/user
 USER user
 WORKDIR /home/user
 
