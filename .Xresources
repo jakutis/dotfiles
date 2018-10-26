@@ -1,20 +1,21 @@
-URxvt*font:         xft:monospace:size=11:antialias=true
-URxvt*boldFont:     xft:monospace:size=11:antialias=true
-URxvt.letterSpace:  -1
-Xft.autohint:       true
-Xft.lcdfilter:      cddefault
-Xft.hintstyle:      hintfull
-Xft.hinting:        true
-Xft.antialias:      true
-Xft.rgba:           rgb
-XTerm*faceName:     monospace:size=11:antialias=true
-XTerm*bellIsUrgent: true
-URxvt*urgentOnBell: true
-XTerm*termName:     xterm-256color
-URxvt*termName:     rxvt-unicode
-URxvt*scrollBar:    false
-Xcursor.size:       16
-URxvt.print-pipe:   "cat > /dev/null"
+URxvt*font:              xft:monospace:size=11:antialias=true
+URxvt*boldFont:          xft:monospace:size=11:antialias=true
+URxvt.letterSpace:       -1
+Xft.autohint:            true
+Xft.lcdfilter:           cddefault
+Xft.hintstyle:           hintfull
+Xft.hinting:             true
+Xft.antialias:           true
+Xft.rgba:                rgb
+XTerm*faceName:          monospace:size=11:antialias=true
+XTerm*bellIsUrgent:      true
+URxvt*urgentOnBell:      true
+XTerm*termName:          xterm-256color
+URxvt*termName:          rxvt-unicode
+URxvt*scrollBar:         false
+Xcursor.size:            16
+URxvt.print-pipe:        "cat > /dev/null"
+XTerm*selectToClipboard: true
 
 #define t_black           #000000
 #define t_grey            #666666
