@@ -13,6 +13,7 @@ URxvt*urgentOnBell:      true
 XTerm*termName:          xterm-256color
 URxvt*termName:          rxvt-unicode
 URxvt*scrollBar:         false
+XTerm*scrollBar:         false
 Xcursor.size:            16
 URxvt.print-pipe:        "cat > /dev/null"
 XTerm*selectToClipboard: true
