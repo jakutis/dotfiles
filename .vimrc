@@ -26,7 +26,6 @@ Plug 'jremmen/vim-ripgrep'
 call plug#end()
 
 " advised by https://github.com/autozimu/LanguageClient-neovim
-set hidden
 let g:LanguageClient_serverCommands = {
     \ 'reason': ['ocaml-language-server', '--stdio'],
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
@@ -81,7 +80,6 @@ set background=dark
 colorscheme solarized8
 highlight Normal ctermbg=NONE
 highlight nonText ctermbg=NONE
-
 
 " add NPM executables to PATH
 let $PATH=getcwd() . "/node_modules/.bin:" . $PATH
