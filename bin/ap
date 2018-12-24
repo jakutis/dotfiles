@@ -31,6 +31,8 @@ fi
 HOSTAPD_CONF="$(mktemp --dry-run)"
 
 function finish {
+  echo
+  echo Finish
   kill $(cat wpa_supplicant.pid)
   kill $(cat hostapd.pid)
   iw dev "${WIFI}_sta" del
@@ -40,22 +42,28 @@ function finish {
 }
 trap finish EXIT
 
-iw dev "${WIFI}" interface add "${WIFI}_sta" type managed addr 12:34:56:78:ab:c0
-iw dev "${WIFI}" interface add "${WIFI}_ap" type managed addr 12:34:56:78:ab:c0
-macchanger --random "${WIFI}_sta"
-macchanger --random "${WIFI}_ap"
-ip link add name "${BRIDGE}" type bridge
-ip link set "${BRIDGE}" up
+echo
+echo "Adding ${WIFI}_sta"
+iw dev "${WIFI}" interface add "${WIFI}_sta" type managed addr 12:34:56:78:ab:c0 || exit 1 
+
+echo
+echo "Adding ${WIFI}_ap"
+iw dev "${WIFI}" interface add "${WIFI}_ap" type managed addr 12:34:56:78:ab:c0 || exit 1
+
+macchanger --random "${WIFI}_sta" || exit 1
+macchanger --random "${WIFI}_ap" || exit 1
+ip link add name "${BRIDGE}" type bridge || exit 1
+ip link set "${BRIDGE}" up || exit 1
 cat "$HOSTAPD_CONF_TEMPLATE" \
   | FIND=__PASSWORD__ REPLACE="${PASSWORD}" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
   | FIND=__BRIDGE__ REPLACE="${BRIDGE}" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
   | FIND=__INTERFACE__ REPLACE="${WIFI}_ap" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
   | FIND=__SSID__ REPLACE="${SSID}" ruby -p -e "gsub(ENV['FIND'], ENV['REPLACE'])" \
   > "${HOSTAPD_CONF}"
-hostapd -P "$(pwd)/hostapd.pid" -B "${HOSTAPD_CONF}"
+hostapd -P "$(pwd)/hostapd.pid" -B "${HOSTAPD_CONF}" || exit 1
 echo 1 > /proc/sys/net/ipv4/ip_forward
-iptables -t nat -A POSTROUTING -o "${WIFI}_sta" -j MASQUERADE
-ip addr add "${BRIDGE_IP}/24" dev "${BRIDGE}:0"
-ip addr add "${BRIDGE_IP2}/24" dev "${BRIDGE}:1"
-wpa_supplicant -P "$(pwd)/wpa_supplicant.pid" -B "-i${WIFI}_sta" "-c${WPA_SUPPLICANT_CONF}"
-dhclient -d "${WIFI}_sta"
+iptables -t nat -A POSTROUTING -o "${WIFI}_sta" -j MASQUERADE || exit 1
+ip addr add "${BRIDGE_IP}/24" dev "${BRIDGE}:0" || exit 1
+ip addr add "${BRIDGE_IP2}/24" dev "${BRIDGE}:1" || exit 1
+wpa_supplicant -P "$(pwd)/wpa_supplicant.pid" -B "-i${WIFI}_sta" "-c${WPA_SUPPLICANT_CONF}" || exit 1
+dhclient -d "${WIFI}_sta" || exit 1
