@@ -25,6 +25,9 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
 call plug#end()
 
+" ocaml
+autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var share'), '\n$', '', '''') . "/ocp-indent/vim/indent/ocaml.vim"
+
 " advised by https://github.com/autozimu/LanguageClient-neovim
 let g:LanguageClient_serverCommands = {
     \ 'reason': ['ocaml-language-server', '--stdio'],
