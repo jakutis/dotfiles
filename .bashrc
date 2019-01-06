@@ -44,3 +44,5 @@ function marks {
 }
 
 source "$HOME/.bash_aliases"
+
+which opam 1>/dev/null 2>&1 && eval `opam env`
