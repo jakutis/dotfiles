@@ -90,6 +90,9 @@ then
             if [ "$BRIEF" = "MS Windows HtmlHelp Data" ]
             then
                 xchm -- "$FILE"
+            elif [ "$BRIEF" = "Microsoft OOXML" ]
+            then
+                libreoffice "$FILE"
             elif [ "$BRIEF" = "ISO Media, MPEG v4 system, 3GPP" -o "$BRIEF" = "Ogg data" -o "$BRIEF" = "Audio file with ID3 version 2.3.0" ]
             then
                 $MEDIAPLAYER -- "$FILE"
