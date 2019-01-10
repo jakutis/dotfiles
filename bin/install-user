@@ -899,7 +899,7 @@ then
     if ! [ -e ".opam" ]
     then
         opam init || exit 1
-        for PACKAGE in google-drive-ocamlfuse ocp-indent
+        for PACKAGE in google-drive-ocamlfuse ocp-indent batteries
         do
             opam install "$PACKAGE" || exit 1
         done
