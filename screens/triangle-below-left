@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+LEFT="$1"
+RIGHT="$2"
+BOTTOM="$3"
+
+xrandr \
+  --output "$LEFT" --auto --rotate normal\
+  --output "$RIGHT" --auto --rotate normal --right-of "$LEFT" --preferred --primary \
+  --output "$BOTTOM" --auto --rotate normal --below "$LEFT"
