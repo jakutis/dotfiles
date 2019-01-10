@@ -27,6 +27,7 @@
     authors = shortlog -sne
     history = log --follow --patch --abbrev-commit
     showtool = "!sh -c 'if [ -z $1 ]; then REVISION=HEAD; else REVISION=$1; fi; git difftool $REVISION~ $REVISION' -"
+    pick = "!f() { git log -100 --oneline --color $1 | fzf -m --ansi | awk '{print $1}'; }; f"
 
 [web]
     browser = opera
