@@ -49,7 +49,7 @@
   Mod4 + s
 
 # Win+Home
-"blank;xscreensaver-command -lock"
+"xscreensaver-command -lock"
   Mod4 + Home
 
 # Print Screen
