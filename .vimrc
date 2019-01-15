@@ -23,6 +23,7 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
+Plug 'mogelbrod/vim-jsonpath'
 call plug#end()
 
 " ocaml
