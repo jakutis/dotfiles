@@ -40,6 +40,10 @@
 "system suspend"
   Mod4 + XF86PowerOff
 
+# Win+Down
+"blank"
+  Mod4 + Down
+
 # Win+End
 "system suspend"
   Mod4 + End
