@@ -26,6 +26,36 @@ function help {
     echo "Available commands: help hibernate suspend poweroff shutdown reboot restart powersave net screens battery brightness fan keyboard"
 }
 
+function powersave {
+  if [ "$(id -u)" != "0" ]
+  then
+    exit
+  fi
+  for NET in $(ls /sys/class/net)
+  do
+      ethtool -s "$NET" wol d
+      iw dev "$NET" set power_save on
+  done
+  for PCI in $(ls /sys/bus/pci/devices/*/power/control)
+  do
+      echo "auto" > "$PCI"
+  done
+  for SCSI in $(ls /sys/class/scsi_host/host*/link_power_management_policy)
+  do
+      echo "min_power" > "$SCSI"
+  done
+  for USB in $(ls /sys/bus/usb/devices/*/power/control)
+  do
+      echo "auto" > "$USB"
+  done
+  echo "1500" > "/proc/sys/vm/dirty_writeback_centisecs"
+  echo "1" > "/sys/module/usbcore/parameters/autosuspend"
+  echo "1" > "/sys/module/snd_hda_intel/parameters/power_save"
+  #echo "0" > "$("$HOME/bin/sysname" "/sys/class/rfkill/rfkill" "tpacpi_bluetooth_sw")/state"
+  #sleep 1
+  #rmmod btusb bluetooth
+}
+
 function fan {
   LEVEL="$1"
   IBM="/proc/acpi/ibm/fan"
@@ -85,12 +115,6 @@ function fan {
   fi
 }
 
-function stop {
-    "$VARIA/$MACHINE/rc.local.stop"
-    "$VARIA/$MACHINE/rc.local.modem.stop"
-    "$VARIA/$MACHINE/rc.local.wifi.stop"
-}
-
 function power {
     FUNCTION="$1"
 
@@ -103,12 +127,6 @@ function power {
     else
         "$FUNCTION"
     fi
-}
-
-function reset {
-    xrandr --auto
-    "$HOME/bin/update-xinput"
-    "$VARIA/$MACHINE/rc.power"
 }
 
 function screens {
@@ -223,6 +241,8 @@ then
     exit 1
 fi
 
+powersave
+
 case "$CMD" in
     "keyboard")
         brightness "$XDG_CONFIG_HOME/dotfiles/keyboard" "$2"
@@ -250,24 +270,22 @@ case "$CMD" in
         screens "$@"
         ;;
     "net")
-        "$VARIA/$MACHINE/rc.power"
-        "$VARIA/$MACHINE/rc.local.start"
+        "$VARIA/$MACHINE/rc.local.stop"
         "$VARIA/$MACHINE/rc.local.modem.stop"
         "$VARIA/$MACHINE/rc.local.wifi.stop"
+        "$VARIA/networks/vanilla"
+        if [ "$2" = "none" ]
+        then
+          exit
+        fi
+        "$VARIA/$MACHINE/rc.local.start"
         nohup "$VARIA/networks/cfg-${2}" 1>"$XDG_DATA_HOME/dotfiles/net.log" 2>&1 &
         echo "for debug info, see $XDG_DATA_HOME/dotfiles/net.log"
         ;;
-    "powersave")
-        "$VARIA/networks/vanilla"
-        "$VARIA/$MACHINE/rc.power"
-        stop
-        ;;
     "reboot" | "restart")
-        stop
         power reboot
         ;;
     "poweroff" | "shutdown")
-        stop
         power poweroff
         ;;
     "suspend")
@@ -276,9 +294,9 @@ case "$CMD" in
         ;;
     "hibernate")
         screens mobile
-        stop
         power hibernate
-        reset
+        xrandr --auto
+        "$HOME/bin/update-xinput"
         ;;
     "fan")
         shift
