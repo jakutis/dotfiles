@@ -29,7 +29,7 @@ function help {
 function powersave {
   if [ "$(id -u)" != "0" ]
   then
-    exit
+    return
   fi
   for NET in $(ls /sys/class/net)
   do
