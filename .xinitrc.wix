@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
+cd "$HOME"
 xhost localhost
-xrdb -merge "$HOME/.Xresources"
+xrdb -merge .Xresources
 xbindkeys
 update-xinput
 xscreensaver -no-splash &
 xcompmgr &
 start-pulseaudio-x11
 parcellite &
+blueman-applet &
 cd Desktop
-awesome
+feh --bg-fill /home/jakutis/etc/background.png
+i3
