@@ -24,6 +24,7 @@ Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'mogelbrod/vim-jsonpath'
+Plug 'w0rp/ale'
 call plug#end()
 
 " ocaml
@@ -34,6 +35,13 @@ let g:LanguageClient_serverCommands = {
     \ 'reason': ['ocaml-language-server', '--stdio'],
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
     \ }
+
+" w0rp/ale
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\}
+noremap! <C-l> <Esc>:ALEFix<CR>
+nnoremap <C-l> <Esc>:ALEFix<CR>
 
 " mxw/vim-jsx
 let g:jsx_ext_required = 0
