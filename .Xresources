@@ -52,6 +52,9 @@ XTerm*selectToClipboard: true
 *color7:            t_lightgrey
 *color15:           t_white
 
-*cursorColor:       t_grey
-*background:        t_black
-*foreground:        t_white
+XTerm*cursorColor:       t_grey
+XTerm*background:        t_white
+XTerm*foreground:        t_black
+URxvt*cursorColor:       t_grey
+URxvt*background:        t_white
+URxvt*foreground:        t_black
