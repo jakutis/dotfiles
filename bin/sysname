@@ -1,11 +1,18 @@
 #!/bin/bash
 
+ATTRIBUTE="$3"
 NAME="$2"
 PREFIX="$1"
+
+if [ -z "$ATTRIBUTE" ]
+then
+  ATTRIBUTE="name"
+fi
+
 I="0"
 while [ "$I" != "100" ]
 do
-    if [ "$(cat "$PREFIX$I/name" 2>/dev/null)" = "$NAME" ]
+    if [ "$(cat "$PREFIX$I/$ATTRIBUTE" 2>/dev/null)" = "$NAME" ]
    then
       echo "$PREFIX$I"
       exit
