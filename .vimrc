@@ -38,7 +38,7 @@ let g:LanguageClient_serverCommands = {
 
 " w0rp/ale
 let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint'],
+\   'javascript': ['prettier'],
 \   'html': ['prettier'],
 \}
 noremap! <C-l> <Esc>:ALEFix<CR>
