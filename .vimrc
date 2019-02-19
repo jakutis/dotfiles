@@ -29,6 +29,8 @@ call plug#end()
 
 " ocaml
 autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var share'), '\n$', '', '''') . "/ocp-indent/vim/indent/ocaml.vim"
+"let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+"execute "set rtp+=" . g:opamshare . "/merlin/vim"
 
 " advised by https://github.com/autozimu/LanguageClient-neovim
 let g:LanguageClient_serverCommands = {
@@ -40,6 +42,7 @@ let g:LanguageClient_serverCommands = {
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
 \   'html': ['prettier'],
+\   'ocaml': ['ocamlformat'],
 \}
 noremap! <C-l> <Esc>:ALEFix<CR>
 nnoremap <C-l> <Esc>:ALEFix<CR>
@@ -50,6 +53,7 @@ let g:jsx_ext_required = 0
 " Quramy/tsuquyomi
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:syntastic_ocaml_checkers = ['merlin']
 
 " vim-syntastic/syntastic
 let g:syntastic_check_on_open = 1
