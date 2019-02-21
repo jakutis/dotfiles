@@ -25,7 +25,11 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'mogelbrod/vim-jsonpath'
 Plug 'w0rp/ale'
+Plug 'ruanyl/vim-gh-line'
 call plug#end()
+
+" vim-gh-line
+let g:gh_open_command = 'www '
 
 " ocaml
 autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var share'), '\n$', '', '''') . "/ocp-indent/vim/indent/ocaml.vim"
