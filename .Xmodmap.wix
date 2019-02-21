@@ -15,6 +15,7 @@ keycode 66 = Escape
 keycode 133 = Alt_L
 !keycode 64 = Alt_L
 keycode 64 = Control_L
+keycode 94 = Control_L
 !keycode 37 = Control_L
 keycode 37 = Caps_Lock
 
