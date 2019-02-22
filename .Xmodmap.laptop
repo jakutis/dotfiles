@@ -19,6 +19,7 @@ keycode 37 = Caps_Lock
 keycode 133 = Alt_L
 !keycode 64 = Alt_L
 keycode 64 = Control_L
+keycode 94 = Control_L
 !keycode 134 = Super_R
 keycode 134 = ISO_Level3_Shift
 !keycode 108 = Alt_R
