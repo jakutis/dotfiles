@@ -1,5 +1,9 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
+# Reset screens to only the first connected
+"system screens"
+  Mod4 + F1
+
 # Keyboard brightness raise
 "system keyboard more"
   XF86KbdBrightnessUp
