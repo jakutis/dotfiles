@@ -135,6 +135,21 @@ function screens {
 
     CONNECTED=$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)
 
+    if [ -z "$CFG" ]
+    then
+      for SCREEN in $CONNECTED
+      do
+        echo xrandr --output "$SCREEN" --off
+        xrandr --output "$SCREEN" --off
+      done
+
+      for SCREEN in $CONNECTED
+      do
+        "$DOTFILES/screens/only" "$SCREEN"
+        exit
+      done
+    fi
+
     if [ -f "$DOTFILES/screens/$CFG" ]
     then
         SCREENS="$@"
@@ -166,19 +181,9 @@ function screens {
         done
 
         echo "Configuration is not a preset, parsing the definition"
-        SCREEN="${CFG%%:*}"
-        POSITION="${CFG#*:}"
-        if [ "$POSITION" = "only" ]
-        then
-          echo xrandr --output "$SCREEN" --auto --primary --preferred
-          xrandr --output "$SCREEN" --auto --primary --preferred
-        else
-          DEFAULT="eDP-1"
-          echo xrandr --output "$DEFAULT" --preferred --primary --auto --output "$SCREEN" --auto "--${POSITION}" "$DEFAULT"
-          xrandr --output "$DEFAULT" --preferred --primary --auto --output "$SCREEN" --auto "--${POSITION}" "$DEFAULT"
-        fi
         echo "Existing presets are:" 1>&2
         ls -1 "$DOTFILES/screens" 1>&2
+        exit 1
     fi
 
     xset s off
