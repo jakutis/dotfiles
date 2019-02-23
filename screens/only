@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+OUTPUT="$1"
+
+xrandr --output "$OUTPUT" --auto --rotate normal --preferred --primary
