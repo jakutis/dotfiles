@@ -61,11 +61,11 @@
   Mod4 + Home
 
 # Print Screen
-"shutter -f"
+"screenshot"
   Print
 
 # Print Screen
-"shutter -f"
+"screenshot"
   XF86LaunchA
 
 # Win+Z
