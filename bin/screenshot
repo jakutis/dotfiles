@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+FN="screenshot-$(date "+%F-%s").png"
+import "$FN" && gimp "$FN"
