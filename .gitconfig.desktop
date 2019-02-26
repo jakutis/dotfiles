@@ -65,6 +65,9 @@
 [push]
     default = matching
 
+[pull]
+    rebase = true
+
 [http]
     sslVerify = true
 
