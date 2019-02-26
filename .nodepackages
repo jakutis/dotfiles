@@ -1,5 +1,6 @@
 npm
 eslint
+eslint-plugin-react
 serve
 yarn
 bs-platform
