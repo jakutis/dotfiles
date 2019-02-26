@@ -133,21 +133,33 @@ function screens {
     CFG="$1"
     shift
 
-    CONNECTED=$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)
+    IFS=' ' read -r -a CONNECTED <<< "$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)"
+    PRIMARY=$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' primary ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)
+    N=$(echo "${CONNECTED[*]}" | wc -w)
+    I=0
+    while [ "$I" != "$N" ]
+    do
+      if [ "${CONNECTED[$I]}" = "$PRIMARY" ]
+      then
+        PRIMARY=$I
+        break
+      fi
+      I=$((I + 1))
+    done
 
     if [ -z "$CFG" ]
     then
-      for SCREEN in $CONNECTED
+      NEXT=$(((PRIMARY + 1) % N))
+      NEXT=${CONNECTED[$NEXT]}
+
+      for SCREEN in ${CONNECTED[*]}
       do
         echo xrandr --output "$SCREEN" --off
         xrandr --output "$SCREEN" --off
       done
 
-      for SCREEN in $CONNECTED
-      do
-        "$DOTFILES/screens/only" "$SCREEN"
-        exit
-      done
+      "$DOTFILES/screens/only" "$NEXT"
+      exit
     fi
 
     if [ -f "$DOTFILES/screens/$CFG" ]
