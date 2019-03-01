@@ -26,7 +26,14 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'mogelbrod/vim-jsonpath'
 Plug 'w0rp/ale'
 Plug 'ruanyl/vim-gh-line'
+Plug 'junegunn/goyo.vim'
 call plug#end()
+
+" junegunn/goyo.vim
+let g:goyo_width = '100%'
+let g:goyo_height = '100%'
+noremap! <C-w>o <Esc>:Goyo<CR>
+nnoremap <C-w>o <Esc>:Goyo<CR>
 
 " vim-gh-line
 let g:gh_open_command = 'www '
