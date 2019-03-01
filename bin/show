@@ -24,7 +24,7 @@ then
         "image/x-xcf")
             gimp -- "$FILE"
             ;;
-        "image/svg+xml")
+        "image/svg+xml" | "image/svg")
             inkview -- "$FILE"
             ;;
         "text/troff")
