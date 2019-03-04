@@ -167,7 +167,7 @@ function screens {
         SCREENS="$@"
         while [ -n "$1" ]
         do
-          if [ -z "$(echo " $CONNECTED " | grep " $1 ")" ]
+          if [ -z "$(echo " ${CONNECTED[*]} " | grep " $1 ")" ]
           then
             echo "$1 not connected"
             exit 1
@@ -175,7 +175,7 @@ function screens {
           shift
         done
 
-        for SCREEN in $CONNECTED
+        for SCREEN in ${CONNECTED[*]}
         do
           if [ -z "$(echo " $SCREENS " | grep " $SCREEN ")" ]
           then
@@ -186,7 +186,7 @@ function screens {
 
         "$DOTFILES/screens/$CFG" $SCREENS
     else
-        for SCREEN in $CONNECTED
+        for SCREEN in ${CONNECTED[*]}
         do
           echo xrandr --output "$SCREEN" --off
           xrandr --output "$SCREEN" --off
