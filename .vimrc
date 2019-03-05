@@ -55,8 +55,14 @@ let g:ale_fixers = {
 \   'html': ['tidy'],
 \   'ocaml': ['ocamlformat'],
 \}
+let g:ale_keep_list_window_open = 0
 noremap! <C-l> <Esc>:ALEFix<CR>
 nnoremap <C-l> <Esc>:ALEFix<CR>
+" close error window when closing buffer
+augroup CloseLoclistWindowGroup
+  autocmd!
+  autocmd QuitPre * if empty(&buftype) | lclose | endif
+augroup END
 
 " mxw/vim-jsx
 let g:jsx_ext_required = 0
