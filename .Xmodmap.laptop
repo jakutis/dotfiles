@@ -24,6 +24,8 @@ keycode 94 = Control_L
 keycode 134 = ISO_Level3_Shift
 !keycode 108 = Alt_R
 keycode 108 = ISO_Level3_Shift
+!keycode 135 = Menu
+keycode 135 = Insert
 
 add lock = Caps_Lock
 add control = Control_L
