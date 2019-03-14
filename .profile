@@ -18,6 +18,7 @@ export LC_ALL="$LANG"
 
 export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
 
+export FZF_DEFAULT_COMMAND='rg --files'
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"
 export LLVM_ROOT="$HOME/opt/llvm"
