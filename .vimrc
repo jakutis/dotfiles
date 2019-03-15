@@ -118,6 +118,9 @@ highlight nonText ctermbg=NONE
 " add NPM executables to PATH
 let $PATH=getcwd() . "/node_modules/.bin:" . $PATH
 
+" show an 80 column marker
+set colorcolumn=80
+
 " highlight current line
 set cursorline
 
