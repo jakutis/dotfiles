@@ -1,6 +1,5 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'Quramy/tsuquyomi'
 Plug 'sbdchd/neoformat'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
