@@ -1,5 +1,6 @@
 [ -z "$PS1" ] && return
 
+shopt -s globstar
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s cmdhist
