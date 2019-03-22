@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+PREFIX="$1"
+CMD="$2"
+
+while true
+do
+  if [ -e "$(pwd)/$PREFIX/$CMD" ]
+  then
+    echo -n "$(pwd)/$PREFIX/$CMD"
+    exit
+  fi
+  if [ "$(pwd)" = "/" ]
+  then
+    echo -n "$CMD"
+    exit
+  fi
+  cd ..
+done
+
+exit 1
