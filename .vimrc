@@ -1,6 +1,5 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'sbdchd/neoformat'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -85,13 +84,6 @@ let g:syntastic_scss_checkers = []
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
 let g:airline_theme='light'
-
-" sbdchd/neoformat
-let g:neoformat_enabled_html = []
-let g:neoformat_enabled_scss = []
-let g:neoformat_enabled_json = []
-let g:neoformat_enabled_typescript = []
-let g:neoformat_enabled_javascript = []
 
 " junegunn/fzf
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
