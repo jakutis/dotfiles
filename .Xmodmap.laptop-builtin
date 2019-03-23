@@ -1,0 +1,36 @@
+!lock        Caps_Lock (0x42)
+!control     Control_L (0x25),  Control_R (0x69)
+!mod1        Alt_L (0x40),  Alt_L (0xcc)
+!mod4        Super_L (0x85),  Super_R (0x86),  Super_L (0xce),  Hyper_L (0xcf)
+!mod5        ISO_Level3_Shift (0x5c),  Mode_switch (0xcb)
+clear lock
+clear control
+clear mod1
+clear mod4
+clear mod5
+
+!keycode 9 = Escape
+keycode 9 = Super_L
+!keycode 66 = Caps_Lock
+keycode 66 = Escape
+!keycode 37 = Control_L
+keycode 37 = Caps_Lock
+!keycode 133 = Super_L
+keycode 133 = Control_L
+!keycode 64 = Alt_L
+keycode 64 = Alt_L
+keycode 94 = Control_L
+!keycode 134 = Super_R
+keycode 134 = ISO_Level3_Shift
+!keycode 108 = Alt_R
+keycode 108 = ISO_Level3_Shift
+!keycode 135 = Menu
+keycode 135 = Insert
+
+add lock = Caps_Lock
+add control = Control_L
+add control = Control_R
+add mod1 = Alt_L
+add mod1 = Alt_R
+add mod4 = Super_L
+add mod5 = ISO_Level3_Shift
