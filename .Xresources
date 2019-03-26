@@ -18,43 +18,40 @@ Xcursor.size:            16
 URxvt.print-pipe:        "cat > /dev/null"
 XTerm*selectToClipboard: true
 
-#define t_black           #000000
-#define t_grey            #666666
-#define t_red             #c82829
-#define t_brightred       #ff3334
-#define t_green           #718c00
-#define t_brightgreen     #9ec400
-#define t_yellow          #f5871f
-#define t_brightyellow    #eab700
-#define t_blue            #4271ae
-#define t_brightblue      #4271ae
-#define t_magenta         #8959a8
-#define t_brightmagenta   #b777e0
-#define t_cyan            #3e999f
-#define t_brightcyan      #54ced6
-#define t_lightgrey       #d6d6d6
-#define t_white           #ffffff
+! EVERYTHING BELOW IS VERBATIM COPY OF https://raw.githubusercontent.com/morhetz/gruvbox-contrib/master/xresources/gruvbox-light.xresources
+! -----------------------------------------------------------------------------
+! File: gruvbox-light.xresources
+! Description: Retro groove colorscheme generalized
+! Author: morhetz <morhetz@gmail.com>
+! Source: https://github.com/morhetz/gruvbox-generalized
+! Last Modified: 6 Sep 2014
+! -----------------------------------------------------------------------------
 
-*color0:            t_black
-*color8:            t_grey
-*color1:            t_red
-*color9:            t_brightred
-*color2:            t_green
-*color10:           t_brightgreen
-*color3:            t_yellow
-*color11:           t_brightyellow
-*color4:            t_blue
-*color12:           t_brightblue
-*color5:            t_magenta
-*color13:           t_brightmagenta
-*color6:            t_cyan
-*color14:           t_brightcyan
-*color7:            t_lightgrey
-*color15:           t_white
-
-XTerm*cursorColor:       t_grey
-XTerm*background:        t_white
-XTerm*foreground:        t_black
-URxvt*cursorColor:       t_grey
-URxvt*background:        t_white
-URxvt*foreground:        t_black
+! hard contrast: *background: #f9f5d7
+*background: #fbf1c7
+! soft contrast: *background: #f2e5bc
+*foreground: #3c3836
+! Black + DarkGrey
+*color0:  #fdf4c1
+*color8:  #928374
+! DarkRed + Red
+*color1:  #cc241d
+*color9:  #9d0006
+! DarkGreen + Green
+*color2:  #98971a
+*color10: #79740e
+! DarkYellow + Yellow
+*color3:  #d79921
+*color11: #b57614
+! DarkBlue + Blue
+*color4:  #458588
+*color12: #076678
+! DarkMagenta + Magenta
+*color5:  #b16286
+*color13: #8f3f71
+! DarkCyan + Cyan
+*color6:  #689d6a
+*color14: #427b58
+! LightGrey + White
+*color7:  #7c6f64
+*color15: #3c3836
