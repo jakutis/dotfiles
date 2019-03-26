@@ -179,7 +179,6 @@ set backupdir=~/.vimbackup
 
 " swap file
 set directory=~/.vimtmp
-set hlsearch
 
 " buffers
 set nohidden
@@ -205,5 +204,6 @@ set mouse=
 " searching
 set ignorecase
 set smartcase
+set hlsearch
 set incsearch
 nnoremap <CR> :noh<CR><CR>
