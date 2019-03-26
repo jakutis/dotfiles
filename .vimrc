@@ -11,7 +11,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-syntastic/syntastic'
@@ -19,7 +18,6 @@ Plug 'Quramy/tsuquyomi'
 Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'lifepillar/vim-solarized8'
 Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
@@ -27,6 +25,7 @@ Plug 'mogelbrod/vim-jsonpath'
 Plug 'w0rp/ale'
 Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/goyo.vim'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " scrooloose/nerdtree
@@ -94,7 +93,6 @@ let g:syntastic_scss_checkers = []
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
-let g:airline_theme='light'
 
 " junegunn/fzf
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
@@ -111,11 +109,10 @@ command! -bang -nargs=* RipGrep
 let g:rg_derive_root = 1
 let g:rg_highlight = 1
 
-" chriskempson/tomorrow-theme
+" morhetz/gruvbox
 set background=light
-colorscheme solarized8
-highlight Normal ctermbg=NONE
-highlight nonText ctermbg=NONE
+let g:gruvbox_contrast_light='hard'
+colorscheme gruvbox
 
 " add NPM executables to PATH
 let $PATH=getcwd() . "/node_modules/.bin:" . $PATH
