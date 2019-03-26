@@ -198,6 +198,9 @@ set tabstop=2
 " clipboard
 set clipboard=unnamed,unnamedplus
 
+" do not add a space when joining lines with J
+set nojoinspaces
+
 " mouse
 set mouse=
 
