@@ -23,6 +23,7 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'easymotion/vim-easymotion'
 Plug 'mogelbrod/vim-jsonpath'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'w0rp/ale'
 Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/goyo.vim'
@@ -44,6 +45,9 @@ nnoremap <C-w>o <Esc>:Goyo<CR>
 
 " vim-gh-line
 let g:gh_open_command = 'www '
+
+" nathanaelkane/vim-indent-guides
+let g:indent_guides_enable_on_vim_startup = 1
 
 " ocaml
 autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var share'), '\n$', '', '''') . "/ocp-indent/vim/indent/ocaml.vim"
