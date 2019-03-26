@@ -7,6 +7,8 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -26,6 +28,13 @@ Plug 'w0rp/ale'
 Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/goyo.vim'
 call plug#end()
+
+" scrooloose/nerdtree
+augroup NERD
+    au!
+    autocmd VimEnter * NERDTree
+    autocmd VimEnter * wincmd p
+augroup END
 
 " junegunn/goyo.vim
 let g:goyo_width = '100%'
