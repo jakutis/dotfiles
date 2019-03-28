@@ -216,5 +216,5 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-nnoremap <C-t> <C-w>t
-nnoremap <C-b> <C-w>b
+nnoremap <C-q> <C-w>t
+nnoremap <C-e> <C-w>b
