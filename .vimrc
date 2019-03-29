@@ -13,8 +13,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-syntastic/syntastic'
-Plug 'Quramy/tsuquyomi'
 Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -79,22 +77,6 @@ augroup END
 
 " mxw/vim-jsx
 let g:jsx_ext_required = 0
-
-" Quramy/tsuquyomi
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
-let g:syntastic_ocaml_checkers = ['merlin']
-
-" vim-syntastic/syntastic
-let g:syntastic_check_on_open = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_enable_balloons = 1
-let g:syntastic_enable_highlighting = 1
-let g:syntastic_auto_jump = 0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_javascript_checkers = ['jshint', 'eslint']
-let g:syntastic_scss_checkers = []
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
