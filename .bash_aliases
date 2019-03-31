@@ -14,6 +14,7 @@ alias mv='mv -i'
 alias ll='ls -l --sort=time --reverse --dereference --all --human-readable --'
 alias l1='ls --almost-all --dereference -1 --'
 alias duf='ls -goR | grep -v ^d | awk "{sum += \$3} END{print sum}"'
+alias f='rg --files'
 
 alias temp='cat /sys/class/hwmon/hwmon0/temp1_input'
 alias fan='$HOME/bin/fan'
