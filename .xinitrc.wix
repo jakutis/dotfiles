@@ -10,6 +10,6 @@ xcompmgr &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
+set-background
 cd Desktop
-feh --bg-fill /home/jakutis/etc/background.png
 i3
