@@ -159,6 +159,7 @@ function screens {
       done
 
       "$DOTFILES/screens/only" "$NEXT"
+      set-background
       exit
     fi
 
@@ -185,6 +186,7 @@ function screens {
         done
 
         "$DOTFILES/screens/$CFG" $SCREENS
+        set-background
     else
         echo "Configuration is not a preset, parsing the definition"
         echo "Existing presets are:" 1>&2
