@@ -26,6 +26,7 @@ Plug 'w0rp/ale'
 Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-rhubarb'
 call plug#end()
 
 " scrooloose/nerdtree
