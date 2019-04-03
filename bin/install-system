@@ -107,6 +107,6 @@ else
     ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
     for SRV in NetworkManager ejabberd sshd ModemManager mysql apache2 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd
     do
-        systemctl disable $SRV && systemctl stop $SRV || exit 1
+        systemctl disable $SRV && systemctl stop $SRV
     done
 fi
