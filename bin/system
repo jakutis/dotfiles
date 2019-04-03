@@ -186,12 +186,6 @@ function screens {
 
         "$DOTFILES/screens/$CFG" $SCREENS
     else
-        for SCREEN in ${CONNECTED[*]}
-        do
-          echo xrandr --output "$SCREEN" --off
-          xrandr --output "$SCREEN" --off
-        done
-
         echo "Configuration is not a preset, parsing the definition"
         echo "Existing presets are:" 1>&2
         ls -1 "$DOTFILES/screens" 1>&2
