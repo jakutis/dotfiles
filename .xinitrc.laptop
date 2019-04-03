@@ -12,6 +12,6 @@ parcellite &
 blueman-applet &
 dropbox start
 nohup redshift -o -l 54.68:25.32 -b 0.4:0.4 -t 2700K:2700K 1>/dev/null 2>&1 &
+set-background
 cd Desktop
-feh --bg-fill /home/jakutis/etc/170511154436-monaco-grand-prix-jackie-stewart-taking-the-checkered-flag.jpg
 i3
