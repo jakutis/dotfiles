@@ -8,11 +8,8 @@ then
   if tty --silent
   then
       SUDO="sudo"
-  elif [ "$(which kdesu 2>/dev/null)" != "" ]
-  then
-      SUDO="kdesu"
   else
-      SUDO="gksudo"
+      SUDO="pkexec"
   fi
   $SUDO -- bash -c "XDG_CONFIG_HOME="$XDG_CONFIG_HOME" XDG_DATA_HOME="$XDG_DATA_HOME" XAUTHORITY="$HOME/.Xauthority" HOME="$HOME" "$0" $ARGS"
   exit

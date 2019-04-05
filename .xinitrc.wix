@@ -10,6 +10,7 @@ xcompmgr &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
+/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1 &
 set-background
 cd Desktop
 i3
