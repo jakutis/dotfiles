@@ -5,7 +5,6 @@ serve
 yarn
 bs-platform
 typescript
-heroku-cli
 trello-backup
 npmedge
 diff-so-fancy
