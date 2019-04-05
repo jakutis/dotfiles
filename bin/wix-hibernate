@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-sleep 0.2
-xset s blank
-xset s activate
-xset s noblank
-gksu systemctl hibernate
-xset s reset
