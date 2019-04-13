@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo Enter password:
+read PASSWORD
+
+qpdf --password="$PASSWORD" --decrypt "$1" "$(basename "$1" .pdf).unlocked.pdf"
