@@ -41,7 +41,7 @@
   XF86AudioLowerVolume
 
 # Win+Power
-"system suspend"
+"system hibernate"
   Mod4 + XF86PowerOff
 
 # Win+Down
@@ -49,7 +49,7 @@
   Mod4 + Down
 
 # Win+End
-"system suspend"
+"system hibernate"
   Mod4 + End
 
 # Win+S
