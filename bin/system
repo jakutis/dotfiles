@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "hibernate" ]) && ! ([ "$CMD" = "keyboard" ])
 then
   ARGS="$@"
   if tty --silent
@@ -20,7 +20,7 @@ VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help hibernate suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard"
+    echo "Available commands: help hibernate poweroff shutdown reboot restart net screens battery brightness fan keyboard"
 }
 
 function powersave {
@@ -110,20 +110,6 @@ function fan {
   else
     echo "Unrecognized fan device"
   fi
-}
-
-function power {
-    FUNCTION="$1"
-
-    if which systemctl 1>/dev/null 2>&1
-    then
-        systemctl "$FUNCTION"
-    elif which "pm-$FUNCTION" 1>/dev/null 2>&1
-    then
-        "pm-$FUNCTION"
-    else
-        "$FUNCTION"
-    fi
 }
 
 function screens {
@@ -293,20 +279,14 @@ case "$CMD" in
         echo "for debug info, see $XDG_DATA_HOME/dotfiles/net.log"
         ;;
     "reboot" | "restart")
-        power reboot
+        systemctl reboot
         ;;
     "poweroff" | "shutdown")
-        power poweroff
-        ;;
-    "suspend")
-        xscreensaver-command -lock || exit 1
-        power suspend || exit 1
+        systemctl poweroff
         ;;
     "hibernate")
-        screens mobile
-        power hibernate
-        xrandr --auto
-        "$HOME/bin/update-xinput"
+        xscreensaver-command -lock || exit 1
+        systemctl hibernate
         ;;
     "fan")
         shift
