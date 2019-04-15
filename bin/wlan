@@ -26,7 +26,7 @@ then
     exit 1
 fi
 
-FILE="$(sysname "/sys/class/rfkill/rfkill" "$(cat "$HOME/.wlan")")/state"
+FILE="$(sysname "/sys/class/rfkill" "$(cat "$HOME/.wlan")")/state"
 echo "RF-KILL: $FILE"
 if [ -z "$1" ]
 then

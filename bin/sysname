@@ -9,14 +9,11 @@ then
   ATTRIBUTE="name"
 fi
 
-I="0"
-while [ "$I" != "100" ]
+ls -1 "$PREFIX" | while read I
 do
-    if [ "$(cat "$PREFIX$I/$ATTRIBUTE" 2>/dev/null)" = "$NAME" ]
+    if [ "$(cat "$PREFIX/$I/$ATTRIBUTE" 2>/dev/null)" = "$NAME" ]
    then
-      echo "$PREFIX$I"
+      echo "$PREFIX/$I"
       exit
-   else
-      I=$(($I + 1))
    fi
 done

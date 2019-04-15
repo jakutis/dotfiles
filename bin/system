@@ -48,7 +48,7 @@ function powersave {
   echo "1500" > "/proc/sys/vm/dirty_writeback_centisecs"
   echo "0" > "/sys/module/usbcore/parameters/autosuspend"
   echo "1" > "/sys/module/snd_hda_intel/parameters/power_save"
-  #echo "0" > "$("$HOME/bin/sysname" "/sys/class/rfkill/rfkill" "tpacpi_bluetooth_sw")/state"
+  #echo "0" > "$("$HOME/bin/sysname" "/sys/class/rfkill" "tpacpi_bluetooth_sw")/state"
   #sleep 1
   #rmmod btusb bluetooth
 }
