@@ -23,36 +23,6 @@ function help {
     echo "Available commands: help hibernate poweroff shutdown reboot restart net screens battery brightness fan keyboard"
 }
 
-function powersave {
-  if [ "$(id -u)" != "0" ]
-  then
-    return
-  fi
-  for NET in $(ls /sys/class/net)
-  do
-      ethtool -s "$NET" wol d
-      iw dev "$NET" set power_save on
-  done
-  for PCI in $(ls /sys/bus/pci/devices/*/power/control)
-  do
-      echo "auto" > "$PCI"
-  done
-  for SCSI in $(ls /sys/class/scsi_host/host*/link_power_management_policy)
-  do
-      echo "min_power" > "$SCSI"
-  done
-  for USB in $(ls /sys/bus/usb/devices/*/power/control)
-  do
-      echo "on" > "$USB"
-  done
-  echo "1500" > "/proc/sys/vm/dirty_writeback_centisecs"
-  echo "0" > "/sys/module/usbcore/parameters/autosuspend"
-  echo "1" > "/sys/module/snd_hda_intel/parameters/power_save"
-  #echo "0" > "$("$HOME/bin/sysname" "/sys/class/rfkill" "tpacpi_bluetooth_sw")/state"
-  #sleep 1
-  #rmmod btusb bluetooth
-}
-
 function fan {
   LEVEL="$1"
   IBM="/proc/acpi/ibm/fan"
@@ -236,8 +206,6 @@ then
     help 1>&2
     exit 1
 fi
-
-powersave
 
 case "$CMD" in
     "keyboard")
