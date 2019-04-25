@@ -28,6 +28,9 @@ Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-rhubarb'
 call plug#end()
 
+" wix
+autocmd BufNewFile,BufRead *.jsw set syntax=javascript
+
 " scrooloose/nerdtree
 augroup NERD
     au!
