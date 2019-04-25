@@ -29,7 +29,7 @@ Plug 'tpope/vim-rhubarb'
 call plug#end()
 
 " wix
-autocmd BufNewFile,BufRead *.jsw set syntax=javascript
+autocmd BufNewFile,BufRead *.jsw set filetype=javascript
 
 " scrooloose/nerdtree
 augroup NERD
