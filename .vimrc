@@ -81,6 +81,7 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 " w0rp/ale
+let g:ale_completion_enabled = 1
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'html': ['tidy'],
