@@ -155,7 +155,7 @@ then
   mymount ipad || exit 1
 fi
 
-mymount ipad:com.epmakes.capricciofull
+mymount ipad:com.imoreapps.portablediskwithiap
 if [ "$?" = "0" ]
 then
   if [ "$CLEAR" = "yes" ]
