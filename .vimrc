@@ -32,6 +32,7 @@ call plug#end()
 autocmd BufNewFile,BufRead *.jsw set filetype=javascript
 
 " scrooloose/nerdtree
+nmap ,n :NERDTreeFind<CR>
 augroup NERD
     au!
     autocmd VimEnter * NERDTree
