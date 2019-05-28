@@ -35,7 +35,8 @@ XTerm*foreground:        #3c3836
 
 ! Black + DarkGrey
 *color0:  #fdf4c1
-*color8:  #928374
+! #928374
+*color8:  #56493b
 ! DarkRed + Red
 *color1:  #cc241d
 *color9:  #9d0006
@@ -55,5 +56,6 @@ XTerm*foreground:        #3c3836
 *color6:  #689d6a
 *color14: #427b58
 ! LightGrey + White
-*color7:  #7c6f64
+! #7c6f64
+*color7:  #5a4e43
 *color15: #3c3836
