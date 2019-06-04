@@ -9,10 +9,23 @@ set -o vi
 
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
-export PROMPT_DIRTRIM=2
-export PROMPT_COMMAND="history -a;echo -ne '\a'"
+export PROMPT_DIRTRIM=4
 export HISTTIMEFORMAT='%F %T '
-export PS1="\\u@$MACHINE:\\w\\\$ "
+
+function prompt_right() {
+  echo -e "\033[0;32m\\\t\033[0m"
+}
+
+function prompt_left() {
+  echo -e "\033[0;32m\\u@$MACHINE:\\w\033[0m"
+}
+
+function prompt() {
+    compensate=5
+    PS1=$(printf "%*s\r%s\n\$ " "$(($(tput cols)+${compensate}))" "$(prompt_right)" "$(prompt_left)")
+}
+
+export PROMPT_COMMAND=prompt
 export HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
 export HISTSIZE=1000000
