@@ -26,7 +26,7 @@ export PATH
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm default 2>/dev/null
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use default 1>/dev/null
-[[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$(cat "$(pyenv version-file)")"
+[[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell system
 [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use default
 [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use default 1>/dev/null
 [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$(cat "$HOME/.php")"
