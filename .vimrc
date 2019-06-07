@@ -83,6 +83,7 @@ let g:LanguageClient_serverCommands = {
 
 " w0rp/ale
 let g:ale_completion_enabled = 1
+set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'html': ['tidy'],
