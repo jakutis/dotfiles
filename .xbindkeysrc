@@ -2,7 +2,7 @@
 
 # Reset screens to only the first connected
 "system screens"
-  Mod4 + F1
+  Mod4 + F2
 
 # Keyboard brightness raise
 "system keyboard more"
