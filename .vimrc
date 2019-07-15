@@ -167,7 +167,8 @@ autocmd BufEnter * lcd %:p:h
 let g:rooter_manual_only = 1
 
 " folding
-set nofoldenable
+set foldenable
+set foldmethod=indent
 
 " paste mode
 let paste_mode = 0
