@@ -741,6 +741,10 @@ then
     cd ../.bin
     ln -nsf "../opt/tmux/bin/tmux"
     cd ..
+    if [ ! -e ".tmux" ]
+    then
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
 fi
 
 if [ "$ENABLE_NZBGET" = "yes" -a ! -e "opt/nzbget-$NZBGETV" ]
