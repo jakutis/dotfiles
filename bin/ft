@@ -7,4 +7,4 @@ pwd && rg --files | (
   else
     rg --files 
   fi
-) | tree --fromfile . | tail -n +2
+) | tree -C --fromfile . | tail -n +2
