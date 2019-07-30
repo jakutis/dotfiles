@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+pwd && rg --files | (
+  if [ -n "$1" ]
+  then
+    sed -e 's/^\(\([^/]*\/\)\{'$1'\}\).*$/\1/' | sort | uniq
+  else
+    rg --files 
+  fi
+) | tree --fromfile . | tail -n +2
