@@ -86,6 +86,7 @@ let g:ale_completion_enabled = 1
 set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
+\   'json': ['jq'],
 \   'html': ['tidy'],
 \   'ocaml': ['ocamlformat'],
 \}
