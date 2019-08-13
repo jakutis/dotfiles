@@ -15,6 +15,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
+Plug 'udalov/kotlin-vim'
 Plug 'mxw/vim-jsx'
 Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
@@ -203,6 +204,7 @@ set softtabstop=0
 set autoindent
 set backspace=2
 set tabstop=2
+autocmd Filetype kotlin setlocal tabstop=4 shiftwidth=4
 
 " clipboard
 set clipboard=unnamed,unnamedplus
