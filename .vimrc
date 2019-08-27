@@ -107,6 +107,11 @@ let g:jsx_ext_required = 0
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
+let g:airline_section_a = airline#section#create_left([])
+let g:airline_section_b = airline#section#create_right(['filetype'])
+let g:airline_section_x = airline#section#create([])
+let g:airline_section_y = airline#section#create_right([])
+let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
 
 " junegunn/fzf
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
