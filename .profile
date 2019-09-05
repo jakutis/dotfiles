@@ -18,6 +18,7 @@ export LC_ALL="$LANG"
 
 export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
 
+export BAT_CONFIG_PATH="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")/bat.conf"
 export FZF_DEFAULT_COMMAND='rg --files'
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"
