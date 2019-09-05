@@ -183,7 +183,8 @@ let paste_mode = 0
 set pastetoggle=<F9>
 
 " no ^ and $ around lines
-set nolist
+set list
+set listchars=tab:>-
 
 " file formats
 set ffs=unix
