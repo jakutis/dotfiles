@@ -1,6 +1,9 @@
 [Added Associations]
 application/epub+zip=ebook-viewer.desktop;
-application/pdf=AdobeReader.desktop;konqueror-2.desktop;kde4-okular.desktop;kde4-okularApplication_pdf.desktop;qpdfview.desktop;xpdf.desktop;gimp.desktop;display-im6.q16.desktop;vprerex.desktop;display-im6.desktop;
+application/pdf=org.kde.okular.desktop
+application/x-gzpdf=org.kde.okular.desktop
+application/x-bzpdf=org.kde.okular.desktop
+application/x-wwf=org.kde.okular.desktop
 application/vnd.ms-htmlhelp=xchm.desktop;
 application/vnd.oasis.opendocument.spreadsheet=libreoffice.desktop;
 application/x-mobipocket-ebook=ebook-viewer.desktop;
@@ -12,6 +15,9 @@ x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
 
 [Default Applications]
-application/pdf=AdobeReader.desktop
+application/pdf=org.kde.okular.desktop
+application/x-gzpdf=org.kde.okular.desktop
+application/x-bzpdf=org.kde.okular.desktop
+application/x-wwf=org.kde.okular.desktop
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
