@@ -87,6 +87,7 @@ let g:LanguageClient_serverCommands = {
 let g:ale_completion_enabled = 1
 set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_fixers = {
+\   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
 \   'json': ['jq'],
 \   'html': ['tidy'],
