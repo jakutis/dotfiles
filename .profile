@@ -23,6 +23,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"
 export LLVM_ROOT="$HOME/opt/llvm"
+export GOROOT="$HOME/opt/go"
 export JAVA_HOME="$XDG_CONFIG_HOME/dotfiles/java"
 export R_HOME="$HOME/opt/r"
 export R_LIBS_USER="$HOME/opt/r-site-library"
