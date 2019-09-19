@@ -24,6 +24,7 @@ DOCKERCOMPOSEV="1.17.1"
 CALCURSEV="4.1.0"
 LIBAVV="11.7"
 EMACSV="24.5"
+I3STATUSV="2.13"
 VIMV="8.1.1523"
 DOCKERV="1.10.2"
 GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
@@ -225,6 +226,7 @@ for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources
 do
     ln -nsf "$DOTFILES/$RC"
 done
+ln -nsf "$DOTFILES/.i3status.conf" ".i3status.conf"
 ln -nsf "$DOTFILES/.xinitrc.$MACHINE" ".xinitrc"
 ln -nsf "$DOTFILES/.Xmodmap.$MACHINE" ".Xmodmap"
 ln -nsf "$DOTFILES/.gitconfig.$MACHINE" ".gitconfig"
@@ -622,6 +624,15 @@ then
     cd tig-build && ./autogen.sh && ./configure --prefix="$HOME/opt/tig-$TIGV" && make && make install && cd .. && rm -rf tig-build || exit 1
     cd opt && ln -nsf "tig-$TIGV" tig && cd .. || exit 1
     cd .bin && ln -nsf "../opt/tig/bin/tig" "tig" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_I3STATUS" = "yes" -a ! -e "opt/i3status-$I3STATUSV" ]
+then
+    ensure_git i3status https://github.com/i3/i3status || exit 1
+    (cd "repos/git/i3status" && git archive --format=tar --prefix=i3status-build/ "$I3STATUSV") | tar xf - || exit 1
+    cd i3status-build && autoreconf -fi && rm -rf build && mkdir build && cd build && ../configure --prefix="$HOME/opt/i3status-$I3STATUSV" && make && make install && cd ../.. && rm -rf i3status-build || exit 1
+    cd opt && ln -nsf "i3status-$I3STATUSV" i3status && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/i3status/bin/i3status" "i3status" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_NGINX" = "yes" -a ! -e "opt/nginx-$NGINXV" ]
