@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+PREFIX="$(git rev-parse --show-prefix)"
+DIR=""
+if [ "$(dirname "$PREFIX")" != "." ]
+then
+  DIR="$(dirname "$PREFIX")/"
+fi
+git commit -e -v -m "$DIR$(basename "$PREFIX"): "
