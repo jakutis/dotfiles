@@ -44,8 +44,8 @@ XTerm*foreground:        #3c3836
 *color2:  #98971a
 *color10: #79740e
 ! DarkYellow + Yellow
-*color3:  #d79921
-*color11: #b57614
+*color3:  #ffd700
+*color11: #ffaf00
 ! DarkBlue + Blue
 *color4:  #458588
 *color12: #076678
