@@ -93,6 +93,12 @@ then
     exit 1
 fi
 
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+if [ -z "$DOTFILES" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/dotfiles" that contains path to the dotfiles directory" 1>&2
+    exit 1
+fi
 
 if [ "$MACHINE" = "server" ]
 then
@@ -107,6 +113,7 @@ then
 else
     ln -nsf "$VARIA/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
     ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
+    ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
     for SRV in NetworkManager ejabberd sshd ModemManager mysql apache2 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd
     do
         systemctl disable $SRV && systemctl stop $SRV
