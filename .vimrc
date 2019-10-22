@@ -11,6 +11,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
@@ -109,8 +110,10 @@ let g:jsx_ext_required = 0
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
+let g:airline_theme='light'
 let g:airline_section_a = airline#section#create_left([])
 let g:airline_section_b = airline#section#create_right(['filetype'])
+let g:airline_section_c = airline#section#create(['%<', 'path', 'readonly'])
 let g:airline_section_x = airline#section#create([])
 let g:airline_section_y = airline#section#create_right([])
 let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
@@ -143,6 +146,8 @@ set colorcolumn=80
 
 " highlight current line
 set cursorline
+highlight CursorLine cterm=NONE ctermbg=yellow
+highlight CursorLineNr cterm=NONE ctermbg=yellow
 
 " security
 set nomodeline
