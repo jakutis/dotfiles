@@ -1,5 +1,9 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
+# Set screen to first only
+"system screens only FIRST"
+  Mod4 + F3
+
 # Reset screens to only the first connected
 "system screens"
   Mod4 + F2

@@ -119,15 +119,20 @@ function screens {
     if [ -f "$DOTFILES/screens/$CFG" ]
     then
         SCREENS="$@"
-        while [ -n "$1" ]
-        do
-          if [ -z "$(echo " ${CONNECTED[*]} " | grep " $1 ")" ]
-          then
-            echo "$1 not connected"
-            exit 1
-          fi
-          shift
-        done
+        if [ "$SCREENS" = "FIRST" ]
+        then
+          SCREENS="${CONNECTED[0]}"
+        else
+          while [ -n "$1" ]
+          do
+            if [ -z "$(echo " ${CONNECTED[*]} " | grep " $1 ")" ]
+            then
+              echo "$1 not connected"
+              exit 1
+            fi
+            shift
+          done
+        fi
 
         for SCREEN in ${CONNECTED[*]}
         do
