@@ -2,6 +2,7 @@
 
 source "$HOME/.profile"
 xhost localhost
+xhost si:localuser:root
 xrdb -merge "$HOME/.Xresources"
 update-xinput
 noblank

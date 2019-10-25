@@ -2,6 +2,7 @@
 
 cd "$HOME"
 xhost localhost
+xhost si:localuser:root
 xrdb -merge .Xresources
 xbindkeys
 update-xinput
