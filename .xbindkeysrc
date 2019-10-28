@@ -56,10 +56,6 @@
 "system hibernate"
   Mod4 + End
 
-# Win+S
-"xkbswitch"
-  Mod4 + s
-
 # Win+Home
 "xscreensaver-command -lock"
   Mod4 + Home
