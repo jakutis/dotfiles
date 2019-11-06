@@ -53,7 +53,7 @@
   Mod4 + Down
 
 # Win+End
-"system hibernate"
+"system suspend"
   Mod4 + End
 
 # Win+Home
