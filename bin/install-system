@@ -119,3 +119,5 @@ else
         systemctl disable $SRV && systemctl stop $SRV
     done
 fi
+
+gpasswd -a jakutis sudo
