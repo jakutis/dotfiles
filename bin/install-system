@@ -114,7 +114,7 @@ else
     ln -nsf "$VARIA/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
     ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
     ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
-    for SRV in NetworkManager ejabberd sshd ModemManager mysql apache2 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd
+    for SRV in NetworkManager ejabberd sshd ModemManager mysql apache2 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd ocserv epmd iio-sensor-proxy unattended-upgrades docker containerd avahi-daemon
     do
         systemctl disable $SRV && systemctl stop $SRV
     done
