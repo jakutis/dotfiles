@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "hibernate" ]) && ! ([ "$CMD" = "keyboard" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
 then
   ARGS="$@"
   if tty --silent
@@ -20,7 +20,7 @@ VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help hibernate poweroff shutdown reboot restart net screens battery brightness fan keyboard"
+    echo "Available commands: help suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard"
 }
 
 function fan {
@@ -257,9 +257,9 @@ case "$CMD" in
     "poweroff" | "shutdown")
         systemctl poweroff
         ;;
-    "hibernate")
+    "suspend")
         xscreensaver-command -lock || exit 1
-        systemctl hibernate
+        sudo systemctl suspend
         ;;
     "fan")
         shift
