@@ -34,10 +34,10 @@ then
             readelf --all -- "$FILE" | less
             ;;
         "text/plain")
-            [ "$EXT" = "md" -o "$EXT" = "markdown" ] && (xhost 1>/dev/null 2>&1) && marktext "$FILE" || less -- "$FILE"
+            [ "$EXT" = "md" -o "$EXT" = "markdown" ] && (xhost 1>/dev/null 2>&1) && marktext "$FILE" || bat -- "$FILE"
             ;;
         "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
-            less -- "$FILE"
+            bat -- "$FILE"
             ;;
         "text/html")
             www -- "$FILE"
