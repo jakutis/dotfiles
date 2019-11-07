@@ -1427,9 +1427,10 @@ then
   chmod +x "${HOME}/.bin/docker-compose"
 fi
 
-flatpak install --assumeyes --user https://flathub.org/repo/appstream/com.spotify.Client.flatpakref
-echo flatpak run com.spotify.Client > "$HOME/.bin/spotify"
-chmod +x "$HOME/.bin/spotify"
+for APP in com.spotify.Client com.github.marktext.marktext
+do
+  flatpak install --assumeyes --user "$APP" || exit 1
+done
 
 #https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
 
