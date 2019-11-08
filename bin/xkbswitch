@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+XMODMAP="$1"
+if [ -z "$XMODMAP" ]
+then
+  XMODMAP="$HOME/.Xmodmap"
+fi
+
 if [ "$(cat "$HOME/.xkblayout")" = "lt" ]
 then
     setxkbmap -layout de
@@ -9,4 +15,4 @@ else
     echo lt > "$HOME/.xkblayout"
 fi
 
-xmodmap "$HOME/.Xmodmap"
+xmodmap "$XMODMAP"
