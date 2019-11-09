@@ -228,7 +228,7 @@ do
     ln -nsf "$DOTFILES/$RC"
 done
 ln -nsf "$DOTFILES/.i3status.conf" ".i3status.conf"
-ln -nsf "$DOTFILES/.xinitrc.$MACHINE" ".xinitrc"
+ln -nsf "$DOTFILES/.xinitrc" ".xinitrc"
 ln -nsf "$DOTFILES/.Xmodmap.$MACHINE" ".Xmodmap"
 ln -nsf "$DOTFILES/.gitconfig.$MACHINE" ".gitconfig"
 ln -nsf "$DOTFILES/.config/awesome.$MACHINE" "$XDG_CONFIG_HOME/awesome"
