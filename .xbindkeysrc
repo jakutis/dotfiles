@@ -48,10 +48,6 @@
 "system suspend"
   Mod4 + XF86PowerOff
 
-# Pause
-"system suspend"
-  Pause
-
 # Win+End
 "system suspend"
   Mod4 + End
