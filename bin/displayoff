@@ -2,3 +2,5 @@
 
 sleep 0.2
 xset dpms force off
+xset dpms force standby
+xset dpms force suspend
