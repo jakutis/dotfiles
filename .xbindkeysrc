@@ -52,10 +52,6 @@
 "system suspend"
   Pause
 
-# Win+Down
-"blank"
-  Mod4 + Down
-
 # Win+End
 "system suspend"
   Mod4 + End
