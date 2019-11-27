@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+BRANCHES=$(git branch | grep -v master)
+
+if [ -z "$BRANCHES" ]
+then
+  exit
+fi
+
+echo "$BRANCHES" | xargs git branch -D
