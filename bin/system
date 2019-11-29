@@ -169,7 +169,12 @@ function brightness {
   MAX="$(cat "$DIR/max_brightness")"
   MIN="0"
   RANGE=$(($MAX - $MIN))
-  STEP=$(($RANGE / 20))
+  TIMES="20"
+  if [ "$RANGE" -lt "$TIMES" ]
+  then
+    TIMES="$RANGE"
+  fi
+  STEP=$(($RANGE / $TIMES))
 
   if [ "$ARG" = "" ]
   then
