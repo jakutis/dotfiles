@@ -218,6 +218,9 @@ set directory=~/.vimtmp
 " buffers
 set nohidden
 
+" matching braces
+set showmatch
+
 " indenting
 set expandtab
 set shiftround
