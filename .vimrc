@@ -220,6 +220,7 @@ set nohidden
 
 " matching braces
 set showmatch
+set matchpairs=(:),{:},[:],<:>
 
 " indenting
 set expandtab
