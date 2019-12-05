@@ -50,7 +50,7 @@ then
 elif [ -n "$APTGET" ]
 then
     dpkg --add-architecture i386 || exit 1
-    "$APTGET" install apt-transport-https wget gnupg || exit 1
+    "$APTGET" install lsb-release apt-transport-https wget gnupg || exit 1
 
     if [ -z "$(grep virtualbox /etc/apt/sources.list)" ]
     then
