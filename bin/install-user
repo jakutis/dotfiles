@@ -1427,13 +1427,21 @@ then
   chmod +x "${HOME}/.bin/docker-compose"
 fi
 
-for APP in com.spotify.Client com.github.marktext.marktext org.gnome.Podcasts
-do
-  flatpak install --assumeyes --user "$APP" || exit 1
-done
-echo flatpak run --filesystem=/home/jakutis/etc/music:ro com.spotify.Client > "$HOME/.bin/spotify" && chmod +x "$HOME/.bin/spotify"
-echo flatpak run com.github.marktext.marktext > "$HOME/.bin/marktext" && chmod +x "$HOME/.bin/marktext"
-echo flatpak run org.gnome.Podcasts > "$HOME/.bin/podcasts" && chmod +x "$HOME/.bin/podcasts"
 
-#https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
+if [ "$ENABLE_SPOTIFY" = "yes" ]
+then
+  flatpak install --assumeyes --user com.spotify.Client || exit 1
+  echo flatpak run --filesystem=/home/jakutis/etc/music:ro com.spotify.Client > "$HOME/.bin/spotify" && chmod +x "$HOME/.bin/spotify"
+fi
 
+if [ "$ENABLE_MARKTEXT" = "yes" ]
+then
+  flatpak install --assumeyes --user com.github.marktext.marktext || exit 1
+  echo flatpak run com.github.marktext.marktext > "$HOME/.bin/marktext" && chmod +x "$HOME/.bin/marktext"
+fi
+
+if [ "$ENABLE_PODCASTS" = "yes" ]
+then
+  flatpak install --assumeyes --user org.gnome.Podcasts || exit 1
+  echo flatpak run org.gnome.Podcasts > "$HOME/.bin/podcasts" && chmod +x "$HOME/.bin/podcasts"
+fi
