@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if [ -z "$PUBIF" ]
+then
+    echo PUBIF must be in environment 1>&2
+    exit 1
+fi
+
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+
+source "$DOTFILES/networks/vanilla"
+
+iptables -t filter -A INPUT -i "$PUBIF" -m state --state ESTABLISHED -j ACCEPT
+
+if [ -z "$PUBMAC" ]
+then
+    echo "PUBMAC not specified, skipping hw ether setting."
+else
+    ifconfig "$PUBIF" hw ether "$PUBMAC"
+fi
+
+dhclient -v "$PUBIF"

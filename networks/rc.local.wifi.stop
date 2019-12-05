@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ ! -e "$XDG_DATA_HOME/dotfiles/rc.local.wifi.started" ]
+then
+    echo "Error: rc.local.wifi has not been started" 1>&2
+    exit 1
+fi
+
+pkill --full wpa_supplicant
+sleep 1
+echo "0" > "$("$HOME/bin/sysname" "/sys/class/rfkill" "wlan" "type")/state"
+sleep 1
+rmmod iwlmvm iwlwifi
+
+rm -f "$XDG_DATA_HOME/dotfiles/rc.local.wifi.started"

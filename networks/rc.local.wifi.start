@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [ -e "$XDG_DATA_HOME/dotfiles/rc.local.wifi.started" ]
+then
+    echo "Error: rc.local.wifi already started" 1>&2
+    exit 1
+fi
+
+rmmod iwlmvm iwlwifi
+sleep 1
+modprobe iwlmvm iwlwifi
+sleep 1
+echo "1" > "$("$HOME/bin/sysname" "/sys/class/rfkill" "wlan" "type")/state"
+sleep 1
+wpa_supplicant -B "-i$(ls "$XDG_CONFIG_HOME/dotfiles/wlan")" "-c/etc/wpa_supplicant.conf"
+sleep 1
+
+touch "$XDG_DATA_HOME/dotfiles/rc.local.wifi.started"

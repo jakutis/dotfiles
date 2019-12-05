@@ -16,7 +16,6 @@ then
 fi
 
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
-VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
@@ -244,16 +243,14 @@ case "$CMD" in
         screens "$@"
         ;;
     "net")
-        "$VARIA/$MACHINE/rc.local.stop"
-        "$VARIA/$MACHINE/rc.local.modem.stop"
-        "$VARIA/$MACHINE/rc.local.wifi.stop"
-        "$VARIA/networks/vanilla"
+        "$DOTFILES/networks/rc.local.stop"
+        "$DOTFILES/networks/vanilla"
         if [ "$2" = "none" ]
         then
           exit
         fi
-        "$VARIA/$MACHINE/rc.local.start"
-        nohup "$VARIA/networks/cfg-${2}" 1>"$XDG_DATA_HOME/dotfiles/net.log" 2>&1 &
+        "$DOTFILES/networks/rc.local.start"
+        nohup "$DOTFILES/networks/cfg-${2}" 1>"$XDG_DATA_HOME/dotfiles/net.log" 2>&1 &
         echo "for debug info, see $XDG_DATA_HOME/dotfiles/net.log"
         ;;
     "reboot" | "restart")

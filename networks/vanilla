@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+echo "--------- vanilla network configuration begin -----------"
+ALLIFS="$(for IFLINE in $(cat /proc/net/dev | grep ':' | cut -d ':' -f 1);do IFNAME="$(echo $IFLINE | tr -d ' ')";echo -n " $IFNAME";done)"
+
+for CMD in vpnc dnsmasq dhclient dhcpcd openvpn wvdial
+do
+    killall -9 "$CMD"
+    while true
+    do
+        if [ "$(ps axc|grep "$CMD"|wc -l)" = "0" ]
+        then
+            break
+        else
+            sleep 2
+        fi
+    done
+done
+
+kill "$(cat "$XDG_DATA_HOME/dotfiles/net.pid")"
+wait "$(cat "$XDG_DATA_HOME/dotfiles/net.pid")"
+echo "$$" > "$XDG_DATA_HOME/dotfiles/net.pid"
+
+for IF in $ALLIFS
+do
+    ifconfig "$IF" 0.0.0.0
+    ifconfig "$IF" down
+done
+
+for IF in $ALLIFS
+do
+    brctl delbr "$IF" 1>/dev/null 2>&1
+done
+
+echo 0 > /proc/sys/net/ipv4/ip_forward
+
+ebtables -F
+ebtables -X
+ebtables -P INPUT ACCEPT
+ebtables -P FORWARD ACCEPT
+ebtables -P OUTPUT ACCEPT
+
+iptables -t filter -F
+iptables -t filter -X
+iptables -t filter -P INPUT DROP
+iptables -t filter -A INPUT -i lo -j ACCEPT
+iptables -t filter -P FORWARD ACCEPT
+iptables -t filter -P OUTPUT ACCEPT
+iptables -t nat -F
+iptables -t nat -X
+iptables -t nat -P PREROUTING ACCEPT
+iptables -t nat -P OUTPUT ACCEPT
+iptables -t nat -P POSTROUTING ACCEPT
+
+ifconfig lo up 127.0.0.1
+echo "--------- vanilla network configuration end -----------"

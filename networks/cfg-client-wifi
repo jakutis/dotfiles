@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+
+"$DOTFILES/networks/rc.local.wifi.start"
+
+[ ! -e "$XDG_CONFIG_HOME/dotfiles/wlan" ] && echo "Please create a symlink $XDG_CONFIG_HOME/dotfiles/wlan to your WiFi device net folder, e.g. /sys/devices/pci0000:00/0000:00:1c.1/0000:03:00.0/net" && exit 1
+PUBIF="$(ls "$XDG_CONFIG_HOME/dotfiles/wlan")" "$DOTFILES/networks/client"
