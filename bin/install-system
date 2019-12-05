@@ -82,6 +82,8 @@ else
     exit 1
 fi
 
+gpasswd -a jakutis sudo
+
 echo "setting up configs"
 
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
@@ -126,5 +128,3 @@ else
         systemctl disable $SRV && systemctl stop $SRV
     done
 fi
-
-gpasswd -a jakutis sudo
