@@ -71,7 +71,7 @@ PDFLIBVV="705"
 JQV="1.6"
 JQCOMMIT="jq-1.6"
 RUBYV="2.6.5"
-LIBVPXV="1.6.1"
+LIBVPXV="1.8.1"
 GITV="2.22.0"
 MIRALLV="2.1.1"
 QTKEYCHAINV="v0.5.0"
@@ -92,10 +92,8 @@ JBIG2ENCV="0.28"
 GRAPHICSMAGICKV="1.3.23"
 GRAPHICSMAGICKTAG="GraphicsMagick-1_3_23"
 JSONCV="0.12-20140410"
-FFMPEGV="3.3.2"
-MP4V2PATH="/trunk"
-MP4V2REV="$(svnversion -c "$HOME/repos/svn/mp4v2/$MP4V2PATH"|cut -c 3-)"
-MP4V2V="$MP4V2V"
+FFMPEGV="4.2.1"
+MP4V2V="2.0.0"
 ANTV="1.10.1"
 NZBGETV="15.0"
 PYTHONV="3.8.0"
@@ -123,7 +121,7 @@ TMUXV="2.9a"
 LIBEVENTV="2.1.8"
 ELINKSV="3379fc9"
 IMAGEMAGICKV="7.0.1-6"
-CMUSV="2.7.1"
+CMUSV="2.8.0"
 CMUSCOMMIT="v$CMUSV"
 
 if [ "$ENABLE_GITSH" = "yes" ]
@@ -149,6 +147,7 @@ fi
 if [ "$ENABLE_CMUS" = "yes" ]
 then
     ENABLE_FFMPEG="yes"
+    ENABLE_MP4V2="yes"
 fi
 
 if [ "$ENABLE_FFMPEG" = "yes" ]
@@ -214,7 +213,6 @@ fi
 mkdir --parents ".cmus"
 cd ".cmus"
 ln -nsf "$DOTFILES/.cmus/rc"
-ln -nsf "$HOME/Dropbox/Apps/Byword/cmus-playlists" "$HOME/.cmus/playlists"
 cd ..
 
 mkdir --parents ".elinks"
@@ -683,12 +681,8 @@ fi
 
 if [ "$ENABLE_MP4V2" = "yes" -a ! -e "opt/mp4v2-$MP4V2V" ]
 then
-    if [ ! -e "repos/svn/mp4v2" ]
-    then
-        mkdir -p repos/svn && cd repos/svn && svn co http://mp4v2.googlecode.com/svn mp4v2 && cd ../.. || exit 1
-    fi
-    (cd "$HOME/repos/svn/mp4v2$MP4V2PATH" && svn export -r "$MP4V2REV" . "$HOME/mp4v2-build") || exit 1
-    cd ./mp4v2-build && autoreconf -fiv && ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install && cd .. || exit 1
+    cd "$HOME" && curl https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mp4v2/mp4v2-${MP4V2V}.tar.bz2 | tar xvfj - || exit 1
+    mv mp4v2-${MP4V2V} mp4v2-build && cd ./mp4v2-build && CXXFLAGS=-fpermissive ./configure --prefix="$HOME/opt/mp4v2-$MP4V2V" && make && make install && cd .. && rm -rf mp4v2-build || exit 1
 fi
 
 if [ "$ENABLE_FAAC" = "yes" -a ! -e "opt/faac-$FAACV" ]
@@ -716,7 +710,7 @@ fi
 
 if [ "$ENABLE_FFMPEG" = "yes" -a ! -e "opt/ffmpeg-$FFMPEGV" ]
 then
-    ensure_git ffmpeg http://git.videolan.org/git/ffmpeg.git || exit 1
+    ensure_git ffmpeg https://git.videolan.org/git/ffmpeg.git || exit 1
     (cd "repos/git/ffmpeg" && git archive --format=tar --prefix=ffmpeg-build/ "n$FFMPEGV") | tar xf - || exit 1
     cd ffmpeg-build && ./configure --extra-ldflags="-Wl,--rpath=$HOME/opt/ffmpeg-$FFMPEGV/lib,--enable-new-dtags -lvpx -Wl,--rpath=$HOME/opt/libvpx-$LIBVPXV/lib,--enable-new-dtags -L$HOME/opt/libvpx-$LIBVPXV/lib" --cpu=host --enable-openssl --disable-runtime-cpudetect --prefix="$HOME/opt/ffmpeg-$FFMPEGV" --enable-shared --enable-nonfree --enable-gpl --enable-static --enable-pic --enable-vaapi --extra-cflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-version3 --extra-cxxflags="-fPIC -DPIC -I$HOME/opt/libvpx-$LIBVPXV/include" --enable-libvpx --enable-libvorbis && make && make install && cd .. || exit 1
     rm -rf ffmpeg-build
@@ -724,7 +718,7 @@ then
     cd .bin && (for BIN in $(ls ../opt/ffmpeg/bin/*); do ln -nsf "$BIN"; done) && cd .. || exit 1
 fi
 
-if [ "$ENABLE_CMUS" = "yes" ! -e "opt/cmus-$CMUSV" ]
+if [ "$ENABLE_CMUS" = "yes" -a ! -e "opt/cmus-$CMUSV" ]
 then
     ensure_git cmus https://github.com/cmus/cmus || exit 1
     (cd "repos/git/cmus" && git archive --format=tar --prefix=cmus-build/ "$CMUSCOMMIT") | tar xf - || exit 1
