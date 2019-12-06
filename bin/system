@@ -243,14 +243,14 @@ case "$CMD" in
         screens "$@"
         ;;
     "net")
-        "$DOTFILES/networks/rc.local.stop"
+        "$DOTFILES/rc.local.stop"
         "$DOTFILES/networks/rc.local.wifi.stop"
         "$DOTFILES/networks/vanilla"
         if [ "$2" = "none" ]
         then
           exit
         fi
-        "$DOTFILES/networks/rc.local.start"
+        "$DOTFILES/rc.local.start"
         nohup "$DOTFILES/networks/cfg-${2}" 1>"$XDG_DATA_HOME/dotfiles/net.log" 2>&1 &
         echo "for debug info, see $XDG_DATA_HOME/dotfiles/net.log"
         ;;
