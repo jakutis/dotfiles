@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 sysctl fs.inotify.max_user_watches=524288
+sysctl kernel.unprivileged_userns_clone=1
 exit 0
