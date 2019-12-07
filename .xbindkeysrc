@@ -44,6 +44,10 @@
 "volume pulse decrease"
   XF86AudioLowerVolume
 
+# Alt+Power
+"system poweroff"
+  Mod1 + XF86PowerOff
+
 # Win+Power
 "system suspend"
   Mod4 + XF86PowerOff
