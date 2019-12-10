@@ -20,6 +20,7 @@ LIBUSBMUXDV="c724e70fb52ba45291dc73a2e369c0c5bae0ec2e"
 LIBIMOBILEDEVICEV="5a85432719fb3d18027d528f87d2a44b76fd3e12"
 USBMUXDV="46bdf3ec90acf3916ee8aba622a7da9da5eb8e06"
 IFUSEV="df048a1d07628a6a02ed77a8dc0f64930b78acee"
+KOTLINV="1.3.61"
 DOCKERCOMPOSEV="1.17.1"
 CALCURSEV="4.1.0"
 LIBAVV="11.7"
@@ -1413,6 +1414,13 @@ then
     cd ios-webkit-debug-proxy-build && ./autogen.sh && ./configure --prefix="$HOME/opt/ios-webkit-debug-proxy-$IOS_WEBKIT_DEBUG_PROXYV" && make && make install && cd .. && rm -rf tig-build || exit 1
     cd opt && ln -nsf "ios-webkit-debug-proxy-$IOS_WEBKIT_DEBUG_PROXYV" ios-webkit-debug-proxy && cd .. || exit 1
     cd .bin && ln -nsf "../opt/ios-webkit-debug-proxy/bin/ios_webkit_debug_proxy" ios_webkit_debug_proxy && cd .. || exit 1
+fi
+
+if [ "$ENABLE_KOTLIN" = "yes" -a ! -e "opt/kotlin-$KOTLINV" ]
+then
+  curl -L "https://github.com/JetBrains/kotlin/releases/download/v${KOTLINV}/kotlin-native-linux-${KOTLINV}.tar.gz" | tar xzvf - || exit 1
+  mv "kotlin-native-linux-${KOTLINV}" "$HOME/opt/kotlin-${KOTLINV}" || exit 1
+  cd opt && ln -nsf "kotlin-${KOTLINV}" "kotlin" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_DOCKERCOMPOSE" = "yes" ]
