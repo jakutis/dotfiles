@@ -158,8 +158,8 @@ set colorcolumn=80
 
 " highlight current line
 set cursorline
-highlight CursorLine cterm=NONE ctermbg=yellow ctermfg=black
-highlight CursorLineNr cterm=NONE ctermbg=yellow ctermfg=black
+highlight CursorLine cterm=NONE ctermbg=yellow
+highlight CursorLineNr cterm=NONE ctermbg=yellow
 
 " security
 set nomodeline
