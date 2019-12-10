@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [ -n "$(cat /proc/acpi/wakeup | grep LID0 | grep enabled)" ]
+if [ -n "$(cat /proc/acpi/wakeup | grep LID | grep enabled)" ]
 then
-  echo LID0 > /proc/acpi/wakeup
+  echo LID > /proc/acpi/wakeup
 fi
 
 if [ -n "$(cat /proc/acpi/wakeup | grep XHC1 | grep enabled)" ]
