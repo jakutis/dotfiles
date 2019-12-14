@@ -46,7 +46,7 @@ then
             $MEDIAPLAYER -- "$FILE"
             ;;
         "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
-            mirage -- "$FILE"
+            viewnior -- "$FILE"
             ;;
         "application/x-font-ttf")
             kfontview -- "$FILE"
