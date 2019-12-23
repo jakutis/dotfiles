@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$HOME"
+export $(dbus-launch)
 xhost localhost
 xhost si:localuser:root
 xrdb -merge .Xresources
