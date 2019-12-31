@@ -20,6 +20,7 @@ LIBUSBMUXDV="c724e70fb52ba45291dc73a2e369c0c5bae0ec2e"
 LIBIMOBILEDEVICEV="5a85432719fb3d18027d528f87d2a44b76fd3e12"
 USBMUXDV="46bdf3ec90acf3916ee8aba622a7da9da5eb8e06"
 IFUSEV="df048a1d07628a6a02ed77a8dc0f64930b78acee"
+RUSTV="1.40.0"
 KOTLINV="1.3.61"
 DOCKERCOMPOSEV="1.17.1"
 CALCURSEV="4.1.0"
@@ -464,12 +465,6 @@ then
     cd graphicsmagick-build && ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install && cd .. && rm -rf graphicsmagick-build || exit 1
 fi
 
-if [ "$ENABLE_RUST" = "yes" -a ! -e ".cargo/bin/rustup" ]
-then
-  curl -L https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init > rustup-init || exit 1
-  chmod +x rustup-init && ./rustup-init --verbose --no-modify-path || exit 1
-fi
-
 if [ "$ENABLE_RUBY" = "yes" ]
 then
     if ! [ -e ".rvm" ]
@@ -870,6 +865,18 @@ then
     fi
     pyenv shell "$PYTHONV"
 fi
+
+if [ "$ENABLE_RUST" = "yes" ]
+then
+    if ! [ -e ".cargo" ]
+    then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --quiet -y --no- || exit 1
+    else
+        rustup self update || exit 1
+    fi
+    rustup toolchain install "$RUSTV" --allow-downgrade || exit 1
+fi
+
 
 if [ "$ENABLE_HASKELL" = "yes" ]
 then
