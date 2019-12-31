@@ -884,7 +884,7 @@ then
     else
         rustup self update || exit 1
     fi
-    rustup toolchain install "$RUSTV" --allow-downgrade || exit 1
+    rustup toolchain install "$RUSTV" --allow-downgrade && rustup default "$RUSTV" || exit 1
 fi
 
 if [ "$ENABLE_HASKELL" = "yes" ]
