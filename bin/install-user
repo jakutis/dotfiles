@@ -877,7 +877,6 @@ then
     rustup toolchain install "$RUSTV" --allow-downgrade || exit 1
 fi
 
-
 if [ "$ENABLE_HASKELL" = "yes" ]
 then
     if ! [ -e "opt/ghc-$GHCV" ]
