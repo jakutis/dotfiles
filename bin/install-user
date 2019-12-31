@@ -15,6 +15,8 @@ fi
 set -o verbose
 set -o xtrace
 
+GCCV="7.3.0"
+GCCTAG="gcc-7_3_0-release"
 IOS_WEBKIT_DEBUG_PROXYV="ec4b619cb02dd46c9de0c901b9e88c0775b0a535"
 LIBUSBMUXDV="c724e70fb52ba45291dc73a2e369c0c5bae0ec2e"
 LIBIMOBILEDEVICEV="5a85432719fb3d18027d528f87d2a44b76fd3e12"
@@ -817,6 +819,14 @@ then
     ./makeconf.sh && ./configure --prefix="$HOME/opt/fuse-$FUSEV" --enable-lib --disable-util --enable-rpath && make && make install || exit 1
     cd "../../.."
     cd "opt" && ln -nsf "fuse-$FUSEV" "fuse" && cd ".."
+fi
+
+if [ "$ENABLE_GCC" = "yes" -a ! -e "opt/gcc-$GCCV" ]
+then
+    ensure_git gcc https://github.com/gcc-mirror/gcc || exit 1
+    (cd "repos/git/gcc" && git archive --format=tar --prefix=gcc-build/ "$GCCTAG") | tar xf - || exit 1
+    cd gcc-build && ./configure --prefix="$HOME/opt/gcc-$GCCV" && make && make install && cd .. || exit 1
+    rm -rf gcc-build || exit 1
 fi
 
 if [ "$ENABLE_PERL" = "yes" ]
