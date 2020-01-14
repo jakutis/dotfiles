@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 
 FN="screenshot-$(date "+%F-%s").png"
-import "$FN" && gimp "$FN"
+PAUSE="$1"
+ARGS=""
+if [ -n "$PAUSE" ]
+then
+  ARGS="$ARGS -window root -pause $PAUSE"
+fi
+ARGS="$ARGS $FN"
+import $ARGS && gimp "$FN"
