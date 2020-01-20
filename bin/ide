@@ -6,6 +6,8 @@ then
 else
     SESSION_NAME="$(basename $(pwd) | tr '.' '-')-$(pwd | md5sum | cut -f 1 -d ' ')"
 fi
+shift
+
 if ! tty --silent
 then
     urxvt -e bash -c "ide $SESSION_NAME"
@@ -18,6 +20,12 @@ SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
 echo "new-window -n e 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle e;e;echo e;bash'" >> "$SESSION_FILE"
 echo "new-window -n gitsh 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle gitsh;gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
 echo "new-window -n tig 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle tig;tig;echo tig;bash'" >> "$SESSION_FILE"
+while [ -n "$1" ]
+do
+  echo "new-window 'bash -i -c "'"'"$1"' || exit 0"'";echo ========== "'"'"$1"'"'" ==========;bash'" >> "$SESSION_FILE"
+  shift
+done
+
 echo "last-window -t '$SESSION_NAME'" >> "$SESSION_FILE"
 echo "select-pane -t 'gitsh'" >> "$SESSION_FILE"
 
