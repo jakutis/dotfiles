@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
+VIM_ARGS=""
 if [ -n "$1" ]
 then
-    SESSION_NAME="$1"
+    SESSION_NAME="$(echo $1 | md5sum | cut -f 1 -d ' ')"
+    if [ -e "$1" ]
+    then
+      VIM_ARGS=" -S $1"
+    fi
 else
     SESSION_NAME="$(basename $(pwd) | tr '.' '-')-$(pwd | md5sum | cut -f 1 -d ' ')"
 fi
@@ -17,7 +22,7 @@ fi
 NEW_ARGS=""
 
 SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
-echo "new-window -n e 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle e;e;echo e;bash'" >> "$SESSION_FILE"
+echo "new-window -n vim 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle vim;vim${VIM_ARGS};echo vim${VIM_ARGS};bash'" >> "$SESSION_FILE"
 echo "new-window -n gitsh 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle gitsh;gitsh;echo gitsh;bash'" >> "$SESSION_FILE"
 echo "new-window -n tig 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle tig;tig;echo tig;bash'" >> "$SESSION_FILE"
 while [ -n "$1" ]
