@@ -110,8 +110,8 @@ QPDFVIEWR="qpdfview-$QPDFVIEWV"
 CABALINSTALLV="1.22.7.0"
 GITANNEXV="5.20150930"
 PANDOCV="1.15.0.6"
-NEWSBEUTERV="2.9"
-NEWSBEUTERCOMMIT="r2.9"
+NEWSBOATV="2.18"
+NEWSBOATCOMMIT="r${NEWSBOATV}"
 MOSHV="1.2.5"
 NODEV="12.14.1"
 ERLANGV="18.1.1"
@@ -134,6 +134,11 @@ CMUSCOMMIT="v$CMUSV"
 if [ "$ENABLE_SCALAFMT" = "yes" ]
 then
     ENABLE_COURSIER="yes"
+fi
+
+if [ "$ENABLE_NEWSBOAT" = "yes" ]
+then
+    ENABLE_RUST="yes"
 fi
 
 if [ "$ENABLE_GITSH" = "yes" ]
@@ -206,13 +211,17 @@ mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
 
 mkdir --parents ".bin"
 
-if [ "$ENABLE_NEWSBEUTER" = "yes" ]
+if [ "$ENABLE_NEWSBOAT" = "yes" ]
 then
   pushd .
-  mkdir --parents "$XDG_CONFIG_HOME/newsbeuter"
-  cd "$XDG_CONFIG_HOME/newsbeuter"
-  ln -nsf "$DOTFILES/.newsbeuter/config"
-  ln -nsf "$(cat "$XDG_CONFIG_HOME/dotfiles/varia")/news.txt" urls
+  mkdir --parents "$XDG_CONFIG_HOME/newsboat"
+  cd "$XDG_CONFIG_HOME/newsboat"
+  ln -nsf "$DOTFILES/.newsboat/config"
+  if [ ! -e urls ]
+  then
+    [ -e "$XDG_CONFIG_HOME/dotfiles/varia" ] && ln -nsf "$(cat "$XDG_CONFIG_HOME/dotfiles/varia")/news.txt" urls
+    echo https://jakut.is/atom.xml > urls
+  fi
   popd
 fi
 
@@ -1125,17 +1134,12 @@ then
   cd .bin && ln -nsf "../opt/ifuse/bin/ifuse" && cd .. || exit 1
 fi
 
-if [ "$ENABLE_NEWSBEUTER" = "yes" -a ! -e "opt/newsbeuter-$NEWSBEUTERV" ]
+if [ "$ENABLE_NEWSBOAT" = "yes" -a ! -e "opt/newsboat-$NEWSBOATV" ]
 then
-    ensure_git newsbeuter https://github.com/akrennmair/newsbeuter || exit 1
-    (cd "repos/git/newsbeuter" && git archive --format=tar --prefix=newsbeuter-build/ "$NEWSBEUTERCOMMIT") | tar xf - || exit 1
-    cd newsbeuter-build && LDFLAGS="-Wl,--rpath=$HOME/opt/json-c-$JSONCV/lib,--enable-new-dtags" PKG_CONFIG_PATH="$HOME/opt/json-c-$JSONCV/lib/pkgconfig" ./config.sh && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" && make "prefix=$HOME/opt/newsbeuter-$NEWSBEUTERV" install && cd .. && rm -rf newsbeuter-build || exit 1
-
-    cd "opt"
-    ln -nsf "newsbeuter-$NEWSBEUTERV" "newsbeuter"
-    cd "../.bin"
-    ln -nsf ../opt/newsbeuter/bin/newsbeuter
-    cd ".."
+  ensure_git newsboat https://github.com/newsboat/newsboat || exit 1
+  (cd "repos/git/newsboat" && git archive --format=tar --prefix=newsboat-build/ "$NEWSBOATCOMMIT") | tar xf - || exit 1
+  cd newsboat-build && ./config.sh && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" install && cd .. && rm -rf newsboat-build || exit 1
+  cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/newsboat" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_QPDFVIEW" = "yes" -a ! -e "opt/qpdfview-$QPDFVIEWV" ]
