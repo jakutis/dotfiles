@@ -94,7 +94,10 @@ autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var 
 let g:LanguageClient_serverCommands = {
     \ 'reason': ['ocaml-language-server', '--stdio'],
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
+    \ 'scala': ['metals-vim'],
     \ }
+let g:LanguageClient_windowLogMessageLevel = 'Log'
+let g:LanguageClient_hoverPreview = 'Always'
 
 " w0rp/ale
 let g:ale_completion_enabled = 1
@@ -102,6 +105,7 @@ set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
+\   'scala': ['scalafmt'],
 \   'json': ['jq'],
 \   'html': ['tidy'],
 \   'ocaml': ['ocamlformat'],
