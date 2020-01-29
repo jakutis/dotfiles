@@ -257,6 +257,11 @@ mkdir --parents .mc
 mkdir --parents .irssi
 mkdir --parents .VirtualBox
 
+if [ ! -e ".fonts/JoyPixels.ttf" ]
+then
+  mkdir -p .fonts joypixels-build && cd joypixels-build && (curl -L https://www.archlinux.org/packages/community/any/ttf-joypixels/download/|tar xJvf -) && mv ./usr/share/fonts/joypixels/JoyPixels.ttf ../.fonts && cd .. && rm -rf joypixels-build || exit 1
+fi
+
 function ensure_svn {
     REPO="$1"
     URL="$2"
