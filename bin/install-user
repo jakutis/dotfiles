@@ -15,6 +15,7 @@ fi
 set -o verbose
 set -o xtrace
 
+SCIMV="0.7.0"
 METALSV="0.8.0"
 SCALAFMTV="2.3.2"
 GCCV="7.3.0"
@@ -1482,4 +1483,12 @@ fi
 if [ "$ENABLE_METALS" = "yes" ]
 then
   coursier bootstrap --java-opt -Xss4m --java-opt -Xms100m --java-opt -Dmetals.client=vim-lsc "org.scalameta:metals_${SCALABASEV}:${METALSV}" -r bintray:scalacenter/releases -r sonatype:snapshots -o "$HOME/.bin/metals-vim" -f
+fi
+
+if [ "$ENABLE_SCIM" = "yes" ]
+then
+    ensure_git sc-im https://github.com/andmarti1424/sc-im || exit 1
+    (cd "repos/git/sc-im" && git archive --format=tar --prefix=sc-im-build/ "v${SCIMV}") | tar xf - || exit 1
+    cd sc-im-build && make "prefix=${HOME}/opt/sc-im-${SCIMV}" -C src && make "prefix=${HOME}/opt/sc-im-${SCIMV}" -C src install && cd .. && rm -rf sc-im-build || exit 1
+    cd .bin && ln -nsf "../opt/sc-im-$SCIMV/bin/scim" && cd .. || exit 1
 fi
