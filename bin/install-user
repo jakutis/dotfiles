@@ -1155,6 +1155,7 @@ then
   (cd "repos/git/newsboat" && git archive --format=tar --prefix=newsboat-build/ "$NEWSBOATCOMMIT") | tar xf - || exit 1
   cd newsboat-build && ./config.sh && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" install && cd .. && rm -rf newsboat-build || exit 1
   cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/newsboat" && cd .. || exit 1
+  cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/podboat" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_QPDFVIEW" = "yes" -a ! -e "opt/qpdfview-$QPDFVIEWV" ]
