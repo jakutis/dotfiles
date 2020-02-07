@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+COMMANDS="(voice_cmu_us_slt_arctic_hts)"
+
+if [ -n "$2" ]
+then
+  text2wave -eval "$COMMANDS" <(echo "$1") | ffmpeg -i - "$2"
+else
+  echo -e "$COMMANDS"'\n(SayText "'"$1"'")' | festival --pipe
+fi
