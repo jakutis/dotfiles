@@ -1,9 +1,0 @@
-unbind-key       k
-bind-key         k     up
-unbind-key       j
-bind-key         j     down
-bind-key         k     prev
-bind-key         j     next
-auto-reload      yes
-reload-time      360
-browser          elinks
