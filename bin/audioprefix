@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+SPEECH="$(tempfile --suffix .mp3)"
+TEXT="$1"
+IN="$(realpath "$2")"
+OUT="$(realpath "$3")"
+rm -f "$SPEECH" && speak "$TEXT" "$SPEECH" && ffmpeg -safe 0 -f concat -i <(echo "file '$SPEECH'";echo "file '$IN'") "$OUT" && rm -f "$SPEECH"
