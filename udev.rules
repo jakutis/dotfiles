@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="block", RUN+="/usr/bin/systemd-mount --owner=jakutis --fsck=no --automount=no --no-block --collect %E{DEVNAME} /media/%E{ID_SERIAL}_%E{ID_FS_UUID}"
