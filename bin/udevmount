@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ "$ID_MODEL" = "LOCAL_DISK" -a "$ID_SERIAL_SHORT" = "60570152" ]
+then
+  exit
+fi
+
+/usr/bin/systemd-mount --owner=jakutis --fsck=no --automount=no --no-block --collect "${DEVNAME}" "/media/${ID_SERIAL}_${ID_FS_UUID}"
