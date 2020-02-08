@@ -97,17 +97,24 @@ fi
 
 echo "MACHINE=$MACHINE"
 
-VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
-if [ -z "$VARIA" ]
-then
-    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
-    exit 1
-fi
-
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 if [ -z "$DOTFILES" ]
 then
     echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/dotfiles" that contains path to the dotfiles directory" 1>&2
+    exit 1
+fi
+
+if [ "$MACHINE" != "server" ]
+then
+    ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
+    ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
+    "$DOTFILES/bin/disable-services" || exit 1
+fi
+
+VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
+if [ -z "$VARIA" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/varia" that contains path to the varia directory" 1>&2
     exit 1
 fi
 
@@ -123,7 +130,4 @@ then
     ln -nsf "$VARIA/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
 else
     ln -nsf "$VARIA/wpa_supplicant.conf" "/etc/wpa_supplicant.conf" || exit 1
-    ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
-    ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
-    "$DOTFILES/bin/disable-services" || exit 1
 fi
