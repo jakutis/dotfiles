@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+while read FILE
+do
+  DATE=$(date -Idate -d "$(stat -c '%y' "$FILE")")
+  mv "$FILE" "$DATE-$FILE"
+done
