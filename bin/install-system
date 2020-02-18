@@ -106,6 +106,7 @@ fi
 
 if [ "$MACHINE" != "server" ]
 then
+    ln -nsf "$DOTFILES/modprobe.conf" "/etc/modprobe.d/jakutis.conf" || exit 1
     ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
     ln -nsf "$DOTFILES/udev.rules" "/etc/udev/rules.d/10-jakutis.rules" || exit 1
     ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
