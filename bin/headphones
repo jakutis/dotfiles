@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-bluetoothctl connect 38:18:4C:34:CD:62
+
+if [ "$1" = "on" ]
+then
+  bluetoothctl connect 38:18:4C:34:CD:62
+elif [ "$1" = "off" ]
+then
+  bluetoothctl disconnect 38:18:4C:34:CD:62
+fi
