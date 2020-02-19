@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+URL="https://vytautasjakutis.com/remote.php/webdav/notes.txt"
+
+if stty 1>/dev/null 2>&1
+then
+  printf "Password: "
+  stty -echo
+  read PASSWORD
+  stty echo
+else
+  read PASSWORD
+fi
+
+if [ -z "$@" ]
+then
+  curl --silent --anyauth --fail --user "jakutis:$PASSWORD" "$URL" || exit 1
+else
+  FILE="$(mktemp)"
+  echo retrieving
+  curl --silent --anyauth --fail --user "jakutis:$PASSWORD" "$URL" > "$FILE" || exit 1
+  echo "[$(date --rfc-3339=seconds)] $@" >> "$FILE"
+  echo saving
+  curl -T "$FILE" --anyauth --fail --user "jakutis:$PASSWORD" "$URL" || exit 1
+  rm "$FILE"
+  echo noted!
+fi
