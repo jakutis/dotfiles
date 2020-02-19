@@ -22,6 +22,6 @@ else
   echo "[$(date --rfc-3339=seconds)] $@" >> "$FILE"
   echo saving
   curl -T "$FILE" --anyauth --fail --user "jakutis:$PASSWORD" "$URL" || exit 1
+  echo "noted: $(tail -n 1 "$FILE")"
   rm "$FILE"
-  echo noted!
 fi
