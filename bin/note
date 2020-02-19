@@ -12,7 +12,7 @@ else
   read PASSWORD
 fi
 
-if [ -z "$@" ]
+if [ -z "$(echo "$@")" ]
 then
   curl --silent --anyauth --fail --user "jakutis:$PASSWORD" "$URL" || exit 1
 else
