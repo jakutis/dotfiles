@@ -2,3 +2,14 @@ deepspeech
 csv2md
 psrecord
 matplotlib
+cython
+lxml
+six
+jsbeautifier
+pygments
+python-djvulibre
+fusepy
+reportlab
+term2048
+brownie
+icalendar

@@ -884,20 +884,10 @@ if [ "$ENABLE_PYTHON" = "yes" ]
 then
     if ! [ -e "$PYENV_ROOT" ]
     then
-        git clone https://github.com/yyuu/pyenv "$PYENV_ROOT" || exit 1
-        CONFIGURE_OPTS="--enable-shared" pyenv install "$PYTHONV" || exit 1
-        eval "$(pyenv init -)" || exit 1
-        pyenv shell "$PYTHONV" || exit 1
-        pyenv global "$PYTHONV" || exit 1
-        for PACKAGE in cython lxml six jsbeautifier pygments python-djvulibre fusepy reportlab term2048 brownie icalendar
-        do
-            PKG_CONFIG_PATH="$HOME/opt/fuse/lib/pkgconfig" pip install "$PACKAGE" && pyenv rehash || exit 1
-        done
-    else
-        cd "$PYENV_ROOT" && git pull --rebase && cd "$HOME" || exit 1
-        eval "$(pyenv init -)" || exit 1
+        git clone https://github.com/pyenv/pyenv "$PYENV_ROOT" || exit 1
     fi
-    pyenv shell "$PYTHONV"
+    pythonup "$PYTHONV" || exit 1
+    pyenv shell $(pyenv global)
 fi
 
 if [ "$ENABLE_RUST" = "yes" ]
