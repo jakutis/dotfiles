@@ -19,7 +19,11 @@ else
   FILE="$(mktemp)"
   echo retrieving
   curl --silent --anyauth --fail --user "jakutis:$PASSWORD" "$URL" > "$FILE" || exit 1
-  echo "[$(date --rfc-3339=seconds)] $@" >> "$FILE"
+  if [ -z "$DATE" ]
+  then
+    DATE="$(date --rfc-3339=seconds)"
+  fi
+  echo "[$DATE] $@" >> "$FILE"
   echo saving
   curl -T "$FILE" --anyauth --fail --user "jakutis:$PASSWORD" "$URL" || exit 1
   echo "noted: $(tail -n 1 "$FILE")"
