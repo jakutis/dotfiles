@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+DIR="$1"
+LIST="$2"
+
+cd "$DIR" && cat "$LIST" | while read LINE
+do
+  NAME=$(echo "$LINE" | cut -f1 -d' ')
+  URL=$(echo "$LINE" | cut -f2 -d' ')
+  echo "dowloading $NAME"
+
+  mkdir -p "$NAME" && podcatcher "$NAME" "$URL" || exit 1
+done
+
+echo all podcasts downloaded
