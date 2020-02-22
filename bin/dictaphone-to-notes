@@ -10,7 +10,7 @@ do
   NOTE=$(speech-to-text "$DIR/$FILE")
   if [ "$?" == "0" ]
   then
-    note "$NOTE" && mv "$DIR/$FILE" "$HOME/etc/noted" || exit 1
+    DATE="$(date --rfc-3339=seconds -d "$(stat -c '%y' "$DIR/$FILE")")" note "$NOTE" && mv "$DIR/$FILE" "$HOME/etc/noted" || exit 1
   else
     echo "transcription failed: $DIR/$FILE"
   fi
