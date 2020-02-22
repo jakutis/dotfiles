@@ -15,3 +15,5 @@ do
     echo "transcription failed: $DIR/$FILE"
   fi
 done
+
+echo "all noted"
