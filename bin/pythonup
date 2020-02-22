@@ -16,7 +16,7 @@ then
 fi
 
 cd "$(pyenv root)" && git pull --rebase && cd - || exit 1
-pyenv install "$NEWVERSION" && pyenv global "$NEWVERSION" && pyenv shell $(pyenv global) || exit 1
+eval "$(pyenv init -)" && pyenv install "$NEWVERSION" && pyenv global "$NEWVERSION" && pyenv shell $(pyenv global) || exit 1
 
 for PACKAGE in $(cat "$PACKAGES")
 do

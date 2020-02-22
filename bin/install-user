@@ -887,7 +887,7 @@ then
         git clone https://github.com/pyenv/pyenv "$PYENV_ROOT" || exit 1
     fi
     pythonup "$PYTHONV" || exit 1
-    pyenv shell $(pyenv global)
+    eval "$(pyenv init -)" && pyenv shell $(pyenv global) || exit 1
 fi
 
 if [ "$ENABLE_RUST" = "yes" ]
