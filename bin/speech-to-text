@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+INPUT="$1"
+WAV=$(mktemp --suffix=.wav)
+
+ffmpeg -loglevel quiet -i "$INPUT" -ar 44100 -y "$WAV" && \
+  deepspeech --model "$HOME/opt/deepspeech-models/output_graph.pbmm" --audio "$WAV" 2>/dev/null && \
+  rm "$WAV" || exit 1
