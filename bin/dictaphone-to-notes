@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+DIR="$1"
+
+ls -1 "$DIR" | while read FILE
+do
+  echo "# $DIR/$FILE"
+  echo
+  echo "transcribing"
+  NOTE=$(speech-to-text "$DIR/$FILE")
+  if [ "$?" == "0" ]
+  then
+    note "$NOTE" && mv "$DIR/$FILE" "$HOME/etc/noted" || exit 1
+  else
+    echo "transcription failed: $DIR/$FILE"
+  fi
+done
