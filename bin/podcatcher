@@ -4,9 +4,9 @@ DIR="$1"
 URL="$2"
 
 cd "$DIR" || exit 1
-LATEST=$(cat .latest)
+LATEST=$(cat .latest 2>/dev/null || echo 0)
 
-youtube-dl -j --flat-playlist "$URL" 2>/dev/null | jq --compact-output "select(.timestamp >= $LATEST)" | while read ITEM
+youtube-dl -j --flat-playlist "$URL" 2>/dev/null | jq --slurp --compact-output "sort_by(.timestamp) | .[]" | while read ITEM
 do
   TIMESTAMP="$(echo "$ITEM" | jq --raw-output .timestamp)"
   if [ "$TIMESTAMP" -gt "$LATEST" ]
@@ -15,11 +15,14 @@ do
     URL="$(echo "$ITEM" | jq --raw-output .url)"
     EXTENSION="${URL##*.}"
     FILENAME="$(echo "$TIMESTAMP-$TITLE.$EXTENSION" | inline-detox)"
-    wget -O "$FILENAME" "$URL" || exit 1
+    echo "downloading $FILENAME"
+    curl --fail --location --progress-bar "$URL" > "$FILENAME.part" && mv "$FILENAME.part" "$FILENAME" || exit 1
   fi
 
-  if [ "$(cat .latest)" -lt "$TIMESTAMP" ]
+  if [ "$(cat .latest 2>/dev/null || echo 0)" -lt "$TIMESTAMP" ]
   then
-    rm .latest && echo "$TIMESTAMP" > .latest
+    rm -f .latest && echo "$TIMESTAMP" > .latest
   fi
 done
+
+echo "$DIR downloaded"
