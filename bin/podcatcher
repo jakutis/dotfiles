@@ -16,7 +16,7 @@ do
     EXTENSION="${URL##*.}"
     FILENAME="$(echo "$TIMESTAMP-$TITLE.$EXTENSION" | inline-detox)"
     echo "downloading $FILENAME"
-    curl --fail --location --progress-bar "$URL" > "$FILENAME.part" && mv "$FILENAME.part" "$FILENAME" || exit 1
+    curl --fail --location --progress-bar "$URL" > "$FILENAME.part" && id3v2 --delete-all "$FILENAME.part" 1>/dev/null && id3v2 --artist "$DIR" --album "$DIR" --song "$DIR-$(date -Idate -d "@$TIMESTAMP" | cut -c6-10)-$TITLE" "$FILENAME.part" && mv "$FILENAME.part" "$FILENAME" || exit 1
   fi
 
   if [ "$(cat .latest 2>/dev/null || echo 0)" -lt "$TIMESTAMP" ]
