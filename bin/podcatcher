@@ -9,7 +9,7 @@ LATEST=$(cat .latest 2>/dev/null || echo 0)
 youtube-dl --dump-json --flat-playlist "$URL" 2>/dev/null | jq --slurp --compact-output "sort_by(.timestamp) | .[]" | while read -r ITEM
 do
   TIMESTAMP="$(echo "$ITEM" | jq --raw-output .timestamp)"
-  if [ "$TIMESTAMP" -gt "$LATEST" ]
+  if [ "$LATEST" != "0" -a "$TIMESTAMP" -gt "$LATEST" ]
   then
     TITLE="$(echo "$ITEM" | jq --raw-output .title)"
     URL="$(echo "$ITEM" | jq --raw-output .url)"
