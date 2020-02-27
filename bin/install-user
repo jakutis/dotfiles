@@ -117,8 +117,6 @@ NEWSBOATCOMMIT="r${NEWSBOATV}"
 MOSHV="1.2.5"
 NODEV="12.16.1"
 ERLANGV="18.1.1"
-PODCATCHERV="3.1.7"
-PODCATCHERCOMMIT="4407f386661b51c968d050c2e12b3059946781b1"
 MCABBERV="1.0.2"
 SVG2PDFV="301dd48"
 RTAG="R-3-6-2"
@@ -811,14 +809,6 @@ then
     cd .bin
     ln -nsf "../opt/xwinlogger/bin/xwinlogger"
     cd ..
-fi
-
-if [ "$ENABLE_PODCATCHER" = "yes" -a ! -e "opt/podcatcher-$PODCATCHERV" ]
-then
-    ensure_git podcatcher https://github.com/doga/podcatcher || exit 1
-    (cd "repos/git/podcatcher" && git archive --format=tar --prefix=podcatcher-build/ "$PODCATCHERCOMMIT") | tar xf - || exit 1
-    mv podcatcher-build opt/podcatcher-$PODCATCHERV && cd opt && ln -nsf podcatcher-$PODCATCHERV podcatcher && cd .. || exit 1
-    cd .bin && ln -nsf ../opt/podcatcher/bin/podcatcher && cd .. || exit 1
 fi
 
 if [ "$ENABLE_XSLT" = "yes" -a ! -e "opt/libxslt-$XSLTV" ]
