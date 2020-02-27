@@ -32,7 +32,7 @@ export ACLOCAL_PATH="/usr/share/aclocal"
 export BROWSER="$(cat "$XDG_CONFIG_HOME/dotfiles/browser")"
 export EDITOR="vim"
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.bin:$HOME/bin"
+export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if [ -n "$BASH_VERSION" ]; then
     source "$HOME/.bashrc"
