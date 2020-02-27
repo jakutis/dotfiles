@@ -1,4 +1,3 @@
-alias nu='source ~/.nvm/nvm.sh && nvm use && eval "$(pyenv init -)" && pyenv shell system'
 alias po='pomodoro pomodoro'
 alias pst='pomodoro status'
 alias pin='pomodoro interruption'

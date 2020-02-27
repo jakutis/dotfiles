@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+LANG="$1"
+VERSION="$2"
+
+if [ "$LANG" = "node" ]
+then
+  if [ -z "$VERSION" ]
+  then
+    VERSION="default"
+  fi
+  [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use "$VERSION" 1>/dev/null
+elif [ "$LANG" = "perl" ]
+then
+  if [ -z "$VERSION" ]
+  then
+    VERSION="default"
+  fi
+  [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$VERSION"
+elif [ "$LANG" = "go" ]
+then
+  if [ -z "$VERSION" ]
+  then
+    VERSION="default"
+  fi
+  [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$VERSION" 1>/dev/null
+elif [ "$LANG" = "ocaml" ]
+then
+  [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null
+elif [ "$LANG" = "php" ]
+then
+  if [ -z "$VERSION" ]
+  then
+    VERSION="$(cat "$HOME/.php")"
+  fi
+  [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$VERSION"
+elif [ "$LANG" = "python" ]
+then
+  if [ -z "$VERSION" ]
+  then
+    VERSION="$(pyenv global)"
+  fi
+  [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$VERSION"
+elif [ "$LANG" = "ruby" ]
+then
+  if [ -z "$VERSION" ]
+  then
+    VERSION="default"
+  fi
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$VERSION" 2>/dev/null
+else
+  echo unrecognized language: $LANG 1>&2
+  exit 1
+fi

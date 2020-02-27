@@ -46,8 +46,4 @@ function marks {
 
 source "$HOME/.bash_aliases"
 
-which opam 1>/dev/null 2>&1 && eval `opam env`
-eval "$(pyenv init -)" && pyenv shell $(pyenv global)
-source "$HOME/.nvm/nvm.sh"
-
 stty -ixon
