@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+. lang use node
+diff-so-fancy "$@"
