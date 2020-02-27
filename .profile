@@ -16,29 +16,23 @@ export LC_TIME="$LANG"
 export LC_MESSAGES="$LANG"
 export LC_ALL="$LANG"
 
-export LD_LIBRARY_PATH="$HOME/opt/cuda/lib64:$HOME/opt/cuda/lib"
-
+export PYENV_ROOT="$HOME/.pyenv"
+export GVM_ROOT="$HOME/.gvm"
+export PERLBREW_ROOT="$HOME/.perl5"
 export BAT_CONFIG_PATH="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")/bat.conf"
 export FZF_DEFAULT_COMMAND='rg --files'
 export AWT_TOOLKIT="MToolkit"
 export SDL_AUDIODRIVER="alsa"
-export LLVM_ROOT="$HOME/opt/llvm"
-export GOROOT="$HOME/opt/go"
-export JAVA_HOME="$XDG_CONFIG_HOME/dotfiles/java"
-export R_HOME="$HOME/opt/r"
 export R_LIBS_USER="$HOME/opt/r-site-library"
-export CUDA_HOME="$HOME/opt/cuda"
-export TEXINPUTS="$TEXINPUTS:$HOME/opt/r/lib/R/share/texmf/tex/latex"
 export LOQODIR="$HOME/.bin"
 export _JAVA_AWT_WM_NONREPARENTING="1"
 export VAGRANT_INSTALLER_ENV="1"
 export ACLOCAL_PATH="/usr/share/aclocal"
-export ELECTRON_PATH="$HOME/opt/electron/electron"
 
 export BROWSER="$(cat "$XDG_CONFIG_HOME/dotfiles/browser")"
 export EDITOR="vim"
 
-source "$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")/.profile.path"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/.bin:$HOME/bin"
 
 if [ -n "$BASH_VERSION" ]; then
     source "$HOME/.bashrc"

@@ -331,7 +331,6 @@ if [ "$ENABLE_SUBVERSION" = "yes" -a ! -e "opt/subversion-$SUBVERSIONV" ]
 then
     svn export "http://svn.apache.org/repos/asf/subversion/tags/${SUBVERSIONV}" "subversion-build" || exit 1
     cd "subversion-build" && ./autogen.sh && LDFLAGS="-Wl,--rpath=$HOME/opt/serf-$SERFV/lib,--enable-new-dtags" ./configure --with-serf="$HOME/opt/serf-$SERFV" --prefix="$HOME/opt/subversion-${SUBVERSIONV}" && make && make install && cd .. && rm -r "subversion-build" || exit 1
-    cd opt && ln -nsf "subversion-${SUBVERSIONV}" "subversion" && cd .. || exit 1
 fi
 
 if ! [ -e "opt/autoconf-${AUTOCONFV}" ]
@@ -365,9 +364,6 @@ then
     CC="$(which gcc)" CXX="$(which g++)" ./configure --enable-optimized --enable-shared --prefix="$HOME/opt/llvm-${LLVMV}" && make && make install || exit 1
     cd ..
     rm -rf "llvm-${LLVMV}"
-    cd opt
-    ln -nsf "llvm-${LLVMV}" "llvm"
-    cd ..
 fi
 
 if [ "$ENABLE_GLIBC" = "yes" -a ! -e "opt/glibc-$GLIBCV" ]
@@ -459,7 +455,6 @@ then
     if ! [ -e "opt/erlang-$ERLANGV" ]
     then
         kerl build git https://github.com/erlang/otp.git OTP-$ERLANGV $ERLANGV && kerl install "$ERLANGV" "$HOME/opt/erlang-$ERLANGV" || exit 1
-        cd opt && ln -nsf "erlang-$ERLANGV" "erlang" && cd .. || exit 1
     fi
 fi
 
@@ -913,7 +908,7 @@ then
         echo "Installed temporary happy and alex"
 
         GHCREMOTE="$(cd repos/git/ghc && git config --get remote.origin.url)"
-        git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && (echo ".|$(git tag -l "ghc-$GHCV-release" -n9999|tail -n+3|sed -e 's/^    //')" > A && ./utils/fingerprint/fingerprint.py restore -f A && rm A) && PATH="$HOME/.cabal/bin:$PATH" perl boot && PATH="$HOME/.cabal/bin:$PATH" ./configure --prefix="$HOME/opt/ghc-$GHCV" && PATH="$HOME/.cabal/bin:$PATH" make -j3 && PATH="$HOME/.cabal/bin:$PATH" make install && cd .. && rm -rf ghc-build .cabal .ghc ghc-7.6.3 && cd opt && ln -nsf "ghc-$GHCV" ghc && cd .. || exit 1
+        git clone repos/git/ghc ghc-build && cd ghc-build && git remote rm origin && git remote add origin "$GHCREMOTE" && git co "ghc-$GHCV-release" && ./sync-all --no-dph get && ./sync-all checkout -b ghc-$GHCV ghc-$GHCV-release && (echo ".|$(git tag -l "ghc-$GHCV-release" -n9999|tail -n+3|sed -e 's/^    //')" > A && ./utils/fingerprint/fingerprint.py restore -f A && rm A) && PATH="$HOME/.cabal/bin:$PATH" perl boot && PATH="$HOME/.cabal/bin:$PATH" ./configure --prefix="$HOME/opt/ghc-$GHCV" && PATH="$HOME/.cabal/bin:$PATH" make -j3 && PATH="$HOME/.cabal/bin:$PATH" make install && cd .. && rm -rf ghc-build .cabal .ghc ghc-7.6.3 && cd .. || exit 1
     fi
 
     if ! [ -e "opt/cabal-install-$CABALINSTALLV" ]
@@ -1375,11 +1370,11 @@ fi
 
 if [ "$ENABLE_CALIBRE" = "yes" -a ! -e "opt/calibre-$CALIBREV" ]
 then
-    cd opt && mkdir calibre-$CALIBREV && ln -nsf calibre-$CALIBREV calibre && cd calibre-$CALIBREV || exit 1
+    cd opt && mkdir calibre-$CALIBREV && cd calibre-$CALIBREV || exit 1
     curl -L http://download.calibre-ebook.com/$CALIBREV/calibre-${CALIBREV}-x86_64.txz | tar Jxf - || exit 1
     cd ../.. || exit 1
-    cd .bin && ln -nsf "../opt/calibre/ebook-convert" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/calibre/ebook-viewer" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/calibre-$CALIBREV/ebook-convert" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/calibre-$CALIBREV/ebook-viewer" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_AP4JPLAYER" = "yes" -a ! -e "opt/ap4jplayer-$AP4JPLAYERV" ]
@@ -1436,7 +1431,6 @@ if [ "$ENABLE_KOTLIN" = "yes" -a ! -e "opt/kotlin-$KOTLINV" ]
 then
   curl -L "https://github.com/JetBrains/kotlin/releases/download/v${KOTLINV}/kotlin-native-linux-${KOTLINV}.tar.gz" | tar xzvf - || exit 1
   mv "kotlin-native-linux-${KOTLINV}" "$HOME/opt/kotlin-${KOTLINV}" || exit 1
-  cd opt && ln -nsf "kotlin-${KOTLINV}" "kotlin" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_DOCKERCOMPOSE" = "yes" ]
