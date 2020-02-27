@@ -17,6 +17,9 @@ then
     VERSION="default"
   fi
   [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$VERSION"
+elif [ "$LANG" = "gcc" ]
+then
+  export PATH="$HOME/opt/gcc-$VERSION/bin:$PATH"
 elif [ "$LANG" = "go" ]
 then
   if [ -z "$VERSION" ]
