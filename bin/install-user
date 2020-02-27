@@ -27,8 +27,7 @@ RTAG="R-3-6-2"
 RV="3.6.2"
 GOV="1.14"
 KOTLINV="1.3.61"
-GCCV="9.2"
-GCCTAG="gcc-9_2-release"
+GCCV="9.2.0"
 PHPVS=("7.4.3")
 GHCV="8.8.3"
 ERLANGV="22.2"
@@ -839,7 +838,7 @@ fi
 if [ "$ENABLE_GCC" = "yes" -a ! -e "opt/gcc-$GCCV" ]
 then
     ensure_git gcc https://github.com/gcc-mirror/gcc || exit 1
-    (cd "repos/git/gcc" && git archive --format=tar --prefix=gcc-build/ "$GCCTAG") | tar xf - || exit 1
+    (cd "repos/git/gcc" && git archive --format=tar --prefix=gcc-build/ "releases/gcc-$GCCV") | tar xf - || exit 1
     cd gcc-build && ./configure --prefix="$HOME/opt/gcc-$GCCV" && make && make install && cd .. || exit 1
     rm -rf gcc-build || exit 1
 fi
@@ -896,7 +895,7 @@ if [ "$ENABLE_HASKELL" = "yes" ]
 then
     if ! [ -e "opt/ghc-$GHCV" ]
     then
-        ensure_git ghc https://git.haskell.org/ghc.git || exit 1
+        ensure_git ghc https://gitlab.haskell.org/ghc/ghc || exit 1
         ensure_git cabal https://github.com/haskell/cabal || exit 1
         GHCSYSTEMV="$(ghc --numeric-version)"
         if [ "$(echo -e "$GHCSYSTEMV\n7.6.3"|sort --version-sort|head -n 1)" = "$GHCSYSTEMV" ]
@@ -947,7 +946,7 @@ then
     then
         opam init || exit 1
         opam switch create "$OCAMLV" && eval $(opam env) || exit 1
-        for PACKAGE in google-drive-ocamlfuse ocp-indent batteries ocamlformat merlin
+        for PACKAGE in google-drive-ocamlfuse ocp-indent batteries ocamlformat
         do
             opam install --yes "$PACKAGE" || exit 1
         done
