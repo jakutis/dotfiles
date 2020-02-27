@@ -567,8 +567,7 @@ EOF
       cd ../../..
     fi
     make && make install && cd .. && rm -rf r-build || exit 1
-    cd opt && ln -nsf "r-$RV" "r" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/r-$RV/bin/R" && cd .. || exit 1
+    . lang use r "$RV" || exit 1
     echo 'install.packages(c("gdata", "irr", "outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
     wget "https://github.com/jalvesaq/colorout/releases/download/${COLOROUTTAG}/colorout_${COLOROUTV}.tar.gz" || exit 1
     echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save || exit 1
