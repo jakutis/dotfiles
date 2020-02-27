@@ -7,4 +7,4 @@
 # How to select languages
 
 1. Install, e.g. `ENABLE_NODE=yes install-user`
-2. Import to shell: `. lang node` or `. lang node 12.16.1`
+2. Import to shell: `. lang use node` or `. lang use node 12.16.1`

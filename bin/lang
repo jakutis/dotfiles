@@ -1,124 +1,198 @@
 #!/usr/bin/env bash
 
-LANG="$1"
-VERSION="$2"
+COMMAND="$1"
+LANG="$2"
+VERSION="$3"
 
-if [ "$LANG" = "node" ]
+if [ "$COMMAND" = "use" ]
 then
-  if [ -z "$VERSION" ]
+  if [ "$LANG" = "node" ]
   then
-    VERSION="default"
-  fi
-  [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use "$VERSION" 1>/dev/null || exit 1
-elif [ "$LANG" = "r" ]
-then
-  export R_HOME="$HOME/opt/r-$VERSION"
-  if [ ! -e "$R_HOME" ]
+    if [ -z "$VERSION" ]
+    then
+      VERSION="default"
+    fi
+    [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use "$VERSION" 1>/dev/null || exit 1
+  elif [ "$LANG" = "r" ]
   then
+    export R_HOME="$HOME/opt/r-$VERSION"
+    if [ ! -e "$R_HOME" ]
+    then
+      exit 1
+    fi
+    export TEXINPUTS="$TEXINPUTS:$R_HOME/lib/R/share/texmf/tex/latex"
+    export PATH="$R_HOME/bin:$PATH"
+  elif [ "$LANG" = "cuda" ]
+  then
+    export CUDA_HOME="$HOME/opt/cuda-$VERSION"
+    if [ ! -e "$CUDA_HOME" ]
+    then
+      exit 1
+    fi
+    export PATH="$CUDA_HOME/bin:$PATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/lib"
+  elif [ "$LANG" = "rust" ]
+  then
+    export PATH="$HOME/.cargo/bin:$PATH"
+    if [ -n "$VERSION" ]
+    then
+      rustup default "$VERSION" || exit 1
+    fi
+  elif [ "$LANG" = "llvm" ]
+  then
+    export LLVM_ROOT="$HOME/opt/llvm-$VERSION"
+    if [ ! -e "$LLVM_ROOT" ]
+    then
+      exit 1
+    fi
+    export PATH="$LLVM_ROOT/bin:$PATH"
+  elif [ "$LANG" = "java" ]
+  then
+    export JAVA_HOME="$HOME/opt/jdk-$VERSION"
+    if [ ! -e "$JAVA_HOME" ]
+    then
+      exit 1
+    fi
+    export PATH="$JAVA_HOME/bin:$PATH"
+  elif [ "$LANG" = "perl" ]
+  then
+    if [ -z "$VERSION" ]
+    then
+      VERSION="default"
+    fi
+    [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$VERSION" || exit 1
+  elif [ "$LANG" = "kotlin" ]
+  then
+    if [ ! -e "$HOME/opt/kotlin-$VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/kotlin-$VERSION/bin:$PATH"
+  elif [ "$LANG" = "erlang" ]
+  then
+    if [ ! -e "$HOME/opt/erlang-$VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/erlang-$VERSION/bin:$PATH"
+  elif [ "$LANG" = "ghc" ]
+  then
+    if [ ! -e "$HOME/opt/ghc-$VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/ghc-$VERSION/bin:$PATH"
+  elif [ "$LANG" = "gcc" ]
+  then
+    if [ ! -e "$HOME/opt/gcc-$VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/gcc-$VERSION/bin:$PATH"
+  elif [ "$LANG" = "go" ]
+  then
+    if [ -z "$VERSION" ]
+    then
+      VERSION="default"
+    fi
+    [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$VERSION" 1>/dev/null || exit 1
+  elif [ "$LANG" = "ocaml" ]
+  then
+    [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null || exit 1
+  elif [ "$LANG" = "php" ]
+  then
+    if [ -z "$VERSION" ]
+    then
+      VERSION="$(cat "$HOME/.php")"
+    fi
+    [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$VERSION" || exit 1
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
+  elif [ "$LANG" = "python" ]
+  then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    if [ -z "$VERSION" ]
+    then
+      VERSION="$(pyenv global)"
+    fi
+    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$VERSION" || exit 1
+  elif [ "$LANG" = "ruby" ]
+  then
+    if [ -z "$VERSION" ]
+    then
+      VERSION="default"
+    fi
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$VERSION" 2>/dev/null || exit 1
+  else
+    echo unrecognized language: $LANG 1>&2
     exit 1
   fi
-  export TEXINPUTS="$TEXINPUTS:$R_HOME/lib/R/share/texmf/tex/latex"
-elif [ "$LANG" = "cuda" ]
+elif [ "$COMMAND" = "versions" ]
 then
-  export CUDA_HOME="$HOME/opt/cuda-$VERSION"
-  if [ ! -e "$CUDA_HOME" ]
-  then
-    exit 1
-  fi
-  export PATH="$CUDA_HOME/bin:$PATH"
-  export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/lib"
-elif [ "$LANG" = "rust" ]
-then
-  export PATH="$HOME/.cargo/bin:$PATH"
-  if [ -n "$VERSION" ]
-  then
-    rustup default "$VERSION" || exit 1
-  fi
-elif [ "$LANG" = "llvm" ]
-then
-  export LLVM_ROOT="$HOME/opt/llvm-$VERSION"
-  if [ ! -e "$LLVM_ROOT" ]
-  then
-    exit 1
-  fi
-  export PATH="$LLVM_ROOT/bin:$PATH"
-elif [ "$LANG" = "java" ]
-then
-  export JAVA_HOME="$HOME/opt/jdk-$VERSION"
-  if [ ! -e "$JAVA_HOME" ]
-  then
-    exit 1
-  fi
-  export PATH="$JAVA_HOME/bin:$PATH"
-elif [ "$LANG" = "perl" ]
-then
-  if [ -z "$VERSION" ]
-  then
-    VERSION="default"
-  fi
-  [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$VERSION" || exit 1
-elif [ "$LANG" = "kotlin" ]
-then
-  if [ ! -e "$HOME/opt/kotlin-$VERSION" ]
-  then
-    exit 1
-  fi
-  export PATH="$HOME/opt/kotlin-$VERSION/bin:$PATH"
-elif [ "$LANG" = "erlang" ]
-then
-  if [ ! -e "$HOME/opt/erlang-$VERSION" ]
-  then
-    exit 1
-  fi
-  export PATH="$HOME/opt/erlang-$VERSION/bin:$PATH"
-elif [ "$LANG" = "ghc" ]
-then
-  if [ ! -e "$HOME/opt/ghc-$VERSION" ]
-  then
-    exit 1
-  fi
-  export PATH="$HOME/opt/ghc-$VERSION/bin:$PATH"
-elif [ "$LANG" = "gcc" ]
-then
-  if [ ! -e "$HOME/opt/gcc-$VERSION" ]
-  then
-    exit 1
-  fi
-  export PATH="$HOME/opt/gcc-$VERSION/bin:$PATH"
-elif [ "$LANG" = "go" ]
-then
-  if [ -z "$VERSION" ]
-  then
-    VERSION="default"
-  fi
-  [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$VERSION" 1>/dev/null || exit 1
-elif [ "$LANG" = "ocaml" ]
-then
-  [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null || exit 1
-elif [ "$LANG" = "php" ]
-then
-  if [ -z "$VERSION" ]
-  then
-    VERSION="$(cat "$HOME/.php")"
-  fi
-  [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$VERSION" || exit 1
-  export PATH="$HOME/.composer/vendor/bin:$PATH"
-elif [ "$LANG" = "python" ]
-then
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  if [ -z "$VERSION" ]
-  then
-    VERSION="$(pyenv global)"
-  fi
-  [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$VERSION" || exit 1
-elif [ "$LANG" = "ruby" ]
-then
-  if [ -z "$VERSION" ]
-  then
-    VERSION="default"
-  fi
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$VERSION" 2>/dev/null || exit 1
-else
-  echo unrecognized language: $LANG 1>&2
-  exit 1
+  function check {
+    NAME="$2"
+    if [ -z "$NAME" ]
+    then
+      NAME="$1"
+    fi
+
+    BIN=$(which "$1" 2>/dev/null)
+    if [ -n "$BIN" ]
+    then
+      echo "# $NAME -> $BIN"
+      echo ===============================
+    else
+      echo "# $NAME -> NONE"
+      echo ===============================
+      return 1
+    fi
+  }
+
+  check ruby && ruby --version || true
+  echo
+
+  check node && node --version || true
+  echo
+
+  check python && python --version || true
+  echo
+
+  check java && java -version || true
+  echo
+
+  check rustc rust && rustc --version || true
+  echo
+
+  check php && php --version || true
+  echo
+
+  check ocaml && ocaml --version || true
+  echo
+
+  check go && go version || true
+  echo
+
+  check gcc && gcc --version || true
+  echo
+
+  check ghc && ghc --version || true
+  echo
+
+  check erl erlang && erl -version || true
+  echo
+
+  check kotlinc kotlin && kotlinc -version || true
+  echo
+
+  check perl && perl --version || true
+  echo
+
+  check clang llvm && clang --version || true
+  echo
+
+  check R r && R --version || true
+  echo
+
+  check nvcc cuda && nvcc --version || true
+  echo
+
 fi
