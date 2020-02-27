@@ -500,7 +500,7 @@ if [ "$ENABLE_RUBY" = "yes" ]
 then
     if ! [ -e ".rvm" ]
     then
-        curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --autolibs=read-fail || exit 1
+        curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$RUBYV" --ignore-dotfiles --autolibs=read-fail || exit 1
     else
         rvm get head || exit 1
     fi
