@@ -833,7 +833,7 @@ if [ "$ENABLE_GCC" = "yes" -a ! -e "opt/gcc-$GCCV" ]
 then
     ensure_git gcc https://github.com/gcc-mirror/gcc || exit 1
     (cd "repos/git/gcc" && git archive --format=tar --prefix=gcc-build/ "releases/gcc-$GCCV") | tar xf - || exit 1
-    cd gcc-build && ./configure --prefix="$HOME/opt/gcc-$GCCV" && make -j$(nproc) && make install && cd .. || exit 1
+    cd gcc-build && ./configure --prefix="$HOME/opt/gcc-$GCCV" --enable-languages=c,c++,fortran && make -j$(nproc) && make install && cd .. || exit 1
     rm -rf gcc-build || exit 1
 fi
 
