@@ -10,7 +10,13 @@ set -o vi
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 export PROMPT_DIRTRIM=4
-export PS1="\u@\h:\w\$ "
+if [[ "$TERM" =~ 256color ]]
+then
+  export PS1="\[\033[48;5;15;38;5;0m\]\u@\h:\w\$ \[\033[0m\]"
+else
+  export PS1="\u@\h:\w\$ "
+fi
+
 unset PROMPT_COMMAND
 export HISTTIMEFORMAT='%F %T '
 export HISTCONTROL="ignoreboth"
