@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
+if [ -n "$1" ]
+then
+  cd "$1"
+fi
+MAX_LEVELS="$2"
+
 pwd && rg --files | (
-  if [ -n "$1" ]
+  if [ -n "$MAX_LEVELS" ]
   then
-    sed -e 's/^\(\([^/]*\/\)\{'$1'\}\).*$/\1/' | sort | uniq
+    sed -e 's/^\(\([^/]*\/\)\{'$MAX_LEVELS'\}\).*$/\1/' | sort | uniq
   else
     rg --files 
   fi
