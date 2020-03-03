@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-. lang use node
+export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
 diff-so-fancy "$@"
