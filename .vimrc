@@ -19,6 +19,7 @@ Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'udalov/kotlin-vim'
 Plug 'mxw/vim-jsx'
+Plug 'ianks/vim-tsx'
 Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
 Plug 'jremmen/vim-ripgrep'
@@ -105,6 +106,7 @@ set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
+\   'typescript': ['prettier', 'tslint'],
 \   'scala': ['scalafmt'],
 \   'json': ['jq'],
 \   'html': ['tidy'],
