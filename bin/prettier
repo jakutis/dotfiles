@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
+prettier "$@"
