@@ -103,6 +103,9 @@ let g:LanguageClient_hoverPreview = 'Always'
 " w0rp/ale
 let g:ale_completion_enabled = 1
 set completeopt=menu,menuone,preview,noselect,noinsert
+let g:ale_linters = {
+\   'typescript': ['tslint'],
+\}
 let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
