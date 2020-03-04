@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+OUTPUT="$1"
+
+xrandr --output "$OUTPUT" --auto --rotate normal --preferred --primary
+xrandr --newmode 1280x720_60.00   74.50 1280 1344 1472 1664  720  723  728  748 -hsync +vsync
+xrandr --addmode "$OUTPUT" 1280x720_60.00
+xrandr --output "$OUTPUT" --mode 1280x720_60.00
