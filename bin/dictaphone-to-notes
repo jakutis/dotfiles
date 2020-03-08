@@ -4,6 +4,10 @@ DIR="$1"
 
 ls -1 "$DIR" | while read FILE
 do
+  if [ -d "$DIR/$FILE" ]
+  then
+    continue
+  fi
   echo "# $DIR/$FILE"
   echo
   echo "transcribing"
