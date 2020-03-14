@@ -3,13 +3,36 @@
 DIR="$1"
 LIST="$2"
 
-cd "$DIR" && cat "$LIST" | while read LINE
+cd "$DIR"
+ALL_DOWNLOADED=""
+while read LINE
 do
   NAME=$(echo "$LINE" | cut -f1 -d' ')
   URL=$(echo "$LINE" | cut -f2 -d' ')
   echo "dowloading $NAME"
 
-  mkdir -p "$NAME" && podcatcher "$NAME" "$URL" || exit 1
-done
+  mkdir -p "$NAME" || exit 1
 
-echo all podcasts downloaded
+  {
+    FD="/proc/$BASHPID/fd/3"
+    chmod u+w "$FD"
+    STDOUT=$(podcatcher "$NAME" "$URL" "$FD")
+    STATUS=$?
+    DOWNLOADED=$(cat "$FD")
+  } 3<<EOT
+EOT
+
+  echo "$STDOUT"
+  if [ "$STATUS" != "0" ]
+  then
+    exit 1
+  fi
+  if [ -n "$DOWNLOADED" ]
+  then
+    ALL_DOWNLOADED="$ALL_DOWNLOADED
+$DOWNLOADED"
+  fi
+done < <(cat "$LIST")
+
+echo finished downloading, new files below
+echo "$ALL_DOWNLOADED"
