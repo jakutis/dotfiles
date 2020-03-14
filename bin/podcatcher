@@ -2,6 +2,7 @@
 
 DIR="$1"
 URL="$2"
+LOGFILE="$3"
 
 cd "$DIR" || exit 1
 LATEST=$(cat .latest 2>/dev/null || echo 0)
@@ -19,6 +20,10 @@ do
     FILENAME="$(echo "$SONG-$TIMESTAMP.$EXTENSION" | inline-detox)"
     echo "downloading $FILENAME"
     curl --fail --location --progress-bar "$URL" > "$FILENAME.part" && id3v2 --delete-all "$FILENAME.part" 1>/dev/null && id3v2 --artist "$DIR" --album "$DIR" --song "$SONG" "$FILENAME.part" && mv "$FILENAME.part" "$FILENAME" || exit 1
+    if [ -n "$LOGFILE" ]
+    then
+      echo "$FILENAME" >> "$LOGFILE"
+    fi
   fi
 
   if [ "$(cat .latest 2>/dev/null || echo 0)" -lt "$TIMESTAMP" ]
