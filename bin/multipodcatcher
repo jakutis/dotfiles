@@ -3,7 +3,7 @@
 DIR="$1"
 LIST="$2"
 
-cd "$DIR"
+cd "$DIR" || exit 1
 ALL_DOWNLOADED=""
 while read LINE
 do
