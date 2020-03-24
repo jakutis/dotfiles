@@ -15,9 +15,7 @@ then
     exit 1
 fi
 
-source "$HOME/.nvm/nvm.sh"
-pyenv shell system
-
+. lang use node
 nvm install "v$NEWVERSION"
 nvm alias default $NEWVERSION
 nvm use default
