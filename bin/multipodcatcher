@@ -9,7 +9,7 @@ while read LINE
 do
   NAME=$(echo "$LINE" | cut -f1 -d' ')
   URL=$(echo "$LINE" | cut -f2 -d' ')
-  echo "dowloading $NAME"
+  echo "downloading $NAME"
 
   mkdir -p "$NAME" || exit 1
 
