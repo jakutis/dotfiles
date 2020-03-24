@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
 INPUT="$1"
-
+WAV="$(mktemp --suffix=.wav)" || exit 1
 EXT="${INPUT##*.}"
+
+function rmwav {
+  rm -f "$WAV"
+}
+
+trap rmwav EXIT
 
 if [ "$EXT" = "mp3" ]
 then
@@ -20,9 +26,7 @@ then
 fi
 
 echo "$INPUT: Converting to wav"
-WAV="$(mktemp --suffix=.wav)"
 ffmpeg -loglevel quiet -nostats -y -i "$INPUT" -f wav "$WAV" </dev/null || exit 1
 echo "$INPUT: Converting to mp3"
 lame --silent -V0 "$WAV" "$OUTPUT" || exit 1
-rm "$WAV"
 echo "$INPUT: Done"
