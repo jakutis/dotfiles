@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+FIRST="$1"
+SECOND="$2"
+
+xrandr \
+  --output "$FIRST" --auto --rotate normal --preferred --primary \
+  --output "$SECOND" --auto --rotate normal --below "$FIRST"
+
+xrandr --newmode 1280x720_60.00   74.50 1280 1344 1472 1664  720  723  728  748 -hsync +vsync
+xrandr --addmode "$SECOND" 1280x720_60.00
+xrandr --output "$SECOND" --mode 1280x720_60.00
