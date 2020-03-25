@@ -203,6 +203,9 @@ done
 ln -nsf "$DOTFILES/mimeapps.list"
 ln -nsf "mimeapps.list" "defaults.list"
 cd "$HOME"
+cd .config
+ln -nsf "$DOTFILES/mimeapps.list"
+cd ..
 
 mkdir --parents "opt"
 
