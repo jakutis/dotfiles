@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=BlueJeans
+Exec=/opt/BlueJeans/bluejeans-v2 %U
+Terminal=false
+Icon=google-chrome
+Type=Application
+Categories=Network;
+MimeType=x-scheme-handler/bjnb;

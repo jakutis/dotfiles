@@ -13,11 +13,13 @@ text/csv=libreoffice-2.desktop;
 text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
+x-scheme-handler/bjnb=bluejeans.desktop;
 
 [Default Applications]
 application/pdf=org.kde.okular.desktop
 application/x-gzpdf=org.kde.okular.desktop
 application/x-bzpdf=org.kde.okular.desktop
 application/x-wwf=org.kde.okular.desktop
+x-scheme-handler/bjnb=bluejeans.desktop;
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
