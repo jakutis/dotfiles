@@ -45,6 +45,6 @@ do
   then
     rm -f .latest && echo "$TIMESTAMP" > .latest
   fi
-done
+done || exit 1
 
 echo "$DIR downloaded"
