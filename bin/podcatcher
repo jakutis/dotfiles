@@ -19,13 +19,14 @@ do
       URL="$(echo "$ITEM" | jq --raw-output .link)"
     fi
     SONG="$DIR-$(date -Idate -d "@$TIMESTAMP" | cut -c6-10)-$TITLE"
+    BASEFILENAME="$(echo "$SONG-$TIMESTAMP" | inline-detox)"
 
-    echo "downloading $SONG"
-    DOWNLOAD=$(youtube-dl --audio-quality 0 --audio-format best --extract-audio --print-json "$URL") || exit 1
+    echo "downloading $BASEFILENAME"
+    DOWNLOAD=$(youtube-dl --audio-quality 0 --audio-format best --extract-audio --print-json "$URL" 2>/dev/null) || exit 1
     _FILENAME="$(echo "$DOWNLOAD" | jq --raw-output ._filename)"
     EXTENSION="$(echo "$DOWNLOAD" | jq --raw-output .ext)"
-    FILENAME="$(echo "$SONG-$TIMESTAMP.$EXTENSION" | inline-detox)"
-    MP3FILENAME="$(echo "$SONG-$TIMESTAMP.mp3" | inline-detox)"
+    FILENAME="$BASEFILENAME.$EXTENSION"
+    MP3FILENAME="$BASEFILENAME.mp3"
 
     mv "$_FILENAME" "$FILENAME" || exit 1
     if [ "$FILENAME" != "$MP3FILENAME" ]
@@ -36,7 +37,7 @@ do
 
     if [ -n "$LOGFILE" ]
     then
-      echo "$MP3FILENAME" >> "$LOGFILE"
+      echo "$BASEFILENAME" >> "$LOGFILE"
     fi
   fi
 
