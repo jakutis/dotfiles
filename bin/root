@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+COMMAND="$1"
+if [ -z "$BASEURL" ]
+then
+  echo "BASEURL undefined"
+  exit 1
+fi
+if [ -z "$BASICAUTH" ]
+then
+  echo "BASICAUTH undefined"
+  exit 1
+fi
+AUTHORIZATION="Basic $(echo -n "$BASICAUTH" | base64)"
+
+function custom_curl {
+  curl --header "Connection: close" --no-keepalive --fail-early --silent --anyauth --fail --header "Authorization: $AUTHORIZATION" "$@" || exit 1
+}
+
+function dav_exists {
+  FILE="$1"
+  CODE=$(custom_curl --write-out "%{http_code}" --request HEAD "$BASEURL/$FILE")
+  if [ "$CODE" = "200" ]
+  then
+    echo "yes"
+  elif [ "$CODE" = "400" -o "$CODE" = "404" ]
+  then
+    echo "no"
+  else
+    echo "existence checking "$FILE" returned http status code: $CODE" 1>&2
+    exit 1
+  fi
+}
+
+function dav_mkdir {
+  FILE="$1"
+  CODE=$(custom_curl --write-out "%{http_code}" --request MKCOL "$BASEURL/$FILE")
+  if [ "$CODE" != "200" -a "$CODE" != "201" ]
+  then
+    echo "creating directory "$FILE" returned http status code: $CODE" 1>&2
+    exit 1
+  fi
+}
+
+function dav_move {
+  SOURCE="$1"
+  DESTINATION="$2"
+  CODE=$(custom_curl --write-out "%{http_code}" --request MOVE --header "Destination: $BASEURL/$DESTINATION" "$BASEURL/$SOURCE")
+  if [ "$CODE" != "201" ]
+  then
+    echo "moving "$SOURCE" to "$DESTINATION" returned http status code: $CODE" 1>&2
+    exit 1
+  fi
+}
+
+function dav_upload {
+  FILESOURCE="$1"
+  FILEDESTINATION="$2"
+  CODE=$(pv "$FILESOURCE" | custom_curl --write-out "%{http_code}" --upload-file - "$BASEURL/$FILEDESTINATION")
+  if [ "$CODE" != "200" -a "$CODE" != "201" -a "$CODE" != "204" ]
+  then
+    echo "uploading file "$FILEDESTINATION" from "$FILESOURCE" returned http status code: $CODE" 1>&2
+    exit 1
+  fi
+}
+
+function dav_download {
+  FILE="$1"
+  custom_curl --request GET "$BASEURL/$FILE" || exit 1
+}
+
+if [ "$COMMAND" = "send" ]
+then
+  SOURCE="$(realpath "$2")"
+
+  if [ ! -d "$SOURCE" ]
+  then
+    echo "Source is not a directory: $SOURCE" 1>&2
+    exit 1
+  fi
+  if [ "$(cat "$SOURCE/root")" != "So, I am like a slave of this root file system!" ]
+  then
+    echo "Source must be slave" 1>&2
+    exit 1
+  fi
+  if [ "$(dav_download "root")" != "Well, it is true that I am the master of root file system!" ]
+  then
+    echo "Destination must be master" 1>&2
+    exit 1
+  fi
+
+  touch "$SOURCE/done" || exit 1
+  echo "Executing scripts in source"
+  dav_download "done" | tail --lines=+$(($(cat "$SOURCE/done"|wc -l) + 1)) | while read SCRIPT
+  do
+    cd "$SOURCE" && echo "$SCRIPT" && (echo "$SCRIPT" | bash) && (echo "$SCRIPT" >> "$SOURCE/done") || exit 1
+  done || exit 1
+
+  echo "Sending updates from source to destination"
+  cd "$SOURCE" && (find . -print0 | while IFS= read -r -d '' FILE
+  do
+    EXISTS=$(dav_exists "$FILE") || exit 1
+    if [ "$EXISTS" = "yes" ]
+    then
+      echo "found $FILE"
+      continue
+    fi
+
+    if [ -d "$FILE" ]
+    then
+      echo "creating $FILE"
+      dav_mkdir "$FILE" || exit 1
+    else
+      echo "copying $FILE"
+
+      dav_upload "$FILE" "$FILE" || exit 1
+    fi
+  done) || exit 1
+elif [ "$COMMAND" = "mkdir" ]
+then
+  DIR="$2"
+  echo reading /done
+  DONE="$(dav_download "done")$(echo -e "\nmkdir -p \"$DIR\"")"
+  echo "making $DIR" && dav_mkdir "$DIR" && echo writing /done && dav_upload <(echo "$DONE") "done" || exit 1
+elif [ "$COMMAND" = "mv" ]
+then
+  SOURCE="$2"
+  DESTINATION="$3"
+  echo reading /done
+  DONE="$(dav_download "done")$(echo -e "\nmv \"$SOURCE\" \"$DESTINATION\"")"
+  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" && echo writing /done && dav_upload <(echo "$DONE") "done" || exit 1
+else
+  echo "Unknown command: $COMMAND" 1>&2
+  exit 1
+fi
+
+echo "Done: $COMMAND"
