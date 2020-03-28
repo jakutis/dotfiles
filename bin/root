@@ -69,35 +69,32 @@ function dav_download {
   custom_curl --request GET "$BASEURL/$FILE" || exit 1
 }
 
+function execute_done {
+  touch "done" || exit 1
+  echo "executing scripts"
+  tail --lines=+$(($(cat "done"|wc -l) + 1)) | while read SCRIPT
+  do
+    echo "$SCRIPT" && (echo "$SCRIPT" | bash) && (echo "$SCRIPT" >> "done") || exit 1
+  done || exit 1
+}
+
+if [ "$(cat "root")" != "So, I am like a slave of this root file system!" ]
+then
+  echo "current directory must be slave" 1>&2
+  exit 1
+fi
+if [ "$(dav_download "root")" != "Well, it is true that I am the master of root file system!" ]
+then
+  echo "destination must be master" 1>&2
+  exit 1
+fi
+
 if [ "$COMMAND" = "send" ]
 then
-  SOURCE="$(realpath "$2")"
+  dav_download "done" | execute_done || exit 1
 
-  if [ ! -d "$SOURCE" ]
-  then
-    echo "Source is not a directory: $SOURCE" 1>&2
-    exit 1
-  fi
-  if [ "$(cat "$SOURCE/root")" != "So, I am like a slave of this root file system!" ]
-  then
-    echo "Source must be slave" 1>&2
-    exit 1
-  fi
-  if [ "$(dav_download "root")" != "Well, it is true that I am the master of root file system!" ]
-  then
-    echo "Destination must be master" 1>&2
-    exit 1
-  fi
-
-  touch "$SOURCE/done" || exit 1
-  echo "Executing scripts in source"
-  dav_download "done" | tail --lines=+$(($(cat "$SOURCE/done"|wc -l) + 1)) | while read SCRIPT
-  do
-    cd "$SOURCE" && echo "$SCRIPT" && (echo "$SCRIPT" | bash) && (echo "$SCRIPT" >> "$SOURCE/done") || exit 1
-  done || exit 1
-
-  echo "Sending updates from source to destination"
-  cd "$SOURCE" && (find . -print0 | while IFS= read -r -d '' FILE
+  echo "sending updates"
+  find . -print0 | while IFS= read -r -d '' FILE
   do
     EXISTS=$(dav_exists "$FILE") || exit 1
     if [ "$EXISTS" = "yes" ]
@@ -112,26 +109,35 @@ then
       dav_mkdir "$FILE" || exit 1
     else
       echo "copying $FILE"
-
       dav_upload "$FILE" "$FILE" || exit 1
     fi
-  done) || exit 1
+  done || exit 1
 elif [ "$COMMAND" = "mkdir" ]
 then
-  DIR="$2"
-  echo reading /done
+  DOLOCALLY="$2"
+  DIR="$3"
+  echo "reading /done"
   DONE="$(dav_download "done")$(echo -e "\nmkdir -p \"$DIR\"")"
-  echo "making $DIR" && dav_mkdir "$DIR" && echo writing /done && dav_upload <(echo "$DONE") "done" || exit 1
+  if [ "$DOLOCALLY" = "true" ]
+  then
+    echo "$DONE" | execute_done || exit 1
+  fi
+  echo "making $DIR" && dav_mkdir "$DIR" && echo "writing /done" && dav_upload <(echo "$DONE") "done" || exit 1
 elif [ "$COMMAND" = "mv" ]
 then
-  SOURCE="$2"
-  DESTINATION="$3"
-  echo reading /done
-  DONE="$(dav_download "done")$(echo -e "\nmv \"$SOURCE\" \"$DESTINATION\"")"
-  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" && echo writing /done && dav_upload <(echo "$DONE") "done" || exit 1
+  DOLOCALLY="$2"
+  SOURCE="$3"
+  DESTINATION="$4"
+  echo "reading /done"
+  DONE="$(dav_download "done")$(echo -e "\nif [ -e \"$SOURCE\" ];then mv \"$SOURCE\" \"$DESTINATION\" || exit 1;fi")"
+  if [ "$DOLOCALLY" = "true" ]
+  then
+    echo "$DONE" | execute_done || exit 1
+  fi
+  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" && echo "writing /done" && dav_upload <(echo "$DONE") "done" || exit 1
 else
-  echo "Unknown command: $COMMAND" 1>&2
+  echo "unknown command: $COMMAND" 1>&2
   exit 1
 fi
 
-echo "Done: $COMMAND"
+echo "done: $COMMAND"
