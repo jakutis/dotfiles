@@ -94,7 +94,7 @@ then
   dav_download "done" | execute_done || exit 1
 
   echo "sending updates"
-  find . -print0 | while IFS= read -r -d '' FILE
+  find -L . -print0 | while IFS= read -r -d '' FILE
   do
     EXISTS=$(dav_exists "$FILE") || exit 1
     if [ "$EXISTS" = "yes" ]
