@@ -140,4 +140,7 @@ else
   exit 1
 fi
 
+echo removing empty directories
+find . -depth -type d -empty -delete || exit 1
+
 echo "done: $COMMAND"
