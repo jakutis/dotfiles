@@ -18,7 +18,7 @@ do
     then
       URL="$(echo "$ITEM" | jq --raw-output .link)"
     fi
-    SONG="$DIR-$(date -Idate -d "@$TIMESTAMP" | cut -c6-10)-$TITLE"
+    SONG="$DIR-$(date -Idate -d "@$TIMESTAMP" | cut -c6-10)-$(date -Idate -d "@$TIMESTAMP" | cut -c1-4)-$TITLE"
     BASEFILENAME="$(echo "$SONG-$TIMESTAMP" | inline-detox)"
 
     echo "downloading $BASEFILENAME"
@@ -34,6 +34,7 @@ do
       mp3 "$FILENAME" 1>/dev/null && rm "$FILENAME" || exit 1
     fi
     id3v2 --delete-all "$MP3FILENAME" 1>/dev/null && id3v2 --artist "$DIR" --album "$DIR" --song "$SONG" "$MP3FILENAME" || exit 1
+    touch -m --date="$(date --rfc-3339=ns -d "@$TIMESTAMP")" "$MP3FILENAME" || exit 1
 
     if [ -n "$LOGFILE" ]
     then
