@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cd /media/Generic_SDCard_DISK_60570152-0:1_B54C-4AF4/Audio/root && multipodcatcher podcasts /home/jakutis/repos/git/varia/podcasts.txt && root send || exit 1
