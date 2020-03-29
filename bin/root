@@ -13,13 +13,26 @@ then
 fi
 AUTHORIZATION="Basic $(echo -n "$BASICAUTH" | base64)"
 
+function encode_uri_component {
+  echo -n "$1"|node -e 'var b=[];process.stdin.on("data",data=>b.push(data));process.stdin.on("end", () => process.stdout.write(encodeURIComponent(Buffer.concat(b).toString())))'
+}
+
+function encode_path {
+  tr '/' '\n'|echo -n "$(while read LINE; do encode_uri_component "$LINE"; echo; done)"|tr '\n' '/'
+}
+
+function full_url {
+  FILE="$(echo "$1" | encode_path)"
+  echo -n "$BASEURL/$FILE"
+}
+
 function custom_curl {
   curl --header "Connection: close" --no-keepalive --fail-early --silent --anyauth --fail --header "Authorization: $AUTHORIZATION" "$@" || exit 1
 }
 
 function dav_exists {
   FILE="$1"
-  CODE=$(custom_curl --write-out "%{http_code}" --request HEAD "$BASEURL/$FILE")
+  CODE=$(custom_curl --write-out "%{http_code}" --request HEAD "$(full_url "$FILE")")
   if [ "$CODE" = "200" ]
   then
     echo "yes"
@@ -34,7 +47,7 @@ function dav_exists {
 
 function dav_mkdir {
   FILE="$1"
-  CODE=$(custom_curl --write-out "%{http_code}" --request MKCOL "$BASEURL/$FILE")
+  CODE=$(custom_curl --write-out "%{http_code}" --request MKCOL "$(full_url "$FILE")")
   if [ "$CODE" != "200" -a "$CODE" != "201" ]
   then
     echo "creating directory "$FILE" returned http status code: $CODE" 1>&2
@@ -45,7 +58,7 @@ function dav_mkdir {
 function dav_move {
   SOURCE="$1"
   DESTINATION="$2"
-  CODE=$(custom_curl --write-out "%{http_code}" --request MOVE --header "Destination: $BASEURL/$DESTINATION" "$BASEURL/$SOURCE")
+  CODE=$(custom_curl --write-out "%{http_code}" --request MOVE --header "Destination: $BASEURL/$DESTINATION" "$(full_url "$SOURCE")")
   if [ "$CODE" != "201" ]
   then
     echo "moving "$SOURCE" to "$DESTINATION" returned http status code: $CODE" 1>&2
@@ -56,7 +69,7 @@ function dav_move {
 function dav_upload {
   FILESOURCE="$1"
   FILEDESTINATION="$2"
-  CODE=$(pv "$FILESOURCE" | custom_curl --write-out "%{http_code}" --upload-file - "$BASEURL/$FILEDESTINATION")
+  CODE=$(pv "$FILESOURCE" | custom_curl --write-out "%{http_code}" --upload-file - "$(full_url "$FILEDESTINATION")")
   if [ "$CODE" != "200" -a "$CODE" != "201" -a "$CODE" != "204" ]
   then
     echo "uploading file "$FILEDESTINATION" from "$FILESOURCE" returned http status code: $CODE" 1>&2
@@ -66,7 +79,7 @@ function dav_upload {
 
 function dav_download {
   FILE="$1"
-  custom_curl --request GET "$BASEURL/$FILE" || exit 1
+  custom_curl --request GET "$(full_url "$FILE")" || exit 1
 }
 
 function execute_done {
