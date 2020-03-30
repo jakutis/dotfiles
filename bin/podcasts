@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DISK="/media/Generic_SDCard_DISK_60570152-0:1_B54C-4AF4/Audio/root"
+DISK="/media/Generic_SDCard_DISK_60570152-0:1_B54C-4AF4"
 
 while true
 do
@@ -9,7 +9,9 @@ do
   then
     break
   fi
+  echo "wait..."
   sleep 1
 done
 
+echo "download!"
 multipodcatcher "podcasts" "/home/jakutis/repos/git/varia/podcasts.txt" && root send && sudo umount "$DISK" || exit 1
