@@ -14,4 +14,4 @@ do
 done
 
 echo "download!"
-multipodcatcher "podcasts" "/home/jakutis/repos/git/varia/podcasts.txt" && root send && sudo umount "$DISK" || exit 1
+multipodcatcher "podcasts" "/home/jakutis/repos/git/varia/podcasts.txt" && root send && cd / && sudo umount "$DISK" || exit 1
