@@ -91,11 +91,15 @@ function execute_done {
   done || exit 1
 }
 
-if [ "$(cat "root")" != "So, I am like a slave of this root file system!" ]
-then
-  echo "current directory must be slave" 1>&2
-  exit 1
-fi
+while [ "$(cat "root" 2>/dev/null)" != "So, I am like a slave of this root file system!" ]
+do
+  if [ "$(pwd)" = "/" ]
+  then
+    echo "current directory must be slave" 1>&2
+    exit 1
+  fi
+  cd ..
+done
 if [ "$(dav_download "root")" != "Well, it is true that I am the master of root file system!" ]
 then
   echo "destination must be master" 1>&2
