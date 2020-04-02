@@ -15,6 +15,7 @@ blueman-applet &
 nohup redshift -l 54.68:25.32 -b 1:0.4 -t 6500K:2200K 1>/dev/null 2>&1 &
 /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1 &
 dropbox start &
+podcasts &
 set-background
 cd Desktop
 i3
