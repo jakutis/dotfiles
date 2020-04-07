@@ -91,6 +91,8 @@ function execute_done {
   done || exit 1
 }
 
+ORIGINAL_DIR="$(pwd)"
+
 while [ "$(cat "root" 2>/dev/null)" != "So, I am like a slave of this root file system!" ]
 do
   if [ "$(pwd)" = "/" ]
@@ -108,11 +110,18 @@ fi
 
 if [ "$COMMAND" = "send" ]
 then
+  WHAT="$ORIGINAL_DIR/$2"
+  if [ -z "$WHAT" ]
+  then
+    WHAT="."
+  fi
   dav_download "done" | execute_done || exit 1
 
   echo "sending updates"
-  find -L . -print0 | while IFS= read -r -d '' FILE
+  ROOT_DIR="$(pwd)"
+  find -L "$(realpath "$WHAT")" -print0 | while IFS= read -r -d '' FILE
   do
+    FILE=".${FILE:${#ROOT_DIR}}"
     EXISTS=$(dav_exists "$FILE") || exit 1
     if [ "$EXISTS" = "yes" ]
     then
