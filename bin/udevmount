@@ -5,4 +5,9 @@ then
   exit
 fi
 
+if [ -z "${ID_FS_UUID}" ]
+then
+  exit
+fi
+
 /usr/bin/systemd-mount --owner=jakutis --fsck=no --automount=no --no-block --collect "${DEVNAME}" "/media/${ID_SERIAL}_${ID_FS_UUID}"
