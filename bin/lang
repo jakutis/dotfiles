@@ -1,153 +1,153 @@
 #!/usr/bin/env bash
 
-COMMAND="$1"
-LANG="$2"
-VERSION="$3"
+LANG_COMMAND="$1"
+LANG_LANG="$2"
+LANG_VERSION="$3"
 
-if [ "$COMMAND" = "use" ]
+if [ "$LANG_COMMAND" = "use" ]
 then
-  if [ "$LANG" = "node" ]
+  if [ "$LANG_LANG" = "node" ]
   then
-    if [ -z "$VERSION" ]
+    if [ -z "$LANG_VERSION" ]
     then
-      VERSION="default"
+      LANG_VERSION="default"
     fi
-    source "$HOME/.nvm/nvm.sh" && nvm use "$VERSION" 1>/dev/null || exit 1
-  elif [ "$LANG" = "r" ]
+    source "$HOME/.nvm/nvm.sh" && nvm use "$LANG_VERSION" 1>/dev/null || exit 1
+  elif [ "$LANG_LANG" = "r" ]
   then
-    export R_HOME="$HOME/opt/r-$VERSION"
+    export R_HOME="$HOME/opt/r-$LANG_VERSION"
     if [ ! -e "$R_HOME" ]
     then
       exit 1
     fi
     export TEXINPUTS="$TEXINPUTS:$R_HOME/lib/R/share/texmf/tex/latex"
     export PATH="$R_HOME/bin:$PATH"
-  elif [ "$LANG" = "cuda" ]
+  elif [ "$LANG_LANG" = "cuda" ]
   then
-    export CUDA_HOME="$HOME/opt/cuda-$VERSION"
+    export CUDA_HOME="$HOME/opt/cuda-$LANG_VERSION"
     if [ ! -e "$CUDA_HOME" ]
     then
       exit 1
     fi
     export PATH="$CUDA_HOME/bin:$PATH"
     export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/lib"
-  elif [ "$LANG" = "rust" ]
+  elif [ "$LANG_LANG" = "rust" ]
   then
     export PATH="$HOME/.cargo/bin:$PATH"
-    if [ -n "$VERSION" ]
+    if [ -n "$LANG_VERSION" ]
     then
-      rustup default "$VERSION" || exit 1
+      rustup default "$LANG_VERSION" || exit 1
     fi
-  elif [ "$LANG" = "llvm" ]
+  elif [ "$LANG_LANG" = "llvm" ]
   then
-    export LLVM_ROOT="$HOME/opt/llvm-$VERSION"
+    export LLVM_ROOT="$HOME/opt/llvm-$LANG_VERSION"
     if [ ! -e "$LLVM_ROOT" ]
     then
       exit 1
     fi
     export PATH="$LLVM_ROOT/bin:$PATH"
-  elif [ "$LANG" = "java" ]
+  elif [ "$LANG_LANG" = "java" ]
   then
-    export JAVA_HOME="$HOME/opt/jdk-$VERSION"
+    export JAVA_HOME="$HOME/opt/jdk-$LANG_VERSION"
     if [ ! -e "$JAVA_HOME" ]
     then
       exit 1
     fi
     export PATH="$JAVA_HOME/bin:$PATH"
-  elif [ "$LANG" = "perl" ]
+  elif [ "$LANG_LANG" = "perl" ]
   then
-    if [ -z "$VERSION" ]
+    if [ -z "$LANG_VERSION" ]
     then
-      VERSION="default"
+      LANG_VERSION="default"
     fi
-    [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$VERSION" || exit 1
-  elif [ "$LANG" = "kotlin" ]
+    [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$LANG_VERSION" || exit 1
+  elif [ "$LANG_LANG" = "kotlin" ]
   then
-    if [ ! -e "$HOME/opt/kotlin-$VERSION" ]
-    then
-      exit 1
-    fi
-    export PATH="$HOME/opt/kotlin-$VERSION/bin:$PATH"
-  elif [ "$LANG" = "erlang" ]
-  then
-    if [ ! -e "$HOME/opt/erlang-$VERSION" ]
+    if [ ! -e "$HOME/opt/kotlin-$LANG_VERSION" ]
     then
       exit 1
     fi
-    export PATH="$HOME/opt/erlang-$VERSION/bin:$PATH"
-  elif [ "$LANG" = "ghc" ]
+    export PATH="$HOME/opt/kotlin-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "erlang" ]
   then
-    if [ ! -e "$HOME/opt/ghc-$VERSION" ]
+    if [ ! -e "$HOME/opt/erlang-$LANG_VERSION" ]
     then
       exit 1
     fi
-    export PATH="$HOME/opt/ghc-$VERSION/bin:$PATH"
-  elif [ "$LANG" = "gcc" ]
+    export PATH="$HOME/opt/erlang-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "ghc" ]
   then
-    if [ ! -e "$HOME/opt/gcc-$VERSION" ]
+    if [ ! -e "$HOME/opt/ghc-$LANG_VERSION" ]
     then
       exit 1
     fi
-    export PATH="$HOME/opt/gcc-$VERSION/bin:$PATH"
-  elif [ "$LANG" = "go" ]
+    export PATH="$HOME/opt/ghc-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "gcc" ]
   then
-    if [ -z "$VERSION" ]
+    if [ ! -e "$HOME/opt/gcc-$LANG_VERSION" ]
     then
-      VERSION="default"
+      exit 1
     fi
-    [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$VERSION" 1>/dev/null || exit 1
-  elif [ "$LANG" = "ocaml" ]
+    export PATH="$HOME/opt/gcc-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "go" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="default"
+    fi
+    [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$LANG_VERSION" 1>/dev/null || exit 1
+  elif [ "$LANG_LANG" = "ocaml" ]
   then
     [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null || exit 1
-  elif [ "$LANG" = "php" ]
+  elif [ "$LANG_LANG" = "php" ]
   then
-    if [ -z "$VERSION" ]
+    if [ -z "$LANG_VERSION" ]
     then
-      VERSION="$(cat "$HOME/.php")"
+      LANG_VERSION="$(cat "$HOME/.php")"
     fi
-    [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$VERSION" || exit 1
+    [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$LANG_VERSION" || exit 1
     export PATH="$HOME/.composer/vendor/bin:$PATH"
-  elif [ "$LANG" = "python" ]
+  elif [ "$LANG_LANG" = "python" ]
   then
     export PATH="$PYENV_ROOT/bin:$PATH"
-    if [ -z "$VERSION" ]
+    if [ -z "$LANG_VERSION" ]
     then
-      VERSION="$(pyenv global)"
+      LANG_VERSION="$(pyenv global)"
     fi
-    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$VERSION" || exit 1
-  elif [ "$LANG" = "ruby" ]
+    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$LANG_VERSION" || exit 1
+  elif [ "$LANG_LANG" = "ruby" ]
   then
-    if [ -z "$VERSION" ]
+    if [ -z "$LANG_VERSION" ]
     then
-      VERSION="default"
+      LANG_VERSION="default"
     fi
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$VERSION" 2>/dev/null || exit 1
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$LANG_VERSION" 2>/dev/null || exit 1
   else
-    echo unrecognized language: $LANG 1>&2
+    echo unrecognized language: $LANG_LANG 1>&2
     exit 1
   fi
-elif [ "$COMMAND" = "install" ]
+elif [ "$LANG_COMMAND" = "install" ]
 then
-  if [ -z "$LANG" ]
+  if [ -z "$LANG_LANG" ]
   then
       echo "Please specify language" >&2
       exit 1
   fi
 
-  if [ -z "$VERSION" ]
+  if [ -z "$LANG_VERSION" ]
   then
       echo "Please specify version" >&2
       exit 1
   fi
 
-  PACKAGES="$HOME/.${LANG}packages"
+  PACKAGES="$HOME/.${LANG_LANG}packages"
   if ! [ -e "$PACKAGES" ]
   then
       echo "Please create a file "$PACKAGES" with a list of global packages to install"
       exit 1
   fi
 
-  if [ "$LANG" = "node" ]
+  if [ "$LANG_LANG" = "node" ]
   then
     if ! [ -e "$HOME/.nvm" ]
     then
@@ -156,36 +156,36 @@ then
         cd "$HOME/.nvm" && git pull --rebase && cd - || exit 1
     fi
 
-    if [ -e "$HOME/.nvm/versions/node/v$VERSION" ]
+    if [ -e "$HOME/.nvm/versions/node/v$LANG_VERSION" ]
     then
-      echo "already installed at $HOME/.nvm/versions/node/v$VERSION"
+      echo "already installed at $HOME/.nvm/versions/node/v$LANG_VERSION"
       exit 1
     fi
 
-    source "$HOME/.nvm/nvm.sh" && nvm install "v$VERSION" && nvm alias default "$VERSION" && nvm use default || exit 1
+    source "$HOME/.nvm/nvm.sh" && nvm install "v$LANG_VERSION" && nvm alias default "$LANG_VERSION" && nvm use default || exit 1
 
     for PACKAGE in $(cat "$PACKAGES")
     do
         npm install -g $PACKAGE || exit 1
     done
-  elif [ "$LANG" = "ruby" ]
+  elif [ "$LANG_LANG" = "ruby" ]
   then
     if ! [ -e "$HOME/.rvm" ]
     then
-        curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$VERSION" --ignore-dotfiles --autolibs=read-fail && source "$HOME/.rvm/scripts/rvm" || exit 1
+        curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$LANG_VERSION" --ignore-dotfiles --autolibs=read-fail && source "$HOME/.rvm/scripts/rvm" || exit 1
     else
         source "$HOME/.rvm/scripts/rvm" && rvm get head || exit 1
 
-        if [ -e "$HOME/.rvm/rubies/ruby-$VERSION" ]
+        if [ -e "$HOME/.rvm/rubies/ruby-$LANG_VERSION" ]
         then
-          echo "already installed at $HOME/.rvm/rubies/ruby-$VERSION"
+          echo "already installed at $HOME/.rvm/rubies/ruby-$LANG_VERSION"
           exit 1
         fi
 
-        rvm install "$VERSION" || exit 1
+        rvm install "$LANG_VERSION" || exit 1
     fi
 
-    rvm --default use "$VERSION" && rvm default || exit 1
+    rvm --default use "$LANG_VERSION" && rvm default || exit 1
 
     for PACKAGE in $(cat "$PACKAGES")
     do
@@ -193,7 +193,7 @@ then
     done
     #LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass blankslate haml bundler lolcat || exit 1
     rvm docs generate-ri || exit 1
-  elif [ "$LANG" = "python" ]
+  elif [ "$LANG_LANG" = "python" ]
   then
     if ! [ -e "$PYENV_ROOT" ]
     then
@@ -202,14 +202,14 @@ then
         cd "$PYENV_ROOT" && git pull --rebase && cd - || exit 1
     fi
 
-    if [ -e "$PYENV_ROOT/versions/$VERSION" ]
+    if [ -e "$PYENV_ROOT/versions/$LANG_VERSION" ]
     then
-      echo "already installed at $PYENV_ROOT/versions/$VERSION"
+      echo "already installed at $PYENV_ROOT/versions/$LANG_VERSION"
       exit 1
     fi
 
     export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)" && pyenv install "$VERSION" && pyenv global "$VERSION" && pyenv shell "$(pyenv global)" || exit 1
+    eval "$(pyenv init -)" && pyenv install "$LANG_VERSION" && pyenv global "$LANG_VERSION" && pyenv shell "$(pyenv global)" || exit 1
 
     for PACKAGE in $(cat "$PACKAGES")
     do
@@ -217,7 +217,7 @@ then
     done
   fi
   echo "install success"
-elif [ "$COMMAND" = "versions" ]
+elif [ "$LANG_COMMAND" = "versions" ]
 then
   function check {
     NAME="$2"
