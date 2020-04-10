@@ -464,6 +464,7 @@ fi
 if [ "$ENABLE_NODE" = "yes" ]
 then
     "$DOTFILES/bin/lang" install node "$NODEV"
+    . "$DOTFILES/bin/lang" use node "$NODEV" || exit 1
 fi
 
 if [ "$ENABLE_IMAGEMAGICK" = "yes" -a ! -e "opt/imagemagick-${IMAGEMAGICKV}" ]
@@ -492,6 +493,7 @@ fi
 if [ "$ENABLE_RUBY" = "yes" ]
 then
     "$DOTFILES/bin/lang" install ruby "$RUBYV"
+    . "$DOTFILES/bin/lang" use ruby "$RUBYV" || exit 1
 fi
 
 if [ "$ENABLE_GO" = "yes" ]
@@ -844,6 +846,7 @@ fi
 if [ "$ENABLE_PYTHON" = "yes" ]
 then
     "$DOTFILES/bin/lang" install python "$PYTHONV"
+    . "$DOTFILES/bin/lang" use python "$PYTHONV" || exit 1
 fi
 
 if [ "$ENABLE_RUST" = "yes" ]
