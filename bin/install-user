@@ -953,10 +953,7 @@ then
         --enable-cscope \
         --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
       cd .. && rm -rf vim-build || exit 1
-      cd "$HOME/opt" && ln -nsf "vim-$VIMV" "vim" && cd ../.bin || exit 1
-      ln -nsf "../opt/vim/bin/vim"
-      ln -nsf "../opt/vim/bin/vimdiff"
-      cd ..
+      cd "$HOME/opt" && ln -nsf "vim-$VIMV" "vim" && cd .. || exit 1
   fi
 
   mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
