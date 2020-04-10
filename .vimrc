@@ -159,9 +159,6 @@ set background=light
 let g:gruvbox_contrast_light='hard'
 colorscheme gruvbox
 
-" add NPM executables to PATH
-let $PATH=getcwd() . "/node_modules/.bin:" . $PATH
-
 " show an 80 column marker
 set colorcolumn=80
 
