@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
-. lang use ruby && "$HOME/opt/vim/bin/vim" "$@"
+. lang fastuse python && . lang use ruby && "$HOME/opt/vim/bin/vim" "$@"

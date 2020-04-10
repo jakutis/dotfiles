@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
-convertfeed "$@" || exit 1
+. lang fastuse node && convertfeed "$@" || exit 1
