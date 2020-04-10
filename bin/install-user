@@ -146,6 +146,12 @@ then
     ENABLE_RUBY="yes"
 fi
 
+if [ "$ENABLE_VIM" = "yes" ]
+then
+    ENABLE_PYTHON="yes"
+    ENABLE_RUBY="yes"
+fi
+
 if [ "$ENABLE_UPPLAY" = "yes" ]
 then
     ENABLE_LIBUPNPP="yes"
@@ -464,7 +470,7 @@ fi
 if [ "$ENABLE_NODE" = "yes" ]
 then
     "$DOTFILES/bin/lang" install node "$NODEV"
-    . "$DOTFILES/bin/lang" use node "$NODEV" || exit 1
+    . "$DOTFILES/bin/lang" fastuse node || exit 1
 fi
 
 if [ "$ENABLE_IMAGEMAGICK" = "yes" -a ! -e "opt/imagemagick-${IMAGEMAGICKV}" ]
@@ -493,7 +499,7 @@ fi
 if [ "$ENABLE_RUBY" = "yes" ]
 then
     "$DOTFILES/bin/lang" install ruby "$RUBYV"
-    . "$DOTFILES/bin/lang" use ruby "$RUBYV" || exit 1
+    . "$DOTFILES/bin/lang" fastuse ruby || exit 1
 fi
 
 if [ "$ENABLE_GO" = "yes" ]
@@ -846,7 +852,7 @@ fi
 if [ "$ENABLE_PYTHON" = "yes" ]
 then
     "$DOTFILES/bin/lang" install python "$PYTHONV"
-    . "$DOTFILES/bin/lang" use python "$PYTHONV" || exit 1
+    . "$DOTFILES/bin/lang" fastuse python || exit 1
 fi
 
 if [ "$ENABLE_RUST" = "yes" ]
@@ -941,8 +947,6 @@ then
 
   if [ ! -e "opt/vim-$VIMV" ]
   then
-      . lang use python && pyenv shell "$PYTHONV" || exit 1
-      . lang use ruby && rvm "$RUBYV" || exit 1
       ensure_git vim https://github.com/vim/vim || exit 1
       (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
       cd "vim-build" || exit 1
