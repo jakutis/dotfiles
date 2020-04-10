@@ -12,6 +12,15 @@ then
   elif [ "$LANG_LANG" = "python" ]
   then
     export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+  elif [ "$LANG_LANG" = "ruby" ]
+  then
+    LANG_VERSION="$(grep default= "$HOME/.rvm/config/alias"|cut -b14-)"
+    export RUBY_VERSION="ruby-$LANG_VERSION"
+    export GEM_HOME="$HOME/.rvm/gems/$RUBY_VERSION"
+    export GEM_PATH="$HOME/.rvm/gems/$RUBY_VERSION:$HOME/.rvm/gems/${RUBY_VERSION}@global"
+    export IRBRC="$HOME/.rvm/rubies/$RUBY_VERSION/.irbrc"
+    export MY_RUBY_HOME="$HOME/.rvm/rubies/$RUBY_VERSION"
+    export PATH="$HOME/.rvm/gems/$RUBY_VERSION/bin:$HOME/.rvm/gems/${RUBY_VERSION}@global/bin:$HOME/.rvm/rubies/$RUBY_VERSION/bin:$HOME/.rvm/bin:$PATH"
   fi
 elif [ "$LANG_COMMAND" = "use" ]
 then
