@@ -31,7 +31,7 @@ GCCV="9.2.0"
 PHPVS=("7.4.3")
 GHCV="8.8.3"
 ERLANGV="22.2"
-RUBYV="2.7.0"
+RUBYV="2.7.1"
 
 GITV="2.22.0"
 TMUXV="2.9a"
