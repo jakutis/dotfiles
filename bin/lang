@@ -166,8 +166,33 @@ then
 
     for PACKAGE in $(cat "$PACKAGES")
     do
-        npm install -g $PACKAGE
+        npm install -g $PACKAGE || exit 1
     done
+  elif [ "$LANG" = "ruby" ]
+  then
+    if ! [ -e "$HOME/.rvm" ]
+    then
+        curl -L https://get.rvm.io | rvm_path="$HOME/.rvm" bash -s stable --ruby="$VERSION" --ignore-dotfiles --autolibs=read-fail && source "$HOME/.rvm/scripts/rvm" || exit 1
+    else
+        source "$HOME/.rvm/scripts/rvm" && rvm get head || exit 1
+
+        if [ -e "$HOME/.rvm/rubies/ruby-$VERSION" ]
+        then
+          echo "already installed at $HOME/.rvm/rubies/ruby-$VERSION"
+          exit 1
+        fi
+
+        rvm install "$VERSION" || exit 1
+    fi
+
+    rvm --default use "$VERSION" && rvm default || exit 1
+
+    for PACKAGE in $(cat "$PACKAGES")
+    do
+        gem install $PACKAGE || exit 1
+    done
+    #LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass blankslate haml bundler lolcat || exit 1
+    rvm docs generate-ri || exit 1
   elif [ "$LANG" = "python" ]
   then
     if ! [ -e "$PYENV_ROOT" ]
