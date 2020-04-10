@@ -4,7 +4,16 @@ LANG_COMMAND="$1"
 LANG_LANG="$2"
 LANG_VERSION="$3"
 
-if [ "$LANG_COMMAND" = "use" ]
+if [ "$LANG_COMMAND" = "fastuse" ]
+then
+  if [ "$LANG_LANG" = "node" ]
+  then
+    export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
+  elif [ "$LANG_LANG" = "python" ]
+  then
+    export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+  fi
+elif [ "$LANG_COMMAND" = "use" ]
 then
   if [ "$LANG_LANG" = "node" ]
   then
