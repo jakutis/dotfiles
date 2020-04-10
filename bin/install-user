@@ -463,17 +463,7 @@ fi
 
 if [ "$ENABLE_NODE" = "yes" ]
 then
-    if ! [ -e ".nvm" ]
-    then
-        git clone https://github.com/creationix/nvm .nvm && source .nvm/nvm.sh || exit 1
-    else
-        cd .nvm && git pull --rebase && cd .. || exit 1
-    fi
-
-    if ! [ -e ".nvm/versions/node/v$NODEV" ]
-    then
-        "$DOTFILES/bin/nodeup" "$NODEV"
-    fi
+    "$DOTFILES/bin/lang" install node "$NODEV"
 fi
 
 if [ "$ENABLE_IMAGEMAGICK" = "yes" -a ! -e "opt/imagemagick-${IMAGEMAGICKV}" ]
@@ -869,12 +859,7 @@ fi
 
 if [ "$ENABLE_PYTHON" = "yes" ]
 then
-    if ! [ -e "$PYENV_ROOT" ]
-    then
-        git clone https://github.com/pyenv/pyenv "$PYENV_ROOT" || exit 1
-    fi
-    pythonup "$PYTHONV" || exit 1
-    eval "$(pyenv init -)" && pyenv shell $(pyenv global) || exit 1
+    "$DOTFILES/bin/lang" install python "$PYTHONV"
 fi
 
 if [ "$ENABLE_RUST" = "yes" ]

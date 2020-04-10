@@ -12,7 +12,7 @@ then
     then
       VERSION="default"
     fi
-    [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh" && nvm use "$VERSION" 1>/dev/null || exit 1
+    source "$HOME/.nvm/nvm.sh" && nvm use "$VERSION" 1>/dev/null || exit 1
   elif [ "$LANG" = "r" ]
   then
     export R_HOME="$HOME/opt/r-$VERSION"
@@ -125,6 +125,71 @@ then
   else
     echo unrecognized language: $LANG 1>&2
     exit 1
+  fi
+elif [ "$COMMAND" = "install" ]
+then
+  if [ -z "$LANG" ]
+  then
+      echo "Please specify language" >&2
+      exit 1
+  fi
+
+  if [ -z "$VERSION" ]
+  then
+      echo "Please specify version" >&2
+      exit 1
+  fi
+
+  PACKAGES="$HOME/.${LANG}packages"
+  if ! [ -e "$PACKAGES" ]
+  then
+      echo "Please create a file "$PACKAGES" with a list of global packages to install"
+      exit 1
+  fi
+
+  if [ "$LANG" = "node" ]
+  then
+    if ! [ -e "$HOME/.nvm" ]
+    then
+        git clone https://github.com/creationix/nvm "$HOME/.nvm" || exit 1
+    else
+        cd "$HOME/.nvm" && git pull --rebase && cd - || exit 1
+    fi
+
+    if [ -e "$HOME/.nvm/versions/node/v$VERSION" ]
+    then
+      echo "already installed at $HOME/.nvm/versions/node/v$VERSION"
+      exit 1
+    fi
+
+    source "$HOME/.nvm/nvm.sh" && nvm install "v$VERSION" && nvm alias default "$VERSION" && nvm use default || exit 1
+
+    for PACKAGE in $(cat "$PACKAGES")
+    do
+        npm install -g $PACKAGE
+    done
+  elif [ "$LANG" = "python" ]
+  then
+    if ! [ -e "$PYENV_ROOT" ]
+    then
+        git clone https://github.com/pyenv/pyenv "$PYENV_ROOT" || exit 1
+    else
+        cd "$PYENV_ROOT" && git pull --rebase && cd - || exit 1
+    fi
+
+    if [ -e "$PYENV_ROOT/versions/$VERSION" ]
+    then
+      echo "already installed at $PYENV_ROOT/versions/$VERSION"
+      exit 1
+    fi
+
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)" && pyenv install "$VERSION" && pyenv global "$VERSION" && pyenv shell "$(pyenv global)" || exit 1
+
+    for PACKAGE in $(cat "$PACKAGES")
+    do
+        pip install $PACKAGE || exit 1
+    done
   fi
 elif [ "$COMMAND" = "versions" ]
 then
