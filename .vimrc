@@ -22,6 +22,10 @@ Plug 'mxw/vim-jsx'
 Plug 'ianks/vim-tsx'
 Plug 'suan/vim-instant-markdown'
 Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'fszymanski/deoplete-emoji'
+Plug 'deathlyfrantic/deoplete-spell'
 Plug 'jremmen/vim-ripgrep'
 Plug 'easymotion/vim-easymotion'
 Plug 'mogelbrod/vim-jsonpath'
@@ -264,3 +268,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 nnoremap <C-q> <C-w>t
 nnoremap <C-e> <C-w>b
+
+" deoplete
+set pyxversion=3
+let g:deoplete#enable_at_startup = 1

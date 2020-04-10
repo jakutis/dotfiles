@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+. lang use ruby && . lang use python && "$HOME/.bin/vim" "$@"

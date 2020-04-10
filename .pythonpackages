@@ -13,3 +13,5 @@ reportlab
 term2048
 brownie
 icalendar
+msgpack
+pynvim

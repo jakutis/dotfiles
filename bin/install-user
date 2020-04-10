@@ -35,7 +35,7 @@ RUBYV="2.7.0"
 
 GITV="2.22.0"
 TMUXV="2.9a"
-VIMV="8.2.0348"
+VIMV="8.2.0539"
 GITSHV="0.14"
 TIGV="2.5.0"
 
@@ -969,10 +969,20 @@ then
 
   if [ ! -e "opt/vim-$VIMV" ]
   then
+      . lang use python && pyenv shell "$PYTHONV" || exit 1
+      . lang use ruby && rvm "$RUBYV" || exit 1
       ensure_git vim https://github.com/vim/vim || exit 1
       (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
       cd "vim-build" || exit 1
-      ./configure --enable-rubyinterp=yes --enable-pythoninterp=yes --with-features=huge --enable-cscope --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+      ./configure \
+        --enable-multibyte \
+        --enable-pythoninterp=no \
+        --enable-python3interp=yes \
+        --enable-rubyinterp=yes \
+        --with-python3-config-dir=$(python3-config --configdir) \
+        --with-features=huge \
+        --enable-cscope \
+        --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
       cd .. && rm -rf vim-build || exit 1
       cd "$HOME/opt" && ln -nsf "vim-$VIMV" "vim" && cd ../.bin || exit 1
       ln -nsf "../opt/vim/bin/vim"
