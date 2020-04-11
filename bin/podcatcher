@@ -22,19 +22,18 @@ do
     BASEFILENAME="$(echo "$SONG-$TIMESTAMP" | inline-detox)"
 
     echo "downloading $BASEFILENAME"
-    DOWNLOAD=$(youtube-dl --audio-quality 0 --audio-format best --extract-audio --print-json "$URL" 2>/dev/null) || exit 1
-    _FILENAME="$(echo "$DOWNLOAD" | jq --raw-output ._filename)"
-    EXTENSION="$(echo "$DOWNLOAD" | jq --raw-output .ext)"
-    FILENAME="$BASEFILENAME.$EXTENSION"
-    MP3FILENAME="$BASEFILENAME.mp3"
+    TEMP_BASEFILENAME="$(mktemp -u XXXXXXXX)"
+    youtube-dl --audio-quality 0 --audio-format best --extract-audio --output "$TEMP_BASEFILENAME.out" "$URL" 1>/dev/null 2>&1 || exit 1
+    TEMP_MP3FILENAME="$TEMP_BASEFILENAME.mp3"
+    TEMP_FILENAME="$(ls -1 "$TEMP_BASEFILENAME"*)"
 
-    mv "$_FILENAME" "$FILENAME" || exit 1
-    if [ "$FILENAME" != "$MP3FILENAME" ]
+    if [ "$TEMP_FILENAME" != "$TEMP_MP3FILENAME" ]
     then
-      mp3 "$FILENAME" 1>/dev/null && rm "$FILENAME" || exit 1
+      mp3 "$TEMP_FILENAME" 1>/dev/null && rm "$TEMP_FILENAME" || exit 1
     fi
-    id3v2 --delete-all "$MP3FILENAME" 1>/dev/null && id3v2 --artist "$DIR" --album "$DIR" --song "$SONG" "$MP3FILENAME" || exit 1
-    touch -m --date="$(date --rfc-3339=ns -d "@$TIMESTAMP")" "$MP3FILENAME" || exit 1
+    id3v2 --delete-all "$TEMP_MP3FILENAME" 1>/dev/null && id3v2 --artist "$DIR" --album "$DIR" --song "$SONG" "$TEMP_MP3FILENAME" || exit 1
+    touch -m --date="$(date --rfc-3339=ns -d "@$TIMESTAMP")" "$TEMP_MP3FILENAME" || exit 1
+    mv "$TEMP_MP3FILENAME" "$BASEFILENAME.mp3" || exit 1
 
     if [ -n "$LOGFILE" ]
     then
