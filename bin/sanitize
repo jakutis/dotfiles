@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
 
-(tr -c '[:graph:]' ' '| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//';echo)|tr - ' '|tr . ' '|inline-detox
+function sanitize {
+  (tr -c '[:graph:]' ' '| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//';echo)|tr - ' '|tr . ' '|inline-detox
+}
+
+if [ -n "$1" ]
+then
+  echo "$1" | sanitize
+else
+  sanitize
+fi
