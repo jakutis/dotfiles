@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function sanitize {
-  (tr -c '[:graph:]' ' '| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//';echo)|tr - ' '|tr . ' '|inline-detox
+  (tr -c '[:graph:]' ' '| sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//';echo)|tr + ' '|tr - ' '|tr . ' '|inline-detox
 }
 
 if [ -n "$1" ]
