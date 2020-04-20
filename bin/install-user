@@ -39,6 +39,7 @@ VIMV="8.2.0539"
 GITSHV="0.14"
 TIGV="2.5.0"
 
+BASH3V="3.2.57"
 ZSTDV="1.4.4"
 SCIMV="0.7.0"
 METALSV="0.8.0"
@@ -1460,4 +1461,26 @@ then
     (cd "repos/git/sc-im" && git archive --format=tar --prefix=sc-im-build/ "v${SCIMV}") | tar xf - || exit 1
     cd sc-im-build && make "prefix=${HOME}/opt/sc-im-${SCIMV}" -C src && make "prefix=${HOME}/opt/sc-im-${SCIMV}" -C src install && cd .. && rm -rf sc-im-build || exit 1
     cd .bin && ln -nsf "../opt/sc-im-$SCIMV/bin/scim" && cd .. || exit 1
+fi
+
+if [ "$ENABLE_BASH3" = "yes" -a ! -e "opt/bash-$BASH3V" ]
+then
+    mkdir bash3-build && cd bash3-build || exit 1
+    curl -L "http://ftp.gnu.org/gnu/bash/bash-${BASH3V}.tar.gz" | tar zxf - || exit 1
+    cd "bash-$BASH3V" || exit 1
+    for PATCH in autoconf-mktime-2.59.patch bash-3.2-loadables.patch bash-2.05b-parallel-build.patch bash-3.2-protos.patch bash-3.2-session-leader.patch bash-3.2-ldflags-for-build.patch bash-3.2-process-subst.patch bash-3.2-ulimit.patch bash-3.0-trap-fg-signals.patch bash-4.2-dev-fd-buffer-overflow.patch 
+    do
+        curl https://gitweb.gentoo.org/repo/gentoo.git/plain/app-shells/bash/files/$PATCH > patch || exit 1
+        if (cat patch | patch -p0 --dry-run --batch)
+        then
+          cat patch | patch -p0 --batch || exit 1
+        elif (cat patch | patch -p1 --dry-run --batch)
+        then
+          cat patch | patch -p1 --batch || exit 1
+        else
+          exit 1
+        fi
+        rm patch || exit 1
+    done
+    ./configure --prefix="$HOME/opt/bash-$BASH3V" && make && make install && cd ../.. && rm -rf bash3-build || exit 1
 fi
