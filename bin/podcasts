@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 DISK="/media/Generic_SDCard_DISK_60570152-0:1_B54C-4AF4"
-run-on-cd "$DISK/Audio/root" "xterm -e 'echo press enter to start downloading podcasts;read && cd \"$DISK/Audio/root\" && tmux new-session -s podcasts \"multipodcatcher \\\"podcasts\\\" \\\"/home/jakutis/repos/git/varia/podcasts.txt\\\" && root send || sleep 36000\" && cd / && sudo umount \"$DISK\"'"
+run-on-cd "$DISK/Audio/root" "xterm -e 'echo press enter to start downloading podcasts;read && cd \"$DISK/Audio/root\" && tmux new-session -s podcasts \"multipodcatcher \\\"podcasts\\\" \\\"/home/jakutis/repos/git/varia/podcasts.txt\\\" && root send;sleep 36000\" && cd / && sudo umount \"$DISK\"'"
