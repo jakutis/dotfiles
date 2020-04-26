@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+system screens custom eDP1 =1024 =768
+if [ -n "$(docker ps -a|grep wine|grep cmr2)" ]
+then 
+  docker start cmr2 
+else
+  "$HOME/repos/git/dotfiles/cmr2/run" wine ".wine/drive_c/Program Files/Codemasters/Colin McRae Rally 2/CMR2.exe"
+fi

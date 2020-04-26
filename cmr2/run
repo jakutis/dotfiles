@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+xhost +
+docker run --device=/dev/dri:/dev/dri -v /etc/machine-id:/etc/machine-id --volume=/run/user/$(id -u)/pulse:/run/user/1000/pulse -e DISPLAY=$DISPLAY --privileged -v /home/jakutis/.Xauthority:/home/jakutis/.Xauthority -v /tmp/.X11-unix:/tmp/.X11-unix -it cmr2 "$@"
