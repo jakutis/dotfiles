@@ -122,12 +122,19 @@ function screens {
         then
           SCREENS="${CONNECTED[0]}"
         else
+          SCREENS=""
           while [ -n "$1" ]
           do
-            if [ -z "$(echo " ${CONNECTED[*]} " | grep " $1 ")" ]
+            if [ "${1:0:1}" = "=" ]
             then
-              echo "$1 not connected"
-              exit 1
+              SCREENS="$SCREENS ${1:1}"
+            else
+              SCREENS="$SCREENS $1"
+              if [ -z "$(echo " ${CONNECTED[*]} " | grep " $1 ")" ]
+              then
+                echo "$1 not connected"
+                exit 1
+              fi
             fi
             shift
           done

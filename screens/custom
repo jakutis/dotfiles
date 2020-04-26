@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+echo "$@"
+OUTPUT="$1"
+X="$2"
+Y="$3"
+REFRESH="60"
+
+NAME="${X}x${Y}_${REFRESH}.00"
+MODELINE="$(gtf "$X" "$Y" "$REFRESH" -x|grep Model|sed -e 's/^\s*//'|cut --complement -f 1,2 -d' '|tr '[:upper:]' '[:lower:]')"
+
+xrandr --output "$OUTPUT" --auto --rotate normal --preferred --primary
+xrandr --newmode "$NAME" $MODELINE
+xrandr --addmode "$OUTPUT" "$NAME"
+xrandr --output "$OUTPUT" --mode "$NAME"
