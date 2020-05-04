@@ -184,6 +184,7 @@ then
 
     for PACKAGE in $(cat "$PACKAGES")
     do
+        echo "Installing $PACKAGE"
         npm install -g $PACKAGE || exit 1
     done
   elif [ "$LANG_LANG" = "ruby" ]
@@ -207,6 +208,7 @@ then
 
     for PACKAGE in $(cat "$PACKAGES")
     do
+        echo "Installing $PACKAGE"
         gem install $PACKAGE || exit 1
     done
     #LDFLAGS="-Wl,--rpath=$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib,--enable-new-dtags" CFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" CXXFLAGS="-I$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/include" PKG_CONFIG_PATH="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV/lib/pkgconfig" gem install jekyll kramdown pdfbeads rmagick iconv hpricot compass travis-lint metaclass blankslate haml bundler lolcat || exit 1
@@ -231,6 +233,7 @@ then
 
     for PACKAGE in $(cat "$PACKAGES")
     do
+        echo "Installing $PACKAGE"
         pip install $PACKAGE || exit 1
     done
   fi
