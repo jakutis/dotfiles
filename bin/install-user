@@ -15,7 +15,7 @@ fi
 set -o verbose
 set -o xtrace
 
-NODEV="12.16.2"
+NODEV="12.16.3"
 PYTHONV="3.8.2"
 SCALABASEV="2.12"
 SCALAV="${SCALABASEV}.8"
