@@ -34,6 +34,7 @@ Plug 'ruanyl/vim-gh-line'
 Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-rhubarb'
+Plug 'bogado/file-line'
 call plug#end()
 
 " hex editing
