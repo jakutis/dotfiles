@@ -272,3 +272,4 @@ nnoremap <C-e> <C-w>b
 " deoplete
 set pyxversion=3
 let g:deoplete#enable_at_startup = 1
+call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
