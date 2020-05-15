@@ -13,6 +13,7 @@ PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
 DNF="$(which dnf 2>/dev/null)"
 BATV=0.12.1
+DEVDOCSV=0.7.1
 
 if [ -n "$PACMAN" ]
 then
@@ -71,6 +72,11 @@ then
     if [ "$(bat --version)" != "bat $BATV" ]
     then
         wget https://github.com/sharkdp/bat/releases/download/v${BATV}/bat_${BATV}_amd64.deb && dpkg -i bat_${BATV}_amd64.deb && rm bat_${BATV}_amd64.deb || exit 1
+    fi
+
+    if dpkg -l devdocs 1>/dev/null 2>&1
+    then
+      wget "https://github.com/egoist/devdocs-app/releases/download/v${DEVDOCSV}/DevDocs_${DEVDOCSV}_amd64.deb" && dpkg -i "DevDocs_${DEVDOCSV}_amd64.deb" && rm "DevDocs_${DEVDOCSV}_amd64.deb" || exit 1
     fi
 elif [ -n "$DNF" ]
 then
