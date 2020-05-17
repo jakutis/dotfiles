@@ -23,15 +23,15 @@ do
 
     echo "downloading $BASEFILENAME"
     TEMP_BASEFILENAME="$(mktemp -u XXXXXXXX)"
-    youtube-dl --audio-quality 0 --audio-format best --extract-audio --output "$TEMP_BASEFILENAME.out" "$URL" 1>/dev/null 2>&1 || exit 1
+    OUTPUT=$(youtube-dl --audio-quality 0 --audio-format best --extract-audio --output "$TEMP_BASEFILENAME.out" "$URL" 2>&1) || (echo "youtube-dl failed:";echo "$OUTPUT";exit 1) || exit 1
     TEMP_MP3FILENAME="$TEMP_BASEFILENAME.mp3"
     TEMP_FILENAME="$(ls -1 "$TEMP_BASEFILENAME"*)"
 
     if [ "$TEMP_FILENAME" != "$TEMP_MP3FILENAME" ]
     then
-      mp3 "$TEMP_FILENAME" 1>/dev/null && rm "$TEMP_FILENAME" || exit 1
+      OUTPUT=$(mp3 "$TEMP_FILENAME" && rm "$TEMP_FILENAME") || (echo "mp3 && rm failed:";echo "$OUTPUT";exit 1) || exit 1
     fi
-    id3v2 --delete-all "$TEMP_MP3FILENAME" 1>/dev/null && id3v2 --artist "$DIR" --album "$DIR" --song "$SONG" "$TEMP_MP3FILENAME" || exit 1
+    OUTPUT=$(id3v2 --delete-all "$TEMP_MP3FILENAME" && id3v2 --artist "$DIR" --album "$DIR" --song "$SONG" "$TEMP_MP3FILENAME") || (echo "id3v2 failed:";echo "$OUTPUT";exit 1) || exit 1
     touch -m --date="$(date --rfc-3339=ns -d "@$TIMESTAMP")" "$TEMP_MP3FILENAME" || exit 1
     mv "$TEMP_MP3FILENAME" "$BASEFILENAME.mp3" || exit 1
 
