@@ -61,12 +61,16 @@
   Mod4 + Home
 
 # Print Screen
-"screenshot"
+"shot"
   Print
 
 # Print Screen
-"screenshot"
+"shot"
   XF86LaunchA
+
+# Win+F12
+"shot"
+  Mod4 + F12
 
 # Win+Z
 "cmus-remote -C player-prev"
