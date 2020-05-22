@@ -5,15 +5,15 @@ then
   IF="$(ls "$XDG_CONFIG_HOME/dotfiles/eth")"
   if [ -z "$(ifconfig|grep $IF|grep UP)" ]
   then
-    exit
+    IF=""
   fi
 fi
-if [ -e "$XDG_CONFIG_HOME/dotfiles/wlan" ]
+if [ -z "$IF" -a -e "$XDG_CONFIG_HOME/dotfiles/wlan" ]
 then
   IF="$(ls "$XDG_CONFIG_HOME/dotfiles/wlan")"
   if [ -z "$(ifconfig|grep $IF|grep UP)" ]
   then
-    exit
+    IF=""
   fi
 fi
 
