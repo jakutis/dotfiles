@@ -5,7 +5,8 @@ PAUSE="$1"
 ARGS=""
 if [ -n "$PAUSE" ]
 then
-  ARGS="$ARGS -window root -pause $PAUSE"
+  sleep "$PAUSE"
+  ARGS="$ARGS -window root"
 fi
 ARGS="$ARGS $FN"
 import $ARGS && gimp "$FN"
