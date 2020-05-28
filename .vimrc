@@ -114,7 +114,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
-\   'typescript': ['prettier', 'tslint'],
+\   'typescript': ['eslint', 'prettier', 'tslint'],
 \   'scala': ['scalafmt'],
 \   'json': ['jq'],
 \   'html': ['tidy'],
