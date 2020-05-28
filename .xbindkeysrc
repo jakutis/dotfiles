@@ -68,6 +68,10 @@
 "shot"
   XF86LaunchA
 
+# Shift+Win+F12
+"shot 2"
+  Shift+Mod4 + F12
+
 # Win+F12
 "shot"
   Mod4 + F12
