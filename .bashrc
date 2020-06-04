@@ -51,5 +51,6 @@ function marks {
 }
 
 source "$HOME/.bash_aliases"
+source /usr/share/doc/fzf/examples/key-bindings.bash
 
 stty -ixon
