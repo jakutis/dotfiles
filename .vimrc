@@ -38,6 +38,9 @@ Plug 'tpope/vim-rhubarb'
 Plug 'bogado/file-line'
 call plug#end()
 
+" master keys
+let mapleader = ","
+
 " hex editing
 augroup Binary
   au!
@@ -146,6 +149,7 @@ let g:airline_section_y = airline#section#create_right([])
 let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
 
 " junegunn/fzf
+nmap <leader>/ :BLines<cr>
 noremap! <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
 nnoremap <C-p> <Esc>:execute 'FZF' fnameescape(FindRootDirectory())<CR>
 noremap! <C-o> <Esc>:execute 'RipGrep'<CR>
@@ -175,9 +179,6 @@ highlight CursorLineNr cterm=NONE ctermbg=yellow
 
 " security
 set nomodeline
-
-" master keys
-let mapleader = ","
 
 " saving
 set noeol
