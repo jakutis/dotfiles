@@ -276,3 +276,7 @@ nnoremap <C-e> <C-w>b
 set pyxversion=3
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
+
+" start in the middle of :help and scroll with jk
+autocmd VimEnter,WinEnter,BufWinEnter */doc/*.txt set scrolloff=999
+autocmd BufLeave,WinLeave */doc/*.txt set scrolloff=2
