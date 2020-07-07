@@ -62,10 +62,6 @@
 
 # Print Screen
 "shot"
-  Print
-
-# Print Screen
-"shot"
   XF86LaunchA
 
 # Shift+Win+F12
