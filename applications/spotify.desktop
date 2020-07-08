@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Open in Spotify
+Exec=spotify %U
+Terminal=false
+Icon=spotify-client
+Type=Application
+Categories=Audio;Music;Player;AudioVideo;
+MimeType=x-scheme-handler/spotify;
+StartupWMClass=spotify
