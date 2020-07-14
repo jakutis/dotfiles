@@ -221,6 +221,11 @@ mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
 
 mkdir --parents ".bin"
 
+if [ ! -e ".tmux/plugins/tpm" ]
+then
+  git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
+fi
+
 if [ "$ENABLE_NEWSBOAT" = "yes" ]
 then
   pushd .
