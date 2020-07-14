@@ -223,7 +223,7 @@ mkdir --parents ".bin"
 
 if [ ! -e ".tmux/plugins/tpm" ]
 then
-  git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
+  git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm && .tmux/plugins/tpm/bin/install_plugins || exit 1
 fi
 
 if [ "$ENABLE_NEWSBOAT" = "yes" ]
