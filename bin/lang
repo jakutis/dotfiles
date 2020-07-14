@@ -144,6 +144,26 @@ then
     echo unrecognized language: $LANG_LANG 1>&2
     exit 1
   fi
+elif [ "$LANG_COMMAND" = "default" ]
+then
+  if [ -z "$LANG_LANG" ]
+  then
+      echo "Please specify language" >&2
+      exit 1
+  fi
+
+  if [ -z "$LANG_VERSION" ]
+  then
+    if [ "$LANG_LANG" = "node" ]
+    then
+      source "$HOME/.nvm/nvm.sh" && nvm alias default || exit 1
+    fi
+  else
+    if [ "$LANG_LANG" = "node" ]
+    then
+      source "$HOME/.nvm/nvm.sh" && nvm alias default "$LANG_VERSION" || exit 1
+    fi
+  fi
 elif [ "$LANG_COMMAND" = "install" ]
 then
   if [ -z "$LANG_LANG" ]
