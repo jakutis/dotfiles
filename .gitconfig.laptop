@@ -13,7 +13,7 @@
     a = add -p
     co = checkout
     st = status
-    ci = commit
+    ci = commit -S
     w = whatchanged
     pom = pull origin master
     changes = log --oneline --reverse
