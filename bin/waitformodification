@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+inotifywait -qq -e delete,delete_self,unmount,move_self,move,moved_from,modify,moved_to,create,attrib,close_write "$1"
