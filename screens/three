@@ -4,7 +4,7 @@ LEFT="$1"
 CENTER="$2"
 RIGHT="$3"
 
-xrandr \
-  --output "$LEFT" --auto  --rotate left \
-  --output "$CENTER" --auto --rotate normal --right-of "$LEFT" --preferred --primary \
-  --output "$RIGHT" --auto --rotate right --right-of "$CENTER"
+xrandr --output "$LEFT" --auto  --rotate left \
+  && xrandr --output "$CENTER" --auto --rotate normal --right-of "$LEFT" --preferred --primary \
+  && xrandr --output "$RIGHT" --auto --rotate right --right-of "$CENTER" \
+  || exit 1
