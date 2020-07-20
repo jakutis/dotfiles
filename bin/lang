@@ -33,7 +33,7 @@ then
     source "$HOME/.nvm/nvm.sh" && nvm use "$LANG_VERSION" 1>/dev/null || exit 1
   elif [ "$LANG_LANG" = "r" ]
   then
-    export R_HOME="$HOME/opt/r-$LANG_VERSION"
+    R_HOME="$HOME/opt/r-$LANG_VERSION"
     if [ ! -e "$R_HOME" ]
     then
       exit 1
