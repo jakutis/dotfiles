@@ -475,7 +475,7 @@ fi
 
 if [ "$ENABLE_NODE" = "yes" ]
 then
-    "$DOTFILES/bin/lang" install node "$NODEV"
+    "$DOTFILES/bin/lang" install node "$NODEV" || exit 1
     . "$DOTFILES/bin/lang" fastuse node || exit 1
 fi
 
@@ -504,7 +504,7 @@ fi
 
 if [ "$ENABLE_RUBY" = "yes" ]
 then
-    "$DOTFILES/bin/lang" install ruby "$RUBYV"
+    "$DOTFILES/bin/lang" install ruby "$RUBYV" || exit 1
     . "$DOTFILES/bin/lang" fastuse ruby || exit 1
 fi
 
@@ -537,32 +537,8 @@ fi
 
 if [ "$ENABLE_R" = "yes" -a ! -e "opt/r-$RV" ]
 then
-    svn co "https://svn.r-project.org/R/tags/$RTAG" r-build || exit 1
-    cd r-build && ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$RV" || exit 1;
-    if false
-    then
-      cd src/extra/xz
-      patch <<'EOF'
-diff -ru vienas/Makefile.in du/Makefile.in
---- vienas/Makefile.in	2016-05-27 18:46:12.674367038 +0300
-+++ du/Makefile.in	2016-05-27 18:46:50.717368701 +0300
-@@ -58,7 +58,7 @@
-        touch stamp
-
-liblzma.a: $(liblzma_a_OBJECTS)
--	$rm -f $@
-+	rm -f $@
-        $(AR) -cr $@ $(liblzma_a_OBJECTS)
-        $(RANLIB) $@
-EOF
-      cd ../../..
-    fi
-    make && make install && cd .. && rm -rf r-build || exit 1
-    . lang use r "$RV" || exit 1
-    echo 'install.packages(c("gdata", "irr", "outliers", "ggthemes", "Rserve", "gdata", "knitr", "vimcom", "setwidth", "animation", "rgl", "ggplot2", "memisc"), repos=c("http://cran.us.r-project.org", dependencies=TRUE))' | R --no-save || exit 1
-    wget "https://github.com/jalvesaq/colorout/releases/download/${COLOROUTTAG}/colorout_${COLOROUTV}.tar.gz" || exit 1
-    echo "install.packages(c(\"colorout_${COLOROUTV}.tar.gz\"), type=\"source\", repos=NULL)" | R --no-save || exit 1
-    rm colorout_${COLOROUTV}.tar.gz
+  "$DOTFILES/bin/lang" install r "$RV" || exit 1
+  . "$DOTFILES/bin/lang" use r || exit 1
 fi
 
 if [ "$ENABLE_JS" = "yes" -a ! -e "opt/js-1.8.5" ]
@@ -857,7 +833,7 @@ fi
 
 if [ "$ENABLE_PYTHON" = "yes" ]
 then
-    "$DOTFILES/bin/lang" install python "$PYTHONV"
+    "$DOTFILES/bin/lang" install python "$PYTHONV" || exit 1
     . "$DOTFILES/bin/lang" fastuse python || exit 1
 fi
 
