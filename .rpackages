@@ -13,3 +13,15 @@ rgl
 ggplot2
 memisc
 actuar
+KernSmooth
+VGAM
+EnvStats
+zoo
+goft
+goftest
+nortest
+gofgamma
+flexsurv
+car
+coin
+nonpar
