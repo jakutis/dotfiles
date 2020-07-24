@@ -210,7 +210,7 @@ then
   elif [ "$LANG_LANG" = "r" ]
   then
     mkdir r-build && cd r-build && curl -L "https://cran.r-project.org/src/base/R-${LANG_VERSION%%.*}/R-${LANG_VERSION}.tar.gz" | tar zx && cd "R-${LANG_VERSION}" || exit 1
-    ./configure --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$LANG_VERSION" && make && make install && cd ../.. && rm -rf r-build || exit 1
+    ./configure --with-tcltk --with-tcl-config=/usr/lib/tclConfig.sh --with-tk-config=/usr/lib/tkConfig.sh --without-recommended-packages --enable-R-shlib --prefix="$HOME/opt/r-$LANG_VERSION" && make && make install && cd ../.. && rm -rf r-build || exit 1
     export R_HOME="$HOME/opt/r-$LANG_VERSION"
     export TEXINPUTS="$TEXINPUTS:$R_HOME/lib/R/share/texmf/tex/latex"
     export PATH="$R_HOME/bin:$PATH"
