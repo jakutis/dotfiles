@@ -264,6 +264,35 @@ then
     done
   fi
   echo "install success"
+elif [ "$LANG_COMMAND" = "latest_versions" ]
+then
+  echo "# python"
+  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|uniq || true
+  echo
+
+  echo "# node"
+  curl --silent https://nodejs.org/en/ | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|uniq || true
+  echo
+
+  echo "# scala"
+  curl --silent https://www.scala-lang.org/blog/announcements/|grep -i ' is now available!'|sed -e 's/.*\/news\///'|sed -e 's/".*//' || true
+  echo
+
+  echo "# sbt"
+  curl --silent https://www.scala-sbt.org/download.html|grep https://piccolo.link/sbt-|sed -e 's/.*https:\/\/piccolo.link\/sbt-//'|sed -e 's/\([0-9.]*\)\..*/\1/'|sort --version-sort -r|head -n1
+  echo
+
+  echo "# rust"
+  curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'
+  echo
+
+  echo "# ruby"
+  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'
+  echo
+
+  echo "# r"
+  curl --silent https://www.r-project.org/|grep https://cran.r-project.org/src/base/|sed -e 's/.*R version //'|sed -e 's/ .*//'
+  echo
 elif [ "$LANG_COMMAND" = "versions" ]
 then
   function check {
