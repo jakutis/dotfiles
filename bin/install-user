@@ -15,12 +15,12 @@ fi
 set -o verbose
 set -o xtrace
 
-NODEV="14.5.0"
-PYTHONV="3.8.4"
+NODEV="14.7.0"
+PYTHONV="3.8.5"
 SCALABASEV="2.12"
 SCALAV="${SCALABASEV}.12"
-SBTV="1.3.10"
-RUSTV="1.45.0"
+SBTV="1.3.13"
+RUSTV="1.45.1"
 OPAMV="2.0.7"
 OCAMLV="4.10.0"
 RTAG="R-4-0-2"
