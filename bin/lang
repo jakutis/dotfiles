@@ -194,12 +194,6 @@ then
         cd "$HOME/.nvm" && git pull --rebase && cd - || exit 1
     fi
 
-    if [ -e "$HOME/.nvm/versions/node/v$LANG_VERSION" ]
-    then
-      echo "already installed at $HOME/.nvm/versions/node/v$LANG_VERSION"
-      exit 1
-    fi
-
     source "$HOME/.nvm/nvm.sh" && nvm install "v$LANG_VERSION" && nvm alias default "$LANG_VERSION" && nvm use default || exit 1
 
     for PACKAGE in $(cat "$PACKAGES")
