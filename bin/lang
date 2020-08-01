@@ -282,6 +282,10 @@ then
   curl --silent https://www.scala-sbt.org/download.html|grep https://piccolo.link/sbt-|sed -e 's/.*https:\/\/piccolo.link\/sbt-//'|sed -e 's/\([0-9.]*\)\..*/\1/'|sort --version-sort -r|head -n1
   echo
 
+  echo "# kotlin"
+  curl --verbose https://github.com/JetBrains/kotlin/releases/latest 2>&1 1>/dev/null|grep https://github.com/JetBrains/kotlin/releases/tag/|sed -e 's/.*tag\/v//'
+  echo
+
   echo "# rust"
   curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'
   echo
@@ -292,6 +296,10 @@ then
 
   echo "# r"
   curl --silent https://www.r-project.org/|grep https://cran.r-project.org/src/base/|sed -e 's/.*R version //'|sed -e 's/ .*//'
+  echo
+
+  echo "# go"
+  curl --silent https://golang.org/dl/|grep /dl/go|grep linux-amd64.tar.gz|sed -e 's/.*\/dl\/go//'|sed -e 's/\.linux-amd64\.tar\.gz.*//'|sort --version-sort -r|uniq|head -n 5
   echo
 elif [ "$LANG_COMMAND" = "versions" ]
 then
