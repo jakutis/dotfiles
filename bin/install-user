@@ -504,7 +504,7 @@ fi
 
 if [ "$ENABLE_RUBY" = "yes" ]
 then
-    "$DOTFILES/bin/lang" install ruby "$RUBYV" || exit 1
+    "$DOTFILES/bin/lang" is_installed ruby "$RUBYV" || "$DOTFILES/bin/lang" install ruby "$RUBYV" || exit 1
     . "$DOTFILES/bin/lang" fastuse ruby || exit 1
 fi
 
@@ -833,7 +833,7 @@ fi
 
 if [ "$ENABLE_PYTHON" = "yes" ]
 then
-    "$DOTFILES/bin/lang" install python "$PYTHONV" || exit 1
+    "$DOTFILES/bin/lang" is_installed python "$PYTHONV" || "$DOTFILES/bin/lang" install python "$PYTHONV" || exit 1
     . "$DOTFILES/bin/lang" fastuse python || exit 1
 fi
 

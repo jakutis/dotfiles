@@ -22,6 +22,15 @@ then
     export MY_RUBY_HOME="$HOME/.rvm/rubies/$RUBY_VERSION"
     export PATH="$HOME/.rvm/gems/$RUBY_VERSION/bin:$HOME/.rvm/gems/${RUBY_VERSION}@global/bin:$HOME/.rvm/rubies/$RUBY_VERSION/bin:$HOME/.rvm/bin:$PATH"
   fi
+elif [ "$LANG_COMMAND" = "is_installed" ]
+then
+  if [ "$LANG_LANG" = "ruby" ]
+  then
+    test -e "$HOME/.rvm/rubies/ruby-$LANG_VERSION" || exit 1
+  elif [ "$LANG_LANG" = "python" ]
+  then
+    test -e "$HOME/.pyenv/versions/$LANG_VERSION" || exit 1
+  fi
 elif [ "$LANG_COMMAND" = "use" ]
 then
   if [ "$LANG_LANG" = "node" ]
