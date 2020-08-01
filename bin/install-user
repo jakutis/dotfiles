@@ -265,7 +265,6 @@ ln -nsf "$DOTFILES/.i3status.conf" ".i3status.conf"
 ln -nsf "$DOTFILES/.xinitrc" ".xinitrc"
 ln -nsf "$DOTFILES/.Xmodmap.$MACHINE" ".Xmodmap"
 ln -nsf "$DOTFILES/.gitconfig.$MACHINE" ".gitconfig"
-ln -nsf "$DOTFILES/.config/awesome.$MACHINE" "$XDG_CONFIG_HOME/awesome"
 ln -nsf "$DOTFILES/.config/i3" "$XDG_CONFIG_HOME/i3"
 ln -nsf "$DOTFILES/.config/fontconfig" "$XDG_CONFIG_HOME/fontconfig"
 mkdir --parents .mc

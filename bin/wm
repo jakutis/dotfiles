@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-CMD="$1"
-
-if [ "$CMD" = "maximize_all_in_current_tag" ]
-then
-  echo 'local awful = require("awful"); for _, c in ipairs(client.get()) do; if c.first_tag == awful.tag.selected(1) then; c.maximized = true; end; end;' | awesome-client
-fi

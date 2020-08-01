@@ -1,8 +1,8 @@
 - download and install fedora core minimal
-- install awesome
+- install i3
 - install xorg-x11-server-Xorg
 - install xdm
-- run awesome
+- run i3
 - install git
 - copy .ssh folder
 - git clone git@jakut.is:DOTFILES repos/git/dotfiles
