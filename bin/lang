@@ -1,8 +1,45 @@
 #!/usr/bin/env bash
 
+SELF="$0"
 LANG_COMMAND="$1"
 LANG_LANG="$2"
 LANG_VERSION="$3"
+
+function latest_version_python {
+  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|uniq || true
+}
+
+function latest_version_node {
+  curl --silent https://nodejs.org/en/ | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|uniq || true
+}
+
+function latest_version_scala {
+  curl --silent https://www.scala-lang.org/blog/announcements/|grep -i ' is now available!'|sed -e 's/.*\/news\///'|sed -e 's/".*//' || true
+}
+
+#  function latest_version_sbt {
+#    curl --silent https://www.scala-sbt.org/download.html|grep https://piccolo.link/sbt-|sed -e 's/.*https:\/\/piccolo.link\/sbt-//'|sed -e 's/\([0-9.]*\)\..*/\1/'|sort --version-sort -r|head -n1
+#  }
+
+function latest_version_kotlin {
+  curl --verbose https://github.com/JetBrains/kotlin/releases/latest 2>&1 1>/dev/null|grep https://github.com/JetBrains/kotlin/releases/tag/|sed -e 's/.*tag\/v//'
+}
+
+function latest_version_rust {
+  curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'
+}
+
+function latest_version_ruby {
+  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'
+}
+
+function latest_version_r {
+  curl --silent https://www.r-project.org/|grep https://cran.r-project.org/src/base/|sed -e 's/.*R version //'|sed -e 's/ .*//'
+}
+
+function latest_version_go {
+  curl --silent https://golang.org/dl/|grep /dl/go|grep linux-amd64.tar.gz|sed -e 's/.*\/dl\/go//'|sed -e 's/\.linux-amd64\.tar\.gz.*//'|sort --version-sort -r|uniq|head -n 5
+}
 
 if [ "$LANG_COMMAND" = "fastuse" ]
 then
@@ -22,14 +59,105 @@ then
     export MY_RUBY_HOME="$HOME/.rvm/rubies/$RUBY_VERSION"
     export PATH="$HOME/.rvm/gems/$RUBY_VERSION/bin:$HOME/.rvm/gems/${RUBY_VERSION}@global/bin:$HOME/.rvm/rubies/$RUBY_VERSION/bin:$HOME/.rvm/bin:$PATH"
   fi
+elif [ "$LANG_COMMAND" = "upgrade" ]
+then
+  function upgrade {
+    LATEST_INSTALLED="$("$SELF" installed_versions "$1")"
+    if [ "$?" != "0" ]
+    then
+      echo "Upgrading $1 is not supported (installed_versions command not supported)"
+      return 1
+    fi
+
+    LATEST_INSTALLED="$(echo "$LATEST_INSTALLED" | sort --version-sort --reverse | head -n 1)"
+    if [ -z "$LATEST_INSTALLED" ]
+    then
+      echo "Nothing to upgrade, $1 is not installed"
+      return 1
+    fi
+
+    LATEST_AVAILABLE="$("latest_version_$1" 2>&1)"
+    if [ "$?" != "0" ]
+    then
+      echo "Upgrading $1 is not supported (latest_versions command not supported)"
+      return 1
+    fi
+
+    LATEST_AVAILABLE="$(echo "$LATEST_AVAILABLE" | sort --version-sort --reverse | head -n 1)"
+    if [ "$LATEST_AVAILABLE" = "$LATEST_INSTALLED" ]
+    then
+      echo "No need to upgrade $1, already latest: $LATEST_AVAILABLE"
+      return 0
+    fi
+    "$SELF" install "$1" "$LATEST_AVAILABLE" || exit 1
+  }
+  if [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
+  then
+    upgrade ruby
+    upgrade r
+    upgrade node
+    upgrade python
+  else
+    upgrade "$LANG_LANG"
+  fi
 elif [ "$LANG_COMMAND" = "is_installed" ]
+then
+  if [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
+  then
+    echo "Error: language name not provided"
+    exit 2
+  else
+    VERSIONS="$("$SELF" installed_versions "$LANG_LANG")"
+    CODE="$?"
+    if [ "$CODE" = "0" ]
+    then
+      echo "$VERSIONS" | while read V
+      do
+        if [ "$V" = "$LANG_VERSION" ]
+        then
+          exit 1
+        fi
+      done
+      CODE="$?"
+      if [ "$CODE" = "0" ]
+      then
+        echo "Not installed"
+        exit 1
+      else
+        echo "Installed"
+        exit 0
+      fi
+    else
+      exit "$CODE"
+    fi
+  fi
+elif [ "$LANG_COMMAND" = "installed_versions" ]
 then
   if [ "$LANG_LANG" = "ruby" ]
   then
-    test -e "$HOME/.rvm/rubies/ruby-$LANG_VERSION" || exit 1
+    ls "$HOME/.rvm/rubies/"|grep -v default|sed -e 's/^ruby-//'
   elif [ "$LANG_LANG" = "python" ]
   then
-    test -e "$HOME/.pyenv/versions/$LANG_VERSION" || exit 1
+    ls "$HOME/.pyenv/versions"
+  elif [ "$LANG_LANG" = "node" ]
+  then
+    ls "$HOME/.nvm/versions/node" | sed -e 's/^v//'
+  elif [ "$LANG_LANG" = "r" ]
+  then
+    ls "$HOME/opt" | grep "^r-" | sed -e 's/^r-//'
+  elif [ "$LANG_LANG" = "erlang" ]
+  then
+    ls "$HOME/opt" | grep "^erlang-" | sed -e 's/^erlang-//'
+  elif [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
+  then
+    for L in ruby python node erlang r
+    do
+      echo "# $L"
+      "$SELF" installed_versions "$L"
+      echo
+    done
+  else
+    exit 2
   fi
 elif [ "$LANG_COMMAND" = "use" ]
 then
@@ -275,41 +403,25 @@ then
   echo "install success"
 elif [ "$LANG_COMMAND" = "latest_versions" ]
 then
-  echo "# python"
-  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|uniq || true
-  echo
+  function latest_version {
+    echo "# $1"
+    "latest_version_$1"
+    echo
+  }
 
-  echo "# node"
-  curl --silent https://nodejs.org/en/ | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|uniq || true
-  echo
-
-  echo "# scala"
-  curl --silent https://www.scala-lang.org/blog/announcements/|grep -i ' is now available!'|sed -e 's/.*\/news\///'|sed -e 's/".*//' || true
-  echo
-
-  echo "# sbt"
-  curl --silent https://www.scala-sbt.org/download.html|grep https://piccolo.link/sbt-|sed -e 's/.*https:\/\/piccolo.link\/sbt-//'|sed -e 's/\([0-9.]*\)\..*/\1/'|sort --version-sort -r|head -n1
-  echo
-
-  echo "# kotlin"
-  curl --verbose https://github.com/JetBrains/kotlin/releases/latest 2>&1 1>/dev/null|grep https://github.com/JetBrains/kotlin/releases/tag/|sed -e 's/.*tag\/v//'
-  echo
-
-  echo "# rust"
-  curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'
-  echo
-
-  echo "# ruby"
-  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'
-  echo
-
-  echo "# r"
-  curl --silent https://www.r-project.org/|grep https://cran.r-project.org/src/base/|sed -e 's/.*R version //'|sed -e 's/ .*//'
-  echo
-
-  echo "# go"
-  curl --silent https://golang.org/dl/|grep /dl/go|grep linux-amd64.tar.gz|sed -e 's/.*\/dl\/go//'|sed -e 's/\.linux-amd64\.tar\.gz.*//'|sort --version-sort -r|uniq|head -n 5
-  echo
+  if [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
+  then
+    latest_version "go"
+    latest_version "r"
+    latest_version "ruby"
+    latest_version "node"
+    latest_version "python"
+    latest_version "kotlin"
+    latest_version "scala"
+    latest_version "rust"
+  else
+    latest_version "$LANG_LANG"
+  fi
 elif [ "$LANG_COMMAND" = "versions" ]
 then
   function check {
