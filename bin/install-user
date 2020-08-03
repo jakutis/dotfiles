@@ -257,7 +257,7 @@ ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
 
 touch .xbindkeys.noauto
-for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .gopackages .rpackages .nodepackages .rubypackages .pythonpackages .screenrc .xinitrc .xsession .asoundrc .tidyrc
+for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .gopackages .javapackages .rpackages .nodepackages .rubypackages .pythonpackages .screenrc .xinitrc .xsession .asoundrc .tidyrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
