@@ -17,6 +17,10 @@ function latest_version_scala {
   curl --silent https://www.scala-lang.org/blog/announcements/|grep -i ' is now available!'|sed -e 's/.*\/news\///'|sed -e 's/".*//' || true
 }
 
+function latest_version_java {
+  curl --silent https://www.oracle.com/java/technologies/|grep 'javase-downloads.html\#'|sed -e 's/.*Java SE //'|sed -e 's/[^.0-9u].*//'
+}
+
 #  function latest_version_sbt {
 #    curl --silent https://www.scala-sbt.org/download.html|grep https://piccolo.link/sbt-|sed -e 's/.*https:\/\/piccolo.link\/sbt-//'|sed -e 's/\([0-9.]*\)\..*/\1/'|sort --version-sort -r|head -n1
 #  }
@@ -97,6 +101,7 @@ then
     upgrade r
     upgrade node
     upgrade python
+    upgrade java
   else
     upgrade "$LANG_LANG"
   fi
@@ -145,12 +150,15 @@ then
   elif [ "$LANG_LANG" = "r" ]
   then
     ls "$HOME/opt" | grep "^r-" | sed -e 's/^r-//'
+  elif [ "$LANG_LANG" = "java" ]
+  then
+    ls "$HOME/opt" | grep "^jdk-" | sed -e 's/^jdk-//'
   elif [ "$LANG_LANG" = "erlang" ]
   then
     ls "$HOME/opt" | grep "^erlang-" | sed -e 's/^erlang-//'
   elif [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
   then
-    for L in ruby python node erlang r
+    for L in ruby python node erlang r java
     do
       echo "# $L"
       "$SELF" installed_versions "$L"
@@ -338,6 +346,20 @@ then
         echo "Installing $PACKAGE"
         npm install -g $PACKAGE || exit 1
     done
+  elif [ "$LANG_LANG" = "java" ]
+  then
+    TAR="jdk-${LANG_VERSION}_linux-x64_bin.tar.gz"
+    if [ ! -e "$TAR" ]
+    then
+      echo Please place $TAR in $(pwd) and press enter
+      read
+    fi
+    if [ ! -e "$TAR" ]
+    then
+      echo Error: cannot find $TAR in $(pwd)
+      exit 1
+    fi
+    tar xzvf "$TAR" && mv "jdk-$LANG_VERSION" "$HOME/opt" || exit 1
   elif [ "$LANG_LANG" = "r" ]
   then
     mkdir r-build && cd r-build && curl -L "https://cran.r-project.org/src/base/R-${LANG_VERSION%%.*}/R-${LANG_VERSION}.tar.gz" | tar zx && cd "R-${LANG_VERSION}" || exit 1
@@ -414,6 +436,7 @@ then
     latest_version "go"
     latest_version "r"
     latest_version "ruby"
+    latest_version "java"
     latest_version "node"
     latest_version "python"
     latest_version "kotlin"
