@@ -7,6 +7,7 @@
 [user]
     name = Vytautas Jakutis
     email = jakutis@wix.com
+    signingkey = 36A21E5702AE64A0
 
 [alias]
     fin = "!sh -c 'git stash -k && git ci -va && git pull --rebase && git p && git stash pop'"
