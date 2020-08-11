@@ -110,11 +110,7 @@ fi
 
 if [ "$COMMAND" = "send" ]
 then
-  WHAT="$ORIGINAL_DIR/$2"
-  if [ -z "$WHAT" ]
-  then
-    WHAT="."
-  fi
+  WHAT="$ORIGINAL_DIR/${2}"
   dav_download "done" | execute_done || exit 1
 
   echo "sending updates"
@@ -138,6 +134,19 @@ then
       dav_upload "$FILE" "$FILE" || exit 1
     fi
   done || exit 1
+elif [ "$COMMAND" = "receive" ]
+then
+  FULL_PATH="$(realpath "$ORIGINAL_DIR/${2}")"
+  ROOT_DIR="$(pwd)"
+  RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
+  echo "receiving $RELATIVE_PATH"
+  SIZE=$(custom_curl -I --request HEAD "$(full_url "$RELATIVE_PATH")" | grep -i Content-Length|sed -e 's/.*Content-Length: \([0-9]*\).*/\1/g')
+  if [ -z "$SIZE" ]
+  then
+    echo "error: file not found" 1>&2
+    exit 1
+  fi
+  custom_curl --request GET "$(full_url "$RELATIVE_PATH")" | pv --size "$SIZE" > "$RELATIVE_PATH" || exit 1
 elif [ "$COMMAND" = "mkdir" ]
 then
   DOLOCALLY="$2"
