@@ -35,6 +35,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-rhubarb'
 Plug 'bogado/file-line'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 " master keys
