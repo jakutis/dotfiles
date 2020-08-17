@@ -110,12 +110,9 @@ function screens {
         xrandr --output "$SCREEN" --off
       done
 
-      "$DOTFILES/screens/only" "$NEXT"
-      set-background
-      exit
-    fi
-
-    if [ -f "$DOTFILES/screens/$CFG" ]
+      CFG="only"
+      SCREENS="$NEXT"
+    elif [ -f "$DOTFILES/screens/$CFG" ]
     then
         SCREENS="$@"
         if [ "$SCREENS" = "FIRST" ]
@@ -148,9 +145,6 @@ function screens {
             xrandr --output "$SCREEN" --off
           fi
         done
-
-        "$DOTFILES/screens/$CFG" $SCREENS
-        set-background
     else
         echo "Configuration is not a preset, parsing the definition"
         echo "Existing presets are:" 1>&2
@@ -158,6 +152,8 @@ function screens {
         exit 1
     fi
 
+    "$DOTFILES/screens/$CFG" $SCREENS
+    set-background
     xset s off
     xset s noblank
     xset s 300
