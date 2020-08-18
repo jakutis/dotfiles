@@ -228,12 +228,12 @@ set incsearch
 nnoremap <CR> :noh<CR><CR>
 
 " window navigation
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-nnoremap <C-q> <C-w>t
-nnoremap <C-e> <C-w>b
+nnoremap <C-j> <C-w>j<C-w>_
+nnoremap <C-k> <C-w>k<C-w>_
+nnoremap <C-h> <C-w>h<C-w>_
+nnoremap <C-l> <C-w>l<C-w>_
+nnoremap <C-q> <C-w>t<C-w>_
+nnoremap <C-e> <C-w>b<C-w>_
 
 " deoplete
 set pyxversion=3
