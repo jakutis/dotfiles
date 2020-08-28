@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+systemctl restart xdm
 if [ -n "$(cat /proc/acpi/wakeup | grep LID | grep enabled)" ]
 then
   echo LID > /proc/acpi/wakeup
@@ -13,5 +14,4 @@ fi
 chmod a+w /home/jakutis/.config/dotfiles/brightness/brightness
 chmod a+w /home/jakutis/.config/dotfiles/keyboard/brightness
 
-bash -c "while [ ! -e /dev/tty7 ]; do sleep 0.2; done; chmod g+r /dev/tty7 && su --login --command 'startx -- vt7' jakutis" 1>/dev/null 2>&1 &
 XDG_DATA_HOME=/home/jakutis/.local/share XDG_CONFIG_HOME=/home/jakutis/.config /home/jakutis/bin/system net client-wifi
