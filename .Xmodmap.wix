@@ -9,25 +9,25 @@ clear mod1
 clear mod4
 clear mod5
 
-!!keycode 9 = Escape
-!keycode 9 = Super_L
-!!keycode 66 = Caps_Lock
-!keycode 66 = Escape
-!!keycode 37 = Control_L
-!keycode 37 = Caps_Lock
 !!keycode 105 = Control_R
 !keycode 105 = ISO_Level3_Shift
 !!keycode 133 = Super_L
 !keycode 133 = Alt_L
-!!keycode 64 = Alt_L
-!keycode 64 = Control_L
 !keycode 94 = Control_L
 !!keycode 134 = Super_R
 !keycode 134 = ISO_Level3_Shift
-!keycode 108 = Alt_R
-keycode 108 = ISO_Level3_Shift
 !keycode 135 = Menu
 !keycode 135 = Insert
+!keycode 108 = Alt_R
+keycode 108 = ISO_Level3_Shift
+!keycode 64 = Alt_L
+keycode 64 = Control_L
+!keycode 37 = Control_L
+keycode 37 = Alt_L
+!keycode 9 = Escape
+keycode 9 = Caps_Lock
+!keycode 66 = Caps_Lock
+keycode 66 = Escape
 
 add lock = Caps_Lock
 add control = Control_L
