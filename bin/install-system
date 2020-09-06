@@ -15,7 +15,8 @@ then
   exit 1
 fi
 MAIN_USER="$1"
-XDG_CONFIG_HOME="$(eval echo ~$MAIN_USER)/.config"
+MAIN_HOME="$(eval echo ~$MAIN_USER)"
+XDG_CONFIG_HOME="$MAIN_HOME/.config"
 
 PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
@@ -119,14 +120,11 @@ then
     exit 1
 fi
 
-if [ "$MACHINE" != "server" ]
-then
-    ln -nsf "$DOTFILES/modprobe.conf" "/etc/modprobe.d/jakutis.conf" || exit 1
-    ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
-    ln -nsf "$DOTFILES/udev.rules" "/etc/udev/rules.d/10-jakutis.rules" || exit 1
-    ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
-    "$DOTFILES/bin/disable-services" || exit 1
-fi
+ln -nsf "$DOTFILES/modprobe.conf" "/etc/modprobe.d/jakutis.conf" || exit 1
+ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
+echo 'ACTION=="add", SUBSYSTEM=="block", RUN+="'$MAIN_HOME'/bin/udevmount"' > "/etc/udev/rules.d/10-jakutis.rules" || exit 1
+ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
+"$DOTFILES/bin/disable-services" || exit 1
 
 VARIA="$(cat "$XDG_CONFIG_HOME/dotfiles/varia")"
 if [ -z "$VARIA" ]
