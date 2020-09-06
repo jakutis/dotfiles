@@ -207,12 +207,12 @@ cd .config
 ln -nsf "$DOTFILES/mimeapps.list"
 cd ..
 
+mkdir --parents ".bin"
 mkdir --parents "opt"
+mkdir --parents "Desktop"
 
 mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.db"
 mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
-
-mkdir --parents ".bin"
 
 if [ "$ENABLE_NEWSBOAT" = "yes" ]
 then
