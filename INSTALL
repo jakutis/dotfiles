@@ -13,7 +13,6 @@
 - echo /home/jakutis/repos/git/dotfiles > .config/dotfiles/dotfiles
 - ln -s /sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:19/PNP0C09:00/PNP0C0A:00/power_supply/BAT0 .config/dotfiles/battery
 - echo wix > .config/dotfiles/machine
-- echo firefox > .config/dotfiles/browser
 
 - su -
 - XDG_CONFIG_HOME=/home/jakutis/.config ./repos/git/dotfiles/bin/install-system 

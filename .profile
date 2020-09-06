@@ -34,7 +34,7 @@ export _JAVA_AWT_WM_NONREPARENTING="1"
 export VAGRANT_INSTALLER_ENV="1"
 export ACLOCAL_PATH="/usr/share/aclocal"
 
-export BROWSER="$(cat "$XDG_CONFIG_HOME/dotfiles/browser")"
+export BROWSER="www"
 export EDITOR="vim"
 
 export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
