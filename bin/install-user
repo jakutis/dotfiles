@@ -8,6 +8,8 @@ MAIN_HOME="$(eval echo ~$MAIN_USER)"
 XDG_CONFIG_HOME="$MAIN_HOME/.config"
 XDG_DATA_HOME="$MAIN_HOME/.local/share"
 
+ENABLE_VIM="yes"
+
 NODEV="14.7.0"
 PYTHONV="3.8.5"
 SCALABASEV="2.12"
