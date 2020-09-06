@@ -214,11 +214,6 @@ mkdir --parents "$XDG_CONFIG_HOME/dotfiles/minidlna.log"
 
 mkdir --parents ".bin"
 
-if [ ! -e ".tmux/plugins/tpm" ]
-then
-  git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm && .tmux/plugins/tpm/bin/install_plugins || exit 1
-fi
-
 if [ "$ENABLE_NEWSBOAT" = "yes" ]
 then
   pushd .
@@ -719,7 +714,7 @@ then
     rm -rf "libevent-$LIBEVENTV-stable"
 fi
 
-if [ "$ENABLE_TMUX" = "yes" -a ! -e "opt/tmux-$TMUXV" ]
+if [ ! -e "opt/tmux-$TMUXV" ]
 then
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUXV}/tmux-${TMUXV}.tar.gz" | tar zxf -
     cd "tmux-$TMUXV"
@@ -733,7 +728,7 @@ then
     cd ..
     if [ ! -e ".tmux" ]
     then
-        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins || exit 1
     fi
 fi
 
