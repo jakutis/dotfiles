@@ -62,7 +62,7 @@ then
     if [ -z "$(grep docker /etc/apt/sources.list)" ]
     then
         wget --quiet --output-document=- https://download.docker.com/linux/debian/gpg | apt-key add - || exit 1
-        echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" >> /etc/apt/sources.list
+        echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable" >> /etc/apt/sources.list
     fi
 
     "$APTGET" update && "$APTGET" upgrade -y || exit 1
