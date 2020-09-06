@@ -77,7 +77,12 @@ then
     if [ -z "$LATEST_INSTALLED" ]
     then
       echo "Nothing to upgrade, $1 is not installed"
-      return 1
+      if [ "$IGNORE_NOT_INSTALLED" == "yes" ]
+      then
+        return 0
+      else
+        return 1
+      fi
     fi
 
     LATEST_AVAILABLE="$("latest_version_$1" 2>&1)"
@@ -93,15 +98,17 @@ then
       echo "No need to upgrade $1, already latest: $LATEST_AVAILABLE"
       return 0
     fi
+
+    echo "Upgrading $1 to $LATEST_AVAILABLE"
     "$SELF" install "$1" "$LATEST_AVAILABLE" || exit 1
   }
   if [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
   then
-    upgrade ruby
-    upgrade r
-    upgrade node
-    upgrade python
-    upgrade java
+    IGNORE_NOT_INSTALLED=yes upgrade ruby
+    IGNORE_NOT_INSTALLED=yes upgrade r
+    IGNORE_NOT_INSTALLED=yes upgrade node
+    IGNORE_NOT_INSTALLED=yes upgrade python
+    IGNORE_NOT_INSTALLED=yes upgrade java
   else
     upgrade "$LANG_LANG"
   fi
