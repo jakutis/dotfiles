@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 systemctl restart xdm
+
 if [ -n "$(cat /proc/acpi/wakeup | grep LID | grep enabled)" ]
 then
   echo LID > /proc/acpi/wakeup
@@ -14,4 +15,7 @@ fi
 chmod a+w /home/jakutis/.config/dotfiles/brightness/brightness
 chmod a+w /home/jakutis/.config/dotfiles/keyboard/brightness
 
-XDG_DATA_HOME=/home/jakutis/.local/share XDG_CONFIG_HOME=/home/jakutis/.config /home/jakutis/bin/system net client-wifi
+if [ "$(cat /etc/hostname)" = "laptop" ]
+then
+  XDG_DATA_HOME=/home/jakutis/.local/share XDG_CONFIG_HOME=/home/jakutis/.config /home/jakutis/bin/system net client-wifi
+fi
