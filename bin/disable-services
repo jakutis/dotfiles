@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for SRV in NetworkManager ejabberd pcscd bluetooth wpa_supplicant dbus uuidd ssh sshd ModemManager mysql apache3 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd ocserv epmd iio-sensor-proxy unattended-upgrades docker containerd avahi-daemon packagekit polkit xdm
+for SRV in NetworkManager ejabberd pcscd wpa_supplicant dbus uuidd ssh sshd ModemManager mysql apache3 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd ocserv epmd iio-sensor-proxy unattended-upgrades docker containerd avahi-daemon packagekit polkit
 do
   systemctl disable $SRV && systemctl stop $SRV
 done
