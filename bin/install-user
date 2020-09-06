@@ -8,8 +8,6 @@ MAIN_HOME="$(eval echo ~$MAIN_USER)"
 XDG_CONFIG_HOME="$MAIN_HOME/.config"
 XDG_DATA_HOME="$MAIN_HOME/.local/share"
 
-ENABLE_VIM="yes"
-
 NODEV="$(lang latest_version node)" || exit 1
 PYTHONV="$(lang latest_version python)" || exit 1
 SCALAV="$(lang latest_version scala)" || exit 1
@@ -135,17 +133,6 @@ fi
 if [ "$ENABLE_NEWSBOAT" = "yes" ]
 then
     ENABLE_RUST="yes"
-fi
-
-if [ "$ENABLE_GITSH" = "yes" ]
-then
-    ENABLE_RUBY="yes"
-fi
-
-if [ "$ENABLE_VIM" = "yes" ]
-then
-    ENABLE_PYTHON="yes"
-    ENABLE_RUBY="yes"
 fi
 
 if [ "$ENABLE_UPPLAY" = "yes" ]
@@ -491,12 +478,6 @@ then
     cd graphicsmagick-build && ./configure --with-png --with-x --with-zlib --with-xml --with-wmf --with-ttf --with-trio --with-tiff --with-lzma --with-lcms2 --without-lcms --with-jp2 --with-jpeg --without-webp --with-jbig --with-gslib --without-fpx --without-dps --with-bzlib --with-quantum-depth=8 --with-modules --with-threads --enable-magick-compat --enable-openmp --prefix="$HOME/opt/graphicsmagick-$GRAPHICSMAGICKV" && make && make install && cd .. && rm -rf graphicsmagick-build || exit 1
 fi
 
-if [ "$ENABLE_RUBY" = "yes" ]
-then
-    "$DOTFILES/bin/lang" is_installed ruby "$RUBYV" || "$DOTFILES/bin/lang" install ruby "$RUBYV" || exit 1
-    . "$DOTFILES/bin/lang" fastuse ruby || exit 1
-fi
-
 if [ "$ENABLE_GO" = "yes" ]
 then
     if ! [ -e "$GVM_ROOT" ]
@@ -820,12 +801,6 @@ then
     fi
 fi
 
-if [ "$ENABLE_PYTHON" = "yes" ]
-then
-    "$DOTFILES/bin/lang" is_installed python "$PYTHONV" || "$DOTFILES/bin/lang" install python "$PYTHONV" || exit 1
-    . "$DOTFILES/bin/lang" fastuse python || exit 1
-fi
-
 if [ "$ENABLE_RUST" = "yes" ]
 then
     if ! [ -e ".cargo" ]
@@ -901,49 +876,37 @@ then
     fi
 fi
 
-if [ "$ENABLE_VIM" = "yes" ]
+mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
+ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
+
+if [ ! -e "opt/vim-$VIMV" ]
 then
-  if [ "0" = "1" -a ! -e "opt/neovim-$NEOVIMV" ]
-  then
-      ensure_git neovim https://github.com/neovim/neovim || exit 1
-      (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "$NEOVIMCOMMIT") | tar xf - || exit 1
-      cd "neovim-build" && make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim-$NEOVIMV" && make install && cd .. && rm -rf neovim-build || exit 1
-      cd .bin || exit 1
-      rm -f vi && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vi || exit 1
-      rm -f vim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" vim || exit 1
-      rm -f nvim && ln -s "../opt/neovim-$NEOVIMV/bin/nvim" nvim || exit 1
-      rm -f vimdiff && echo 'nvim -d "$@"' > vimdiff && chmod +x vimdiff || exit 1
-      cd .. || exit 1
-  fi
+  (
+    "$DOTFILES/bin/lang" is_installed ruby "$RUBYV" || "$DOTFILES/bin/lang" install ruby "$RUBYV" || exit 1
+    . "$DOTFILES/bin/lang" use ruby || exit 1
+    "$DOTFILES/bin/lang" is_installed python "$PYTHONV" || "$DOTFILES/bin/lang" install python "$PYTHONV" || exit 1
+    . "$DOTFILES/bin/lang" use python || exit 1
+    ensure_git vim https://github.com/vim/vim || exit 1
+    (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
+    cd "vim-build" || exit 1
+    ./configure \
+      --enable-multibyte \
+      --enable-pythoninterp=no \
+      --enable-python3interp=yes \
+      --enable-rubyinterp=yes \
+      --with-python3-config-dir=$(python3-config --configdir) \
+      --with-features=huge \
+      --enable-cscope \
+      --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
+    cd .. && rm -rf vim-build || exit 1
+    cd "$HOME/opt" && ln -nsf "vim-$VIMV" "vim" && cd .. || exit 1
+  ) || exit 1
+fi
 
-  if [ ! -e "opt/vim-$VIMV" ]
-  then
-      ensure_git vim https://github.com/vim/vim || exit 1
-      (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
-      cd "vim-build" || exit 1
-      ./configure \
-        --enable-multibyte \
-        --enable-pythoninterp=no \
-        --enable-python3interp=yes \
-        --enable-rubyinterp=yes \
-        --with-python3-config-dir=$(python3-config --configdir) \
-        --with-features=huge \
-        --enable-cscope \
-        --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
-      cd .. && rm -rf vim-build || exit 1
-      cd "$HOME/opt" && ln -nsf "vim-$VIMV" "vim" && cd .. || exit 1
-  fi
-
-  mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
-  ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
-
-  if [ ! -e ".vim" ]
-  then
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
-    ln -nsf "$DOTFILES/.vimrc" .vim/init.vim || exit 1
-    ln -nsf "$(pwd)/.vim" "$XDG_CONFIG_HOME/nvim" || exit 1
-  fi
-  vim +PlugUpdate +qall || exit 1
+if [ ! -e ".vim" ]
+then
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
+  "$DOTFILES/bin/vim" +PlugUpdate +qall || exit 1
 fi
 
 if [ "$ENABLE_EMACS" = "yes" -a ! -e "opt/emacs-$EMACSV" ]
@@ -1199,11 +1162,15 @@ fi
 
 if [ "$ENABLE_GITSH" = "yes" -a ! -e "opt/gitsh-$GITSHV" ]
 then
+  (
+    "$DOTFILES/bin/lang" is_installed ruby "$RUBYV" || "$DOTFILES/bin/lang" install ruby "$RUBYV" || exit 1
+    . "$DOTFILES/bin/lang" use ruby || exit 1
     ensure_git gitsh https://github.com/thoughtbot/gitsh || exit 1
     (cd "repos/git/gitsh" && git archive --format=tar --prefix=gitsh-build/ "v$GITSHV") | tar xf - || exit 1
     cd gitsh-build && bundle install --path vendor/bundle && ./autogen.sh && RUBY="$(which ruby)" ./configure --prefix="$HOME/opt/gitsh-$GITSHV" && make && make install && cd .. && rm -rf gitsh-build || exit 1
     cd opt && ln -nsf "gitsh-${GITSHV}" "gitsh" && cd .. || exit 1
     cd .bin && ln -nsf "../opt/gitsh/bin/gitsh" && cd .. || exit 1
+  ) || exit 1
 fi
 
 if [ "$ENABLE_PDFLIB" = "yes" -a ! -e "opt/pdflib-lite-$PDFLIBV" ]
