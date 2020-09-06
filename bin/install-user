@@ -1,19 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -z "$XDG_CONFIG_HOME" ]
-then
-  echo "Please set XDG_CONFIG_HOME environment variable" 1>&2
-  exit 1
-fi
-
-if [ -z "$XDG_DATA_HOME" ]
-then
-  echo "Please set XDG_DATA_HOME environment variable" 1>&2
-  exit 1
-fi
-
 set -o verbose
 set -o xtrace
+
+MAIN_USER="$(whoami)"
+MAIN_HOME="$(eval echo ~$MAIN_USER)"
+XDG_CONFIG_HOME="$MAIN_HOME/.config"
+XDG_DATA_HOME="$MAIN_HOME/.local/share"
 
 NODEV="14.7.0"
 PYTHONV="3.8.5"
