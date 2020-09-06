@@ -424,6 +424,7 @@ then
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)" && pyenv install "$LANG_VERSION" && pyenv global "$LANG_VERSION" && pyenv shell "$(pyenv global)" || exit 1
 
+    pip install --upgrade pip || exit 1
     for PACKAGE in $(cat "$PACKAGES")
     do
         echo "Installing $PACKAGE"
