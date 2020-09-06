@@ -6,19 +6,19 @@ LANG_LANG="$2"
 LANG_VERSION="$3"
 
 function latest_version_python {
-  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|uniq || true
+  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
 }
 
 function latest_version_node {
-  curl --silent https://nodejs.org/en/ | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|uniq || true
+  curl --silent https://nodejs.org/en/ | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
 }
 
 function latest_version_scala {
-  curl --silent https://www.scala-lang.org/blog/announcements/|grep -i ' is now available!'|sed -e 's/.*\/news\///'|sed -e 's/".*//' || true
+  curl --silent https://www.scala-lang.org/blog/announcements/|grep -i ' is now available!'|sed -e 's/.*\/news\///'|sed -e 's/".*//'|sort --reverse --version-sort || true
 }
 
 function latest_version_java {
-  curl --silent https://www.oracle.com/java/technologies/|grep 'javase-downloads.html\#'|sed -e 's/.*Java SE //'|sed -e 's/[^.0-9u].*//'
+  curl --silent https://www.oracle.com/java/technologies/|grep 'javase-downloads.html\#'|sed -e 's/.*Java SE //'|sed -e 's/[^.0-9u].*//'|sort --reverse --version-sort
 }
 
 #  function latest_version_sbt {
@@ -26,23 +26,23 @@ function latest_version_java {
 #  }
 
 function latest_version_kotlin {
-  curl --verbose https://github.com/JetBrains/kotlin/releases/latest 2>&1 1>/dev/null|grep https://github.com/JetBrains/kotlin/releases/tag/|sed -e 's/.*tag\/v//'
+  curl --verbose https://github.com/JetBrains/kotlin/releases/latest 2>&1 1>/dev/null|grep https://github.com/JetBrains/kotlin/releases/tag/|sed -e 's/.*tag\/v//'|sort --reverse --version-sort
 }
 
 function latest_version_rust {
-  curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'
+  curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'|sort --reverse --version-sort
 }
 
 function latest_version_ruby {
-  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'
+  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'|sort --reverse --version-sort
 }
 
 function latest_version_r {
-  curl --silent https://www.r-project.org/|grep https://cran.r-project.org/src/base/|sed -e 's/.*R version //'|sed -e 's/ .*//'
+  curl --silent https://www.r-project.org/|grep https://cran.r-project.org/src/base/|sed -e 's/.*R version //'|sed -e 's/ .*//'|sort --reverse --version-sort
 }
 
 function latest_version_go {
-  curl --silent https://golang.org/dl/|grep /dl/go|grep linux-amd64.tar.gz|sed -e 's/.*\/dl\/go//'|sed -e 's/\.linux-amd64\.tar\.gz.*//'|sort --version-sort -r|uniq|head -n 5
+  curl --silent https://golang.org/dl/|grep /dl/go|grep linux-amd64.tar.gz|sed -e 's/.*\/dl\/go//'|sed -e 's/\.linux-amd64\.tar\.gz.*//'|sort --reverse --version-sort|uniq|head -n 5
 }
 
 if [ "$LANG_COMMAND" = "fastuse" ]
@@ -430,6 +430,9 @@ then
     done
   fi
   echo "install success"
+elif [ "$LANG_COMMAND" = "latest_version" ]
+then
+  "latest_version_$LANG_LANG"|head -n 1
 elif [ "$LANG_COMMAND" = "latest_versions" ]
 then
   function latest_version {
