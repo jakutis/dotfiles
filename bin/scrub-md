@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+for f in /sys/block/md*
+do
+    if ! [ -e "$f" ]
+    then
+        # this is the case when no there are no Multiple Device nodes
+        break
+    fi
+    echo 10000 > $f/md/sync_speed_max
+    echo check > $f/md/sync_action
+done
