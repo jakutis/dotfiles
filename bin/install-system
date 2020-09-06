@@ -9,6 +9,14 @@ fi
 set -o verbose
 set -o xtrace
 
+if [ -z "$1" ]
+then
+  echo "Please provide main username as the first argument"
+  exit 1
+fi
+MAIN_USER="$1"
+XDG_CONFIG_HOME="$(eval echo ~$MAIN_USER)/.config"
+
 PACMAN="$(which pacman 2>/dev/null)"
 APTGET="$(which apt-get 2>/dev/null)"
 DNF="$(which dnf 2>/dev/null)"
@@ -91,7 +99,7 @@ else
     exit 1
 fi
 
-gpasswd -a jakutis sudo
+gpasswd -a "$MAIN_USER" sudo
 
 echo "setting up configs"
 
