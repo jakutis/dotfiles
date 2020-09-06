@@ -348,6 +348,7 @@ then
 
     source "$HOME/.nvm/nvm.sh" && nvm install "v$LANG_VERSION" && nvm alias default "$LANG_VERSION" && nvm use default || exit 1
 
+    npm install -g npm || exit 1
     for PACKAGE in $(cat "$PACKAGES")
     do
         echo "Installing $PACKAGE"
