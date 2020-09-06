@@ -10,23 +10,23 @@ XDG_DATA_HOME="$MAIN_HOME/.local/share"
 
 ENABLE_VIM="yes"
 
-NODEV="14.7.0"
-PYTHONV="3.8.5"
-SCALABASEV="2.12"
-SCALAV="${SCALABASEV}.12"
+NODEV="$(lang latest_version node)" || exit 1
+PYTHONV="$(lang latest_version python)" || exit 1
+SCALAV="$(lang latest_version scala)" || exit 1
+SCALABASEV="$(echo "$SCALAV"|cut -d . -f 1-2)" || exit 1
 SBTV="1.3.13"
-RUSTV="1.45.1"
+RUSTV="$(lang latest_version rust)" || exit 1
 OPAMV="2.0.7"
 OCAMLV="4.10.0"
 RTAG="R-4-0-2"
-RV="4.0.2"
-GOV="1.14.6"
-KOTLINV="1.3.72"
+RV="$(lang latest_version r)" || exit 1
+GOV="$(lang latest_version go)" || exit 1
+KOTLINV="$(lang latest_version kotlin)" || exit 1
 GCCV="10.1"
 PHPVS=("7.4.8")
 GHCV="8.8.4"
 ERLANGV="23"
-RUBYV="2.7.1"
+RUBYV="$(lang latest_version ruby)" || exit 1
 
 GITV="2.28.0"
 TMUXV="3.1b"
