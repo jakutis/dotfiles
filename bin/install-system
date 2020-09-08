@@ -84,7 +84,7 @@ then
         wget https://github.com/sharkdp/bat/releases/download/v${BATV}/bat_${BATV}_$(dpkg --print-architecture).deb && dpkg -i bat_${BATV}_$(dpkg --print-architecture).deb && rm bat_${BATV}_$(dpkg --print-architecture).deb || exit 1
     fi
 
-    if dpkg -l devdocs 1>/dev/null 2>&1
+    if ! dpkg -l devdocs 1>/dev/null 2>&1 || [ "$(dpkg -s devdocs | grep '^Version:'|cut -b 10-)" != "$DEVDOCSV" ]
     then
       wget "https://github.com/egoist/devdocs-app/releases/download/v${DEVDOCSV}/DevDocs_${DEVDOCSV}_$(dpkg --print-architecture).deb" && dpkg -i "DevDocs_${DEVDOCSV}_$(dpkg --print-architecture).deb" && rm "DevDocs_${DEVDOCSV}_$(dpkg --print-architecture).deb" || exit 1
     fi
