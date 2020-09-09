@@ -1170,7 +1170,6 @@ then
     (cd "repos/git/gitsh" && git archive --format=tar --prefix=gitsh-build/ "v$GITSHV") | tar xf - || exit 1
     cd gitsh-build && bundle install --path vendor/bundle && ./autogen.sh && RUBY="$(which ruby)" ./configure --prefix="$HOME/opt/gitsh-$GITSHV" && make && make install && cd .. && rm -rf gitsh-build || exit 1
     cd opt && ln -nsf "gitsh-${GITSHV}" "gitsh" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/gitsh/bin/gitsh" && cd .. || exit 1
   ) || exit 1
 fi
 
