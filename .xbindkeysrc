@@ -1,93 +1,98 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
-# Set screen to first only
-"system screens only FIRST"
-  Mod4 + F3
+# TODO mute speakers
 
-# Reset screens to only the first connected
-"system screens"
+# Decrease audio volume
+"volume pulse decrease"
   Mod4 + F2
 
-# Keyboard brightness raise
-"system keyboard more"
-  XF86KbdBrightnessUp
-
-# Keyboard brightness lower
-"system keyboard less"
-  XF86KbdBrightnessDown
-
-# Screen brightness raise
-"system brightness more"
-  XF86MonBrightnessUp
-
-# Screen brightness lower
-"system brightness less"
-  XF86MonBrightnessDown
-
-# Win+F8
-"xclip -o -selection primary|xclip -i -selection clipboard"
-  Mod4 + F8
-
-# Win+PageUp
-"volume pulse increase"
-  Mod4 + Prior
-
-# Audio Raise
-"volume pulse increase"
-  XF86AudioRaiseVolume
-
-# Win+PageDown
-"volume pulse decrease"
-  Mod4 + Next
-
-# Audio Lower
+# Decrease audio volume
 "volume pulse decrease"
   XF86AudioLowerVolume
 
-# Alt+Power
-"system poweroff"
-  Mod1 + XF86PowerOff
+# Increase audio volume
+"volume pulse increase"
+  Mod4 + F3
 
-# Win+Power
-"system suspend"
-  Mod4 + XF86PowerOff
+# Increase audio volume
+"volume pulse increase"
+  XF86AudioRaiseVolume
 
-# Win+End
-"system suspend"
-  Mod4 + End
+# TODO mute microphone
 
-# Win+Home
-"displayoff;xscreensaver-command -lock"
-  Mod4 + Home
+# Decrease screen brightness
+"system brightness less"
+  Mod4 + F5
 
-# Print Screen
-"shot"
-  XF86LaunchA
+# Decrease screen brightness
+"system brightness less"
+  XF86MonBrightnessDown
 
-# Shift+Win+F12
-"shot 2"
-  Shift+Mod4 + F12
+# Increase screen brightness
+"system brightness more"
+  Mod4 + F6
 
-# Win+F12
-"shot"
-  Mod4 + F12
+# Increase screen brightness
+"system brightness more"
+  XF86MonBrightnessUp
 
-# Win+Z
+# Cycle through connected screens
+"system screens"
+  Mod4 + F7
+
+# Cycle through connected screens
+"system screens"
+  XF86Display
+
+# Play previous audio track
 "cmus-remote -C player-prev"
   Mod4 + z
 
-# Win+X
+# Play selected audio track
 "cmus-remote -C player-play"
   Mod4 + x
 
-# Win+C
+# Pause audio track playback
 "cmus-remote -C player-pause"
   Mod4 + c
 
-# Win+V
+# Stop audio track playback
 "cmus-remote -C player-stop"
   Mod4 + v
 
-# Win+B
+# Play next audio track
 "cmus-remote -C player-next"
   Mod4 + b
+
+# Lock screen
+"displayoff;xscreensaver-command -lock"
+  Mod4 + Home
+
+# Suspend
+"system suspend"
+  Mod4 + XF86PowerOff
+
+# Suspend
+"system suspend"
+  Mod4 + End
+
+# Decrease keyboard brightness
+"system keyboard less"
+  XF86KbdBrightnessDown
+
+# Increase keyboard brightness
+"system keyboard more"
+  XF86KbdBrightnessUp
+
+# Use only the first screen
+"system screens only FIRST"
+  Mod4 + F11
+
+# Screenshot
+"shot"
+  Mod4 + F12
+
+# Screenshot with 2 second delay
+"shot 2"
+  Shift+Mod4 + F12
+
