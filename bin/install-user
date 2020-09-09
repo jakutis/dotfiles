@@ -143,11 +143,6 @@ then
     ENABLE_COURSIER="yes"
 fi
 
-if [ "$ENABLE_NEWSBOAT" = "yes" ]
-then
-    ENABLE_RUST="yes"
-fi
-
 if [ "$ENABLE_UPPLAY" = "yes" ]
 then
     ENABLE_LIBUPNPP="yes"
@@ -233,7 +228,7 @@ ln -nsf "$DOTFILES/.elinks/elinks.conf"
 cd ..
 
 touch .xbindkeys.noauto
-for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .gopackages .javapackages .rpackages .nodepackages .rubypackages .pythonpackages .screenrc .xinitrc .xsession .asoundrc .tidyrc
+for RC in bin .bashrc .profile .bash_aliases .jshintrc .jscsrc .hgrc .Xresources .dircolors .inputrc .mailcap .muttrc .xbindkeysrc .vimcustom .rtorrent.rc .tmux.conf .chktexrc .ctags .gopackages .javapackages .rpackages .nodepackages .rustpackages .rubypackages .pythonpackages .screenrc .xinitrc .xsession .asoundrc .tidyrc
 do
     ln -nsf "$DOTFILES/$RC"
 done
@@ -798,17 +793,6 @@ then
         cd ..
         rm -rf "biber-$BIBERV"
     fi
-fi
-
-if [ "$ENABLE_RUST" = "yes" ]
-then
-    if ! [ -e ".cargo" ]
-    then
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --quiet -y --no-modify-path || exit 1
-    else
-        rustup self update || exit 1
-    fi
-    rustup toolchain install "$RUSTV" --allow-downgrade && rustup default "$RUSTV" || exit 1
 fi
 
 if [ "$ENABLE_HASKELL" = "yes" ]

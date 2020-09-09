@@ -432,6 +432,16 @@ then
         echo "Installing $PACKAGE"
         pip install $PACKAGE || exit 1
     done
+  elif [ "$LANG_LANG" = "rust" ]
+  then
+    export PATH="$HOME/.cargo/bin:$PATH"
+    if ! [ -e "$HOME/.cargo" ]
+    then
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --quiet -y --no-modify-path || exit 1
+    else
+        rustup self update || exit 1
+    fi
+    rustup toolchain install "$LANG_VERSION" --allow-downgrade && rustup default "$LANG_VERSION" || exit 1
   fi
   echo "install success"
 elif [ "$LANG_COMMAND" = "latest_version" ]
