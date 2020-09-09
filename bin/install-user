@@ -1028,11 +1028,15 @@ fi
 
 if [ "$ENABLE_NEWSBOAT" = "yes" -a ! -e "opt/newsboat-$NEWSBOATV" ]
 then
-  ensure_git newsboat https://github.com/newsboat/newsboat || exit 1
-  (cd "repos/git/newsboat" && git archive --format=tar --prefix=newsboat-build/ "$NEWSBOATCOMMIT") | tar xf - || exit 1
-  cd newsboat-build && ./config.sh && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" install && cd .. && rm -rf newsboat-build || exit 1
-  cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/newsboat" && cd .. || exit 1
-  cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/podboat" && cd .. || exit 1
+  (
+    "$DOTFILES/bin/lang" is_installed rust "$RUSTV" || "$DOTFILES/bin/lang" install rust "$RUSTV" || exit 1
+    . "$DOTFILES/bin/lang" use rust || exit 1
+    ensure_git newsboat https://github.com/newsboat/newsboat || exit 1
+    (cd "repos/git/newsboat" && git archive --format=tar --prefix=newsboat-build/ "$NEWSBOATCOMMIT") | tar xf - || exit 1
+    cd newsboat-build && ./config.sh && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" && make "prefix=$HOME/opt/newsboat-$NEWSBOATV" install && cd .. && rm -rf newsboat-build || exit 1
+    cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/newsboat" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/newsboat-${NEWSBOATV}/bin/podboat" && cd .. || exit 1
+  ) || exit 1
 fi
 
 if [ "$ENABLE_QPDFVIEW" = "yes" -a ! -e "opt/qpdfview-$QPDFVIEWV" ]
