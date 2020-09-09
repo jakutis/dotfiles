@@ -1,6 +1,12 @@
 # To find out a key sequence definition, run xbindkeys -mk
 
-# TODO mute speakers
+# Toggle audio mute
+"volume pulse mute"
+  Mod4 + F1
+
+# Toggle audio mute
+"volume pulse mute"
+  XF86AudioMute
 
 # Decrease audio volume
 "volume pulse decrease"
