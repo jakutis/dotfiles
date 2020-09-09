@@ -1402,3 +1402,5 @@ then
     done
     ./configure --prefix="$HOME/opt/bash-$BASH3V" && make && make install && cd ../.. && rm -rf bash3-build || exit 1
 fi
+
+systemctl --user mask tracker-store.service tracker-miner-fs.service tracker-miner-rss.service tracker-extract.service tracker-miner-apps.service tracker-writeback.service
