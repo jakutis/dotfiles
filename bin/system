@@ -265,7 +265,7 @@ case "$CMD" in
         ;;
     "suspend")
         xscreensaver-command -lock || exit 1
-        sudo systemctl suspend
+        systemctl suspend
         ;;
     "fan")
         shift
