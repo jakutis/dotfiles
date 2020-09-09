@@ -5,6 +5,8 @@ LANG_COMMAND="$1"
 LANG_LANG="$2"
 LANG_VERSION="$3"
 
+export PYENV_ROOT="$HOME/.pyenv"
+
 function latest_version_python {
   curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
 }
