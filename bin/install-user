@@ -888,11 +888,13 @@ then
     ensure_git vim https://github.com/vim/vim || exit 1
     (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
     cd "vim-build" || exit 1
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MY_RUBY_HOME/lib"
+    export PKG_CONFIG_PATH="$MY_RUBY_HOME/lib/pkgconfig:$(pkg-config --variable pc_path pkg-config)"
     ./configure \
       --enable-multibyte \
       --enable-pythoninterp=no \
       --enable-python3interp=yes \
-      --enable-rubyinterp=yes \
+      --enable-rubyinterp=dynamic \
       --with-python3-config-dir=$(python3-config --configdir) \
       --with-features=huge \
       --enable-cscope \
