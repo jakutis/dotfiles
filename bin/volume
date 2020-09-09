@@ -3,6 +3,17 @@
 TYPE="$1"
 COMMAND="$2"
 
+getdefaultsinkname() {
+    pacmd stat | awk -F": " '/^Default sink name: /{print $2}'
+}
+
+getdefaultsinkvol() {
+    pacmd list-sinks |
+        awk '/^\s+name: /{indefault = $2 == "<'$(getdefaultsinkname)'>"}
+            /^\s+volume: / && indefault {print $5; exit}' |
+        awk -F"%" '{print $1"%"}'
+}
+
 if [ "$TYPE" = "alsa" ]
 then
     CARD="$(cat "$HOME/.varia/soundcard")"
@@ -39,8 +50,7 @@ then
         pactl set-sink-mute $DEFAULT_SINK 0
         pactl set-sink-volume $DEFAULT_SINK +5%
     else
-        echo "Error: unknown command $COMMAND"
-        exit 1
+        getdefaultsinkvol
     fi
 else
     echo "Error: unknown sound system type $TYPE"
