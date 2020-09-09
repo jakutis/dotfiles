@@ -1227,11 +1227,6 @@ then
     (mkdir -p texmf/tex/latex && cd texmf/tex/latex && rm -rf biblatex-iso690 && curl -L https://github.com/michal-h21/biblatex-iso690/archive/${BIBLATEXISO690V}.tar.gz | tar zxf - && mv biblatex-iso690-${BIBLATEXISO690V} biblatex-iso690 && echo ${BIBLATEXISO690V} > biblatex-iso690/VERSION) || exit 1
 fi
 
-if ! [ -e "texmf/tex/latex/polyglossia" ]
-then
-    mkdir -p "texmf" && cd "texmf" && curl -L http://mirrors.ctan.org/install/macros/latex/contrib/polyglossia.tds.zip | bsdtar -xvf- && cd .. || exit 1
-fi
-
 if [ "$ENABLE_FIT2TCX" = "yes" -a ! -e "opt/fit2tcx-$FIT2TCXV" ]
 then
     ensure_git Fit2Tcx https://github.com/adiesner/Fit2Tcx || exit 1
