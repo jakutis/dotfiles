@@ -444,12 +444,6 @@ then
     fi
 fi
 
-if [ "$ENABLE_NODE" = "yes" ]
-then
-    "$DOTFILES/bin/lang" install node "$NODEV" || exit 1
-    . "$DOTFILES/bin/lang" fastuse node || exit 1
-fi
-
 if [ "$ENABLE_IMAGEMAGICK" = "yes" -a ! -e "opt/imagemagick-${IMAGEMAGICKV}" ]
 then
     curl -L "http://www.imagemagick.org/download/ImageMagick-${IMAGEMAGICKV}.tar.xz" | tar Jxf - || exit 1
@@ -498,12 +492,6 @@ then
         gvm install "go${GOV}" && gvm alias create default "go${GOV}" && gvm use default || exit 1
     fi
     rm -rf "$HOME/go"
-fi
-
-if [ "$ENABLE_R" = "yes" -a ! -e "opt/r-$RV" ]
-then
-  "$DOTFILES/bin/lang" install r "$RV" || exit 1
-  . "$DOTFILES/bin/lang" use r || exit 1
 fi
 
 if [ "$ENABLE_JS" = "yes" -a ! -e "opt/js-1.8.5" ]
