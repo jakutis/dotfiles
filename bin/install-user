@@ -41,7 +41,7 @@ RUBYV="$(lang latest_version ruby)" || exit 1
 
 GITV="2.28.0"
 TMUXV="3.1b"
-VIMV="8.2.1342"
+VIMV="8.2.1634"
 GITSHV="0.14"
 TIGV="2.5.1"
 
