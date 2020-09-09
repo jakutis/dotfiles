@@ -7,6 +7,13 @@ getdefaultsinkname() {
     pacmd stat | awk -F": " '/^Default sink name: /{print $2}'
 }
 
+isdefaultsinkmuted() {
+    pacmd list-sinks |
+        awk '/^\s+name: /{indefault = $2 == "<'$(getdefaultsinkname)'>"}
+            /^\s+muted: / && indefault {print $2; exit}' |
+        awk -F"%" '{print $1}'
+}
+
 getdefaultsinkvol() {
     pacmd list-sinks |
         awk '/^\s+name: /{indefault = $2 == "<'$(getdefaultsinkname)'>"}
@@ -41,7 +48,15 @@ then
 elif [ "$TYPE" = "pulse" ]
 then
     DEFAULT_SINK="$(pactl info | grep -i "Default Sink:" | cut --bytes=15-)"
-    if [ "$COMMAND" = "decrease" ]
+    if [ "$COMMAND" = "mute" ]
+    then
+        if [ "$(isdefaultsinkmuted)" = "yes" ]
+        then
+          pactl set-sink-mute $DEFAULT_SINK 0
+        else
+          pactl set-sink-mute $DEFAULT_SINK 1
+        fi
+    elif [ "$COMMAND" = "decrease" ]
     then
         pactl set-sink-mute $DEFAULT_SINK 0
         pactl set-sink-volume $DEFAULT_SINK -5%
@@ -50,7 +65,12 @@ then
         pactl set-sink-mute $DEFAULT_SINK 0
         pactl set-sink-volume $DEFAULT_SINK +5%
     else
-        getdefaultsinkvol
+        if [ "$(isdefaultsinkmuted)" = "yes" ]
+        then
+          echo muted
+        else
+          getdefaultsinkvol
+        fi
     fi
 else
     echo "Error: unknown sound system type $TYPE"
