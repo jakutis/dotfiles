@@ -7,6 +7,19 @@ MAIN_USER="$(whoami)"
 MAIN_HOME="$(eval echo ~$MAIN_USER)"
 XDG_CONFIG_HOME="$MAIN_HOME/.config"
 XDG_DATA_HOME="$MAIN_HOME/.local/share"
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+if [ -z "$DOTFILES" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/dotfiles" that contains path to the dotfiles directory" 1>&2
+    exit 1
+fi
+MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
+if [ -z "$MACHINE" ]
+then
+    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/machine" that contains the name of the current machine" 1>&2
+    exit 1
+fi
+export PATH="$HOME/.bin:$DOTFILES/bin:$PATH"
 
 NODEV="$(lang latest_version node)" || exit 1
 PYTHONV="$(lang latest_version python)" || exit 1
@@ -164,20 +177,6 @@ fi
 if [ "$ENABLE_MIRALL" = "yes" ]
 then
     ENABLE_QTKEYCHAIN="yes"
-fi
-
-DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
-if [ -z "$DOTFILES" ]
-then
-    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/dotfiles" that contains path to the dotfiles directory" 1>&2
-    exit 1
-fi
-
-MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
-if [ -z "$MACHINE" ]
-then
-    echo "Please create a file "$XDG_CONFIG_HOME/dotfiles/machine" that contains the name of the current machine" 1>&2
-    exit 1
 fi
 
 cd "$HOME"
