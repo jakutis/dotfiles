@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cd "$HOME/bin" && git pull --rebase && cd .. && sudo "$HOME/bin/install-system" "$(whoami)" && lang upgrade && youtube-dl -U && "$HOME/.tmux/plugins/tpm/bin/update_plugins" all && vim +PlugUpdate +qall && flatpak update && sudo apt-get update && sudo aptitude && echo Updated. || exit 1
+cd "$HOME/bin" && git pull --rebase && cd .. && sudo "$HOME/bin/install-system" "$(whoami)" && lang upgrade && youtube-dl -U && "$HOME/.tmux/plugins/tpm/bin/update_plugins" all && vim +PlugUpdate +qall && flatpak update && sudo apt-get autoremove --purge && echo Updated. || exit 1
