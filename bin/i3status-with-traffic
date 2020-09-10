@@ -75,5 +75,5 @@ i3status | (read line && echo "$line" && read line && echo "$line" && read line 
 do
   read line
   update_rate
-  echo ",[{\"full_text\":\"Traffic: ${rate}\",\"separator\":false,\"separator_block_width\":20},${line#,\[}" || exit 1
+  echo ",[{\"full_text\":\"Traffic: ${rate}   \",\"separator\":false,\"separator_block_width\":0},${line#,\[}" || exit 1
 done)
