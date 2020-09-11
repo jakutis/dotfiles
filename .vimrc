@@ -7,6 +7,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'francoiscabrol/ranger.vim'
 Plug 'chrisbra/csv.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
