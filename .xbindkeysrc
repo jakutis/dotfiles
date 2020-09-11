@@ -71,7 +71,7 @@
   Mod4 + b
 
 # Lock screen
-"displayoff;xscreensaver-command -lock"
+"xscreensaver-command -lock"
   Mod4 + Home
 
 # Suspend
