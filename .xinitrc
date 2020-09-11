@@ -8,7 +8,6 @@ xrdb -merge .Xresources
 xbindkeys
 update-xinput
 xscreensaver -no-splash &
-xcompmgr &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
