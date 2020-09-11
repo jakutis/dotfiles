@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "undock" ] && ! ( ([ "$CMD" = "dock" ])) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
 then
   ARGS="$@"
   if tty --silent
@@ -19,7 +19,7 @@ DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard"
+    echo "Available commands: help suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard dock undock"
 }
 
 function fan {
@@ -220,6 +220,27 @@ then
 fi
 
 case "$CMD" in
+    "undock")
+        if [ "$(hostname)" = "wix" ]
+        then
+          system net client-wifi && system screens fullhd eDP-1
+        fi
+        ;;
+    "dock")
+        if [ "$(hostname)" = "wix" ]
+        then
+          system net client-eth && system screens three DP-1 DP-2-2 DP-2-3 || exit 1
+          while ! curl --fail https://jakut.is > /dev/null
+          do
+            echo still offline
+            sleep 1
+          done
+          sudo iptables -A INPUT -i gpd0 -j ACCEPT
+          sudo systemctl restart gpd
+          [ -z "$(ps aux|grep PanGPA|grep -v grep)" ] && /opt/paloaltonetworks/globalprotect/PanGPA start &
+          /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-eu.wixpress.com -u jakutis
+        fi
+        ;;
     "keyboard")
         brightness "$XDG_CONFIG_HOME/dotfiles/keyboard" "$2"
         ;;
