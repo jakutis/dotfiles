@@ -38,6 +38,8 @@ Plug 'bogado/file-line'
 Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
+packadd cfilter
+
 " master keys
 let mapleader = ","
 
