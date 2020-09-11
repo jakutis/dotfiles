@@ -33,7 +33,7 @@ do
 done
 
 echo "last-window -t '$SESSION_NAME'" >> "$SESSION_FILE"
-echo "select-pane -t 'gitsh'" >> "$SESSION_FILE"
+echo "select-window -t 'gitsh'" >> "$SESSION_FILE"
 
 DETACHED="$2"
 if [ "$DETACHED" = "detached" ]
