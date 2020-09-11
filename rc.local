@@ -12,6 +12,7 @@ fi
 
 if [ "$(cat /etc/hostname)" = "laptop" -o "$(cat /etc/hostname)" = "wix" ]
 then
+  systemctl start xdm
   chmod a+w /home/jakutis/.config/dotfiles/brightness/brightness
   chmod a+w /home/jakutis/.config/dotfiles/keyboard/brightness
   XDG_DATA_HOME=/home/jakutis/.local/share XDG_CONFIG_HOME=/home/jakutis/.config /home/jakutis/bin/system net client-wifi
