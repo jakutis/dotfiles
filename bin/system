@@ -230,7 +230,7 @@ case "$CMD" in
         if [ "$(hostname)" = "wix" ]
         then
           system net client-eth && system screens three DP-1 DP-2-2 DP-2-3 || exit 1
-          while ! curl --fail https://jakut.is > /dev/null
+          while ! curl --silent --fail https://jakut.is > /dev/null
           do
             echo still offline
             sleep 1
