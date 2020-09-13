@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
 then
   ARGS="$@"
   if tty --silent
@@ -19,7 +19,7 @@ DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard dock undock"
+    echo "Available commands: help suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard dock undock vpn"
 }
 
 function fan {
@@ -220,16 +220,9 @@ then
 fi
 
 case "$CMD" in
-    "undock")
+    "vpn")
         if [ "$(hostname)" = "wix" ]
         then
-          system net client-wifi && system screens fullhd eDP-1
-        fi
-        ;;
-    "dock")
-        if [ "$(hostname)" = "wix" ]
-        then
-          system net client-eth && system screens three DP-1 DP-2-2 DP-2-3 || exit 1
           while ! curl --silent --fail https://jakut.is > /dev/null
           do
             echo still offline
@@ -252,6 +245,18 @@ case "$CMD" in
           /opt/paloaltonetworks/globalprotect/globalprotect disconnect
           echo connecting to VPN
           /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-eu.wixpress.com -u jakutis
+        fi
+        ;;
+    "undock")
+        if [ "$(hostname)" = "wix" ]
+        then
+          system net client-wifi && system screens fullhd eDP-1 || exit 1
+        fi
+        ;;
+    "dock")
+        if [ "$(hostname)" = "wix" ]
+        then
+          system net client-eth && system screens three DP-1 DP-2-2 DP-2-3 || exit 1
         fi
         ;;
     "keyboard")
