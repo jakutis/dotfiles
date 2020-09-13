@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-(cd "$HOME/repos/git/$1" && [ "$(git branch --show-current)" = "master" ] && git pull --rebase) && cp -r "$HOME/repos/git/$1" . && cd "$1" && git clean -ffxd .
+(cd "$HOME/repos/git/$1" && [ "$(git branch --show-current)" = "master" ] && git pull --rebase) && cp -r "$HOME/repos/git/$1" . && cd "$1" && git clean -ffxd . && ide
