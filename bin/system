@@ -223,7 +223,7 @@ case "$CMD" in
     "vpn")
         if [ "$(hostname)" = "wix" ]
         then
-          while ! curl --silent --fail https://jakut.is > /dev/null
+          while ! curl --connect-timeout 5 --silent https://8.8.8.8 > /dev/null
           do
             echo still offline
             sleep 1
@@ -242,9 +242,14 @@ case "$CMD" in
           echo starting PanGPA
           /opt/paloaltonetworks/globalprotect/PanGPA start &
           echo disconnecting from VPN
-          /opt/paloaltonetworks/globalprotect/globalprotect disconnect
-          echo connecting to VPN
-          /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-eu.wixpress.com -u jakutis
+          /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
+          echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
+          while ! curl --connect-timeout 5 --silent http://tc.dev.wixpress.com > /dev/null
+          do
+            echo VPN down, connecting...
+            /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-eu.wixpress.com -u jakutis
+            sleep 5
+          done
         fi
         ;;
     "undock")
