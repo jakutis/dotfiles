@@ -136,17 +136,58 @@ then
   done || exit 1
 elif [ "$COMMAND" = "receive" ]
 then
-  FULL_PATH="$(realpath "$ORIGINAL_DIR/${2}")"
   ROOT_DIR="$(pwd)"
+  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
   RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
-  echo "receiving $RELATIVE_PATH"
-  SIZE=$(custom_curl -I --request HEAD "$(full_url "$RELATIVE_PATH")" | grep -i Content-Length|sed -e 's/.*Content-Length: \([0-9]*\).*/\1/g')
-  if [ -z "$SIZE" ]
-  then
-    echo "error: file not found" 1>&2
-    exit 1
-  fi
-  custom_curl --request GET "$(full_url "$RELATIVE_PATH")" | pv --size "$SIZE" > "$RELATIVE_PATH" || exit 1
+
+  function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+  function remove_prefix {
+    echo "${1#"$2"}"
+  }
+  function remove_suffix {
+    echo "${1%"$2"}"
+  }
+  function receive {
+    local RPATH=$1
+    echo "receiving $RPATH"
+    if [ -f "$RPATH" ]
+    then
+      return
+    fi
+    local PROPS=$(custom_curl --request PROPFIND "$(full_url "$RPATH")") || exit 1
+    local FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' -;echo) || exit 1
+    local CURRENT=$(urldecode "$(echo "$FOLDERS"|head -n1)") || exit 1
+    if [ -z "$CURRENT" ]
+    then
+      local SIZE=$(custom_curl -I --request HEAD "$(full_url "$RPATH")" | grep -i Content-Length|sed -e 's/.*Content-Length: \([0-9]*\).*/\1/g')
+      if [ -z "$SIZE" ]
+      then
+        echo "error: file not found" 1>&2
+        exit 1
+      fi
+      mkdir -p "$(dirname "$RPATH")" || exit 1
+      custom_curl --request GET "$(full_url "$RPATH")" | pv --size "$SIZE" > "$RPATH" || exit 1
+    else
+      local FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
+      local FILES=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' -|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
+      if [ -n "$FOLDERS" ]
+      then
+        echo "$FOLDERS"|while read FOLDER
+        do
+          receive "$RPATH/$FOLDER" || exit 1
+        done || exit 1
+      fi
+
+      if [ -n "$FILES" ]
+      then
+        echo "$FILES"|while read FILE
+        do
+          receive "$RPATH/$FILE" || exit 1
+        done || exit 1
+      fi
+    fi
+  }
+  receive "$RELATIVE_PATH" || exit 1
 elif [ "$COMMAND" = "mkdir" ]
 then
   DOLOCALLY="$2"
