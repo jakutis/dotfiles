@@ -1,16 +1,27 @@
 #!/usr/bin/env bash
 
-if [ -n "$1" ]
-then
-  cd "$1"
-fi
-MAX_LEVELS="$2"
+function list {
+  pwd && rg --files | (
+    if [ -n "$MAX" ]
+    then
+      sed -e 's/^\(\([^/]*\/\)\{'$MAX'\}\).*$/\1/' | sort | uniq
+    else
+      rg --files 
+    fi
+  ) | tree -C --fromfile . | tail -n +2
+}
 
-pwd && rg --files | (
-  if [ -n "$MAX_LEVELS" ]
-  then
-    sed -e 's/^\(\([^/]*\/\)\{'$MAX_LEVELS'\}\).*$/\1/' | sort | uniq
-  else
-    rg --files 
-  fi
-) | tree -C --fromfile . | tail -n +2
+if [ -z "$1" ]
+then
+  list
+  exit
+fi
+
+while [ -n "$1" ]
+do
+  pushd . > /dev/null
+  cd $1 || exit 1
+  shift
+  list
+  popd > /dev/null
+done
