@@ -65,7 +65,7 @@ FLATPAKV="1.5.1"
 DOCKERV="1.10.2"
 GOMTPFSV="bc7c0f716e3b4ed5610069a55fc00828ebba890b"
 VLCLIBDE265V="0.1.7"
-CALIBREV="3.11.1"
+CALIBREV="$(curl --silent https://calibre-ebook.com/download_linux|grep 'The latest release of calibre is '|sed -e 's/^[^0-9.]*\([0-9.]*\)\..*$/\1/')"
 GHCMODV="5.4.0.0"
 DECK2PDFV="RELEASE_0_3_0"
 AP4JPLAYERV="8bc872e"
@@ -1277,8 +1277,7 @@ then
     cd opt && mkdir calibre-$CALIBREV && cd calibre-$CALIBREV || exit 1
     curl -L http://download.calibre-ebook.com/$CALIBREV/calibre-${CALIBREV}-x86_64.txz | tar Jxf - || exit 1
     cd ../.. || exit 1
-    cd .bin && ln -nsf "../opt/calibre-$CALIBREV/ebook-convert" && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/calibre-$CALIBREV/ebook-viewer" && cd .. || exit 1
+    cd .bin && for BIN in $(ls ../opt/calibre-$CALIBREV); do ln -nsf "../opt/calibre-$CALIBREV/$BIN"; done && cd .. || exit 1
 fi
 
 if [ "$ENABLE_AP4JPLAYER" = "yes" -a ! -e "opt/ap4jplayer-$AP4JPLAYERV" ]
