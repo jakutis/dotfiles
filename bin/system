@@ -255,12 +255,14 @@ case "$CMD" in
     "undock")
         if [ "$(hostname)" = "wix" ]
         then
+          /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null &
           system net client-wifi && system screens fullhd eDP-1 || exit 1
         fi
         ;;
     "dock")
         if [ "$(hostname)" = "wix" ]
         then
+          /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null &
           system net client-eth && system screens three DP-1 DP-2-2 DP-2-3 || exit 1
         fi
         ;;
