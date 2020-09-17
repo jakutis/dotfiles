@@ -52,23 +52,51 @@
 
 # Play previous audio track
 "cmus-remote -C player-prev"
+  Mod4 + F8
+
+# Play previous audio track
+"cmus-remote -C player-prev"
   Mod4 + z
 
-# Play selected audio track
-"cmus-remote -C player-play"
-  Mod4 + x
+# Play previous audio track
+"cmus-remote -C player-prev"
+  XF86AudioPrev
 
-# Pause audio track playback
+# Pause/play audio track
+"cmus-remote -C player-pause"
+  Mod4 + F9
+
+# Pause/play audio track
 "cmus-remote -C player-pause"
   Mod4 + c
 
-# Stop audio track playback
-"cmus-remote -C player-stop"
-  Mod4 + v
+# Pause/play audio track
+"cmus-remote -C player-pause"
+  XF86AudioPause
 
 # Play next audio track
-"cmus-remote -C player-next"
+"cmus-remote -C player-prev"
+  Mod4 + F10
+
+# Play next audio track
+"cmus-remote -C player-prev"
   Mod4 + b
+
+# Play next audio track
+"cmus-remote -C player-prev"
+  XF86AudioNext
+
+# Use only the first screen
+"system screens only FIRST"
+  Mod4 + F11
+
+# Screenshot
+"shot"
+  Mod4 + F12
+
+# Screenshot with 2 second delay
+"shot 2"
+  Shift+Mod4 + F12
 
 # Lock screen
 "xscreensaver-command -lock"
@@ -89,16 +117,3 @@
 # Increase keyboard brightness
 "system keyboard more"
   XF86KbdBrightnessUp
-
-# Use only the first screen
-"system screens only FIRST"
-  Mod4 + F11
-
-# Screenshot
-"shot"
-  Mod4 + F12
-
-# Screenshot with 2 second delay
-"shot 2"
-  Shift+Mod4 + F12
-
