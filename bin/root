@@ -155,7 +155,7 @@ then
       return
     fi
     local PROPS=$(custom_curl --request PROPFIND "$(full_url "$RPATH")") || exit 1
-    local FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' -;echo) || exit 1
+    local FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' - && echo) || exit 1
     local CURRENT=$(urldecode "$(echo "$FOLDERS"|head -n1)") || exit 1
     if [ -z "$CURRENT" ]
     then
