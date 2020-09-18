@@ -75,15 +75,15 @@
   XF86AudioPause
 
 # Play next audio track
-"cmus-remote -C player-prev"
+"cmus-remote -C player-next"
   Mod4 + F10
 
 # Play next audio track
-"cmus-remote -C player-prev"
+"cmus-remote -C player-next"
   Mod4 + b
 
 # Play next audio track
-"cmus-remote -C player-prev"
+"cmus-remote -C player-next"
   XF86AudioNext
 
 # Use only the first screen
