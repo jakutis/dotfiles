@@ -1,6 +1,3 @@
-URxvt*font:              xft:monospace:size=11:antialias=true
-URxvt*boldFont:          xft:monospace:size=11:antialias=true
-URxvt.letterSpace:       -1
 Xft.autohint:            true
 Xft.lcdfilter:           cddefault
 Xft.hintstyle:           hintfull
@@ -9,53 +6,38 @@ Xft.antialias:           true
 Xft.rgba:                rgb
 XTerm*faceName:          monospace:size=11:antialias=true
 XTerm*bellIsUrgent:      true
-URxvt*urgentOnBell:      true
 XTerm*termName:          xterm-256color
-URxvt*termName:          rxvt-unicode
-URxvt*scrollBar:         false
 XTerm*scrollBar:         false
 Xcursor.size:            16
-URxvt.print-pipe:        "cat > /dev/null"
 XTerm*selectToClipboard: true
-URxvt*cursorColor:       #3c3836
 XTerm*cursorColor:       #3c3836
-URxvt*background:        #f9f5d7
-XTerm*background:        #f9f5d7
-URxvt*foreground:        #3c3836
-XTerm*foreground:        #3c3836
-
-! EVERYTHING BELOW IS VERBATIM COPY OF https://raw.githubusercontent.com/morhetz/gruvbox-contrib/master/xresources/gruvbox-light.xresources
-! -----------------------------------------------------------------------------
-! File: gruvbox-light.xresources
-! Description: Retro groove colorscheme generalized
-! Author: morhetz <morhetz@gmail.com>
-! Source: https://github.com/morhetz/gruvbox-generalized
-! Last Modified: 6 Sep 2014
-! -----------------------------------------------------------------------------
-
+! https://raw.githubusercontent.com/morhetz/gruvbox-contrib/master/xresources/gruvbox-light.xresources
+! hard contrast: *background: #f9f5d7
+XTerm*background: #fbf1c7
+! soft contrast: *background: #f2e5bc
+XTerm*foreground: #3c3836
 ! Black + DarkGrey
-*color0:  #fdf4c1
-! #928374
-*color8:  #56493b
+XTerm*color0:  #fdf4c1
+XTerm*color8:  #928374
 ! DarkRed + Red
-*color1:  #cc241d
-*color9:  #9d0006
+XTerm*color1:  #cc241d
+XTerm*color9:  #9d0006
 ! DarkGreen + Green
-*color2:  #98971a
-*color10: #79740e
+XTerm*color2:  #98971a
+XTerm*color10: #79740e
 ! DarkYellow + Yellow
-*color3:  #ffd700
-*color11: #ffaf00
+XTerm*color3:  #d79921
+XTerm*color11: #b57614
 ! DarkBlue + Blue
-*color4:  #458588
-*color12: #076678
+XTerm*color4:  #458588
+XTerm*color12: #076678
 ! DarkMagenta + Magenta
-*color5:  #b16286
-*color13: #8f3f71
+XTerm*color5:  #b16286
+XTerm*color13: #8f3f71
 ! DarkCyan + Cyan
-*color6:  #689d6a
-*color14: #427b58
+XTerm*color6:  #689d6a
+XTerm*color14: #427b58
 ! LightGrey + White
-! #7c6f64
-*color7:  #5a4e43
-*color15: #3c3836
+! XTerm*color7:  #7c6f64
+XTerm*color7:  #5a4e43
+XTerm*color15: #3c3836
