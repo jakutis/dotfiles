@@ -74,6 +74,10 @@
 "cmus-remote -C player-pause"
   XF86AudioPause
 
+# Pause/play audio track
+"cmus-remote -C player-pause"
+  XF86AudioPlay
+
 # Play next audio track
 "cmus-remote -C player-next"
   Mod4 + F10
