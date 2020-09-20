@@ -134,6 +134,53 @@ then
       dav_upload "$FILE" "$FILE" || exit 1
     fi
   done || exit 1
+elif [ "$COMMAND" = "list" ]
+then
+  ROOT_DIR="$(pwd)"
+  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
+  RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
+
+  function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+  function remove_prefix {
+    echo "${1#"$2"}"
+  }
+  function remove_suffix {
+    echo "${1%"$2"}"
+  }
+
+  echo "listing $RELATIVE_PATH"
+  PROPS=$(custom_curl --request PROPFIND "$(full_url "$RELATIVE_PATH")") || exit 1
+  FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' - && echo) || exit 1
+  CURRENT=$(urldecode "$(echo "$FOLDERS"|head -n1)") || exit 1
+  if [ -z "$CURRENT" ]
+  then
+    SIZE=$(custom_curl -I --request HEAD "$(full_url "$RELATIVE_PATH")" | grep -i Content-Length|sed -e 's/.*Content-Length: \([0-9]*\).*/\1/g')
+    if [ -z "$SIZE" ]
+    then
+      echo "error: file not found" 1>&2
+      exit 1
+    fi
+    echo file of size $SIZE bytes
+  else
+    FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
+    FILES=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' -|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
+    echo folders:
+    if [ -n "$FOLDERS" ]
+    then
+      echo "$FOLDERS"|while read F
+      do
+        echo "- $F"
+      done
+    fi
+    echo files:
+    if [ -n "$FILES" ]
+    then
+      echo "$FILES"|while read F
+      do
+        echo "- $F"
+      done
+    fi
+  fi
 elif [ "$COMMAND" = "receive" ]
 then
   ROOT_DIR="$(pwd)"
