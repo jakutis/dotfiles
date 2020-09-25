@@ -6,6 +6,7 @@ shopt -s checkwinsize
 shopt -s cmdhist
 set -o noclobber
 set -o vi
+set +H
 
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
