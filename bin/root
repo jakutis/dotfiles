@@ -204,21 +204,28 @@ then
   }
   function receive {
     local RPATH=$1
+    local SIZE=$2
     echo "receiving $RPATH"
     if [ -f "$RPATH" ]
     then
       return
     fi
-    local PROPS=$(custom_curl --request PROPFIND "$(full_url "$RPATH")") || exit 1
-    local FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' - && echo) || exit 1
-    local CURRENT=$(urldecode "$(echo "$FOLDERS"|head -n1)") || exit 1
+    local CURRENT
+    local PROPS
+    local FOLDERS
+    local FIRST_SIZE
+    if [ -z "$SIZE" ]
+    then
+      PROPS=$(custom_curl --request PROPFIND "$(full_url "$RPATH")") || (echo error: path not found;exit 1) || exit 1
+      FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' - && echo)
+      FIRST_SIZE=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:getcontentlength' -)
+      CURRENT=$(urldecode "$(echo "$FOLDERS"|head -n1)") || exit 1
+    fi
     if [ -z "$CURRENT" ]
     then
-      local SIZE=$(custom_curl -I --request HEAD "$(full_url "$RPATH")" | grep -i Content-Length|sed -e 's/.*Content-Length: \([0-9]*\).*/\1/g')
       if [ -z "$SIZE" ]
       then
-        echo "error: file not found" 1>&2
-        exit 1
+        SIZE=$FIRST_SIZE
       fi
       mkdir -p "$(dirname "$RPATH")" || exit 1
       echo "$RPATH" > "$ROOT_DIR/.receive_unfinished"
@@ -237,9 +244,12 @@ then
 
       if [ -n "$FILES" ]
       then
+        readarray -t SIZES <<< "$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:getcontentlength' -)"
+        local I=0
         echo "$FILES"|while read FILE
         do
-          receive "$RPATH/$FILE" || exit 1
+          receive "$RPATH/$FILE" "${SIZES[${I}]}" || exit 1
+          I=$((I + 1))
         done || exit 1
       fi
     fi
