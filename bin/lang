@@ -65,6 +65,32 @@ then
     export MY_RUBY_HOME="$HOME/.rvm/rubies/$RUBY_VERSION"
     export PATH="$HOME/.rvm/gems/$RUBY_VERSION/bin:$HOME/.rvm/gems/${RUBY_VERSION}@global/bin:$HOME/.rvm/rubies/$RUBY_VERSION/bin:$HOME/.rvm/bin:$PATH"
   fi
+elif [ "$LANG_COMMAND" = "resolve_executable" ]
+then
+  if [ "$LANG_LANG" = "node" ]
+  then
+    EXE="$3"
+    NM="node_modules"
+    while true
+    do
+      if [ -e "$NM/.bin/$EXE" ]
+      then
+        break
+      fi
+      if [ "$(realpath "$NM")" = "/node_modules" ]
+      then
+        NM=
+        break
+      fi
+      NM="../$NM"
+    done
+    if [ -n "$NM" ]
+    then
+      echo "$NM/.bin/$EXE"
+    else
+      echo "$EXE"
+    fi
+  fi
 elif [ "$LANG_COMMAND" = "upgrade" ]
 then
   function upgrade {
