@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-. lang fastuse node && convertfeed "$@" || exit 1
+. lang fastuse node && "$(lang resolve_executable node convertfeed)" "$@"
+exit "$?"

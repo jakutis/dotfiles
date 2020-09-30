@@ -90,8 +90,9 @@ let g:ale_fixers = {
 \   'html': ['tidy'],
 \   'ocaml': ['ocamlformat'],
 \}
-let g:ale_javascript_eslint_executable = system('find-exec node_modules/.bin eslint')
 let g:ale_javascript_eslint_use_global = 1
+let g:ale_javascript_prettier_use_global = 1
+let g:ale_typescript_tslint_use_global = 1
 let g:ale_keep_list_window_open = 0
 noremap! <C-s> <Esc>:ALEFix<CR>
 nnoremap <C-s> <Esc>:ALEFix<CR>

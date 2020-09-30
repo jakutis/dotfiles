@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-. lang fastuse node && prettier "$@"
+. lang fastuse node && "$(lang resolve_executable node prettier)" "$@"
+exit "$?"

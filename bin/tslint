@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-. lang fastuse node && tslint "$@"
+. lang fastuse node && "$(lang resolve_executable node tslint)" "$@"
+exit "$?"

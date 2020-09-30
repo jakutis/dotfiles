@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-. lang fastuse node && markmap "$@"
+. lang fastuse node && "$(lang resolve_executable node markmap)" "$@"
+exit "$?"
