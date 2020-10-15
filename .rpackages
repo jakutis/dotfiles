@@ -34,3 +34,6 @@ cowplot
 DescTools
 blandr
 rlist
+gridExtra
+Qtools
+tibble
