@@ -310,7 +310,7 @@ case "$CMD" in
         sudo systemctl poweroff
         ;;
     "suspend")
-        xscreensaver-command -lock || exit 1
+        xscreensaver-command -lock
         systemctl suspend
         ;;
     "fan")
