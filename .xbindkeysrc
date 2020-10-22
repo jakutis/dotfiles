@@ -121,3 +121,7 @@
 # Increase keyboard brightness
 "system keyboard more"
   XF86KbdBrightnessUp
+
+# Open terminal in git repositories folder
+"bash -c 'cd $HOME/repos/git;xterm'"
+  Mod4 + g
