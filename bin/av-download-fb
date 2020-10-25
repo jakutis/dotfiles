@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+function download {
+  wget --output-document="$2" "$(echo "$1"|sed -e 's/bytestart=//'|sed -e 's/byteend=//')"
+}
+
+A=$(mktemp)
+B=$(mktemp)
+
+download "$1" "$A"
+download "$2" "$B"
+av-merge "$A" "$B" "$3"
+rm "$A" "$B"
