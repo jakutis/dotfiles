@@ -108,7 +108,7 @@
 
 # Suspend
 "system suspend"
-  Mod4 + XF86PowerOff
+  XF86PowerOff
 
 # Suspend
 "system suspend"
