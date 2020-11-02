@@ -186,11 +186,13 @@ then
   ROOT_DIR="$(realpath .)"
   FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
   RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
+  UNFINISHED_FILE=$(mktemp --tmpdir="$ROOT_DIR" unfinished.XXXXXXXXXX)
+
   function cleanup {
-    if [ -e "$ROOT_DIR/.receive_unfinished" ]
+    if [ -e "$UNFINISHED_FILE" ]
     then
-      rm -f "$(cat "$ROOT_DIR/.receive_unfinished")"
-      rm -f "$ROOT_DIR/.receive_unfinished"
+      rm -f "$(cat "$UNFINISHED_FILE")"
+      rm -f "$UNFINISHED_FILE"
     fi
   }
   trap cleanup EXIT
@@ -228,9 +230,9 @@ then
         SIZE=$FIRST_SIZE
       fi
       mkdir -p "$(dirname "$RPATH")" || exit 1
-      echo "$RPATH" > "$ROOT_DIR/.receive_unfinished"
+      echo "$RPATH" > "$UNFINISHED_FILE"
       custom_curl --request GET "$(full_url "$RPATH")" | pv --size "$SIZE" > "$RPATH" || exit 1
-      rm "$ROOT_DIR/.receive_unfinished"
+      rm "$UNFINISHED_FILE"
     else
       local FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
       local FILES=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' -|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
