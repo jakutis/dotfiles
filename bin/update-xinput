@@ -9,22 +9,3 @@ xset b off
 xset r rate 250 50
 rm -f ~/.xkblayout
 xkbswitch "$1"
-
-xinput set-button-map "ThinkPad USB Laser Mouse" 1 2 3 4 5 6 7 0 0
-xinput set-button-map "ThinkPad Bluetooth Laser Mouse Mouse" 1 2 3 4 5 6 7 0 0
-if [ "$MACHINE" = "wix" ]
-then
-  xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Off" 1
-elif [ "$MACHINE" = "laptop" ]
-then
-  xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 8 1
-  xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 8 2
-  xinput set-int-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 8 6 7 4 5
-  xinput disable "SynPS/2 Synaptics TouchPad"
-fi
-
-if [ -n "$(which synclient 2>/dev/null)" ]
-then
-    synclient TapButton1=1
-    synclient VertEdgeScroll=1
-fi
