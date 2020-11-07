@@ -132,6 +132,10 @@ then
     else
       echo "$EXE"
     fi
+  elif [ "$LANG_LANG" = "python" ]
+  then
+    EXE="$3"
+    echo "$EXE"
   fi
 elif [ "$LANG_COMMAND" = "upgrade" ]
 then
