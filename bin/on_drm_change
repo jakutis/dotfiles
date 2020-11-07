@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+su --login --command='DISPLAY=:0 autorandr --detected --change' jakutis
