@@ -22,11 +22,8 @@ Plug 'udalov/kotlin-vim'
 Plug 'mxw/vim-jsx'
 Plug 'ianks/vim-tsx'
 Plug 'suan/vim-instant-markdown'
-Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'fszymanski/deoplete-emoji'
-Plug 'deathlyfrantic/deoplete-spell'
 Plug 'jremmen/vim-ripgrep'
 Plug 'easymotion/vim-easymotion'
 Plug 'mogelbrod/vim-jsonpath'
@@ -236,11 +233,6 @@ nnoremap <C-h> <C-w>h<C-w>_
 nnoremap <C-l> <C-w>l<C-w>_
 nnoremap <C-q> <C-w>t<C-w>_
 nnoremap <C-e> <C-w>b<C-w>_
-
-" deoplete
-set pyxversion=3
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy', 'matcher_length'])
 
 " start in the middle of :help and scroll with jk
 autocmd VimEnter,WinEnter,BufWinEnter */doc/*.txt set scrolloff=999
