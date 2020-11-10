@@ -6,7 +6,7 @@ then
   XMODMAP="$HOME/.Xmodmap"
 fi
 
-if [ "$(cat "$HOME/.xkblayout")" = "lt" ]
+if [ "$(cat "$HOME/.xkblayout" 2>/dev/null)" = "lt" ]
 then
     setxkbmap -layout de
     echo de > "$HOME/.xkblayout"
