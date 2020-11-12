@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$HOME"
+autorandr --change
 export $(dbus-launch)
 xhost localhost
 xhost si:localuser:root
