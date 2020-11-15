@@ -311,7 +311,9 @@ case "$CMD" in
         ;;
     "suspend")
         xscreensaver-command -lock
+        rfkill|tail -n +2|cut -f 2 -d ' '|while read ID;do rfkill block $ID;done
         systemctl suspend
+        rfkill|tail -n +2|cut -f 2 -d ' '|while read ID;do rfkill unblock $ID;done
         ;;
     "fan")
         shift
