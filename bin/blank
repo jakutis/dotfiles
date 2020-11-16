@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+xscreensaver -no-splash &
+
 sleep 1
 xset s blank
 xset s activate
