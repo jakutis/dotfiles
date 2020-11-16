@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+killall xscreensaver
+
 xset s off
 xset s noblank
 xset s noexpose
