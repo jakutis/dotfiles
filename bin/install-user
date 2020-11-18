@@ -1372,6 +1372,17 @@ then
   coursier bootstrap --java-opt -Xss4m --java-opt -Xms100m --java-opt -Dmetals.client=vim-lsc "org.scalameta:metals_${SCALABASEV}:${METALSV}" -r bintray:scalacenter/releases -r sonatype:snapshots -o "$HOME/.bin/metals-vim" -f
 fi
 
+if [ "$ENABLE_REMAPY" = "yes" ]
+then
+  (
+    "$DOTFILES/bin/lang" is_installed python "$PYTHONV" || "$DOTFILES/bin/lang" install python "$PYTHONV" || exit 1
+    . "$DOTFILES/bin/lang" use python || exit 1
+    ensure_git remapy https://github.com/peerdavid/remapy || exit 1
+    (cd "repos/git/remapy" && git archive --format=tar --prefix=remapy/ "master") | tar xf - || exit 1
+    rm -rf opt/remapy && mv remapy opt && cd opt/remapy && ./install.sh && cd ../.. && cd .bin && echo '. lang use python && "$HOME/opt/remapy/launch.sh" "$@"' >| remapy && chmod +x remapy && cd .. || exit 1
+  )
+fi
+
 if [ "$ENABLE_SCIM" = "yes" ]
 then
     ensure_git sc-im https://github.com/andmarti1424/sc-im || exit 1
