@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+STATE="$1"
+DURATION="$2"
+ELAPSED="$3"
+TRIGGERS="$4"
+
+echo "$(date) - $STATE - $DURATION - $ELAPSED - $TRIGGERS" >> "$HOME/etc/pomodoro.log"
