@@ -31,6 +31,7 @@ do
   fi
   echo "$FILE"
   convert "$FILE" $OPTS "$FILE.jpg"
+  echo converting to pdf
   convert "$FILE.jpg" "$FILE.pdf"
   rm "$FILE.jpg"
   PDFS+=("${FILE}.pdf")
