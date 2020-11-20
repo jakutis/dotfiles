@@ -14,6 +14,8 @@ then
   done
 fi
 
+ln -nsf "/sys/devices/platform/coretemp.0/hwmon/hwmon"?"/temp1_input" "$DOTFILES_CONFIG/temperature"
+
 if [ -n "$(cat /proc/acpi/wakeup | grep LID | grep enabled)" ]
 then
   echo LID > /proc/acpi/wakeup
