@@ -75,5 +75,6 @@ i3status | (read line && echo "$line" && read line && echo "$line" && read line 
 do
   read line
   update_rate
-  echo ",[{\"full_text\":\"${rate} \",\"separator\":false,\"separator_block_width\":0},${line#,\[}" || exit 1
+  DNS=$( (grep nameserver /etc/resolv.conf|sed -e 's/nameserver //'|while read A; do echo -n "$(dig +short -x $A|sed -e 's/^\([^\.]*\.[^\.]*\)..*$/\1/') "; done) 2>/dev/null || echo "")
+  echo ",[{\"full_text\":\"${rate} ${DNS}\",\"separator\":false,\"separator_block_width\":0},${line#,\[}" || exit 1
 done)
