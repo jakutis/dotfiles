@@ -107,6 +107,7 @@ else
 fi
 
 gpasswd -a "$MAIN_USER" sudo
+gpasswd -a "$MAIN_USER" docker
 
 echo "setting up configs"
 
