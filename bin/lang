@@ -413,7 +413,7 @@ then
       if [ "$?" != "0" ]
       then
         echo "To install $LANG_LANG, please specify version" >&2
-        return 1
+        exit 1
       fi
       LANG_VERSION="$(echo "$LATEST_AVAILABLE" | sort --version-sort --reverse | head -n 1)"
   fi
