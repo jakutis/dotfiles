@@ -33,6 +33,7 @@ Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-rhubarb'
 Plug 'bogado/file-line'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'osyo-manga/vim-anzu'
 call plug#end()
 
 packadd cfilter
@@ -224,7 +225,6 @@ set ignorecase
 set smartcase
 set hlsearch
 set incsearch
-nnoremap <CR> :noh<CR><CR>
 
 " window navigation
 nnoremap <C-j> <C-w>j<C-w>_
@@ -237,3 +237,10 @@ nnoremap <C-e> <C-w>b<C-w>_
 " start in the middle of :help and scroll with jk
 autocmd VimEnter,WinEnter,BufWinEnter */doc/*.txt set scrolloff=999
 autocmd BufLeave,WinLeave */doc/*.txt set scrolloff=2
+
+" osyo-manga/vim-anzu
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
+nmap <Esc><Esc> :noh<CR><CR> \| <Plug>(anzu-clear-search-status)
