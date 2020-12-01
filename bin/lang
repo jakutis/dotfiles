@@ -427,7 +427,7 @@ then
         cd "$HOME/.nvm" && git pull --rebase && cd - || exit 1
     fi
 
-    source "$HOME/.nvm/nvm.sh" && nvm install "v$LANG_VERSION" && nvm alias default "$LANG_VERSION" && nvm use default || exit 1
+    source "$HOME/.nvm/nvm.sh" && nvm install "$LANG_VERSION" && nvm use "$LANG_VERSION" || exit 1
 
     install_packages_node
   elif [ "$LANG_LANG" = "java" ]
