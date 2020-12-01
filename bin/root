@@ -163,7 +163,7 @@ then
     echo file of size $SIZE bytes
   else
     FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
-    FILES=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' -|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
+    FILES=$( (echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' - && echo)|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
     echo folders:
     if [ -n "$FOLDERS" ]
     then
@@ -235,7 +235,7 @@ then
       rm "$UNFINISHED_FILE"
     else
       local FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
-      local FILES=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' -|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
+      local FILES=$( (echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' - && echo)|sed -e '/^$/d'|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
       if [ -n "$FOLDERS" ]
       then
         echo "$FOLDERS"|while read FOLDER
