@@ -4,6 +4,6 @@ PKG="$1"
 VERSION="$2"
 FILE="$3"
 
-KEY=$([ "$(jq '.dependencies["'$PKG'"]' "$F")" = "null" ] && echo "devDependencies" || echo "dependencies")
+KEY=$([ "$(jq '.dependencies["'$PKG'"]' "$FILE")" = "null" ] && echo "devDependencies" || echo "dependencies")
 
 [ "$(jq '.'$KEY'["'$PKG'"]' "$FILE")" != "null" ] && jq '.'$KEY'["'$PKG'"]="'$VERSION'"' "$FILE" | sponge "$FILE"
