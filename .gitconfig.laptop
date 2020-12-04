@@ -1,8 +1,16 @@
 [core]
     editor = e
+    pager = delta
     filemode = false
     autocrlf = false
     ignorecase = false
+
+[delta]
+    syntax-theme = Solarized (light)
+    line-numbers = true
+
+[interactive]
+    diffFilter = delta --color-only
 
 [user]
     name = Vytautas Jakutis
@@ -76,10 +84,6 @@
 
 [url "https://"]
     insteadOf = git://
-
-[pager]
-	diff = diff-so-fancy | less -I --tabs=4 -RFX
-	show = diff-so-fancy | less -I --tabs=4 -RFX
 
 [credential]
 	helper = cache
