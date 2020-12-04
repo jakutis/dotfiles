@@ -136,6 +136,10 @@ then
   then
     EXE="$3"
     echo "$EXE"
+  elif [ "$LANG_LANG" = "rust" ]
+  then
+    EXE="$3"
+    echo "$EXE"
   fi
 elif [ "$LANG_COMMAND" = "upgrade" ]
 then
