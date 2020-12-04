@@ -131,7 +131,7 @@ endfunction
 noremap <C-p> :call g:FzfSearch()<CR>
 
 " CoC
-let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver']
+let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver', 'coc-sh']
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
