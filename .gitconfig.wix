@@ -58,6 +58,7 @@
 
 [diff]
     tool = meld
+    colorMoved = default
 
 [difftool]
     prompt = false
