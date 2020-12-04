@@ -35,6 +35,7 @@ Plug 'bogado/file-line'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'lambdalisue/vim-manpager'
 call plug#end()
 
 packadd cfilter
