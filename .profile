@@ -36,6 +36,7 @@ export ACLOCAL_PATH="/usr/share/aclocal"
 
 export BROWSER="www"
 export EDITOR="vim"
+export MANPAGER="vim -c MANPAGER -"
 
 export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
