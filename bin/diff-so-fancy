@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-. lang fastuse node && "$(lang resolve_executable node diff-so-fancy)" "$@"
-exit "$?"
