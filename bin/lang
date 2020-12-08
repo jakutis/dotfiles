@@ -201,21 +201,33 @@ then
     CODE="$?"
     if [ "$CODE" = "0" ]
     then
-      echo "$VERSIONS" | while read V
-      do
-        if [ "$V" = "$LANG_VERSION" ]
-        then
-          exit 1
-        fi
-      done
-      CODE="$?"
-      if [ "$CODE" = "0" ]
+      if [ -z "$LANG_VERSION" ]
       then
-        echo "Not installed"
-        exit 1
+        if [ -z "$VERSIONS" ]
+        then
+          echo "Not installed"
+          exit 1
+        else
+          echo "Installed"
+          exit 0
+        fi
       else
-        echo "Installed"
-        exit 0
+        echo "$VERSIONS" | while read V
+        do
+          if [ "$V" = "$LANG_VERSION" ]
+          then
+            exit 1
+          fi
+        done
+        CODE="$?"
+        if [ "$CODE" = "0" ]
+        then
+          echo "Not installed"
+          exit 1
+        else
+          echo "Installed"
+          exit 0
+        fi
       fi
     else
       exit "$CODE"
