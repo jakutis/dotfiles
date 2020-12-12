@@ -89,6 +89,17 @@ function install_packages_python {
   done
 }
 
+function install_packages_rust {
+  cargo install --force cargo || exit 1
+
+  PACKAGES=$(cat "$HOME/.rustpackages") || exit 1
+  for PACKAGE in $PACKAGES
+  do
+      echo "Installing $PACKAGE"
+      cargo install $PACKAGE || exit 1
+  done
+}
+
 if [ "$LANG_COMMAND" = "fastuse" ]
 then
   if [ "$LANG_LANG" = "node" ]
@@ -516,6 +527,8 @@ then
         rustup self update || exit 1
     fi
     rustup toolchain install "$LANG_VERSION" --allow-downgrade && rustup default "$LANG_VERSION" || exit 1
+
+    install_packages_rust
   fi
   echo "install success"
 elif [ "$LANG_COMMAND" = "latest_version" ]
