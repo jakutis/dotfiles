@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-mkdir --parents "$(echo "$@")" && cd "$(echo "$@")" || exit 1
+DIR="$@"
+if [ -z "$DIR" ]
+then
+  echo Error: missing directory name
+else
+  mkdir --parents "$(echo "$DIR")" && cd "$(echo "$DIR")" || exit 1
+fi
