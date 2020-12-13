@@ -848,17 +848,17 @@ fi
 mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
 ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 
-"$DOTFILES/bin/lang" install node
-"$DOTFILES/bin/lang" install rust
-"$DOTFILES/bin/lang" install python
-"$DOTFILES/bin/lang" install ruby
+"$DOTFILES/bin/lang" install node || exit 1
+"$DOTFILES/bin/lang" install rust || exit 1
+"$DOTFILES/bin/lang" install python || exit 1
+"$DOTFILES/bin/lang" install ruby || exit 1
 
 if [ ! -e "opt/vim-$VIMV" ]
 then
   (
-    "$DOTFILES/bin/lang" is_installed ruby || "$DOTFILES/bin/lang" install ruby || exit 1
+    "$DOTFILES/bin/lang" is_installed ruby || exit 1
     . "$DOTFILES/bin/lang" use ruby || exit 1
-    "$DOTFILES/bin/lang" is_installed python || "$DOTFILES/bin/lang" install python || exit 1
+    "$DOTFILES/bin/lang" is_installed python || exit 1
     . "$DOTFILES/bin/lang" use python || exit 1
     ensure_git vim https://github.com/vim/vim || exit 1
     (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
@@ -1019,7 +1019,7 @@ fi
 if [ "$ENABLE_RIPGREP" = "yes" -a ! -e "opt/ripgrep-$RIPGREPV" ]
 then
   (
-    "$DOTFILES/bin/lang" is_installed rust || "$DOTFILES/bin/lang" install rust || exit 1
+    "$DOTFILES/bin/lang" is_installed rust || exit 1
     . "$DOTFILES/bin/lang" use rust || exit 1
     ensure_git ripgrep https://github.com/BurntSushi/ripgrep || exit 1
     (cd "repos/git/ripgrep" && git archive --format=tar --prefix=ripgrep-build/ "$RIPGREPV") | tar xf - || exit 1
@@ -1031,7 +1031,7 @@ fi
 if [ "$ENABLE_NEWSBOAT" = "yes" -a ! -e "opt/newsboat-$NEWSBOATV" ]
 then
   (
-    "$DOTFILES/bin/lang" is_installed rust || "$DOTFILES/bin/lang" install rust || exit 1
+    "$DOTFILES/bin/lang" is_installed rust || exit 1
     . "$DOTFILES/bin/lang" use rust || exit 1
     ensure_git newsboat https://github.com/newsboat/newsboat || exit 1
     (cd "repos/git/newsboat" && git archive --format=tar --prefix=newsboat-build/ "$NEWSBOATCOMMIT") | tar xf - || exit 1
@@ -1155,7 +1155,7 @@ fi
 if [ "$ENABLE_GITSH" = "yes" -a ! -e "opt/gitsh-$GITSHV" ]
 then
   (
-    "$DOTFILES/bin/lang" is_installed ruby || "$DOTFILES/bin/lang" install ruby || exit 1
+    "$DOTFILES/bin/lang" is_installed ruby || exit 1
     . "$DOTFILES/bin/lang" use ruby || exit 1
     ensure_git gitsh https://github.com/thoughtbot/gitsh || exit 1
     (cd "repos/git/gitsh" && git archive --format=tar --prefix=gitsh-build/ "v$GITSHV") | tar xf - || exit 1
@@ -1377,7 +1377,7 @@ fi
 if [ "$ENABLE_REMAPY" = "yes" ]
 then
   (
-    "$DOTFILES/bin/lang" is_installed python || "$DOTFILES/bin/lang" install python || exit 1
+    "$DOTFILES/bin/lang" is_installed python || exit 1
     . "$DOTFILES/bin/lang" use python || exit 1
     ensure_git remapy https://github.com/peerdavid/remapy || exit 1
     (cd "repos/git/remapy" && git archive --format=tar --prefix=remapy/ "master") | tar xf - || exit 1
