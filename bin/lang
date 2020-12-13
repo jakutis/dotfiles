@@ -440,6 +440,12 @@ then
       exit 1
   fi
 
+  if [ "$("$SELF" is_installed "$LANG_LANG" "$LANG_VERSION")" ]
+  then
+    echo "$LANG_LANG-$LANG_VERSION is already installed"
+    exit
+  fi
+
   if [ -z "$LANG_VERSION" ]
   then
       LATEST_AVAILABLE="$("latest_version_$LANG_LANG" 2>&1)"
