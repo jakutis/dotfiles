@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+. lang use rust && "$(lang resolve_executable rust bat)" "$@"
+exit "$?"
