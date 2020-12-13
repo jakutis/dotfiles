@@ -83,12 +83,6 @@ then
       wget https://zoom.us/client/latest/zoom_$(dpkg --print-architecture).deb && dpkg -i zoom_$(dpkg --print-architecture).deb && rm zoom_$(dpkg --print-architecture).deb && "$APTGET" install -f -y || exit 1
     fi
 
-    BATV="$(curl https://api.github.com/repos/sharkdp/bat/releases/latest|jq --raw-output .name|cut -b 2-)"
-    if [ "$(bat --version)" != "bat $BATV" ]
-    then
-        wget https://github.com/sharkdp/bat/releases/download/v${BATV}/bat_${BATV}_$(dpkg --print-architecture).deb && dpkg -i bat_${BATV}_$(dpkg --print-architecture).deb && rm bat_${BATV}_$(dpkg --print-architecture).deb || exit 1
-    fi
-
     DEVDOCSV="$(curl https://api.github.com/repos/egoist/devdocs-desktop/releases/latest|jq --raw-output .name|cut -b 2-)"
     if ! dpkg -l devdocs 1>/dev/null 2>&1 || [ "$(dpkg -s devdocs | grep '^Version:'|cut -b 10-)" != "$DEVDOCSV" ]
     then
