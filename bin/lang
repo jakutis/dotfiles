@@ -255,6 +255,9 @@ then
   elif [ "$LANG_LANG" = "python" ]
   then
     ls "$HOME/.pyenv/versions"
+  elif [ "$LANG_LANG" = "rust" ]
+  then
+    ls ~/.rustup/toolchains/ -1|sed -e 's/-.*$//'|grep -v stable
   elif [ "$LANG_LANG" = "node" ]
   then
     ls "$HOME/.nvm/versions/node" | sed -e 's/^v//'
@@ -269,7 +272,7 @@ then
     ls "$HOME/opt" | grep "^erlang-" | sed -e 's/^erlang-//'
   elif [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
   then
-    for L in ruby python node erlang r java
+    for L in ruby python node erlang r java rust
     do
       echo "# $L"
       "$SELF" installed_versions "$L"
