@@ -105,6 +105,9 @@ then
   if [ "$LANG_LANG" = "node" ]
   then
     export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
+  elif [ "$LANG_LANG" = "rust" ]
+  then
+    export PATH="$HOME/.cargo/bin:$PATH"
   elif [ "$LANG_LANG" = "python" ]
   then
     export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
