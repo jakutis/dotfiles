@@ -2,7 +2,7 @@
 
 FLAGS="--no-default-browser-check --user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist --audio-buffer-size=4096"
 
-for BIN in google-chrome-unstable chrome google-chrome-stable google-chrome chromium-browser chromium
+for BIN in chrome google-chrome-stable google-chrome chromium-browser chromium
 do
     BROWSER="$(which "$BIN" 2>/dev/null)"
     if [ -n "$BROWSER" ]
