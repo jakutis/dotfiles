@@ -311,9 +311,7 @@ case "$CMD" in
         ;;
     "suspend")
         xscreensaver-command -lock
-        rfkill block all
         systemctl suspend
-        rfkill unblock all
         ;;
     "fan")
         shift
