@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 /root/jakutis-uefi-secure-boot-keys/MOK.priv /root/jakutis-uefi-secure-boot-keys/MOK.der "$1"
+/usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 "$XDG_CONFIG_HOME/dotfiles/uefi-secure-boot-keys/MOK.priv" "$XDG_CONFIG_HOME/dotfiles/uefi-secure-boot-keys/MOK.der" "$1"
