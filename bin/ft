@@ -20,7 +20,7 @@ fi
 while [ -n "$1" ]
 do
   pushd . > /dev/null
-  cd $1 || exit 1
+  cd "$1" || exit 1
   shift
   list
   popd > /dev/null
