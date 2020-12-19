@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+DIR="$1";
+BIT_DEPTH="$2";
+SAMPLE_RATE="$3";
+
+TARGETDIR="$DIR [${BIT_DEPTH}bit, ${SAMPLE_RATE}kHz]";
+
+mkdir -p "$TARGETDIR" || exit 1;
+ls "$DIR" -1|grep -v '.flac$'|while read A;do cp "$DIR/$A" "$TARGETDIR/$A" || exit 1;done;
+ls "$DIR" -1|grep '.flac$'|while read A;do sox "$DIR/$A" -S -r "$SAMPLE_RATE" -b "$BIT_DEPTH" "$TARGETDIR/$A" || exit 1;done;
