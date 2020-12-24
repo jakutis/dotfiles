@@ -103,7 +103,7 @@
   Shift+Mod4 + F12
 
 # Lock screen
-"xscreensaver-command -lock"
+"light-locker-command -l"
   Mod4 + Home
 
 # Suspend

@@ -7,7 +7,9 @@ xhost si:localuser:root
 xrdb -merge .Xresources
 xbindkeys
 update-xinput
-xscreensaver -no-splash &
+light-locker --lock-on-suspend --no-lock-on-lid --lock-after-screensaver=1 &
+xset s default
+xset +dpms
 start-pulseaudio-x11
 parcellite &
 blueman-applet &

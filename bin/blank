@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-xscreensaver -no-splash &
+light-locker --lock-on-suspend --no-lock-on-lid --lock-after-screensaver=1 &
 
 sleep 1
-xset s blank
+xset s default
 xset s activate
-xset s noblank
+
+xset +dpms

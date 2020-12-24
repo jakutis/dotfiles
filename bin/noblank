@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-killall xscreensaver
+killall light-locker
 
+xset s default
 xset s off
-xset s noblank
-xset s noexpose
 
 xset -dpms
