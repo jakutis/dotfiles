@@ -4,6 +4,16 @@
 2. `git clone git@github.com:jakutis/dotfiles repos/git/dotfiles`
 3. `sudo repos/git/dotfiles/bin/install-system $(whoami)`
 4. `repos/git/dotfiles/bin/install-user`
+5. install Google Chrome
+6. configure `$HOME/.config/dotfiles`:
+   - `battery`
+   - `battery_threshold`
+   - `brightness`
+   - `dotfiles`
+   - `eth`
+   - `keyboard`
+   - `machine`
+   - `wlan`
 
 # What actions need to be done by hand?
 
