@@ -110,30 +110,34 @@ fi
 
 if [ "$COMMAND" = "send" ]
 then
-  WHAT="$(realpath "$ORIGINAL_DIR/${2}")"
   dav_download "done" | execute_done || exit 1
 
-  echo "sending updates"
-  ROOT_DIR="$(realpath .)"
-  find -L "$WHAT" -print0 | while IFS= read -r -d '' FILE
+  while [ -n "$2" ]
   do
-    FILE=".${FILE:${#ROOT_DIR}}"
-    EXISTS=$(dav_exists "$FILE") || exit 1
-    if [ "$EXISTS" = "yes" ]
-    then
-      echo "found $FILE"
-      continue
-    fi
+    shift
+    echo "sending $1"
+    WHAT="$(realpath "$ORIGINAL_DIR/${1}")"
+    ROOT_DIR="$(realpath .)"
+    find -L "$WHAT" -print0 | while IFS= read -r -d '' FILE
+    do
+      FILE=".${FILE:${#ROOT_DIR}}"
+      EXISTS=$(dav_exists "$FILE") || exit 1
+      if [ "$EXISTS" = "yes" ]
+      then
+        echo "found $FILE"
+        continue
+      fi
 
-    if [ -d "$FILE" ]
-    then
-      echo "creating $FILE"
-      dav_mkdir "$FILE" || exit 1
-    else
-      echo "copying $FILE"
-      dav_upload "$FILE" "$FILE" || exit 1
-    fi
-  done || exit 1
+      if [ -d "$FILE" ]
+      then
+        echo "creating $FILE"
+        dav_mkdir "$FILE" || exit 1
+      else
+        echo "copying $FILE"
+        dav_upload "$FILE" "$FILE" || exit 1
+      fi
+    done || exit 1
+  done
 elif [ "$COMMAND" = "list" ]
 then
   ROOT_DIR="$(realpath .)"
