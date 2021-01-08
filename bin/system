@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "lock" ]) && ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
 then
   ARGS="$@"
   if tty --silent
@@ -19,7 +19,7 @@ DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 function help {
-    echo "Available commands: help suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard dock undock vpn"
+    echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard dock undock vpn"
 }
 
 function fan {
@@ -308,6 +308,9 @@ case "$CMD" in
         ;;
     "poweroff" | "shutdown")
         sudo systemctl poweroff
+        ;;
+    "lock")
+        i3lock --color=009900
         ;;
     "suspend")
         systemctl suspend
