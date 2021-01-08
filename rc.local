@@ -32,4 +32,5 @@ then
   chmod a+w "$DOTFILES_CONFIG/brightness/brightness"
   chmod a+w "$DOTFILES_CONFIG/keyboard/brightness"
   "$USER_HOME/bin/system" net client-wifi
+  systemctl restart xdm
 fi
