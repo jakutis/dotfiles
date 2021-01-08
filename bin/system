@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "lock" ]) && ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ]) && ! ([ "$CMD" = "lock" ])
 then
   ARGS="$@"
   if tty --silent
