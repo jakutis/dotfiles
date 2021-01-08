@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-killall light-locker
-
 xset s default
 xset s off
 

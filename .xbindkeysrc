@@ -103,15 +103,15 @@
   Shift+Mod4 + F12
 
 # Lock screen
-"light-locker-command -l"
+"system lock"
   Mod4 + Home
 
 # Suspend
-"system suspend"
+"system lock && system suspend"
   XF86PowerOff
 
 # Suspend
-"system suspend"
+"system lock && system suspend"
   Mod4 + End
 
 # Decrease keyboard brightness

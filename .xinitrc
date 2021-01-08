@@ -7,7 +7,6 @@ xhost si:localuser:root
 xrdb -merge .Xresources
 xbindkeys
 update-xinput
-light-locker --lock-on-suspend --no-lock-on-lid --lock-after-screensaver=1 &
 xset s default
 xset +dpms
 start-pulseaudio-x11
