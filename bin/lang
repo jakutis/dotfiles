@@ -440,7 +440,7 @@ then
       exit 1
   fi
 
-  if [ "$("$SELF" is_installed "$LANG_LANG" "$LANG_VERSION")" ]
+  if "$SELF" is_installed "$LANG_LANG" "$LANG_VERSION" > /dev/null
   then
     echo "$LANG_LANG-$LANG_VERSION is already installed"
     exit
