@@ -848,6 +848,7 @@ fi
 mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
 ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 
+"$DOTFILES/bin/lang" install brew || exit 1
 "$DOTFILES/bin/lang" install node || exit 1
 "$DOTFILES/bin/lang" install rust || exit 1
 "$DOTFILES/bin/lang" install python || exit 1
