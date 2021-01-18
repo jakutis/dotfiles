@@ -36,11 +36,9 @@ PHPVS=("7.4.8")
 GHCV="8.8.4"
 ERLANGV="23"
 
-GITV="2.29.2"
 TMUXV="3.1b"
 VIMV="8.2.1968"
 GITSHV="0.14"
-RIPGREPV="12.1.1"
 
 BASH3V="3.2.57"
 ZSTDV="1.4.4"
@@ -275,16 +273,6 @@ function ensure_hg {
         cd "repos/hg/$REPO" && hg pull && cd ../../.. || exit 1
     fi
 }
-
-if [ "$ENABLE_GIT" = "yes" -a ! -e "opt/git-$GITV" ]
-then
-    ensure_git git https://github.com/git/git || exit 1
-    cd "repos/git/git" && git co "v$GITV" || exit 1
-    make configure && ./configure --prefix="$HOME/opt/git-$GITV" && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD all doc info && make prefix="$HOME/opt/git-$GITV" PROFILE=BUILD install install-doc install-html install-info || exit 1
-    cd "../../.."
-    cd opt && ln -nsf "git-$GITV" "git" && cd .. || exit 1
-    cd .bin && (for BIN in $(ls "../opt/git/bin/"*); do ln -nsf "$BIN"; done) && cd .. || exit 1
-fi
 
 if [ ! -e "$HOME/opt/zstd-$ZSTDV" ]
 then
@@ -1005,18 +993,6 @@ then
   cd "ifuse-build" && NOCONFIGURE=yes ./autogen.sh && PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/usbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/ifuse-${IFUSEV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/include -I$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/include -I$HOME/opt/usbmuxd-${USBMUXDV}/include -I$HOME/opt/ifuse-${IFUSEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/usbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/ifuse-${IFUSEV}/lib,--enable-new-dtags" ./configure --prefix="$HOME/opt/ifuse-${IFUSEV}" && make && make install && cd .. && rm -r "ifuse-build" || exit 1
   cd opt && ln -nsf "ifuse-$IFUSEV" "ifuse" && cd .. || exit 1
   cd .bin && ln -nsf "../opt/ifuse/bin/ifuse" && cd .. || exit 1
-fi
-
-if [ "$ENABLE_RIPGREP" = "yes" -a ! -e "opt/ripgrep-$RIPGREPV" ]
-then
-  (
-    "$DOTFILES/bin/lang" is_installed rust || exit 1
-    . "$DOTFILES/bin/lang" use rust || exit 1
-    ensure_git ripgrep https://github.com/BurntSushi/ripgrep || exit 1
-    (cd "repos/git/ripgrep" && git archive --format=tar --prefix=ripgrep-build/ "$RIPGREPV") | tar xf - || exit 1
-    cd ripgrep-build && RUSTFLAGS="-C target-cpu=native" cargo build --release --features 'pcre2' && mv target/release/rg "$HOME/opt/ripgrep-$RIPGREPV" && cd .. && rm -rf ripgrep-build || exit 1
-    cd .bin && ln -nsf "../opt/ripgrep-$RIPGREPV" rg && cd .. || exit 1
-  ) || exit 1
 fi
 
 if [ "$ENABLE_NEWSBOAT" = "yes" -a ! -e "opt/newsboat-$NEWSBOATV" ]
