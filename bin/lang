@@ -7,6 +7,10 @@ LANG_VERSION="$3"
 
 export PYENV_ROOT="$HOME/.pyenv"
 
+function latest_version_brew {
+  echo master
+}
+
 function latest_version_python {
   curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
 }
@@ -67,6 +71,15 @@ function install_packages_node {
   done
 }
 
+function install_packages_brew {
+  PACKAGES=$(cat "$HOME/.brewpackages") || exit 1
+  for PACKAGE in $PACKAGES
+  do
+      echo "Installing $PACKAGE"
+      brew install $PACKAGE || exit 1
+  done
+}
+
 function install_packages_ruby {
   PACKAGES=$(cat "$HOME/.rubypackages") || exit 1
   for PACKAGE in $PACKAGES
@@ -105,6 +118,9 @@ then
   if [ "$LANG_LANG" = "node" ]
   then
     export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
+  elif [ "$LANG_LANG" = "brew" ]
+  then
+    export PATH="$HOME/.linuxbrew/bin:$PATH"
   elif [ "$LANG_LANG" = "rust" ]
   then
     export PATH="$HOME/.cargo/bin:$PATH"
@@ -146,6 +162,10 @@ then
     else
       echo "$EXE"
     fi
+  elif [ "$LANG_LANG" = "brew" ]
+  then
+    EXE="$3"
+    echo "$EXE"
   elif [ "$LANG_LANG" = "python" ]
   then
     EXE="$3"
@@ -384,6 +404,9 @@ then
     fi
     [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$LANG_VERSION" || exit 1
     export PATH="$HOME/.composer/vendor/bin:$PATH"
+  elif [ "$LANG_LANG" = "brew" ]
+  then
+    eval $("$HOME/.linuxbrew/bin/brew" shellenv)
   elif [ "$LANG_LANG" = "python" ]
   then
     export PATH="$PYENV_ROOT/bin:$PATH"
@@ -469,6 +492,16 @@ then
     source "$HOME/.nvm/nvm.sh" && nvm install "$LANG_VERSION" && nvm use "$LANG_VERSION" || exit 1
 
     install_packages_node
+  elif [ "$LANG_LANG" = "brew" ]
+  then
+    if ! [ -e "$HOME/.linuxbrew/Homebrew" ]
+    then
+        git clone https://github.com/Homebrew/brew "$HOME/.linuxbrew/Homebrew" || exit 1
+    else
+        cd "$HOME/.linuxbrew/Homebrew" && git pull --rebase && cd - || exit 1
+    fi
+    mkdir -p "$HOME/.linuxbrew/bin"
+    ln -nsf "$HOME/.linuxbrew/Homebrew/bin/brew" "$HOME/.linuxbrew/bin/brew"
   elif [ "$LANG_LANG" = "java" ]
   then
     TAR="jdk-${LANG_VERSION}_linux-x64_bin.tar.gz"
@@ -588,6 +621,9 @@ then
       return 1
     fi
   }
+
+  check brew && brew --version || true
+  echo
 
   check ruby && ruby --version || true
   echo
