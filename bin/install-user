@@ -41,7 +41,6 @@ TMUXV="3.1b"
 VIMV="8.2.1968"
 GITSHV="0.14"
 RIPGREPV="12.1.1"
-TIGV="2.5.1"
 
 BASH3V="3.2.57"
 ZSTDV="1.4.4"
@@ -545,15 +544,6 @@ then
     cd hub-build && ./script/build && mkdir -p "../opt/hub-$HUBV/bin" && cp hub "../opt/hub-$HUBV/bin" && cd .. && rm -rf hub-build || exit 1
     cd opt && ln -nsf "hub-$HUBV" hub && cd .. || exit 1
     cd .bin && ln -nsf "../opt/hub/bin/hub" "hub" && cd .. || exit 1
-fi
-
-if [ "$ENABLE_TIG" = "yes" -a ! -e "opt/tig-$TIGV" ]
-then
-    ensure_git tig https://github.com/jonas/tig || exit 1
-    (cd "repos/git/tig" && git archive --format=tar --prefix=tig-build/ "tig-$TIGV") | tar xf - || exit 1
-    cd tig-build && ./autogen.sh && ./configure --prefix="$HOME/opt/tig-$TIGV" && make && make install && cd .. && rm -rf tig-build || exit 1
-    cd opt && ln -nsf "tig-$TIGV" tig && cd .. || exit 1
-    cd .bin && ln -nsf "../opt/tig/bin/tig" "tig" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_I3STATUS" = "yes" -a ! -e "opt/i3status-$I3STATUSV" ]
