@@ -310,7 +310,7 @@ case "$CMD" in
         sudo systemctl poweroff
         ;;
     "lock")
-        i3lock --color=009900
+        slock
         ;;
     "suspend")
         systemctl suspend
