@@ -107,11 +107,11 @@
   Mod4 + Home
 
 # Suspend
-"system lock && system suspend"
+"system suspend"
   XF86PowerOff
 
 # Suspend
-"system lock && system suspend"
+"system suspend"
   Mod4 + End
 
 # Decrease keyboard brightness

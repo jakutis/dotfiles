@@ -313,7 +313,7 @@ case "$CMD" in
         slock
         ;;
     "suspend")
-        systemctl suspend
+        slock systemctl suspend
         ;;
     "fan")
         shift
