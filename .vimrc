@@ -84,14 +84,14 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
-\   'typescript': ['eslint', 'prettier', 'tslint'],
+\   'typescript': ['eslint', 'tslint'],
 \   'scala': ['scalafmt'],
 \   'json': ['jq'],
 \   'html': ['tidy'],
 \   'ocaml': ['ocamlformat'],
 \}
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_javascript_prettier_use_global = 1
+let g:ale_typescript_eslint_use_global = 1
 let g:ale_typescript_tslint_use_global = 1
 let g:ale_keep_list_window_open = 0
 noremap! <C-s> <Esc>:ALEFix<CR>
