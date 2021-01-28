@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
-. lang ensurebins rust && . lang ensurebins node && . lang ensurebins python && . lang ensurebins ruby && \
-  export PATH="$HOME/.bin:$HOME/bin:$PATH" && "$HOME/opt/vim/bin/vim" "$@"
+. lang ensurebins rust && . lang ensurebins node && . lang ensurebins python && . lang ensurebins ruby && . lang ensurebins brew || exit 1
+
+VIM="$(which vim)"
+export PATH="$HOME/.bin:$HOME/bin:$PATH"
+"$VIM" "$@"

@@ -37,7 +37,6 @@ GHCV="8.8.4"
 ERLANGV="23"
 
 TMUXV="3.1b"
-VIMV="8.2.1968"
 GITSHV="0.14"
 
 BASH3V="3.2.57"
@@ -831,32 +830,6 @@ ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 "$DOTFILES/bin/lang" install rust || exit 1
 "$DOTFILES/bin/lang" install python || exit 1
 "$DOTFILES/bin/lang" install ruby || exit 1
-
-if [ ! -e "opt/vim-$VIMV" ]
-then
-  (
-    "$DOTFILES/bin/lang" is_installed ruby || exit 1
-    . "$DOTFILES/bin/lang" use ruby || exit 1
-    "$DOTFILES/bin/lang" is_installed python || exit 1
-    . "$DOTFILES/bin/lang" use python || exit 1
-    ensure_git vim https://github.com/vim/vim || exit 1
-    (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v$VIMV") | tar xf - || exit 1
-    cd "vim-build" || exit 1
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MY_RUBY_HOME/lib"
-    export PKG_CONFIG_PATH="$MY_RUBY_HOME/lib/pkgconfig:$(pkg-config --variable pc_path pkg-config)"
-    ./configure \
-      --enable-multibyte \
-      --enable-pythoninterp=no \
-      --enable-python3interp=yes \
-      --enable-rubyinterp=dynamic \
-      --with-python3-config-dir=$(python3-config --configdir) \
-      --with-features=huge \
-      --enable-cscope \
-      --prefix="$HOME/opt/vim-$VIMV" && make && make install || exit 1
-    cd .. && rm -rf vim-build || exit 1
-    cd "$HOME/opt" && ln -nsf "vim-$VIMV" "vim" && cd .. || exit 1
-  ) || exit 1
-fi
 
 if [ ! -e ".vim" ]
 then
