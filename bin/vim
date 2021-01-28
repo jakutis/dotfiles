@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-. lang fastuse rust && . lang fastuse node && . lang fastuse python && . lang fastuse ruby && \
+. lang ensurebins rust && . lang ensurebins node && . lang ensurebins python && . lang ensurebins ruby && \
   export PATH="$HOME/.bin:$HOME/bin:$PATH" && "$HOME/opt/vim/bin/vim" "$@"

@@ -109,22 +109,49 @@ function install_packages_rust {
   done
 }
 
-if [ "$LANG_COMMAND" = "fastuse" ]
+if [ "$LANG_COMMAND" = "ensurebins" ]
 then
   if [ "$LANG_LANG" = "node" ]
   then
+    if [ -n "$(which npm 2>/dev/null)" ]
+    then
+      return
+    fi
     export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PATH"
+  elif [ "$LANG_LANG" = "ocaml" ]
+  then
+    if [ -n "$(which ocamlbuild 2>/dev/null)" ]
+    then
+      return
+    fi
+    export PATH="$HOME/.opam/default/bin:$HOME/opt/opam/bin:$PATH"
   elif [ "$LANG_LANG" = "brew" ]
   then
+    if [ -n "$(which brew 2>/dev/null)" ]
+    then
+      return
+    fi
     export PATH="$HOME/.linuxbrew/bin:$PATH"
   elif [ "$LANG_LANG" = "rust" ]
   then
+    if [ -n "$(which cargo 2>/dev/null)" ]
+    then
+      return
+    fi
     export PATH="$HOME/.cargo/bin:$PATH"
   elif [ "$LANG_LANG" = "python" ]
   then
+    if [ -n "$(which pyenv 2>/dev/null)" ]
+    then
+      return
+    fi
     export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
   elif [ "$LANG_LANG" = "ruby" ]
   then
+    if [ -n "$(which rvm 2>/dev/null)" ]
+    then
+      return
+    fi
     LANG_VERSION="$(grep default= "$HOME/.rvm/config/alias"|cut -b14-)"
     export RUBY_VERSION="ruby-$LANG_VERSION"
     export GEM_HOME="$HOME/.rvm/gems/$RUBY_VERSION"
@@ -398,6 +425,7 @@ then
     [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$LANG_VERSION" 1>/dev/null || exit 1
   elif [ "$LANG_LANG" = "ocaml" ]
   then
+    export PATH="$HOME/opt/opam/bin:$PATH"
     [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null || exit 1
   elif [ "$LANG_LANG" = "php" ]
   then

@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-. lang fastuse python && "$(lang resolve_executable python autorandr)" "$@"
-exit "$?"
+. lang ensurebins python && "$(lang resolve_executable python autorandr)" "$@"

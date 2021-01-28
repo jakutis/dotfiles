@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-. lang fastuse rust && "$(lang resolve_executable rust delta)" "$@"
-exit "$?"
+. lang ensurebins rust && "$(lang resolve_executable rust delta)" "$@"
