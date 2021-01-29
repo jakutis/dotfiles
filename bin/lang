@@ -109,7 +109,25 @@ function install_packages_rust {
   done
 }
 
-if [ "$LANG_COMMAND" = "ensurebins" ]
+if [ "$LANG_COMMAND" = "execute" ]
+then
+  if [ "$LANG_LANG" = "node" ]
+  then
+    BIN="$3"
+    shift
+    shift
+    shift
+    EXECUTED="$(mktemp)"
+    trap 'rm "$EXECUTED"' EXIT
+    (. "$SELF" use node 1>/dev/null 2>&1 && nvm use 1>/dev/null 2>&1 && echo yes > "$EXECUTED" && "$("$SELF" resolve_executable node "$BIN")" "$@")
+    CODE="$?"
+    if [ "$(cat "$EXECUTED")" = "yes" ]
+    then
+      exit "$CODE"
+    fi
+    . "$SELF" ensurebins node && "$("$SELF" resolve_executable node "$BIN")" "$@"
+  fi
+elif [ "$LANG_COMMAND" = "ensurebins" ]
 then
   if [ "$LANG_LANG" = "node" ]
   then
