@@ -36,6 +36,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lambdalisue/vim-manpager'
+Plug 'christoomey/vim-system-copy'
 call plug#end()
 
 packadd cfilter
@@ -286,9 +287,6 @@ set autoindent
 set backspace=2
 set tabstop=2
 autocmd Filetype kotlin setlocal tabstop=4 shiftwidth=4
-
-" clipboard
-set clipboard=unnamed,unnamedplus
 
 " do not add a space when joining lines with J
 set nojoinspaces
