@@ -45,6 +45,16 @@ function dav_exists {
   fi
 }
 
+function dav_delete {
+  FILE="$1"
+  CODE=$(custom_curl --write-out "%{http_code}" --request DELETE "$(full_url "$FILE")")
+  if [ "$CODE" != "200" -a "$CODE" != "201" -a "$CODE" != "204" ]
+  then
+    echo "deleting "$FILE" returned http status code: $CODE" 1>&2
+    exit 1
+  fi
+}
+
 function dav_mkdir {
   FILE="$1"
   CODE=$(custom_curl --write-out "%{http_code}" --request MKCOL "$(full_url "$FILE")")
@@ -82,15 +92,6 @@ function dav_download {
   custom_curl --request GET "$(full_url "$FILE")" || exit 1
 }
 
-function execute_done {
-  touch "done" || exit 1
-  echo "executing scripts"
-  tail --lines=+$(($(cat "done"|wc -l) + 1)) | while read SCRIPT
-  do
-    echo "$SCRIPT" && (echo "$SCRIPT" | bash) && (echo "$SCRIPT" >> "done") || exit 1
-  done || exit 1
-}
-
 ORIGINAL_DIR="$(pwd)"
 
 while [ "$(cat "root" 2>/dev/null)" != "So, I am like a slave of this root file system!" ]
@@ -110,8 +111,6 @@ fi
 
 if [ "$COMMAND" = "send" ]
 then
-  dav_download "done" | execute_done || exit 1
-
   while [ -n "$2" ]
   do
     shift
@@ -263,27 +262,19 @@ then
   receive "$RELATIVE_PATH" || exit 1
 elif [ "$COMMAND" = "mkdir" ]
 then
-  DOLOCALLY="$2"
-  DIR="$3"
-  echo "reading /done"
-  DONE="$(dav_download "done")$(echo -e "\nmkdir -p \"$DIR\"")"
-  if [ "$DOLOCALLY" = "true" ]
-  then
-    echo "$DONE" | execute_done || exit 1
-  fi
-  echo "making $DIR" && dav_mkdir "$DIR" && echo "writing /done" && dav_upload <(echo "$DONE") "done" || exit 1
+  DIR="$2"
+  echo "making $DIR" && dav_mkdir "$DIR" || exit 1
+elif [ "$COMMAND" = "rm" ]
+then
+  ROOT_DIR="$(realpath .)"
+  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
+  SOURCE=".${FULL_PATH:${#ROOT_DIR}}"
+  echo "removing $SOURCE" && dav_delete "$SOURCE" || exit 1
 elif [ "$COMMAND" = "mv" ]
 then
-  DOLOCALLY="$2"
-  SOURCE="$3"
-  DESTINATION="$4"
-  echo "reading /done"
-  DONE="$(dav_download "done")$(echo -e "\nif [ -e \"$SOURCE\" ];then mv \"$SOURCE\" \"$DESTINATION\" || exit 1;fi")"
-  if [ "$DOLOCALLY" = "true" ]
-  then
-    echo "$DONE" | execute_done || exit 1
-  fi
-  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" && echo "writing /done" && dav_upload <(echo "$DONE") "done" || exit 1
+  SOURCE="$2"
+  DESTINATION="$3"
+  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" || exit 1
 else
   echo "unknown command: $COMMAND" 1>&2
   exit 1
