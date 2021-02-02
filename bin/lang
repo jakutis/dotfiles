@@ -263,14 +263,14 @@ then
   }
   if [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
   then
-    IGNORE_NOT_INSTALLED=yes upgrade brew
-    IGNORE_NOT_INSTALLED=yes upgrade ruby
-    IGNORE_NOT_INSTALLED=yes upgrade r
-    IGNORE_NOT_INSTALLED=yes upgrade node
-    IGNORE_NOT_INSTALLED=yes upgrade python
-    IGNORE_NOT_INSTALLED=yes upgrade java
+    IGNORE_NOT_INSTALLED=yes upgrade brew || exit 1
+    IGNORE_NOT_INSTALLED=yes upgrade ruby || exit 1
+    IGNORE_NOT_INSTALLED=yes upgrade r || exit 1
+    IGNORE_NOT_INSTALLED=yes upgrade node || exit 1
+    IGNORE_NOT_INSTALLED=yes upgrade python || exit 1
+    IGNORE_NOT_INSTALLED=yes upgrade java || exit 1
   else
-    upgrade "$LANG_LANG"
+    upgrade "$LANG_LANG" || exit 1
   fi
 elif [ "$LANG_COMMAND" = "is_installed" ]
 then
