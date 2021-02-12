@@ -48,7 +48,7 @@ then
         "image/webp" | "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png")
             viewnior -- "$FILE"
             ;;
-        "application/x-font-ttf")
+        "application/x-font-ttf" | "application/font-sfnt")
             kfontview -- "$FILE"
             ;;
         "application/x-bittorrent")
