@@ -49,7 +49,7 @@ then
             viewnior -- "$FILE"
             ;;
         "application/x-font-ttf" | "application/font-sfnt")
-            kfontview -- "$FILE"
+            display -- "$FILE"
             ;;
         "application/x-bittorrent")
             if [ -n "$(which transmission-show 2>/dev/null)" ]
