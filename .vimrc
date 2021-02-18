@@ -37,6 +37,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lambdalisue/vim-manpager'
 Plug 'christoomey/vim-system-copy'
+Plug 'junegunn/goyo.vim'
 call plug#end()
 
 packadd cfilter
@@ -318,3 +319,7 @@ nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 nmap <Esc><Esc> :noh<CR><CR> \| <Plug>(anzu-clear-search-status)
+
+" junegunn/goyo.vim
+noremap! <C-g> <Esc>:Goyo<CR>
+nnoremap <C-g> <Esc>:Goyo<CR>
