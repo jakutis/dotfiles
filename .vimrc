@@ -320,6 +320,9 @@ nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 nmap <Esc><Esc> :noh<CR><CR> \| <Plug>(anzu-clear-search-status)
 
+" suan/vim-instant-markdown
+let g:instant_markdown_autostart = 0
+
 " junegunn/goyo.vim
 noremap! <C-g> <Esc>:Goyo<CR>
 nnoremap <C-g> <Esc>:Goyo<CR>
