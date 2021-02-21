@@ -4,3 +4,5 @@ xset s default
 xset s off
 
 xset -dpms
+
+xautolock -disable

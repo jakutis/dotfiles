@@ -7,3 +7,5 @@ xset s activate
 
 xset +dpms
 xset dpms 300 300 300
+
+xautolock -enable

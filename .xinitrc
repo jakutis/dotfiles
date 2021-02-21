@@ -11,6 +11,7 @@ xset s default
 xset s 300
 xset +dpms
 xset dpms 300 300 300
+nohup xautolock -time 600 -detectsleep -locker slock 1>/dev/null 2>&1 &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
