@@ -2,6 +2,8 @@
 
 sleep 1
 xset s default
+xset s 300
 xset s activate
 
 xset +dpms
+xset dpms 300 300 300

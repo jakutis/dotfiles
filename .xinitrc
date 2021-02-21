@@ -8,7 +8,9 @@ xrdb -merge .Xresources
 xbindkeys
 update-xinput
 xset s default
+xset s 300
 xset +dpms
+xset dpms 300 300 300
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
