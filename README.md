@@ -23,9 +23,9 @@
 
 ```
 vncserver
-ps aux|grep -i vnc
+xtigervncviewer -SecurityTypes VncAuth -passwd /home/jakutis/.vnc/passwd :1 &
+ps aux|grep -i ipc-socket
 i3-msg -s /run/user/1000/i3/ipc-socket.13187 layout tabbed
-xtigervncviewer -SecurityTypes VncAuth -passwd /home/jakutis/.vnc/passwd :1
 
 export DISPLAY=:1
 vokoscreen &
