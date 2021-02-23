@@ -22,7 +22,7 @@
     a = add -p
     co = checkout
     st = status
-    ci = commit -S
+    ci = commit
     w = whatchanged
     pom = pull origin master
     changes = log --oneline --reverse
