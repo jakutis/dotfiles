@@ -18,3 +18,15 @@
 # What actions need to be done by hand?
 
 - in `/etc/default/im-config` file set `IM_CONFIG_DEFAULT_MODE=xim`
+
+# Recording inactive/unfocused windows
+
+```
+vncserver
+ps aux|grep -i vnc
+i3-msg -s /run/user/1000/i3/ipc-socket.13187 layout tabbed
+xtigervncviewer -SecurityTypes VncAuth -passwd /home/jakutis/.vnc/passwd :1
+
+export DISPLAY=:1
+vokoscreen &
+```
