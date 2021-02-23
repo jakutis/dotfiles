@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FN="screenshot-$(date "+%F-%s").png"
+FN="$HOME/Downloads/screenshot-$(date "+%F-%s").png"
 PAUSE="$1"
 ARGS=""
 if [ -n "$PAUSE" ]
