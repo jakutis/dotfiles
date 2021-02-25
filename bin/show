@@ -33,10 +33,7 @@ then
         "application/x-sharedlib" | "application/x-executable")
             readelf --all -- "$FILE" | less
             ;;
-        "text/plain")
-            [ "$EXT" = "md" -o "$EXT" = "markdown" ] && (xhost 1>/dev/null 2>&1) && marktext "$FILE" || bat -- "$FILE"
-            ;;
-        "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
+        "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
             bat -- "$FILE"
             ;;
         "text/html")
