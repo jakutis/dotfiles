@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+ITEM="$@"
+. lang ensurebins brew && todoist quick "$ITEM"
