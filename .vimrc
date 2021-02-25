@@ -45,6 +45,9 @@ packadd cfilter
 " master keys
 let mapleader = ","
 
+" automatically commit & push if saved a wiki file
+autocmd BufWritePost * silent! execute "!wiki-commit '%'"  | redraw!
+
 " hex editing
 augroup Binary
   au!
