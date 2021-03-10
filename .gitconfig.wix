@@ -88,3 +88,5 @@
 
 [credential]
 	helper = cache
+[log]
+	date = local
