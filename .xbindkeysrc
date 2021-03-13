@@ -96,6 +96,10 @@
 
 # Screenshot
 "shot"
+  Print
+
+# Screenshot
+"shot"
   Mod4 + F12
 
 # Screenshot with 2 second delay
