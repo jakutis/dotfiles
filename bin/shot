@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-FN="$HOME/Downloads/screenshot-$(date "+%F-%s").png"
-PAUSE="$1"
-ARGS=""
-if [ -n "$PAUSE" ]
+if [ -n "$1" ]
 then
-  sleep "$PAUSE"
-  ARGS="$ARGS -window root"
+  sleep "$1"
 fi
-ARGS="$ARGS $FN"
-import $ARGS && gimp "$FN"
+
+flameshot gui -p "$HOME/Downloads"
