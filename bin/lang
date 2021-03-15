@@ -109,6 +109,16 @@ function install_packages_rust {
   done
 }
 
+function install_packages_ocaml {
+  opam install --yes depext || exit 1
+  PACKAGES=$(cat "$HOME/.ocamlpackages") || exit 1
+  for PACKAGE in $PACKAGES
+  do
+      echo "Installing $PACKAGE"
+      opam --yes depext $PACKAGE && opam install --yes $PACKAGE || exit 1
+  done
+}
+
 if [ "$LANG_COMMAND" = "execute" ]
 then
   if [ "$LANG_LANG" = "node" ]
