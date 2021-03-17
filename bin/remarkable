@@ -2,42 +2,53 @@
 
 set -euo pipefail
 
-FILEDIR="$(pwd)"
-rmapi -ni ls|grep '^\[f\]'|cut -c 5-|while read FILE
-do
-  if [ "$FILE" = "Quick sheets" ]
-  then
-    continue
-  fi
-  echo "Downloading $FILE"
-  rmapi -ni geta "$FILE" 1>/dev/null 2>&1 || echo -n
+function cmd_take {
+  FILEDIR="$(pwd)"
+  rmapi -ni ls|grep '^\[f\]'|cut -c 5-|while read FILE
+  do
+    if [ "$FILE" = "Quick sheets" ]
+    then
+      continue
+    fi
+    echo "Downloading $FILE"
+    rmapi -ni geta "$FILE" 1>/dev/null 2>&1 || echo -n
 
-  if [ -f "${FILE}.zip" ]
-  then
-    TMPDIR="$(mktemp -d)"
-    cd "$TMPDIR"
-    unzip -q "$FILEDIR/${FILE}.zip"
-    rm "$FILEDIR/${FILE}.zip"
-    if [ "$(echo -n *.pdf)" != "*.pdf" ]
+    if [ -f "${FILE}.zip" ]
     then
-      mv *.pdf "$FILEDIR/${FILE}.pdf"
-    fi
-    if [ "$(echo -n *.epub)" != "*.epub" ]
+      TMPDIR="$(mktemp -d)"
+      cd "$TMPDIR"
+      unzip -q "$FILEDIR/${FILE}.zip"
+      rm "$FILEDIR/${FILE}.zip"
+      if [ "$(echo -n *.pdf)" != "*.pdf" ]
+      then
+        mv *.pdf "$FILEDIR/${FILE}.pdf"
+      fi
+      if [ "$(echo -n *.epub)" != "*.epub" ]
+      then
+        mv *.epub "$FILEDIR/${FILE}.epub"
+      fi
+      cd "$FILEDIR"
+      rm -rf "$TMPDIR"
+      if ! [ -f "${FILE}.epub" -o -f "${FILE}.pdf" ]
+      then
+        echo "Could not find an epub or pdf"
+        exit 1
+      fi
+    elif ! [ -f "${FILE}-annotations.pdf" ]
     then
-      mv *.epub "$FILEDIR/${FILE}.epub"
-    fi
-    cd "$FILEDIR"
-    rm -rf "$TMPDIR"
-    if ! [ -f "${FILE}.epub" -o -f "${FILE}.pdf" ]
-    then
-      echo "Could not find an epub or pdf"
+      echo "Could not find annotated pdf or a zip file"
       exit 1
     fi
-  elif ! [ -f "${FILE}-annotations.pdf" ]
-  then
-    echo "Could not find annotated pdf or a zip file"
-    exit 1
-  fi
 
-  rmapi -ni rm "$FILE" 1>/dev/null 2>&1
-done
+    rmapi -ni rm "$FILE" 1>/dev/null 2>&1
+  done
+}
+
+function cmd_copy {
+  rmapi -ni put "$1" "$2"
+}
+
+CMD="$1"
+shift
+
+cmd_$CMD "$@"
