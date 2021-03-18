@@ -48,6 +48,10 @@ function cmd_copy {
   rmapi -ni put "$1" "$2"
 }
 
+function cmd_mkdir {
+  rmapi -ni mkdir "$1"
+}
+
 CMD="$1"
 shift
 
