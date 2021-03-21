@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+REPO="$1"
+
+if [ ! -d "$HOME/repos/git/$REPO" ]
+then
+  (cd "$HOME/repos/git" && git clone "$REPO")
+  REPO="${REPO##*/}"
+fi
+
 if [ -n "$2" ]
 then
   BRANCH="$2"
@@ -7,4 +15,4 @@ else
   BRANCH="master"
 fi
 
-(cd "$HOME/repos/git/$1" && [ "$(git branch --show-current)" = "master" ] && git pull --rebase) && cp -r "$HOME/repos/git/$1" . && cd "$1" && git clean -ffxd . && git checkout "$BRANCH" && ide
+(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "master" ] && git pull --rebase) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . && git checkout "$BRANCH" && ide
