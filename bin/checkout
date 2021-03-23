@@ -8,6 +8,12 @@ then
   REPO="${REPO##*/}"
 fi
 
+if [ -e "$REPO" ]
+then
+  echo "Cannot checkout, folder $REPO already exists"
+  exit 1
+fi
+
 if [ -n "$2" ]
 then
   BRANCH="$2"
