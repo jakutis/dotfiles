@@ -79,11 +79,22 @@ function dav_move {
 function dav_upload {
   FILESOURCE="$1"
   FILEDESTINATION="$2"
+  TRY="$3"
+  if [ -z "$TRY" ]
+  then
+    TRY="1"
+  fi
   CODE=$(pv "$FILESOURCE" | custom_curl --write-out "%{http_code}" --upload-file - "$(full_url "$FILEDESTINATION")")
   if [ "$CODE" != "200" -a "$CODE" != "201" -a "$CODE" != "204" ]
   then
-    echo "uploading file "$FILEDESTINATION" from "$FILESOURCE" returned http status code: $CODE" 1>&2
-    exit 1
+    if [ "$TRY" = "3" ]
+    then
+      echo "uploading file "$FILEDESTINATION" from "$FILESOURCE" returned http status code: $CODE" 1>&2
+      exit 1
+    else
+      echo "try #${TRY} failed, trying again"
+      dav_upload "$FILESOURCE" "$FILEDESTINATION" "$((TRY + 1))"
+    fi
   fi
 }
 
