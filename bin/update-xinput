@@ -9,3 +9,4 @@ xset b off
 xset r rate 250 50
 rm -f ~/.xkblayout
 xkbswitch "$1"
+exit 0
