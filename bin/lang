@@ -211,20 +211,17 @@ then
     then
       echo "$NM/.bin/$EXE"
     else
-      echo "$EXE"
+      which "$EXE"
     fi
   elif [ "$LANG_LANG" = "brew" ]
   then
-    EXE="$3"
-    echo "$EXE"
+    which "$3"
   elif [ "$LANG_LANG" = "python" ]
   then
-    EXE="$3"
-    echo "$EXE"
+    which "$3"
   elif [ "$LANG_LANG" = "rust" ]
   then
-    EXE="$3"
-    echo "$EXE"
+    which "$3"
   fi
 elif [ "$LANG_COMMAND" = "upgrade" ]
 then
