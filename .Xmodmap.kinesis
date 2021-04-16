@@ -1,0 +1,6 @@
+!mod5        ISO_Level3_Shift (0x5c),  Mode_switch (0xcb)
+clear mod5
+
+keycode 108 = ISO_Level3_Shift
+
+add mod5 = ISO_Level3_Shift

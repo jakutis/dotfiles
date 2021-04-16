@@ -228,7 +228,6 @@ do
 done
 ln -nsf "$DOTFILES/.i3status.conf" ".i3status.conf"
 ln -nsf "$DOTFILES/.xinitrc" ".xinitrc"
-ln -nsf "$DOTFILES/.Xmodmap.$MACHINE" ".Xmodmap"
 ln -nsf "$DOTFILES/.gitconfig.$MACHINE" ".gitconfig"
 ln -nsf "$DOTFILES/.config/ranger" "$XDG_CONFIG_HOME/ranger"
 ln -nsf "$DOTFILES/.config/i3" "$XDG_CONFIG_HOME/i3"

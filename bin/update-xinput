@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 xset s noblank
@@ -8,5 +9,13 @@ xset s off
 xset b off
 xset r rate 250 50
 rm -f ~/.xkblayout
-xkbswitch "$1"
+xkbswitch
+
+if xinput enable "keyboard:Kinesis Freestyle Edge Keyboard"
+then
+  xmodmap "$DOTFILES/.Xmodmap.kinesis"
+else
+  xmodmap "$DOTFILES/.Xmodmap.$MACHINE"
+fi
+
 exit 0
