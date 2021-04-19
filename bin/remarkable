@@ -52,7 +52,17 @@ function cmd_mkdir {
   rmapi -ni mkdir "$1"
 }
 
+if [ "$#" = "0" ]
+then
+  echo "Please specify a command, one of: copy, take, mkdir"
+  exit 1
+fi
+if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "mkdir" ]
+then
+  echo "No such command "$CMD""
+  exit 1
+fi
+
 CMD="$1"
 shift
-
 cmd_$CMD "$@"
