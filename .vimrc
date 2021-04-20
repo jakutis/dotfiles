@@ -1,6 +1,7 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'reasonml-editor/vim-reason-plus'
+Plug 'tmsvg/pear-tree'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
