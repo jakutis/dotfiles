@@ -37,11 +37,13 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lambdalisue/vim-manpager'
-Plug 'christoomey/vim-system-copy'
 Plug 'junegunn/goyo.vim'
 call plug#end()
 
 packadd cfilter
+
+" clipboard
+set clipboard=unnamed,unnamedplus
 
 " master keys
 let mapleader = ","
