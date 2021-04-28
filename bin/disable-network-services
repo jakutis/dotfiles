@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+sudo systemctl disable systemd-resolved.service systemd-networkd.socket systemd-networkd networkd-dispatcher systemd-networkd-wait-online NetworkManager
