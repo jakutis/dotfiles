@@ -7,6 +7,7 @@ xhost si:localuser:root
 xrdb -merge .Xresources
 xbindkeys
 update-xinput
+xcompmgr &
 xset s default
 xset s 300
 xset +dpms
