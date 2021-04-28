@@ -3,4 +3,4 @@
 set -o verbose
 set -o xtrace
 
-cd "$HOME/bin" && git pull --rebase && cd .. && sudo "$HOME/bin/install-system" "$(whoami)" && lang upgrade && install-user && "$HOME/.tmux/plugins/tpm/bin/update_plugins" all && vim +PlugUpdate +qall && vim -c 'CocUpdateSync|q' && flatpak update --assumeyes && sudo apt-get autoremove --purge && echo Updated. || exit 1
+cd "$HOME/bin" && git pull --rebase && cd .. && sudo "$HOME/bin/install-system" "$(whoami)" && lang upgrade && install-user && "$HOME/.tmux/plugins/tpm/bin/update_plugins" all && vim +PlugUpdate +qall && vim -c 'CocUpdateSync|q' && sudo apt-get autoremove --purge && echo Updated. || exit 1
