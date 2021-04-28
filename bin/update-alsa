@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+amixer -c 0 set 'PGA4.0 4 Master' 80%
+amixer -c 0 set 'PGA2.0 2 Master' 80%
+amixer -c 0 set 'Dmic1 2nd' 80%
+amixer -c 0 set 'Dmic0' 80%
+amixer -c 0 set 'Capture' 80%
+amixer -c 0 set 'Mic Boost' 80%
+amixer -c 0 set 'Auto-Mute Mode' Disabled
