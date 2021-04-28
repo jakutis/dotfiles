@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-sudo bash -c 'XDG_CONFIG_HOME=/home/jakutis/.config /home/jakutis/repos/git/dotfiles/bin/install-system'
-ENABLE_RUBY=yes ENABLE_LIBEVENT=yes XDG_CONFIG_HOME=$HOME/.config ENABLE_TIG=yes ENABLE_NEOVIM=yes ENABLE_NODE=yes ENABLE_FIT2TCX=yes ENABLE_IFUSE=yes ENABLE_GITSH=yes ENABLE_TMUX=yes ./repos/git/dotfiles/bin/install-user && echo ok

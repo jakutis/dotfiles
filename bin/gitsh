@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-. lang ensurebins node && "$HOME/opt/gitsh/bin/gitsh"

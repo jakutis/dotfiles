@@ -37,7 +37,6 @@ GHCV="8.8.4"
 ERLANGV="23"
 
 TMUXV="3.1b"
-GITSHV="0.14"
 VIMV="$(curl --silent -H "Accept: application/vnd.github.v3+json" --fail  https://api.github.com/repos/vim/vim/tags|jq .[].name -r|cut -b 2-|sort -nr|head -n 1)" || exit 1
 
 BASH3V="3.2.57"
@@ -1099,18 +1098,6 @@ then
     cd ../.bin
     ln -nsf "../opt/jbig2enc/bin/jbig2"
     popd
-fi
-
-if [ "$ENABLE_GITSH" = "yes" -a ! -e "opt/gitsh-$GITSHV" ]
-then
-  (
-    "$DOTFILES/bin/lang" is_installed ruby || exit 1
-    . "$DOTFILES/bin/lang" use ruby || exit 1
-    ensure_git gitsh https://github.com/thoughtbot/gitsh || exit 1
-    (cd "repos/git/gitsh" && git archive --format=tar --prefix=gitsh-build/ "v$GITSHV") | tar xf - || exit 1
-    cd gitsh-build && bundle install --path vendor/bundle && ./autogen.sh && RUBY="$(which ruby)" ./configure --prefix="$HOME/opt/gitsh-$GITSHV" && make && make install && cd .. && rm -rf gitsh-build || exit 1
-    cd opt && ln -nsf "gitsh-${GITSHV}" "gitsh" && cd .. || exit 1
-  ) || exit 1
 fi
 
 if [ "$ENABLE_PDFLIB" = "yes" -a ! -e "opt/pdflib-lite-$PDFLIBV" ]
