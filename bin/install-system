@@ -98,6 +98,7 @@ else
     exit 1
 fi
 
+ln -nsf /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 gpasswd -a "$MAIN_USER" sudo
 gpasswd -a "$MAIN_USER" docker
 
