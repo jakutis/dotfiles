@@ -948,11 +948,15 @@ fi
 
 if [ ! -e "opt/libimobiledevice-$LIBIMOBILEDEVICEV" ]
 then
-  ensure_git libimobiledevice https://github.com/libimobiledevice/libimobiledevice || exit 1
-  (cd "repos/git/libimobiledevice" && git archive --format=tar --prefix=libimobiledevice-build/ "$LIBIMOBILEDEVICEV") | tar xf - || exit 1
-  cd "libimobiledevice-build" && NOCONFIGURE=yes ./autogen.sh && PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/usbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/ifuse-${IFUSEV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/include -I$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/include -I$HOME/opt/usbmuxd-${USBMUXDV}/include -I$HOME/opt/ifuse-${IFUSEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/usbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/ifuse-${IFUSEV}/lib,--enable-new-dtags" ./configure --prefix="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}" && make && make install && cd .. && rm -r "libimobiledevice-build" || exit 1
-  cd opt && ln -nsf "libimobiledevice-$LIBIMOBILEDEVICEV" "libimobiledevice" && cd .. || exit 1
-  cd .bin && ln -nsf "../opt/libimobiledevice/bin/idevicepair" && cd .. || exit 1
+  (
+    "$DOTFILES/bin/lang" is_installed python || exit 1
+    . "$DOTFILES/bin/lang" use python 2.7.18 || exit 1
+    ensure_git libimobiledevice https://github.com/libimobiledevice/libimobiledevice || exit 1
+    (cd "repos/git/libimobiledevice" && git archive --format=tar --prefix=libimobiledevice-build/ "$LIBIMOBILEDEVICEV") | tar xf - || exit 1
+    cd "libimobiledevice-build" && NOCONFIGURE=yes ./autogen.sh && PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/usbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/ifuse-${IFUSEV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/include -I$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/include -I$HOME/opt/usbmuxd-${USBMUXDV}/include -I$HOME/opt/ifuse-${IFUSEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/usbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/ifuse-${IFUSEV}/lib,--enable-new-dtags" ./configure --prefix="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}" && make && make install && cd .. && rm -r "libimobiledevice-build" || exit 1
+    cd opt && ln -nsf "libimobiledevice-$LIBIMOBILEDEVICEV" "libimobiledevice" && cd .. || exit 1
+    cd .bin && ln -nsf "../opt/libimobiledevice/bin/idevicepair" && cd .. || exit 1
+  ) || exit 1
 fi
 
 if [ ! -e "opt/usbmuxd-$USBMUXDV" ]
