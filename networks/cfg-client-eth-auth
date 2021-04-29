@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ ! -e "$XDG_CONFIG_HOME/dotfiles/eth" ] && echo "Please create a symlink $XDG_CONFIG_HOME/dotfiles/eth to your Ethernet device net folder, e.g. /sys/devices/pci0000:00/0000:00:1c.1/0000:03:00.0/net" && exit 1
+
+killall -9 wpa_supplicant
+sleep 1
+wpa_supplicant -B -Dwired "-i$(ls "$XDG_CONFIG_HOME/dotfiles/eth")" "-c/etc/wpa_supplicant_wired.conf"
+sleep 1
+
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+PUBIF="$(ls "$XDG_CONFIG_HOME/dotfiles/eth")" "$DOTFILES/networks/client"
