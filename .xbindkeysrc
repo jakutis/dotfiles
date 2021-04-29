@@ -126,6 +126,10 @@
 "system keyboard more"
   XF86KbdBrightnessUp
 
+# Increase keyboard brightness and go to minimum after maximum
+"system keyboard moreflip"
+  Mod4 + space
+
 # Open terminal in git repositories folder
 "bash -c 'cd $HOME/repos/git;xterm'"
   Mod4 + g
