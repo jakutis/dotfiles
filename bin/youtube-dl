@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+. lang ensurebins python && "$HOME/opt/youtube-dl" "$@"

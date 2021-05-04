@@ -884,14 +884,14 @@ then
     cd .bin && ln -nsf "../opt/pandoc-$PANDOCV/bin/yaml2json" && cd .. || exit 1
 fi
 
-if ! [ -e ".bin/youtube-dl" ]
+if ! [ -e "opt/youtube-dl" ]
 then
-    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o .bin/youtube-dl && chmod +x .bin/youtube-dl || exit 1
+    curl -L https://yt-dl.org/downloads/latest/youtube-dl -o opt/youtube-dl && chmod +x opt/youtube-dl || exit 1
 else
     (
       "$DOTFILES/bin/lang" is_installed python || exit 1
       . "$DOTFILES/bin/lang" use python || exit 1
-      .bin/youtube-dl -U || exit 1
+      youtube-dl -U || exit 1
     ) || exit 1
 fi
 
