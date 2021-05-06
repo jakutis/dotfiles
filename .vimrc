@@ -144,8 +144,11 @@ let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver'
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Symbol renaming.
+" Symbol renaming
 nmap <leader>rn <Plug>(coc-rename)
+
+" Find references
+nmap <leader>ref <Plug>(coc-references)
 
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
