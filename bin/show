@@ -37,7 +37,12 @@ then
             cat -- "$FILE" | jq --color-output | less --RAW-CONTROL-CHARS
             ;;
         "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
-            bat -- "$FILE"
+            if [ "$EXT" == "markdown" -o "$EXT" == "md" ]
+            then
+                glow --pager --style light -- "$FILE"
+            else
+                bat -- "$FILE"
+            fi
             ;;
         "text/html")
             www -- "$FILE"
