@@ -33,6 +33,9 @@ then
         "application/x-sharedlib" | "application/x-executable")
             readelf --all -- "$FILE" | less
             ;;
+        "application/json")
+            cat -- "$FILE" | jq --color-output | less --RAW-CONTROL-CHARS
+            ;;
         "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
             bat -- "$FILE"
             ;;
