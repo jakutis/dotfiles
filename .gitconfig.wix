@@ -87,6 +87,10 @@
     insteadOf = git://
 
 [credential]
-	helper = cache
+    helper = cache
+
 [log]
-	date = local
+    date = local
+
+[init]
+    defaultBranch = main
