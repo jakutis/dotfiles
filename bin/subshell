@@ -1,3 +1,0 @@
- #!/usr/bin/env bash
-
- perl -nE 'BEGIN {print "'$1' > "} $_ =~ s/^\s+|\s+$//g;  system "'$1' $_" if($_ ne ""); system "'$1' '$2'" if($_ eq ""); print "'$1' > "'
