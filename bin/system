@@ -321,7 +321,7 @@ case "$CMD" in
         sudo systemctl poweroff
         ;;
     "lock")
-        xautolock -locknow
+        slock
         ;;
     "suspend")
         slock systemctl suspend
