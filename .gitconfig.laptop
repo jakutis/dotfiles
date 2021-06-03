@@ -29,7 +29,7 @@
     summary = log --oneline
     staged = diff --cached
     d = difftool
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %ar) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset %s %Cgreen(%cr, %ar) %C(bold blue)<%an>%Creset' --abbrev-commit
     t = log --tags --show-notes --simplify-by-decoration --pretty='format:%ai %h %d %s'
     l = log --graph --decorate --oneline --stat --all
     b = branch -a
