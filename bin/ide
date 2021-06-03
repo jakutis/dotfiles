@@ -23,7 +23,7 @@ NEW_ARGS=""
 
 SESSION_FILE="$(mktemp /tmp/tmp.XXXXX)"
 echo "new-window -n vim 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle vim;vim${VIM_ARGS};echo vim${VIM_ARGS};bash'" >> "$SESSION_FILE"
-echo "new-window -n git 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle git;subcommandshell git /bin/bash \"git > \" st \"^C\" ~/.gitsh;echo subcommandshell git /bin/bash \"git > \" st \"^C\" ~/.gitsh;bash'" >> "$SESSION_FILE"
+echo "new-window -n git 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle git;bash;echo bash;bash'" >> "$SESSION_FILE"
 echo "new-window -n tig 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle tig;tig;echo tig;bash'" >> "$SESSION_FILE"
 echo "new-window -n ranger 'TMUX= settitle \$(basename \"\$(pwd)\");stty -ixon;settmuxtitle ranger;ranger;echo ranger;bash'" >> "$SESSION_FILE"
 while [ -n "$1" ]
