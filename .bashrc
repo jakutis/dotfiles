@@ -4,15 +4,29 @@ shopt -s globstar
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s cmdhist
+shopt -s promptvars
 set -o noclobber
 set -o vi
 set +H
 
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
-
 export PROMPT_DIRTRIM=4
-export PS1="\u@\h:\w\$ "
-unset PROMPT_COMMAND
+function my_set_prompt {
+  BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  if [ "$?" = "0" ]
+  then
+    if [ -z "$(git status --short 2>/dev/null)" ]
+    then
+      COLOR="\[\033[01;32m\]"
+    else
+      COLOR="\[\033[01;31m\]"
+    fi
+    export PS1="\u@\h:\w $COLOR$BRANCH\[\033[00m\]\$ "
+  else
+    export PS1="\u@\h:\w\$ "
+  fi
+}
+export PROMPT_COMMAND=my_set_prompt
 export HISTTIMEFORMAT='%F %T '
 export HISTCONTROL="ignoreboth"
 export HISTFILESIZE=1000000
