@@ -90,7 +90,7 @@ then
             then
                 okular -- "$FILE"
             else
-                zip --show-just-unicode --verbose --show-files -- "$FILE"
+                zip --show-just-unicode --verbose --show-files "$FILE"
             fi
             ;;
         "application/octet-stream" | "application/x-dosexec")
