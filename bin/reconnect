@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 sudo echo
-/opt/paloaltonetworks/globalprotect/globalprotect disconnect
+timeout 10 /opt/paloaltonetworks/globalprotect/globalprotect disconnect
+sudo killall -9 PanGPA
 
 if [ -e "$XDG_CONFIG_HOME/dotfiles/eth" ]
 then
