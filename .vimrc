@@ -103,6 +103,11 @@ let g:ale_typescript_tslint_use_global = 1
 let g:ale_keep_list_window_open = 0
 noremap! <C-s> <Esc>:ALEFix<CR>
 nnoremap <C-s> <Esc>:ALEFix<CR>
+noremap! <leader>k <Esc>:ALEPrevious<CR>
+nnoremap <leader>k <Esc>:ALEPrevious<CR>
+noremap! <leader>j <Esc>:ALENext<CR>
+nnoremap <leader>j <Esc>:ALENext<CR>
+
 " close error window when closing buffer
 augroup CloseLoclistWindowGroup
   autocmd!
