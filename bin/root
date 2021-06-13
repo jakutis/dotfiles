@@ -198,9 +198,6 @@ then
 elif [ "$COMMAND" = "receive" ]
 then
   ROOT_DIR="$(realpath .)"
-  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
-  RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
-  UNFINISHED_FILE=$(mktemp --tmpdir="$ROOT_DIR" unfinished.XXXXXXXXXX)
 
   function cleanup {
     if [ -e "$UNFINISHED_FILE" ]
@@ -270,7 +267,16 @@ then
       fi
     fi
   }
-  receive "$RELATIVE_PATH" || exit 1
+
+  shift
+  while [ -n "$1" ]
+  do
+    FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
+    RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
+    UNFINISHED_FILE=$(mktemp --tmpdir="$ROOT_DIR" unfinished.XXXXXXXXXX)
+    receive "$RELATIVE_PATH" || exit 1
+    shift
+  done
 elif [ "$COMMAND" = "mkdir" ]
 then
   DIR="$2"
