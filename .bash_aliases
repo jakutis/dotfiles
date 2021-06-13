@@ -39,6 +39,8 @@ alias gdiff='git diff'
 alias gco='git co'
 alias gci='git ci'
 alias gpush='git push'
+alias gstash='git push'
+alias gadd='git push'
 alias ghistory='git history'
 alias glg='git lg'
 
