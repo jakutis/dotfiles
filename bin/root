@@ -198,13 +198,19 @@ then
 elif [ "$COMMAND" = "receive" ]
 then
   ROOT_DIR="$(realpath .)"
+  UNFINISHED_FILES=$(mktemp --tmpdir="$ROOT_DIR" unfinished-files.XXXXXXXXXX)
 
   function cleanup {
-    if [ -e "$UNFINISHED_FILE" ]
-    then
-      rm -f "$(cat "$UNFINISHED_FILE")"
-      rm -f "$UNFINISHED_FILE"
-    fi
+    cat "$UNFINISHED_FILES" | while read F
+    do
+      if [ -e "$F" ]
+      then
+        echo "removing incompletely received $(cat "$F")"
+        rm -f "$(cat "$F")"
+        rm -f "$F"
+      fi
+    done
+    rm -f "$UNFINISHED_FILES"
   }
   trap cleanup EXIT
 
@@ -241,6 +247,8 @@ then
         SIZE=$FIRST_SIZE
       fi
       mkdir -p "$(dirname "$RPATH")" || exit 1
+      UNFINISHED_FILE=$(mktemp --tmpdir="$ROOT_DIR" unfinished.XXXXXXXXXX)
+      echo "$UNFINISHED_FILE" >> "$UNFINISHED_FILES"
       echo "$RPATH" > "$UNFINISHED_FILE"
       custom_curl --request GET "$(full_url "$RPATH")" | pv --size "$SIZE" > "$RPATH" || exit 1
       rm "$UNFINISHED_FILE"
@@ -273,7 +281,6 @@ then
   do
     FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
     RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
-    UNFINISHED_FILE=$(mktemp --tmpdir="$ROOT_DIR" unfinished.XXXXXXXXXX)
     receive "$RELATIVE_PATH" || exit 1
     shift
   done
