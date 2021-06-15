@@ -36,7 +36,7 @@ then
         "application/json")
             cat -- "$FILE" | jq --color-output | less --RAW-CONTROL-CHARS
             ;;
-        "text/plain" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
+        "text/plain" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822")
             if [ "$EXT" == "markdown" -o "$EXT" == "md" ]
             then
                 glow --pager --style light -- "$FILE"
