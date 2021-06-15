@@ -122,6 +122,10 @@ fi
 
 if [ "$COMMAND" = "send" ]
 then
+  if [ -z "$2" ]
+  then
+    set -- send .
+  fi
   while [ -n "$2" ]
   do
     shift
