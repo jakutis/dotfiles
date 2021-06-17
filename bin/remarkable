@@ -2,8 +2,40 @@
 
 set -euo pipefail
 
-function cmd_take {
+function download {
+  FILE="${1##*/}"
   FILEDIR="$(pwd)"
+  rmapi -ni geta "$1" 1>/dev/null 2>&1 || echo -n
+
+  if [ -f "${FILE}.zip" ]
+  then
+    TMPDIR="$(mktemp -d)"
+    cd "$TMPDIR"
+    unzip -q "$FILEDIR/${FILE}.zip"
+    rm "$FILEDIR/${FILE}.zip"
+    if [ "$(echo -n *.pdf)" != "*.pdf" ]
+    then
+      mv *.pdf "$FILEDIR/${FILE}.pdf"
+    fi
+    if [ "$(echo -n *.epub)" != "*.epub" ]
+    then
+      mv *.epub "$FILEDIR/${FILE}.epub"
+    fi
+    cd "$FILEDIR"
+    rm -rf "$TMPDIR"
+    if ! [ -f "${FILE}.epub" -o -f "${FILE}.pdf" ]
+    then
+      echo "Could not find an epub or pdf"
+      exit 1
+    fi
+  elif ! [ -f "${FILE}-annotations.pdf" ]
+  then
+    echo "Could not find annotated pdf or a zip file"
+    exit 1
+  fi
+}
+
+function cmd_take {
   rmapi -ni ls|grep '^\[f\]'|cut -c 5-|while read FILE
   do
     if [ "$FILE" = "Quick sheets" ]
@@ -11,36 +43,8 @@ function cmd_take {
       continue
     fi
     echo "Downloading $FILE"
-    rmapi -ni geta "$FILE" 1>/dev/null 2>&1 || echo -n
-
-    if [ -f "${FILE}.zip" ]
-    then
-      TMPDIR="$(mktemp -d)"
-      cd "$TMPDIR"
-      unzip -q "$FILEDIR/${FILE}.zip"
-      rm "$FILEDIR/${FILE}.zip"
-      if [ "$(echo -n *.pdf)" != "*.pdf" ]
-      then
-        mv *.pdf "$FILEDIR/${FILE}.pdf"
-      fi
-      if [ "$(echo -n *.epub)" != "*.epub" ]
-      then
-        mv *.epub "$FILEDIR/${FILE}.epub"
-      fi
-      cd "$FILEDIR"
-      rm -rf "$TMPDIR"
-      if ! [ -f "${FILE}.epub" -o -f "${FILE}.pdf" ]
-      then
-        echo "Could not find an epub or pdf"
-        exit 1
-      fi
-    elif ! [ -f "${FILE}-annotations.pdf" ]
-    then
-      echo "Could not find annotated pdf or a zip file"
-      exit 1
-    fi
-
-    rmapi -ni rm "$FILE" 1>/dev/null 2>&1
+    download "$FILE" || exit 1
+    rmapi -ni rm "$FILE" 1>/dev/null 2>&1 || exit 1
   done
 }
 
@@ -50,6 +54,12 @@ function cmd_copy {
 
 function cmd_mkdir {
   rmapi -ni mkdir "$1"
+}
+
+function cmd_receive {
+  FILE="$1"
+  echo "receiving $FILE"
+  download "$FILE" || exit 1
 }
 
 function cmd_list {
@@ -65,10 +75,10 @@ function cmd_list {
 
 if [ "$#" = "0" ]
 then
-  echo "Please specify a command, one of: copy, take, mkdir, list"
+  echo "Please specify a command, one of: copy, take, mkdir, list, receive"
   exit 1
 fi
-if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" ]
+if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" -a "$1" != "receive" ]
 then
   echo "No such command "$CMD""
   exit 1
