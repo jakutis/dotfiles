@@ -52,12 +52,23 @@ function cmd_mkdir {
   rmapi -ni mkdir "$1"
 }
 
+function cmd_list {
+  if [ "$#" = "1" ]
+  then
+    DIR="$1"
+  else
+    DIR="/"
+  fi
+  echo "listing $DIR"
+  rmapi -ni ls "$DIR"
+}
+
 if [ "$#" = "0" ]
 then
-  echo "Please specify a command, one of: copy, take, mkdir"
+  echo "Please specify a command, one of: copy, take, mkdir, list"
   exit 1
 fi
-if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "mkdir" ]
+if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" ]
 then
   echo "No such command "$CMD""
   exit 1
