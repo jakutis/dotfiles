@@ -470,7 +470,7 @@ then
     then
       LANG_VERSION="$(pyenv global)"
     fi
-    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init -)" && pyenv shell "$LANG_VERSION" || exit 1
+    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init --path)" && eval "$(pyenv init -)" && pyenv shell "$LANG_VERSION" || exit 1
   elif [ "$LANG_LANG" = "ruby" ]
   then
     if [ -z "$LANG_VERSION" ]
@@ -615,7 +615,7 @@ then
     fi
 
     export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)" && pyenv install "$LANG_VERSION" && pyenv global "$LANG_VERSION" && pyenv shell "$(pyenv global)" || exit 1
+    eval "$(pyenv init --path)" && eval "$(pyenv init -)" && pyenv install "$LANG_VERSION" && pyenv global "$LANG_VERSION" && pyenv shell "$(pyenv global)" || exit 1
 
     install_packages_python
   elif [ "$LANG_LANG" = "rust" ]
