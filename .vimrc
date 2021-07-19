@@ -24,7 +24,6 @@ Plug 'ianks/vim-tsx'
 Plug 'suan/vim-instant-markdown'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'jremmen/vim-ripgrep'
 Plug 'easymotion/vim-easymotion'
 Plug 'mogelbrod/vim-jsonpath'
 Plug 'w0rp/ale'
@@ -156,10 +155,6 @@ nmap <leader>ref <Plug>(coc-references)
 
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-
-" jremmen/vim-ripgrep
-let g:rg_derive_root = 1
-let g:rg_highlight = 1
 
 " morhetz/gruvbox
 set background=light
