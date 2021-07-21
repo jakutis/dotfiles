@@ -21,4 +21,4 @@ else
   BRANCH="master"
 fi
 
-(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "master" ] && git pull --rebase) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . && git checkout "$BRANCH" && ide
+(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "master" ] && git fetch --all --prune --prune-tags && git rebase origin/master) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . && git checkout "$BRANCH" && ide
