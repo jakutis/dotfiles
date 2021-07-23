@@ -19,7 +19,7 @@ then
 elif [ -f "$REALFILE" ]
 then
     MIME="$(file --dereference --brief --mime-type -- "$FILE")"
-    EXT="$(echo "$FILE" | awk -F . '{print $NF}')"
+    EXT="$(echo "$FILE" | awk -F . '{print $NF}' | tr '[:upper:]' '[:lower:]')"
     case "$MIME" in
         "image/x-xcf")
             gimp -- "$FILE"
@@ -89,6 +89,9 @@ then
             if [ "$EXT" == "cbz" ]
             then
                 okular -- "$FILE"
+            elif [ "$EXT" == "epub" ]
+            then
+                "$EBOOKVIEWER" -- "$FILE"
             else
                 zip --show-just-unicode --verbose --show-files "$FILE"
             fi
