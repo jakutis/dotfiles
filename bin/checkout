@@ -4,8 +4,13 @@ REPO="$1"
 
 if [ ! -d "$HOME/repos/git/$REPO" ]
 then
-  (cd "$HOME/repos/git" && git clone "$REPO")
+  URL="$REPO"
   REPO="${REPO##*/}"
+  REPO="${REPO%.git}"
+  if [ ! -d "$HOME/repos/git/$REPO" ]
+  then
+    (cd "$HOME/repos/git" && git clone "$URL")
+  fi
 fi
 
 if [ -e "$REPO" ]
@@ -14,11 +19,12 @@ then
   exit 1
 fi
 
+DEFAULT_BRANCH="$(cd "$HOME/repos/git/$REPO" && git rev-parse --abbrev-ref origin/HEAD|cut -c 8-)"
 if [ -n "$2" ]
 then
   BRANCH="$2"
 else
-  BRANCH="master"
+  BRANCH="$DEFAULT_BRANCH"
 fi
 
-(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "master" ] && git fetch --all --prune --prune-tags && git rebase origin/master) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . && git checkout "$BRANCH" && ide
+(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "$DEFAULT_BRANCH" ] && git fetch --all --prune --prune-tags && git rebase origin/$DEFAULT_BRANCH) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . && git checkout "$BRANCH" && ide
