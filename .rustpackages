@@ -4,3 +4,4 @@ git-delta
 bat
 bandwhich
 ripgrep
+hyperfine
