@@ -3,6 +3,7 @@ markmap-lib
 tslint
 eslint
 eslint-plugin-react
+react-devtools
 serve
 yarn
 bs-platform
