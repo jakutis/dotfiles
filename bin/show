@@ -21,9 +21,6 @@ then
     MIME="$(file --dereference --brief --mime-type -- "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}' | tr '[:upper:]' '[:lower:]')"
     case "$MIME" in
-        "text/x-java")
-            "$EDITOR" -- "$FILE"
-            ;;
         "image/x-xcf")
             gimp -- "$FILE"
             ;;
@@ -39,7 +36,7 @@ then
         "application/json")
             cat -- "$FILE" | jq --color-output | less --RAW-CONTROL-CHARS
             ;;
-        "text/plain" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822" | "text/x-shellscript")
+        "text/x-java" | "text/plain" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822" | "text/x-shellscript")
             if [ "$EXT" == "markdown" -o "$EXT" == "md" ]
             then
                 glow --pager --style light -- "$FILE"
