@@ -21,6 +21,9 @@ then
     MIME="$(file --dereference --brief --mime-type -- "$FILE")"
     EXT="$(echo "$FILE" | awk -F . '{print $NF}' | tr '[:upper:]' '[:lower:]')"
     case "$MIME" in
+        "text/x-java")
+            "$EDITOR" -- "$FILE"
+            ;;
         "image/x-xcf")
             gimp -- "$FILE"
             ;;
@@ -106,10 +109,10 @@ then
                 libreoffice "$FILE"
             elif [ "$BRIEF" = "ISO Media, MPEG v4 system, 3GPP" -o "$BRIEF" = "Ogg data" -o "$BRIEF" = "Audio file with ID3 version 2.3.0" ]
             then
-                $MEDIAPLAYER -- "$FILE"
+                "$MEDIAPLAYER" -- "$FILE"
             elif [ "$(echo "$BRIEF"| cut -f 1 -d '"')" = "Mobipocket E-book " ]
             then
-              "$EBOOKVIEWER" -- "$FILE"
+               "$EBOOKVIEWER" -- "$FILE"
             else
                 hexdump -C -- "$FILE" | less
             fi
