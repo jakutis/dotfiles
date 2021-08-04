@@ -51,43 +51,43 @@
   XF86Display
 
 # Play previous audio track
-"cmus-remote -C player-prev"
+"cmus-remote -C player-prev;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
   Mod4 + F8
 
 # Play previous audio track
-"cmus-remote -C player-prev"
+"cmus-remote -C player-prev;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
   Mod4 + z
 
 # Play previous audio track
-"cmus-remote -C player-prev"
+"cmus-remote -C player-prev;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
   XF86AudioPrev
 
 # Pause/play audio track
-"cmus-remote -C player-pause"
+"cmus-remote -C player-pause;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
   Mod4 + F9
 
 # Pause/play audio track
-"cmus-remote -C player-pause"
+"cmus-remote -C player-pause;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
   Mod4 + c
 
 # Pause/play audio track
-"cmus-remote -C player-pause"
+"cmus-remote -C player-pause;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
   XF86AudioPause
 
 # Pause/play audio track
-"cmus-remote -C player-pause"
+"cmus-remote -C player-pause;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
   XF86AudioPlay
 
 # Play next audio track
-"cmus-remote -C player-next"
+"cmus-remote -C player-next;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
   Mod4 + F10
 
 # Play next audio track
-"cmus-remote -C player-next"
+"cmus-remote -C player-next;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
   Mod4 + b
 
 # Play next audio track
-"cmus-remote -C player-next"
+"cmus-remote -C player-next;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
   XF86AudioNext
 
 # Use only the first screen
