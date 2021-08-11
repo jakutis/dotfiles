@@ -3,6 +3,8 @@
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
+xinput set-button-map "ThinkPad USB Laser Mouse" 1 2 3 0 0 0 0 0 0
+
 xset s noblank
 xset s noexpose
 xset s off
