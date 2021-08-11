@@ -127,6 +127,7 @@ let g:airline_section_y = airline#section#create_right([])
 let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
 
 " junegunn/fzf
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn']
 function! g:FzfSearch()
   let l:fzf_options = join([
     \ '--tiebreak=index',
