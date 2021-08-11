@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+FIRST="$1"
+SECOND="$2"
+
+xrandr \
+  --output "$FIRST" --auto --rotate normal --preferred --primary \
+  --output "$SECOND" --auto --rotate normal --right-of "$FIRST"
