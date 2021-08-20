@@ -6,6 +6,7 @@ eslint-plugin-react
 react-devtools
 serve
 yarn
+lerna
 bs-platform
 typescript
 trello-backup
