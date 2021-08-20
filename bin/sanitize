@@ -11,7 +11,7 @@ function sanitize {
 
 if [ -n "$1" ]
 then
-  echo "$1" | sanitize
+  echo "$@" | sanitize
 else
   sanitize
 fi
