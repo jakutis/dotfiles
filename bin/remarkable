@@ -11,7 +11,7 @@ function download {
   then
     TMPDIR="$(mktemp -d)"
     cd "$TMPDIR"
-    unzip -q "$FILEDIR/${FILE}.zip"
+    unzip "$FILEDIR/${FILE}.zip"
     rm "$FILEDIR/${FILE}.zip"
     if [ "$(echo -n *.pdf)" != "*.pdf" ]
     then
@@ -66,6 +66,12 @@ function cmd_receive {
   download "$FILE" || exit 1
 }
 
+function cmd_receivezip {
+  FILE="$1"
+  echo "receiving $FILE"
+  rmapi -ni get "$1" 1>/dev/null 2>&1 || echo -n
+}
+
 function cmd_list {
   if [ "$#" = "1" ]
   then
@@ -79,10 +85,10 @@ function cmd_list {
 
 if [ "$#" = "0" ]
 then
-  echo "Please specify a command, one of: copy, take, mkdir, list, receive"
+  echo "Please specify a command, one of: copy, take, mkdir, list, receive, receivezip"
   exit 1
 fi
-if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" -a "$1" != "delete" -a "$1" != "receive" ]
+if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" -a "$1" != "delete" -a "$1" != "receive" -a "$1" != "receivezip" ]
 then
   echo "No such command "$CMD""
   exit 1
