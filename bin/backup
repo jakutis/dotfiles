@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd ~/etc/root/References/my
+rm Journal.zip
+root rm Journal.zip
+remarkable receivezip Journal
+root send Journal.zip
