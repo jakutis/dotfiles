@@ -9,10 +9,10 @@ xbindkeys
 update-xinput
 xcompmgr &
 xset s default
-xset s 300
+xset s "$DURATION_UNTIL_SCREENSAVER"
 xset +dpms
-xset dpms 300 300 300
-nohup xautolock -time 600 -detectsleep -locker slock 1>/dev/null 2>&1 &
+xset dpms "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER"
+nohup xautolock -time "$DURATION_UNTIL_SCREENSAVER" -detectsleep -locker slock 1>/dev/null 2>&1 &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &
