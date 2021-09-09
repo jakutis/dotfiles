@@ -66,6 +66,10 @@ then
         wget --quiet --output-document=- https://www.virtualbox.org/download/oracle_vbox_2016.asc | apt-key add - || exit 1
         echo "deb [arch=$(dpkg --print-architecture)] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
     fi
+    if [ -z "$(grep chrome /etc/apt/sources.list)" ]
+    then
+        echo "deb [arch=$(dpkg --print-architecture)] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list
+    fi
     if [ -z "$(grep docker /etc/apt/sources.list)" ]
     then
         wget --quiet --output-document=- https://download.docker.com/linux/debian/gpg | apt-key add - || exit 1
