@@ -91,12 +91,6 @@ then
     then
       wget https://zoom.us/client/latest/zoom_$(dpkg --print-architecture).deb && dpkg -i zoom_$(dpkg --print-architecture).deb && rm zoom_$(dpkg --print-architecture).deb && "$APTGET" install -f -y || exit 1
     fi
-
-    DEVDOCSV=$(curl -f https://api.github.com/repos/egoist/devdocs-desktop/releases/latest|jq --raw-output .name|cut -b 2-) || exit 1
-    if ! dpkg -l devdocs 1>/dev/null 2>&1 || [ "$(dpkg -s devdocs | grep '^Version:'|cut -b 10-)" != "$DEVDOCSV" ]
-    then
-      wget "https://github.com/egoist/devdocs-app/releases/download/v${DEVDOCSV}/DevDocs_${DEVDOCSV}_$(dpkg --print-architecture).deb" && dpkg -i "DevDocs_${DEVDOCSV}_$(dpkg --print-architecture).deb" && rm "DevDocs_${DEVDOCSV}_$(dpkg --print-architecture).deb" || exit 1
-    fi
 elif [ -n "$DNF" ]
 then
     systemctl disable gdm
