@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-LEFT="$1"
-CENTER="$2"
-RIGHT="$3"
+LEFT="DP-2-1"
+CENTER="DP-2-3"
+RIGHT="eDP-1"
 
 xrandr \
   --output "$LEFT" --auto  --rotate left \
