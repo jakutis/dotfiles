@@ -40,6 +40,10 @@ call plug#end()
 
 packadd cfilter
 
+" vimgrep
+set grepprg="rg --vimgrep --no-heading --smart-case"
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+
 " clipboard
 set clipboard=unnamed,unnamedplus
 
