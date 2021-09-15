@@ -3,7 +3,15 @@
 set -e
 
 cd ~/etc/root/References/my
-rm -f Journal.zip
-root rm Journal.zip || true
-remarkable receivezip Journal
-root send Journal.zip
+for FILE in "Journal" "Journal archive"
+do
+  rm -f "$FILE.zip"
+  root rm "$FILE.zip" || true
+  remarkable receivezip "$FILE"
+  root send "$FILE.zip"
+  if [ "$?" != "0" ]
+  then
+    echo "Error: failed to upload a backup"
+    exit 1
+  fi
+done
