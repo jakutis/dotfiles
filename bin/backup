@@ -3,7 +3,7 @@
 set -e
 
 cd ~/etc/root/References/my
-for FILE in "Journal" "Journal archive"
+for FILE in "Journal" "Journal - archive" "Journal - calendar"
 do
   rm -f "$FILE.zip"
   root rm "$FILE.zip" || true
