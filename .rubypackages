@@ -1,5 +1,6 @@
 jekyll
 jekyll-sitemap
+jekyll-seo-tag
 compass
 bundle
 haml
