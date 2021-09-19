@@ -43,11 +43,11 @@
   XF86MonBrightnessUp
 
 # Cycle through connected screens
-"system screens"
+"update-screens"
   Mod4 + F7
 
 # Cycle through connected screens
-"system screens"
+"update-screens"
   XF86Display
 
 # Play previous audio track
@@ -90,8 +90,8 @@
 "cmus-remote -C player-next;dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
   XF86AudioNext
 
-# Use only the first screen
-"system screens only FIRST"
+# Cycle through connected screens
+"system screens"
   Mod4 + F11
 
 # Screenshot
