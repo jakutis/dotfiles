@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+update-xinput
+update-screens
