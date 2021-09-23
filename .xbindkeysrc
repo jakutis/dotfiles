@@ -43,11 +43,11 @@
   XF86MonBrightnessUp
 
 # Cycle through connected screens
-"update-screens"
+"update-peripherals"
   Mod4 + F7
 
 # Cycle through connected screens
-"update-screens"
+"update-peripherals"
   XF86Display
 
 # Play previous audio track
