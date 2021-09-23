@@ -5,16 +5,6 @@ export XDG_DATA_HOME="$USER_HOME/.local/share"
 export XDG_CONFIG_HOME="$USER_HOME/.config"
 DOTFILES_CONFIG="$XDG_CONFIG_HOME/dotfiles"
 
-if [ -e "$DOTFILES_CONFIG/uefi-secure-boot-keys" ]
-then
-  for MODULE in $(dirname $(modinfo -n vboxdrv))/*.ko; do
-    echo "Signing $MODULE..."
-    KBUILD_DIRECTORY="/usr/lib/linux-kbuild-$(uname -r|sed -e 's/^\([0-9].[0-9]*\).*$/\1/')"
-    "$KBUILD_DIRECTORY/scripts/sign-file" "sha256" "$DOTFILES_CONFIG/uefi-secure-boot-keys/MOK.priv" "$DOTFILES_CONFIG/uefi-secure-boot-keys/MOK.der" "$MODULE"
-    modprobe "$(basename "$MODULE" .ko)"
-  done
-fi
-
 ln -nsf "/sys/devices/platform/coretemp.0/hwmon/hwmon"?"/temp1_input" "$DOTFILES_CONFIG/temperature"
 
 if [ -n "$(cat /proc/acpi/wakeup | grep LID | grep enabled)" ]
@@ -37,5 +27,4 @@ then
   chmod a+w "$DOTFILES_CONFIG/brightness/brightness"
   chmod a+w "$DOTFILES_CONFIG/keyboard/brightness"
   "$USER_HOME/bin/system" net client-wifi
-  systemctl restart xdm
 fi
