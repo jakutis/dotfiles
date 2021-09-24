@@ -259,7 +259,7 @@ case "$CMD" in
           while ! curl --connect-timeout 5 --silent http://tc.dev.wixpress.com > /dev/null
           do
             echo VPN down, connecting...
-            /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-eu.wixpress.com -u jakutis
+            /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-tlv.wixpress.com -u jakutis
             sleep 5
           done
         fi
