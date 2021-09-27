@@ -133,12 +133,13 @@ let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'key
 " junegunn/fzf
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn']
 function! g:FzfSearch()
+  let l:relative_dir = trim(system('realpath "--relative-to=' . getcwd() . '" "' . FindRootDirectory() . '"'))
+  let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
+
   let l:fzf_options = join([
     \ '--tiebreak=index',
     \ '-m --preview "bat --color always --style numbers,changes,snip {1}" --prompt "> " --preview-window noborder',
     \ '--bind="ctrl-w:backward-kill-word,ctrl-u:clear-query"'], ' ')
-  let l:relative_dir = trim(system('realpath "--relative-to=' . getcwd() . '" "' . FindRootDirectory() . '"'))
-  let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
   call fzf#vim#files('', {
     \ 'source': printf('rg --files "%s" | proximity-sort "%s"', l:relative_dir, l:relative_dir . '/' . l:relative_file),
     \ 'options': l:fzf_options
