@@ -235,6 +235,11 @@ case "$CMD" in
     "vpn")
         if [ "$(hostname)" = "wix" ]
         then
+          GW="$2"
+          if [ -z "$GW" ]
+          then
+            GW="gp-eu.wixpress.com"
+          fi
           while ! curl --connect-timeout 5 --silent https://8.8.8.8 > /dev/null
           do
             echo still offline
@@ -259,7 +264,7 @@ case "$CMD" in
           while ! curl --connect-timeout 5 --silent http://tc.dev.wixpress.com > /dev/null
           do
             echo VPN down, connecting...
-            /opt/paloaltonetworks/globalprotect/globalprotect connect -p gp-tlv.wixpress.com -u jakutis
+            /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
             sleep 5
           done
         fi
