@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-update-xinput
 update-screens
+update-alsa
+update-xinput
