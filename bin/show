@@ -40,6 +40,9 @@ then
             elif [ "$EXT" == "html" -o "$EXT" == "htm" ]
             then
                 www -- "$FILE"
+            elif [ "$EXT" == "csv" ]
+            then
+                cat "$FILE" | tidy-viewer --color 2
             elif [ "$EXT" == "json" ]
             then
                 cat -- "$FILE" | jq --color-output | less --RAW-CONTROL-CHARS
