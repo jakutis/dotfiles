@@ -146,6 +146,18 @@ function! g:FzfSearch()
     \})
 endfunction
 noremap <C-p> :call g:FzfSearch()<CR>
+function! FzfRipgrep(query, fullscreen)
+  let l:root_dir = FindRootDirectory() 
+  let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . l:root_dir . '" "' . expand('%:p') . '"'))
+
+  let command_fmt = 'cd "' . l:root_dir . '" && rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'dir': l:root_dir, 'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+command! -nargs=* -bang Rg call FzfRipgrep(<q-args>, <bang>0)
+noremap <C-q> <Esc>:Rg<CR>
 
 " CoC
 let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver', 'coc-sh']
