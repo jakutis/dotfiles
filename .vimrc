@@ -40,6 +40,10 @@ call plug#end()
 
 packadd cfilter
 
+" quick fix list
+noremap <C-u> <Esc>:cp<CR>
+noremap <C-i> <Esc>:cn<CR>
+
 " vimgrep
 set grepprg="rg --vimgrep --no-heading --smart-case"
 set grepformat=%f:%l:%c:%m,%f:%l:%m
