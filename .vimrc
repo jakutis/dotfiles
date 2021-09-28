@@ -141,8 +141,9 @@ function! g:FzfSearch()
   let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
 
   let l:fzf_options = join([
+    \ '--keep-right --multi --preview-window noborder --prompt "> "',
     \ '--tiebreak=index',
-    \ '-m --preview "bat --color always --style numbers,changes,snip {1}" --prompt "> " --preview-window noborder',
+    \ '--preview "bat --color always --style numbers,changes,snip {1}"',
     \ '--bind="ctrl-w:backward-kill-word,ctrl-u:clear-query"'], ' ')
   call fzf#vim#files('', {
     \ 'source': printf('rg --files "%s" | proximity-sort "%s"', l:relative_dir, l:relative_dir . '/' . l:relative_file),
@@ -154,10 +155,10 @@ function! FzfRipgrep(query, fullscreen)
   let l:root_dir = FindRootDirectory() 
   let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . l:root_dir . '" "' . expand('%:p') . '"'))
 
-  let command_fmt = 'cd "' . l:root_dir . '" && rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let command_fmt = 'cd "' . l:root_dir . '" && rg --column --line-number --no-heading --color=always --smart-case -- %s | cut -d ":" -f 1-2 || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}')
-  let spec = {'dir': l:root_dir, 'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  let spec = {'dir': l:root_dir, 'options': ['--keep-right', '--multi', '--preview-window', 'noborder', '--prompt', '"> "', '--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 command! -nargs=* -bang Rg call FzfRipgrep(<q-args>, <bang>0)
