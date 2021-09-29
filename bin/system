@@ -256,8 +256,6 @@ case "$CMD" in
           do
             sudo killall -9 PanGPA
           done
-          echo starting PanGPA
-          /opt/paloaltonetworks/globalprotect/PanGPA start &
           echo disconnecting from VPN
           /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
           echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
