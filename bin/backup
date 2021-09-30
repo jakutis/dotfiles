@@ -2,19 +2,16 @@
 
 set -e
 
-for DIR in "/" "/Archive/"
+cd "$HOME/etc/root/References/my/journal"
+for FILE in "References" "Projects" "Journal" "Calendar" "References-archive" "Projects-archive" "Journal-archive" "Calendar-archive"
 do
-  cd "$HOME/etc/root/References/my/journal$DIR"
-  for FILE in "References" "Projects" "Journal" "Calendar"
-  do
-    rm -f "$FILE.zip"
-    root rm "$FILE.zip" || true
-    remarkable receivezip "/Journal$DIR$FILE"
-    root send "$FILE.zip"
-    if [ "$?" != "0" ]
-    then
-      echo "Error: failed to upload a backup"
-      exit 1
-    fi
-  done
+  rm -f "$FILE.zip"
+  remarkable receivezip "/Journal/$FILE" || continue
+  root rm "$FILE.zip" || true
+  root send "$FILE.zip"
+
+  rm -f "$FILE.pdf"
+  cp "$HOME/Dropbox/$FILE.pdf" .
+  root rm "$FILE.pdf" || true
+  root send "$FILE.pdf"
 done
