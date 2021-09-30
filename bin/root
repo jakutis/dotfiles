@@ -58,7 +58,12 @@ function dav_delete {
 function dav_mkdir {
   FILE="$1"
   CODE=$(custom_curl --write-out "%{http_code}" --request MKCOL "$(full_url "$FILE")")
-  if [ "$CODE" != "200" -a "$CODE" != "201" ]
+  if [ "${CODE:0:1}" = "4" ]
+  then
+    PARENT="$(dirname "$FILE")"
+    (dav_mkdir "$PARENT") || (echo "creating directory "$PARENT" returned http status code: $CODE" 1>&2 && false) || exit 1
+    (dav_mkdir "$FILE") || (echo "creating directory "$FILE" returned http status code: $CODE" 1>&2 && false) || exit 1
+  elif [ "$CODE" != "200" -a "$CODE" != "201" ]
   then
     echo "creating directory "$FILE" returned http status code: $CODE" 1>&2
     exit 1
