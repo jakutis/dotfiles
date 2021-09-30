@@ -50,7 +50,7 @@ function dav_delete {
   CODE=$(custom_curl --write-out "%{http_code}" --request DELETE "$(full_url "$FILE")")
   if [ "$CODE" != "200" -a "$CODE" != "201" -a "$CODE" != "204" ]
   then
-    echo "deleting "$FILE" returned http status code: $CODE" 1>&2
+    echo "removing "$FILE" returned http status code: $CODE" 1>&2
     exit 1
   fi
 }
