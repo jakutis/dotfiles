@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+CENTER="HDMI-2"
+RIGHT="eDP-1"
+
+xrandr \
+  --output "$CENTER" --auto --rotate normal --preferred --primary \
+  --output "$RIGHT" --auto --rotate normal --right-of "$CENTER" \
+  || exit 1
