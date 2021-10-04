@@ -87,6 +87,7 @@ function screens {
     shift
 
     IFS=' ' read -r -a CONNECTED <<< "$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' connected ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)"
+    IFS=' ' read -r -a ALL <<< "$(xrandr | tr --squeeze-repeats ' ' ' ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)"
     PRIMARY=$(xrandr | tr --squeeze-repeats ' ' ' ' | grep ' primary ' | cut --delimiter=' ' --fields=1 | paste -s -d ' ' -)
     N=$(echo "${CONNECTED[*]}" | wc -w)
     I=0
@@ -105,10 +106,13 @@ function screens {
       NEXT=$(((PRIMARY + 1) % N))
       NEXT=${CONNECTED[$NEXT]}
 
-      for SCREEN in ${CONNECTED[*]}
+      for SCREEN in ${ALL[*]}
       do
-        echo xrandr --output "$SCREEN" --off
-        xrandr --output "$SCREEN" --off
+        if [ -z "$(echo " $SCREENS " | grep " $SCREEN ")" ]
+        then
+          echo xrandr --output "$SCREEN" --off
+          xrandr --output "$SCREEN" --off
+        fi
       done
 
       CFG="only"
@@ -138,7 +142,7 @@ function screens {
           done
         fi
 
-        for SCREEN in ${CONNECTED[*]}
+        for SCREEN in ${ALL[*]}
         do
           if [ -z "$(echo " $SCREENS " | grep " $SCREEN ")" ]
           then
