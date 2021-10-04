@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 xset s default
+xset s 0
 xset s off
 
 xset -dpms
