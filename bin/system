@@ -147,7 +147,7 @@ function screens {
           fi
         done
     else
-        echo "Configuration is not a preset, parsing the definition"
+        echo "Configuration '$CFG' is not a preset, parsing the definition"
         echo "Existing presets are:" 1>&2
         ls -1 "$DOTFILES/screens" 1>&2
         exit 1
