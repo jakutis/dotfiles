@@ -48,11 +48,11 @@ function cmd_take {
   done
 }
 
-function cmd_copy {
+function cmd_send {
   rmapi -ni put "$1" "$2"
 }
 
-function cmd_delete {
+function cmd_rm {
   rmapi -ni rm "$1"
 }
 
@@ -85,10 +85,10 @@ function cmd_list {
 
 if [ "$#" = "0" ]
 then
-  echo "Please specify a command, one of: copy, take, mkdir, list, receive, receivezip"
+  echo "Please specify a command, one of: send, take, mkdir, list, receive, receivezip"
   exit 1
 fi
-if [ "$1" != "copy" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" -a "$1" != "delete" -a "$1" != "receive" -a "$1" != "receivezip" ]
+if [ "$1" != "send" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" -a "$1" != "rm" -a "$1" != "receive" -a "$1" != "receivezip" ]
 then
   echo "No such command "$CMD""
   exit 1
