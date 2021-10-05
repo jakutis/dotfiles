@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-autorandr --change
 system screens post-autorandr-$(autorandr --current)

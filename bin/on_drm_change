@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+LOCKFILE="/.on_drm_change"
+if [ -e "$LOCKFILE" ]
+then
+  exit
+fi
+
+function cleanup {
+  rm -f "$LOCKFILE"
+}
+
+trap cleanup EXIT
+touch "$LOCKFILE"
+sleep 1
+su --login --command='DISPLAY=:0 autorandr --change' jakutis
