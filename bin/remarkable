@@ -49,7 +49,22 @@ function cmd_take {
 }
 
 function cmd_send {
-  rmapi -ni put "$1" "$2"
+  SOURCE="$1"
+  if [ "$#" = "1" ]
+  then
+    DESTINATION="/"
+  else
+    DESTINATION="$2"
+  fi
+  if [ -d "$SOURCE" ]
+  then
+    cd "$SOURCE"
+    echo rmapi -ni mput "$DESTINATION"
+    rmapi -ni mput "$DESTINATION"
+  else
+    echo rmapi -ni put "$SOURCE" "$DESTINATION"
+    rmapi -ni put "$SOURCE" "$DESTINATION"
+  fi
 }
 
 function cmd_rm {
