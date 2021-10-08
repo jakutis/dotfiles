@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CENTER="DP-1"
+CENTER="DP-2"
 RIGHT="eDP-1"
 
 xrandr \
