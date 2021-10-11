@@ -3,7 +3,7 @@
 set -e
 
 cd "$HOME/etc/root/References/my/journal"
-for FILE in "References" "Projects" "Journal" "Calendar" "References-archive" "Projects-archive" "Journal-archive" "Calendar-archive"
+for FILE in "References" "Projects" "Tasks" "Calendar" "References-archive" "Projects-archive" "Tasks-archive" "Calendar-archive"
 do
   rm -f "$FILE.zip"
   remarkable receivezip "/Journal/$FILE" || continue
