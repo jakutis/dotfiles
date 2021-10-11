@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 update-screens
+set-background
 update-alsa
 update-xinput
 ln -nsf "/sys/devices/platform/coretemp.0/hwmon/hwmon"?"/temp1_input" "$XDG_CONFIG_HOME/dotfiles/temperature"
