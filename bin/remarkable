@@ -105,7 +105,7 @@ then
 fi
 if [ "$1" != "send" -a "$1" != "take" -a "$1" != "list" -a "$1" != "mkdir" -a "$1" != "rm" -a "$1" != "receive" -a "$1" != "receivezip" ]
 then
-  echo "No such command "$CMD""
+  echo "No such command "$1""
   exit 1
 fi
 
