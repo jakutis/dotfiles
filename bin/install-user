@@ -40,6 +40,7 @@ PYTHON2V="2.7.18"
 TMUXV="3.1b"
 VIMV="$(curl --silent -H "Accept: application/vnd.github.v3+json" --fail  https://api.github.com/repos/vim/vim/tags|jq .[].name -r|cut -b 2-|sort -nr|head -n 1)" || exit 1
 
+OCRODJVUV="0.12"
 BASH3V="3.2.57"
 ZSTDV="1.4.4"
 SCIMV="0.7.0"
@@ -838,6 +839,14 @@ if [ ! -e ".vim" ]
 then
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
   "$DOTFILES/bin/vim" +PlugUpdate +qall || exit 1
+fi
+
+if [ ! -e "opt/ocrodjvu-$OCRODJVUV" ]
+then
+    ensure_git ocrodjvu https://github.com/jwilk/ocrodjvu || exit 1
+    (cd "repos/git/ocrodjvu" && git archive --format=tar --prefix=ocrodjvu-build/ "$OCRODJVUV") | tar xf - || exit 1
+    cd ocrodjvu-build && (. "$DOTFILES/bin/lang" use python "$PYTHON2V" && make -C doc && make install PREFIX="$HOME/opt/ocrodjvu-$OCRODJVUV") && cd .. && rm -rf ocrodjvu-build || exit 1
+    cd .bin && ln -nsf "../opt/ocrodjvu-$OCRODJVUV/bin/djvu2hocr" && cd .. || exit 1
 fi
 
 if [ "$ENABLE_EMACS" = "yes" -a ! -e "opt/emacs-$EMACSV" ]
