@@ -6,4 +6,5 @@ bundle
 haml
 rainbow
 scss-lint
+iconv
 pdfbeads
