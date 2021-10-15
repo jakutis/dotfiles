@@ -11,7 +11,7 @@ do
   root send "$FILE.zip"
 
   rm -f "$FILE.pdf"
-  cp "$HOME/Dropbox/$FILE.pdf" .
+  cp "$HOME/etc/google-drive/$FILE.pdf" .
   root rm "$FILE.pdf" || true
   root send "$FILE.pdf"
 done
