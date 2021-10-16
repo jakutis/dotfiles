@@ -7,4 +7,4 @@ then
   MESSAGE="update"
 fi
 
-git add --all . && git ci -am "$MESSAGE" && git-p
+git add --all . && (git ci -am "$MESSAGE" || true) && git-p
