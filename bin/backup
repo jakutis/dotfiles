@@ -5,6 +5,9 @@ set -e
 cd "$HOME/etc/email"
 git U
 
+cd "$HOME/.local/share/akregator"
+git U
+
 cd "$HOME/etc/root/References/my/journal"
 for FILE in "References" "Projects" "Tasks" "Calendar" "References-archive" "Projects-archive" "Tasks-archive" "Calendar-archive"
 do
