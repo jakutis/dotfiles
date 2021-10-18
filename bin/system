@@ -253,12 +253,17 @@ case "$CMD" in
           sudo iptables -A INPUT -i gpd0 -j ACCEPT
           echo stopping gpd
           sudo systemctl stop gpd
-          echo starting gpd
-          sudo systemctl start gpd
           echo stopping PanGPA
           while [ -n "$(ps aux|grep PanGPA|grep -v grep)" ]
           do
             sudo killall -9 PanGPA
+          done
+          echo starting gpd
+          sudo systemctl start gpd
+          echo starting PanGPA
+          while [ -z "$(ps aux|grep PanGPA|grep -v grep)" ]
+          do
+            /opt/paloaltonetworks/globalprotect/PanGPA start &
           done
           echo disconnecting from VPN
           /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
