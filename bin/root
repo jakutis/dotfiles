@@ -283,6 +283,16 @@ function command_mv {
   echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" || exit 1
 }
 
+function command_replace {
+  while [ -n "$1" ]
+  do
+    echo "replacing $1"
+    (command_rm "$1")
+    command_send "$1" || exit 1
+    shift
+  done
+}
+
 COMMAND="$1"
 shift
 
@@ -333,6 +343,9 @@ then
 elif [ "$COMMAND" = "mv" ]
 then
   command_mv "$@"
+elif [ "$COMMAND" = "replace" ]
+then
+  command_replace "$@"
 else
   echo "unknown command: $COMMAND" 1>&2
   exit 1
