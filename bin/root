@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-COMMAND="$1"
-if [ -z "$BASEURL" ]
-then
-  echo "BASEURL undefined"
-  exit 1
-fi
-if [ -z "$BASICAUTH" ]
-then
-  echo "BASICAUTH undefined"
-  exit 1
-fi
-AUTHORIZATION="Basic $(echo -n "$BASICAUTH" | base64)"
-
 function encode_uri_component {
   echo -n "$1"|node -e 'var b=[];process.stdin.on("data",data=>b.push(data));process.stdin.on("end", () => process.stdout.write(encodeURIComponent(Buffer.concat(b).toString())))'
 }
@@ -108,32 +95,13 @@ function dav_download {
   custom_curl --request GET "$(full_url "$FILE")" || exit 1
 }
 
-ORIGINAL_DIR="$(pwd)"
-
-while [ "$(cat "root" 2>/dev/null)" != "So, I am like a slave of this root file system!" ]
-do
-  if [ "$(pwd)" = "/" ]
-  then
-    echo "current directory must be slave" 1>&2
-    exit 1
-  fi
-  cd ..
-done
-if [ "$(dav_download "root")" != "Well, it is true that I am the master of root file system!" ]
-then
-  echo "destination must be master" 1>&2
-  exit 1
-fi
-
-if [ "$COMMAND" = "send" ]
-then
-  if [ -z "$2" ]
+function command_send {
+  if [ -z "$1" ]
   then
     set -- send .
   fi
-  while [ -n "$2" ]
+  while [ -n "$1" ]
   do
-    shift
     echo "sending $1"
     WHAT="$(realpath "$ORIGINAL_DIR/${1}")"
     ROOT_DIR="$(realpath .)"
@@ -156,11 +124,13 @@ then
         dav_upload "$FILE" "$FILE" || exit 1
       fi
     done || exit 1
+    shift
   done
-elif [ "$COMMAND" = "list" ]
-then
+}
+
+function command_list {
   ROOT_DIR="$(realpath .)"
-  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
+  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
   RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
 
   function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
@@ -204,8 +174,9 @@ then
       done
     fi
   fi
-elif [ "$COMMAND" = "receive" ]
-then
+}
+
+function command_receive {
   ROOT_DIR="$(realpath .)"
   UNFINISHED_FILES=$(mktemp --tmpdir="$ROOT_DIR" unfinished-files.XXXXXXXXXX)
 
@@ -285,7 +256,6 @@ then
     fi
   }
 
-  shift
   while [ -n "$1" ]
   do
     FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
@@ -293,21 +263,76 @@ then
     receive "$RELATIVE_PATH" || exit 1
     shift
   done
-elif [ "$COMMAND" = "mkdir" ]
-then
-  DIR="$2"
-  echo "making $DIR" && dav_mkdir "$DIR" || exit 1
-elif [ "$COMMAND" = "rm" ]
-then
+}
+
+function command_rm {
   ROOT_DIR="$(realpath .)"
-  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
+  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
   SOURCE=".${FULL_PATH:${#ROOT_DIR}}"
   echo "removing $SOURCE" && dav_delete "$SOURCE" || exit 1
+}
+
+function command_mkdir {
+  DIR="$1"
+  echo "making $DIR" && dav_mkdir "$DIR" || exit 1
+}
+
+function command_mv {
+  SOURCE="$1"
+  DESTINATION="$2"
+  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" || exit 1
+}
+
+COMMAND="$1"
+shift
+
+if [ -z "$BASEURL" ]
+then
+  echo "BASEURL undefined"
+  exit 1
+fi
+if [ -z "$BASICAUTH" ]
+then
+  echo "BASICAUTH undefined"
+  exit 1
+fi
+AUTHORIZATION="Basic $(echo -n "$BASICAUTH" | base64)"
+
+ORIGINAL_DIR="$(pwd)"
+
+while [ "$(cat "root" 2>/dev/null)" != "So, I am like a slave of this root file system!" ]
+do
+  if [ "$(pwd)" = "/" ]
+  then
+    echo "current directory must be slave" 1>&2
+    exit 1
+  fi
+  cd ..
+done
+if [ "$(dav_download "root")" != "Well, it is true that I am the master of root file system!" ]
+then
+  echo "destination must be master" 1>&2
+  exit 1
+fi
+
+if [ "$COMMAND" = "send" ]
+then
+  command_send "$@"
+elif [ "$COMMAND" = "list" ]
+then
+  command_list "$@"
+elif [ "$COMMAND" = "receive" ]
+then
+  command_receive "$@"
+elif [ "$COMMAND" = "mkdir" ]
+then
+  command_mkdir "$@"
+elif [ "$COMMAND" = "rm" ]
+then
+  command_rm "$@"
 elif [ "$COMMAND" = "mv" ]
 then
-  SOURCE="$2"
-  DESTINATION="$3"
-  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" || exit 1
+  command_mv "$@"
 else
   echo "unknown command: $COMMAND" 1>&2
   exit 1
