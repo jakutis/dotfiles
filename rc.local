@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+rm -f /.on_drm_change
+
 USER_HOME=/home/jakutis
 export XDG_DATA_HOME="$USER_HOME/.local/share"
 export XDG_CONFIG_HOME="$USER_HOME/.config"
