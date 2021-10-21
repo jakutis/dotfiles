@@ -261,6 +261,7 @@ case "$CMD" in
           echo starting gpd
           sudo systemctl start gpd
           echo starting PanGPA
+          sleep 1
           while [ -z "$(ps aux|grep PanGPA|grep -v grep)" ]
           do
             /opt/paloaltonetworks/globalprotect/PanGPA start &
