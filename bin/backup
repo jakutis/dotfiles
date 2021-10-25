@@ -13,11 +13,9 @@ for FILE in "References" "Projects" "Tasks" "Calendar" "References-archive" "Pro
 do
   rm -f "$FILE.zip"
   remarkable receivezip "/Journal/$FILE" || continue
-  root rm "$FILE.zip" || true
-  root send "$FILE.zip"
+  root replace "$FILE.zip"
 
   rm -f "$FILE.pdf"
   cp "$HOME/etc/google-drive/$FILE.pdf" .
-  root rm "$FILE.pdf" || true
-  root send "$FILE.pdf"
+  root replace "$FILE.pdf"
 done
