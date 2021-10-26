@@ -9,13 +9,13 @@ cd "$HOME/.local/share/akregator"
 git U
 
 cd "$HOME/etc/root/References/my/journal"
-for FILE in "References" "Projects" "Tasks" "Calendar" "References-archive" "Projects-archive" "Tasks-archive" "Calendar-archive"
+for FILE in $(remarkable list /Journal|tail +2|cut -c 5-)
 do
   rm -f "$FILE.zip"
-  remarkable receivezip "/Journal/$FILE" || continue
+  remarkable receivezip "/Journal/$FILE"
   root replace "$FILE.zip"
 
   rm -f "$FILE.pdf"
-  cp "$HOME/etc/google-drive/$FILE.pdf" .
+  mv "$HOME/etc/google-drive/$FILE.pdf" .
   root replace "$FILE.pdf"
 done
