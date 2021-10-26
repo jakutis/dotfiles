@@ -267,9 +267,13 @@ function command_receive {
 
 function command_rm {
   ROOT_DIR="$(realpath .)"
-  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
-  SOURCE=".${FULL_PATH:${#ROOT_DIR}}"
-  echo "removing $SOURCE" && dav_delete "$SOURCE" || exit 1
+  while [ -n "$1" ]
+  do
+    FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
+    SOURCE=".${FULL_PATH:${#ROOT_DIR}}"
+    echo "removing $SOURCE" && dav_delete "$SOURCE" || exit 1
+    shift
+  done
 }
 
 function command_mkdir {
