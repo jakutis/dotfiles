@@ -24,3 +24,4 @@ application/x-wwf=org.kde.okular.desktop
 x-scheme-handler/bjnb=bluejeans.desktop;
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
+x-scheme-handler/slack=slack.desktop;

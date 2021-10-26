@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Slack
+Exec=slack %U
+Terminal=false
+Icon=google-chrome
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=x-scheme-handler/slack;
