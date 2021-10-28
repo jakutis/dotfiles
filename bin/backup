@@ -2,9 +2,6 @@
 
 set -e
 
-cd "$HOME/etc/email"
-git U
-
 cd "$HOME/.local/share/akregator"
 git U
 
