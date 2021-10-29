@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+DIR="$HOME/etc/root/References/books"
+
+if [ "$(pwd)" != "$DIR" ]
+then
+  echo "must be inside $DIR" 1>&2
+  exit 1
+fi
+
+while [ -n "$1" ]
+do
+  root send "$1"
+  remarkable send "$1" /Reading
+  shift
+done
