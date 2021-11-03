@@ -1,5 +1,6 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
+Plug 'ddrscott/vim-side-search'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -358,3 +359,6 @@ let g:instant_markdown_autostart = 0
 " junegunn/goyo.vim
 noremap! <C-g> <Esc>:Goyo<CR>
 nnoremap <C-g> <Esc>:Goyo<CR>
+
+" ddrscott/vim-side-search
+cabbrev SS SideSearch
