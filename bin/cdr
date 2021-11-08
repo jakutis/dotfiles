@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cd "$HOME/etc/root" && cd "$(find -type d|fzf --filter="$1"|head --lines=1)"
