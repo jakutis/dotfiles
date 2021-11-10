@@ -361,4 +361,9 @@ noremap! <C-g> <Esc>:Goyo<CR>
 nnoremap <C-g> <Esc>:Goyo<CR>
 
 " ddrscott/vim-side-search
-cabbrev SS SideSearch
+function! SideSearchRestrictedAndRelative(query, ...) abort
+  let l:subdir = get(a:, 1, '.')
+  call SideSearch(shellescape(a:query, 1), '/' . l:subdir)
+endfunction
+command! -complete=file -nargs=+ SideSearchRestrictedAndRelative call SideSearchRestrictedAndRelative(<f-args>)
+cabbrev SS SideSearchRestrictedAndRelative
