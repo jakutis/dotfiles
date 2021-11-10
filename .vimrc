@@ -139,7 +139,7 @@ let g:airline_section_y = airline#section#create_right([])
 let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
 
 " junegunn/fzf
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn']
+let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'VYTASROOT']
 function! g:FzfSearch()
   let l:relative_dir = trim(system('realpath "--relative-to=' . getcwd() . '" "' . FindRootDirectory() . '"'))
   let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
