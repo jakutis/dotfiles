@@ -1,6 +1,6 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'ddrscott/vim-side-search'
+Plug 'jakutis/vim-side-search'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
