@@ -2,6 +2,7 @@
 
 cd "$HOME"
 
+DURATION_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/duration-until-screensaver")
 export $(dbus-launch)
 xhost localhost
 xhost si:localuser:root
@@ -14,7 +15,7 @@ xset +dpms
 xset dpms "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER"
 set-background
 
-nohup xautolock -time "$DURATION_UNTIL_SCREENSAVER" -detectsleep -locker slock 1>/dev/null 2>&1 &
+nohup xautolock -time "$DURATION_UNTIL_SCREENSAVER" -detectsleep -locker lock-screen 1>/dev/null 2>&1 &
 start-pulseaudio-x11
 parcellite &
 blueman-applet &

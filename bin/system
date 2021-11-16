@@ -335,10 +335,10 @@ case "$CMD" in
         sudo systemctl poweroff
         ;;
     "lock")
-        slock
+        lock-screen
         ;;
     "suspend")
-        slock systemctl suspend
+        lock-screen systemctl suspend
         ;;
     "fan")
         shift

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+LOG="$XDG_CONFIG_HOME/dotfiles/lock-screen.log"
+echo "$(date --iso-8601=seconds) lock $@" >> "$LOG"
+slock "$@"
+SIGNAL="$?"
+echo "$(date --iso-8601=seconds) unlock $?" >> "$LOG"
+exit "$SIGNAL"
