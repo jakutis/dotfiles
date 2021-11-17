@@ -43,6 +43,7 @@ const toHours = totalsByDay => Object.entries(totalsByDay).reduce((hoursByDay, [
   hoursByDay[day] = total / oneHour
   return hoursByDay
 }, {})
+const formatMinutes = minutes => Math.round(minutes) + ' min'
 const analyze = (logs, startLabel, finishLabel) => {
   const durations = toDurations(logs, startLabel, finishLabel)
   const hours = toHours(toTotals(durations))
@@ -64,7 +65,7 @@ const printAnalysis = (label, {hours, durations}) => {
       print(day)
       previousDay = day
     }
-    print(time + '\t' + minutes + 'min\t' + comment)
+    print(time + '\t' + formatMinutes(minutes) + '\t' + comment)
   })
   print()
 }
@@ -85,6 +86,6 @@ const main = async () => {
   printAnalysis('locked', locked)
   const lastLog = logs[logs.length - 1]
   const minutesSinceLastLog = (Date.now() - lastLog.time.getTime()) / oneMinute
-  print('Time since last log: ' + Math.round(minutesSinceLastLog) + 'min')
+  print('Time since last log: ' + formatMinutes(minutesSinceLastLog))
 }
 main().catch(err => print('Error: ' + err.stack))
