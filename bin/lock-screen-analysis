@@ -25,14 +25,19 @@ const toDurations = (logs, startLabel, finishLabel) => logs.reduce((durations, {
   if (!text.startsWith(startLabel) || !logs[i - 1]) {
     return durations
   }
-  const { time: previousTime, text: previousText } = logs[i - 1]
+  const { time: previousTime, text: previousText, comment: previousComment } = logs[i - 1]
   if (!previousText.startsWith(finishLabel)) {
     return durations
   }
   if (toDay(previousTime) !== toDay(time)) {
     return durations
   }
-  return durations.concat({start: previousTime, duration: time.getTime() - previousTime.getTime()})
+  const duration = time.getTime() - previousTime.getTime()
+  return durations.concat({
+    start: previousTime,
+    comment: previousComment,
+    duration,
+  })
 }, [])
 const toHours = totalsByDay => Object.entries(totalsByDay).reduce((hoursByDay, [day, total]) => {
   hoursByDay[day] = total / oneHour
@@ -47,7 +52,7 @@ const printAnalysis = (label, {hours, durations}) => {
   print('Hours ' + label + ':\n' + toPrettyString(hours))
   let previousDay
   print('Segments:')
-  durations.forEach(({start, duration}) => {
+  durations.forEach(({start, duration, comment}) => {
     const day = toDay(start)
     const time = toTime(start)
     const minutes = Math.round(duration / oneMinute)
@@ -59,17 +64,21 @@ const printAnalysis = (label, {hours, durations}) => {
       print(day)
       previousDay = day
     }
-    print(time + ' ' + minutes + 'min')
+    print(time + '\t' + minutes + 'min\t' + comment)
   })
   print()
+}
+const toLog = (line) => {
+  const time = new Date(line.substr(0, prefixLength).trim())
+  const [rawText, rawComment] = line.substr(prefixLength).trim().split('#')
+  const text = rawText.trim()
+  const comment = rawComment?.trim() || ''
+  return { time, text, comment }
 }
 
 const main = async () => {
   const lines = String(await readFile(filename)).trim().split('\n').map(s => s.trim())
-  const logs = lines.map(line => ({
-    time: new Date(line.substr(0, prefixLength).trim()),
-    text: line.substr(prefixLength).trim(),
-  }))
+  const logs = lines.map(line => toLog(line))
   const unlocked = analyze(logs, 'lock', 'unlock')
   printAnalysis('unlocked', unlocked)
   const locked = analyze(logs, 'unlock', 'lock')
