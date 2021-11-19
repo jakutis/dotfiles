@@ -49,25 +49,51 @@ const analyze = (logs, startLabel, finishLabel) => {
   const hours = toHours(toTotals(durations))
   return {hours, durations}
 }
-const printAnalysis = (label, {hours, durations}) => {
-  print('Hours ' + label + ':\n' + toPrettyString(hours))
-  let previousDay
-  print('Segments:')
-  durations.forEach(({start, duration, comment}) => {
-    const day = toDay(start)
-    const time = toTime(start)
-    const minutes = Math.round(duration / oneMinute)
-    if (minutes === 0) {
-      return
-    }
+const printAnalysis = (analyses) => {
+  const byDay = {}
+  analyses.forEach(({label, analysis: {hours, durations}}) => {
+    Object.keys(hours).forEach(day => {
+      byDay[day] = byDay[day] || {
+        segments: {},
+        hours: {}
+      }
+      byDay[day].hours[label] = hours[day]
+    })
+    let previousDay
+    durations.forEach(({start, duration, comment}) => {
+      const day = toDay(start)
+      const time = toTime(start)
+      const minutes = Math.round(duration / oneMinute)
+      if (minutes === 0) {
+        return
+      }
 
-    if (day !== previousDay) {
-      print(day)
-      previousDay = day
-    }
-    print(time + '\t' + formatMinutes(minutes) + '\t' + comment)
+      if (day !== previousDay) {
+        previousDay = day
+      }
+      byDay[day].segments[label] = byDay[day].segments[label] || []
+      byDay[day].segments[label].push({
+        time,
+        minutes,
+        comment
+      })
+    })
   })
-  print()
+
+  const days = Object.keys(byDay);
+  days.sort((a, b) => a < b ? 1 : -1)
+  days.forEach(day => {
+    const { segments, hours } = byDay[day]
+    print('# ' + day)
+    print()
+    Object.keys(segments).forEach(label => {
+      print(label + ' (' + hours[label].toFixed(1) + ' hours)')
+      segments[label].forEach(({time, minutes, comment}) => {
+        print(time + '\t' + formatMinutes(minutes) + '\t' + comment)
+      })
+      print()
+    })
+  })
 }
 const toLog = (line) => {
   const time = new Date(line.substr(0, prefixLength).trim())
@@ -80,12 +106,14 @@ const toLog = (line) => {
 const main = async () => {
   const lines = String(await readFile(filename)).trim().split('\n').map(s => s.trim())
   const logs = lines.map(line => toLog(line))
-  const unlocked = analyze(logs, 'lock', 'unlock')
-  printAnalysis('unlocked', unlocked)
-  const locked = analyze(logs, 'unlock', 'lock')
-  printAnalysis('locked', locked)
+
   const lastLog = logs[logs.length - 1]
   const minutesSinceLastLog = (Date.now() - lastLog.time.getTime()) / oneMinute
   print('Time since last log: ' + formatMinutes(minutesSinceLastLog))
+  print()
+
+  const unlocked = analyze(logs, 'lock', 'unlock')
+  const locked = analyze(logs, 'unlock', 'lock')
+  printAnalysis([{label: 'locked', analysis: locked}, {label: 'unlocked', analysis: unlocked}])
 }
 main().catch(err => print('Error: ' + err.stack))
