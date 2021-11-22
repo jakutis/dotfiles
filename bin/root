@@ -228,10 +228,14 @@ function command_receive {
       fi
       mkdir -p "$(dirname "$RPATH")" || exit 1
       UNFINISHED_FILE=$(mktemp --tmpdir="$ROOT_DIR" unfinished.XXXXXXXXXX)
+      HEADER_FILE=$(mktemp --tmpdir="$ROOT_DIR" header.XXXXXXXXXX)
       echo "$UNFINISHED_FILE" >> "$UNFINISHED_FILES"
       echo "$RPATH" > "$UNFINISHED_FILE"
-      custom_curl --request GET "$(full_url "$RPATH")" | pv --size "$SIZE" > "$RPATH" || exit 1
+      custom_curl --dump-header "$HEADER_FILE" --request GET "$(full_url "$RPATH")" | pv --size "$SIZE" > "$RPATH" || exit 1
+      MODIFIED="$(cat "$HEADER_FILE"|grep -i 'Last-Modified'|cut --complement -f1 -d' ')"
+      touch -d "$MODIFIED" "$RPATH"
       rm "$UNFINISHED_FILE"
+      rm "$HEADER_FILE"
     else
       local FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
       local FILES=$( (echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' - && echo)|sed -e '/^$/d'|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
