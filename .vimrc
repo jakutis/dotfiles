@@ -1,6 +1,6 @@
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'jakutis/vim-side-search'
+Plug 'ddrscott/vim-side-search'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -367,10 +367,4 @@ let g:side_search_prg = 'rg'
   \. " --ignore-case"
   \. " --line-number"
 let g:side_search_split_pct = 0.5
-function! SideSearchRestrictedAndRelative(query, ...) abort
-  let l:subdir = get(a:, 1, '')
-  let l:subdir = (l:subdir == '' ? '' : '/') . l:subdir
-  call SideSearch(shellescape(a:query, 1), l:subdir)
-endfunction
-command! -complete=file -nargs=+ SideSearchRestrictedAndRelative call SideSearchRestrictedAndRelative(<f-args>)
-cabbrev SS SideSearchRestrictedAndRelative
+cabbrev SS SideSearch
