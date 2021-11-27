@@ -60,10 +60,10 @@ function dav_mkdir {
 function dav_move {
   SOURCE="$1"
   DESTINATION="$2"
-  CODE=$(custom_curl --write-out "%{http_code}" --request MOVE --header "Destination: $BASEURL/$DESTINATION" "$(full_url "$SOURCE")")
+  CODE=$(custom_curl --write-out "%{http_code}" --request MOVE --header "Destination: $(full_url "$DESTINATION")" "$(full_url "$SOURCE")")
   if [ "$CODE" != "201" ]
   then
-    echo "moving "$SOURCE" to "$DESTINATION" returned http status code: $CODE" 1>&2
+    echo "moving \"$SOURCE\" to \"$DESTINATION\" returned http status code: $CODE" 1>&2
     exit 1
   fi
 }
@@ -286,9 +286,12 @@ function command_mkdir {
 }
 
 function command_mv {
-  SOURCE="$1"
-  DESTINATION="$2"
-  echo "moving $SOURCE to $DESTINATION" && dav_move "$SOURCE" "$DESTINATION" || exit 1
+  ROOT_DIR="$(realpath .)"
+  SOURCE="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
+  SOURCE=".${SOURCE:${#ROOT_DIR}}"
+  DESTINATION="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${2}")"
+  DESTINATION=".${DESTINATION:${#ROOT_DIR}}"
+  echo "moving \"$SOURCE\" to \"$DESTINATION\"" && dav_move "$SOURCE" "$DESTINATION" || exit 1
 }
 
 function command_replace {
