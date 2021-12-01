@@ -1,4 +1,5 @@
 alias cdr='. cdr'
+alias cdp='. cdp'
 alias _calibre='export PATH="$HOME/opt/calibre/bin:$PATH";export LD_LIBRARY_PATH="$HOME/opt/calibre/lib"'
 alias po='pomodoro pomodoro'
 alias pst='pomodoro status'
