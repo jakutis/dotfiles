@@ -13,6 +13,13 @@ function full_url {
   echo -n "$BASEURL/$FILE"
 }
 
+contains_element () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
 function custom_curl {
   curl --header "Connection: close" --no-keepalive --fail-early --silent --anyauth --fail --header "Authorization: $AUTHORIZATION" "$@" || exit 1
 }
@@ -128,11 +135,36 @@ function command_send {
   done
 }
 
+function command_extraneous {
+  ROOT_DIR="$(realpath .)"
+  FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
+  RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
+  echo "listing extraneous items in $RELATIVE_PATH"
+  mapfile -t remoteitems < <(list "$RELATIVE_PATH"|cut -f 1 -d ' ' --complement)
+  mapfile -t localitems < <(ls -1 "$ORIGINAL_DIR")
+  for ITEM in "${localitems[@]}"
+  do
+    if ! contains_element "$ITEM" "${remoteitems[@]}"
+    then
+      if [ -d "$ITEM" ]
+      then
+        echo "D $ITEM"
+      else
+        echo "F $ITEM"
+      fi
+    fi
+  done
+}
+
 function command_list {
   ROOT_DIR="$(realpath .)"
   FULL_PATH="$(realpath --canonicalize-missing "$ORIGINAL_DIR/${1}")"
   RELATIVE_PATH=".${FULL_PATH:${#ROOT_DIR}}"
+  echo "listing $RELATIVE_PATH"
+  list "$RELATIVE_PATH"
+}
 
+function list {
   function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
   function remove_prefix {
     echo "${1#"$2"}"
@@ -141,38 +173,25 @@ function command_list {
     echo "${1%"$2"}"
   }
 
-  echo "listing $RELATIVE_PATH"
+  RELATIVE_PATH="$1"
   PROPS=$(custom_curl --request PROPFIND "$(full_url "$RELATIVE_PATH")") || exit 1
   FOLDERS=$(echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) > 0]//d:href' - && echo) || exit 1
   CURRENT=$(urldecode "$(echo "$FOLDERS"|head -n1)") || exit 1
-  if [ -z "$CURRENT" ]
+  FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
+  FILES=$( (echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' - && echo)|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
+  if [ -n "$FOLDERS" ]
   then
-    SIZE=$(custom_curl -I --request HEAD "$(full_url "$RELATIVE_PATH")" | grep -i Content-Length|sed -e 's/.*Content-Length: \([0-9]*\).*/\1/g')
-    if [ -z "$SIZE" ]
-    then
-      echo "error: file not found" 1>&2
-      exit 1
-    fi
-    echo file of size $SIZE bytes
-  else
-    FOLDERS=$(echo "$FOLDERS"|tail -n +2|while read A; do remove_suffix "$(remove_prefix "$(urldecode "$A")" "$CURRENT")" "/";done) || exit 1
-    FILES=$( (echo "$PROPS"|xmlstarlet sel -T -t -v '//d:response[count(.//d:collection) = 0]//d:href' - && echo)|while read A; do remove_prefix "$(urldecode "$A")" "$CURRENT";done) || exit 1
-    echo folders:
-    if [ -n "$FOLDERS" ]
-    then
-      echo "$FOLDERS"|while read F
-      do
-        echo "- $F"
-      done
-    fi
-    echo files:
-    if [ -n "$FILES" ]
-    then
-      echo "$FILES"|while read F
-      do
-        echo "- $F"
-      done
-    fi
+    echo "$FOLDERS"|while read F
+    do
+      echo "D $F"
+    done
+  fi
+  if [ -n "$FILES" ]
+  then
+    echo "$FILES"|while read F
+    do
+      echo "F $F"
+    done
   fi
 }
 
@@ -342,6 +361,9 @@ then
 elif [ "$COMMAND" = "list" ]
 then
   command_list "$@"
+elif [ "$COMMAND" = "extraneous" ]
+then
+  command_extraneous "$@"
 elif [ "$COMMAND" = "receive" ]
 then
   command_receive "$@"
