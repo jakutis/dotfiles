@@ -2,7 +2,7 @@
 
 set -e
 
-DIR="$HOME/etc/root/References/books"
+DIR="$HOME/etc/root/References/types/books/text"
 
 if [ "$(pwd)" != "$DIR" ]
 then
