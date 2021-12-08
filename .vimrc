@@ -13,6 +13,7 @@ Plug 'chrisbra/csv.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ojroques/vim-scrollstatus'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
@@ -133,7 +134,7 @@ let g:airline_theme='light'
 let g:airline_section_a = airline#section#create_left([])
 let g:airline_section_b = airline#section#create_right(['filetype'])
 let g:airline_section_c = airline#section#create(['%<', 'path', 'readonly'])
-let g:airline_section_x = airline#section#create([])
+let g:airline_section_x = '%{ScrollStatus()}'
 let g:airline_section_y = airline#section#create_right([])
 let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
 
