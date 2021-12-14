@@ -33,7 +33,7 @@ then
         "application/x-sharedlib" | "application/x-executable")
             readelf --all -- "$FILE" | less
             ;;
-        "text/html" | "text/x-java" | "text/plain" | "application/json" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822" | "text/x-shellscript" | "application/csv")
+        "text/html" | "text/x-pascal" | "text/x-java" | "text/plain" | "application/json" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822" | "text/x-shellscript" | "application/csv")
             if [ "$EXT" == "markdown" -o "$EXT" == "md" ]
             then
                 glow --pager --style light -- "$FILE"
