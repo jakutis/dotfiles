@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+. lang ensurebins python && yt-dlp "$@"
