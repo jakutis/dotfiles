@@ -33,6 +33,7 @@ export LOQODIR="$HOME/.bin"
 export _JAVA_AWT_WM_NONREPARENTING="1"
 export VAGRANT_INSTALLER_ENV="1"
 export ACLOCAL_PATH="/usr/share/aclocal"
+export DSTAT_OPTS="--nocolor"
 
 export BROWSER="www"
 export EDITOR="vim"
