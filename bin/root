@@ -105,7 +105,7 @@ function dav_download {
 function command_send {
   if [ -z "$1" ]
   then
-    set -- send .
+    set -- .
   fi
   while [ -n "$1" ]
   do
