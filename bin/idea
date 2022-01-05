@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+. lang ensurebins java && "$HOME/opt/idea/bin/idea.sh" "$@"
