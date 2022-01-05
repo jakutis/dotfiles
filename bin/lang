@@ -20,7 +20,7 @@ function latest_version_scala {
 }
 
 function latest_version_java {
-  curl --silent https://www.oracle.com/java/technologies/|grep 'javase-downloads.html\#'|sed -e 's/.*Java SE //'|sed -e 's/[^.0-9u].*//'|sort --reverse --version-sort
+  curl --silent https://www.oracle.com/java/technologies/|grep '/java/technologies/downloads/'|sed -e 's/.*Java SE //'|sed -e 's/[^.0-9u].*//'|sort --reverse --version-sort
 }
 
 #  function latest_version_sbt {
@@ -152,6 +152,22 @@ then
       return
     fi
     export PATH="$HOME/.opam/default/bin:$HOME/opt/opam/bin:$PATH"
+  elif [ "$LANG_LANG" = "java" ]
+  then
+    if [ -n "$(which java 2>/dev/null)" ]
+    then
+      return
+    fi
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(cat "$HOME/.javaversion")"
+    fi
+    export JAVA_HOME="$HOME/opt/jdk-$LANG_VERSION"
+    if [ ! -e "$JAVA_HOME" ]
+    then
+      exit 1
+    fi
+    export PATH="$JAVA_HOME/bin:$PATH"
   elif [ "$LANG_LANG" = "brew" ]
   then
     if [ -n "$(which brew 2>/dev/null)" ]
@@ -399,6 +415,10 @@ then
     export PATH="$LLVM_ROOT/bin:$PATH"
   elif [ "$LANG_LANG" = "java" ]
   then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(cat "$HOME/.javaversion")"
+    fi
     export JAVA_HOME="$HOME/opt/jdk-$LANG_VERSION"
     if [ ! -e "$JAVA_HOME" ]
     then
