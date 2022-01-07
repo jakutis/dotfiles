@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-CENTER="DP-2"
-RIGHT="eDP-1"
+CENTER="DP2"
+RIGHT="eDP1"
 
 xrandr \
   --output "$CENTER" --auto --rotate normal --preferred --primary \

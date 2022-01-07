@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MAIN="eDP-1"
+MAIN="eDP1"
 
 xrandr \
   --output "$MAIN" --auto --rotate normal --preferred --primary \
