@@ -42,9 +42,6 @@ call plug#end()
 
 packadd cfilter
 
-" words with dashes should be treated as single words
-set iskeyword+=-
-
 " quick fix list
 noremap <C-u> <Esc>:cp<CR>
 noremap <C-i> <Esc>:cn<CR>
