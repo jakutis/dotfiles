@@ -242,7 +242,7 @@ case "$CMD" in
           GW="$2"
           if [ -z "$GW" ]
           then
-            GW="gp-eu.wixpress.com"
+            GW="vpn.wixpress.com"
           fi
           while ! curl --connect-timeout 5 --silent https://8.8.8.8 > /dev/null
           do
