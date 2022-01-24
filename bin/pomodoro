@@ -49,13 +49,13 @@ function command {
     echo $BASHPID > "$PIDFILE"
     if [ "$COMMAND" = "pomodoro" ]
     then
-      cmus-remote -C player-play
+      play resume
     fi
     echo "At $(iso-date) you started a ${COMMAND}." >> "$LOG"
     ticktock $INTERVALS $UNIT
     if [ "$COMMAND" = "pomodoro" ]
     then
-      cmus-remote -C player-pause
+      play pause
     fi
     echo "At $(iso-date) you finished a ${COMMAND}." >> "$LOG"
     rm "$PIDFILE"
@@ -85,7 +85,7 @@ then
 
   if [ "$(tail -n 1 "$LOG" | cut --delimiter=' ' --fields=7)" = "pomodoro." ]
   then
-    cmus-remote -C player-pause
+    play pause
   fi
   notify "$(tail -n 1 "$LOG") But you have been interrupted!"
   echo "At $(iso-date) you were interrupted." >> "$LOG"
