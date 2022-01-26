@@ -5,24 +5,24 @@ shift
 
 if [ "$CMD" = "toggle" ]
 then
+  playerctl --all-players play-pause
   cmus-remote -C player-pause
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
 elif [ "$CMD" = "pause" ]
 then
+  playerctl --all-players pause
   cmus-remote -C player-pause
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause
 elif [ "$CMD" = "resume" ]
 then
+  playerctl --all-players play
   cmus-remote -C player-pause
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play
 elif [ "$CMD" = "next" ]
 then
+  playerctl --all-players next
   cmus-remote -C player-next
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 elif [ "$CMD" = "previous" ]
 then
+  playerctl --all-players previous
   cmus-remote -C player-prev
-  dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 else
   echo "Error: unknown command $CMD" >&2
   exit 1
