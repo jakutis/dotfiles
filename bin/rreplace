@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+SEARCH="$1"
+REPLACE="$2"
+
+while read FILE <&3
+do
+  vim -c '%s/'"$REPLACE"'/gc' -c 'wq' "$FILE" || break
+done 3< <(rg -l "$SEARCH")
