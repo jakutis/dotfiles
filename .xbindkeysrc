@@ -94,6 +94,14 @@
 "system screens"
   Mod4 + F11
 
+# Screenshot full screen
+"shot full"
+  Shift + Print
+
+# Screenshot full screen
+"shot full"
+  Shift + Mod4 + F12
+
 # Screenshot
 "shot"
   Print

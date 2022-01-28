@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ "$1" = "full" ]
+then
+  flameshot full -p "$HOME/Downloads"
+  exit
+fi
+
 if [ -n "$1" ]
 then
   sleep "$1"
