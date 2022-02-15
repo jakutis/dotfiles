@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-cd "$HOME/Desktop/Projects/$1"*
+if [ -z "$1" ]
+then
+  cd "$HOME/Desktop/Projects"
+else
+  cd "$HOME/Desktop/Projects/$1"*
+fi
