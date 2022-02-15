@@ -3,26 +3,56 @@
 CMD="$1"
 shift
 
+PLAYER="$(playerctl --list-all | while read P
+do
+  if playerctl "--player=$P" metadata 1>/dev/null 2>&1
+  then
+    echo "$P"
+    break
+  fi
+done)"
+
 if [ "$CMD" = "toggle" ]
 then
-  playerctl --all-players play-pause
-  cmus-remote -C player-pause
+  if [ -n "$PLAYER" ]
+  then
+    playerctl "--player=$PLAYER" play-pause
+    echo playerctl "--player=$PLAYER" play-pause
+  else
+    cmus-remote -C player-pause
+  fi
 elif [ "$CMD" = "pause" ]
 then
-  playerctl --all-players pause
-  cmus-remote -C player-pause
+  if [ -n "$PLAYER" ]
+  then
+    playerctl "--player=$PLAYER" pause
+  else
+    cmus-remote -C player-pause
+  fi
 elif [ "$CMD" = "resume" ]
 then
-  playerctl --all-players play
-  cmus-remote -C player-pause
+  if [ -n "$PLAYER" ]
+  then
+    playerctl "--player=$PLAYER" play
+  else
+    cmus-remote -C player-pause
+  fi
 elif [ "$CMD" = "next" ]
 then
-  playerctl --all-players next
-  cmus-remote -C player-next
+  if [ -n "$PLAYER" ]
+  then
+    playerctl "--player=$PLAYER" next
+  else
+    cmus-remote -C player-next
+  fi
 elif [ "$CMD" = "previous" ]
 then
-  playerctl --all-players previous
-  cmus-remote -C player-prev
+  if [ -n "$PLAYER" ]
+  then
+    playerctl "--player=$PLAYER" previous
+  else
+    cmus-remote -C player-prev
+  fi
 else
   echo "Error: unknown command $CMD" >&2
   exit 1
