@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z "$1" ]
+if [ -z "$1" -o ! -d "$HOME/Desktop/Projects/$1"* ]
 then
   cd "$HOME/Desktop/Projects"
 else
