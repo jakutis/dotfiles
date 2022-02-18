@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "undock" ]) && ! ([ "$CMD" = "dock" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ]) && ! ([ "$CMD" = "lock" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ]) && ! ([ "$CMD" = "lock" ])
 then
   ARGS="$@"
   if tty --silent
@@ -20,7 +20,7 @@ MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 DURATION_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/duration-until-screensaver")
 
 function help {
-    echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard dock undock vpn"
+    echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard vpn"
 }
 
 function fan {
@@ -275,20 +275,6 @@ case "$CMD" in
             /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
             sleep 5
           done
-        fi
-        ;;
-    "undock")
-        if [ "$(hostname)" = "wix" ]
-        then
-          /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null &
-          system net client-wifi && system screens fullhd eDP-1 || exit 1
-        fi
-        ;;
-    "dock")
-        if [ "$(hostname)" = "wix" ]
-        then
-          /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null &
-          system net client-eth && system screens three DP-1 DP-2-2 DP-2-3 || exit 1
         fi
         ;;
     "keyboard")
