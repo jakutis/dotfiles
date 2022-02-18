@@ -141,15 +141,22 @@ function screens {
             shift
           done
         fi
+        if [ -z "$TURN_OFF" ]
+        then
+          TURN_OFF="yes"
+        fi
 
-        for SCREEN in ${ALL[*]}
-        do
-          if [ -z "$(echo " $SCREENS " | grep " $SCREEN ")" ]
-          then
-            echo xrandr --output "$SCREEN" --off
-            xrandr --output "$SCREEN" --off
-          fi
-        done
+        if [ "$TURN_OFF" = "yes" ]
+        then
+          for SCREEN in ${ALL[*]}
+          do
+            if [ -z "$(echo " $SCREENS " | grep " $SCREEN ")" ]
+            then
+              echo xrandr --output "$SCREEN" --off
+              xrandr --output "$SCREEN" --off
+            fi
+          done
+        fi
     else
         echo "Configuration '$CFG' is not a preset, parsing the definition"
         echo "Existing presets are:" 1>&2
