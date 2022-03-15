@@ -8,10 +8,9 @@
 [delta]
     syntax-theme = Solarized (light)
     line-numbers = true
-    side-by-side = true
 
 [interactive]
-    diffFilter = delta --color-only --side-by-side
+    diffFilter = delta --color-only
 
 [user]
     name = Vytautas Jakutis
