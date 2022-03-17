@@ -21,7 +21,7 @@ then
   exit 1
 fi
 
-ARCHIVE="$(basename "$SOURCE").tar"
+ARCHIVE="$DESTINATION/$(basename "$SOURCE").tar"
 
 if [ -e "$ARCHIVE" ]
 then
@@ -29,4 +29,4 @@ then
   exit 1
 fi
 
-tar cvf "$ARCHIVE" "$SOURCE" && mv "$ARCHIVE" "$DESTINATION" && rm -rf "$SOURCE"
+tar cvf "$ARCHIVE" "$SOURCE" && rm -rf "$SOURCE"
