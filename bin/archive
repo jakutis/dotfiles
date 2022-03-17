@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+SOURCE="$1"
+DESTINATION="$2"
+
+if [ ! -r "$SOURCE" ]
+then
+  echo Error: $SOURCE is not readable 1>&2
+  exit 1
+fi
+
+if [ ! -w "$DESTINATION" ]
+then
+  echo Error: $DESTINATION is not writable 1>&2
+  exit 1
+fi
+
+if [ ! -d "$DESTINATION" ]
+then
+  echo Error: $DESTINATION is not a directory 1>&2
+  exit 1
+fi
+
+ARCHIVE="$(basename "$SOURCE").tar"
+
+if [ -e "$ARCHIVE" ]
+then
+  echo Error: $ARCHIVE already exists 1>&2
+  exit 1
+fi
+
+tar cvf "$ARCHIVE" "$SOURCE" && mv "$ARCHIVE" "$DESTINATION" && rm -rf "$SOURCE"
