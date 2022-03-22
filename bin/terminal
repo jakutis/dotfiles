@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
-kitty bash -c '. cdp $(cat Project) && tmux;bash'
+FEATURE="$1"
+
+if [ "$FEATURE" = "project" ]
+then
+  . cdp $(cat "$HOME/Desktop/Project")
+  kitty tmux
+elif [ "$FEATURE" = "git" ]
+then
+  cd "$HOME/repos/git" && kitty
+else
+  cd "$HOME" && kitty bash -c 'tmux;bash'
+fi

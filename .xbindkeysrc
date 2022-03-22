@@ -138,6 +138,14 @@
 "system keyboard moreflip"
   Mod4 + space
 
-# Open terminal in git repositories folder
-"bash -c 'cd $HOME/repos/git;xterm'"
+# Open a terminal
+"terminal"
+  Mod4 + Return
+
+# Open a terminal in git repositories folder
+"terminal project"
+  Mod4 + p
+
+# Open a terminal in git repositories folder
+"terminal git"
   Mod4 + g
