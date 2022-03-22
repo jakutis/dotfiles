@@ -4,8 +4,7 @@ FEATURE="$1"
 
 if [ "$FEATURE" = "project" ]
 then
-  . cdp $(cat "$HOME/Desktop/Project")
-  kitty tmux
+  . cdp $(cat "$HOME/Desktop/Project") && kitty bash -c 'tmux;bash'
 elif [ "$FEATURE" = "git" ]
 then
   cd "$HOME/repos/git" && kitty
