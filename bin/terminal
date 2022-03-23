@@ -9,5 +9,5 @@ elif [ "$FEATURE" = "git" ]
 then
   cd "$HOME/repos/git" && kitty
 else
-  cd "$HOME" && kitty bash -c 'tmux;bash'
+  cd "$HOME/Desktop" && kitty bash -c 'tmux;bash'
 fi
