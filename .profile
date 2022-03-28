@@ -37,7 +37,7 @@ export DSTAT_OPTS="--nocolor"
 
 export BROWSER="www"
 export EDITOR="vim"
-export MANPAGER="vim -c MANPAGER -"
+export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
 
 export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
