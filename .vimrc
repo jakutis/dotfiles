@@ -12,11 +12,9 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'chrisbra/csv.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ojroques/vim-scrollstatus'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
-Plug 'metakirby5/codi.vim'
 Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'udalov/kotlin-vim'
@@ -30,7 +28,7 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'easymotion/vim-easymotion'
 Plug 'mogelbrod/vim-jsonpath'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'ruanyl/vim-gh-line'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-rhubarb'
@@ -96,8 +94,6 @@ let g:LanguageClient_serverCommands = {
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
     \ 'scala': ['metals-vim'],
     \ }
-let g:LanguageClient_windowLogMessageLevel = 'Log'
-let g:LanguageClient_hoverPreview = 'Always'
 
 " w0rp/ale
 let g:ale_completion_enabled = 1
@@ -134,12 +130,15 @@ augroup END
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
 let g:airline_theme='light'
-let g:airline_section_a = airline#section#create_left([])
-let g:airline_section_b = airline#section#create_right(['filetype'])
-let g:airline_section_c = airline#section#create(['%<', 'path', 'readonly'])
-let g:airline_section_x = '%{ScrollStatus()}'
-let g:airline_section_y = airline#section#create_right([])
-let g:airline_section_z = airline#section#create(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert', ' %v'])
+let g:airline_section_a = airline#section#create([])
+let g:airline_section_b = airline#section#create(['filetype'])
+let g:airline_section_c = airline#section#create(['path'])
+let g:airline_section_x = airline#section#create([])
+let g:airline_section_y = airline#section#create([])
+let g:airline_section_z = airline#section#create(['mode'])
+let g:airline_section_gutter = airline#section#create([])
+let g:airline_section_error = airline#section#create([])
+let g:airline_section_warning = airline#section#create([])
 
 " junegunn/fzf
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'VYTASROOT']
