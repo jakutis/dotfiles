@@ -10,7 +10,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'chrisbra/csv.vim'
-Plug 'leafgarland/typescript-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ojroques/vim-scrollstatus'
@@ -21,7 +20,10 @@ Plug 'metakirby5/codi.vim'
 Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'udalov/kotlin-vim'
-Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'ianks/vim-tsx'
 Plug 'suan/vim-instant-markdown'
 Plug 'roxma/nvim-yarp'
@@ -70,8 +72,9 @@ augroup Binary
   au BufWritePost *.bin set nomod | endif
 augroup END
 
-" wix
+" file types
 autocmd BufNewFile,BufRead *.jsw set filetype=javascript
+autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
 
 " vim-gh-line
 let g:gh_open_command = 'www '
@@ -83,6 +86,12 @@ autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var 
 
 " advised by https://github.com/autozimu/LanguageClient-neovim
 let g:LanguageClient_serverCommands = {
+    \ 'typescript': ['typescript-language-server', '--stdio'],
+    \ 'typescriptreact': ['typescript-language-server', '--stdio'],
+    \ 'typescript.jsx': ['typescript-language-server', '--stdio'],
+    \ 'javascript': ['typescript-language-server', '--stdio'],
+    \ 'javascriptreact': ['typescript-language-server', '--stdio'],
+    \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
     \ 'reason': ['ocaml-language-server', '--stdio'],
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
     \ 'scala': ['metals-vim'],
@@ -121,9 +130,6 @@ augroup CloseLoclistWindowGroup
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
 augroup END
-
-" mxw/vim-jsx
-let g:jsx_ext_required = 0
 
 " vim-airline/vim-airline
 let g:airline_powerline_fonts = 0
