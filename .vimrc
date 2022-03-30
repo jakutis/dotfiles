@@ -40,6 +40,8 @@ Plug 'lambdalisue/vim-manpager'
 Plug 'junegunn/goyo.vim'
 call plug#end()
 
+source $HOME/.ideavimrc
+
 packadd cfilter
 
 " quick fix list
@@ -332,12 +334,6 @@ set nojoinspaces
 
 " mouse
 set mouse=
-
-" searching
-set ignorecase
-set smartcase
-set hlsearch
-set incsearch
 
 " window navigation
 nnoremap <C-j> <C-w>j<C-w>_
