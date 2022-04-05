@@ -19,10 +19,8 @@ Plug 'airblade/vim-rooter'
 Plug 'pangloss/vim-javascript'
 Plug 'udalov/kotlin-vim'
 Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'ianks/vim-tsx'
 Plug 'suan/vim-instant-markdown'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
@@ -75,6 +73,7 @@ augroup END
 " file types
 autocmd BufNewFile,BufRead *.jsw set filetype=javascript
 autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
+autocmd BufNewFile,BufRead *.jsx set filetype=javascriptreact
 
 " vim-gh-line
 let g:gh_open_command = 'www '
@@ -88,10 +87,8 @@ autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var 
 let g:LanguageClient_serverCommands = {
     \ 'typescript': ['typescript-language-server', '--stdio'],
     \ 'typescriptreact': ['typescript-language-server', '--stdio'],
-    \ 'typescript.jsx': ['typescript-language-server', '--stdio'],
     \ 'javascript': ['typescript-language-server', '--stdio'],
     \ 'javascriptreact': ['typescript-language-server', '--stdio'],
-    \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
     \ 'reason': ['ocaml-language-server', '--stdio'],
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
     \ 'scala': ['metals-vim'],
@@ -102,12 +99,17 @@ let g:ale_hover_cursor = 0
 let g:ale_completion_enabled = 1
 set completeopt=menu,menuone,preview,noselect,noinsert
 let g:ale_linters = {
-\   'typescript': ['tslint'],
+\   'javascript': ['eslint'],
+\   'javascriptreact': ['eslint'],
+\   'typescript': ['eslint', 'tslint'],
+\   'typescriptreact': ['eslint', 'tslint'],
 \}
 let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'javascript': ['eslint'],
+\   'javascriptreact': ['eslint'],
 \   'typescript': ['eslint', 'tslint'],
+\   'typescriptreact': ['eslint', 'tslint'],
 \   'scala': ['scalafmt'],
 \   'json': ['jq'],
 \   'html': ['tidy'],
