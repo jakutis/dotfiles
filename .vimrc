@@ -10,8 +10,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'chrisbra/csv.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
@@ -131,19 +130,6 @@ augroup CloseLoclistWindowGroup
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
 augroup END
-
-" vim-airline/vim-airline
-let g:airline_powerline_fonts = 0
-let g:airline_theme='light'
-let g:airline_section_a = airline#section#create([])
-let g:airline_section_b = airline#section#create(['filetype'])
-let g:airline_section_c = airline#section#create(['path'])
-let g:airline_section_x = airline#section#create([])
-let g:airline_section_y = airline#section#create([])
-let g:airline_section_z = airline#section#create(['mode'])
-let g:airline_section_gutter = airline#section#create([])
-let g:airline_section_error = airline#section#create([])
-let g:airline_section_warning = airline#section#create([])
 
 " junegunn/fzf
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'VYTASROOT']
@@ -370,3 +356,9 @@ let g:side_search_prg = 'rg'
   \. " --line-number"
 let g:side_search_split_pct = 0.5
 cabbrev SS SideSearch
+
+" itchyny/lightline.vim
+set noshowmode
+let g:lightline = {
+\ 'colorscheme': 'gruvbox',
+\ }
