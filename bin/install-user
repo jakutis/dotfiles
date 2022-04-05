@@ -1336,7 +1336,7 @@ then
   . "$DOTFILES/bin/lang" use node || exit 1
   ensure_git vim https://github.com/vim/vim || exit 1
   (cd "repos/git/vim" && git archive --format=tar --prefix=vim-build/ "v${VIMV}") | tar xf - || exit 1
-  cd vim-build && ./configure --prefix="$HOME/opt/vim-$VIMV" --enable-fail-if-missing --with-features=huge --with-x --enable-largefile --disable-fontset --enable-cscope --enable-gui=no --enable-python3interp=dynamic --enable-rubyinterp=dynamic --enable-multibyte --disable-netbeans --disable-darwin --enable-luainterp=no --enable-perlinterp=no --enable-tclinterp=no --enable-pythoninterp=no --enable-mzschemeinterp=no && make && make install && cd .. || exit 1
+  cd vim-build && ./configure --prefix="$HOME/opt/vim-$VIMV" --enable-fail-if-missing --with-features=huge --with-x --enable-largefile --disable-fontset --enable-cscope --enable-gui=yes --enable-python3interp=dynamic --enable-rubyinterp=dynamic --enable-multibyte --disable-netbeans --disable-darwin --enable-luainterp=no --enable-perlinterp=no --enable-tclinterp=no --enable-pythoninterp=no --enable-mzschemeinterp=no && make && make install && cd .. || exit 1
   rm -rf vim-build || exit 1
   cd opt && ln -nsf "vim-$VIMV" vim && cd .. || exit 1
 fi
