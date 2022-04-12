@@ -23,6 +23,15 @@ function help {
     echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard vpn"
 }
 
+function stop_vpn {
+  if [ "$(hostname)" = "wix" ]
+  then
+    sudo echo
+    timeout 10 /opt/paloaltonetworks/globalprotect/globalprotect disconnect
+    sudo killall -9 PanGPA
+  fi
+}
+
 function fan {
   LEVEL="$1"
   IBM="/proc/acpi/ibm/fan"
@@ -244,44 +253,50 @@ fi
 
 case "$CMD" in
     "vpn")
-        if [ "$(hostname)" = "wix" ]
+        if [ "$2" = "start" ]
         then
-          GW="$2"
-          if [ -z "$GW" ]
+          if [ "$(hostname)" = "wix" ]
           then
-            GW="vpn.wixpress.com"
-          fi
-          while ! curl --connect-timeout 5 --silent https://8.8.8.8 > /dev/null
-          do
-            echo still offline
+            GW="$3"
+            if [ -z "$GW" ]
+            then
+              GW="vpn.wixpress.com"
+            fi
+            while ! curl --connect-timeout 5 --silent https://8.8.8.8 > /dev/null
+            do
+              echo still offline
+              sleep 1
+            done
+            echo setting up iptables
+            sudo iptables -A INPUT -i gpd0 -j ACCEPT
+            echo stopping gpd
+            sudo systemctl stop gpd
+            echo stopping PanGPA
+            while [ -n "$(ps aux|grep PanGPA|grep -v grep)" ]
+            do
+              sudo killall -9 PanGPA
+            done
+            echo starting gpd
+            sudo systemctl start gpd
+            echo starting PanGPA
             sleep 1
-          done
-          echo setting up iptables
-          sudo iptables -A INPUT -i gpd0 -j ACCEPT
-          echo stopping gpd
-          sudo systemctl stop gpd
-          echo stopping PanGPA
-          while [ -n "$(ps aux|grep PanGPA|grep -v grep)" ]
-          do
-            sudo killall -9 PanGPA
-          done
-          echo starting gpd
-          sudo systemctl start gpd
-          echo starting PanGPA
-          sleep 1
-          while [ -z "$(ps aux|grep PanGPA|grep -v grep)" ]
-          do
-            /opt/paloaltonetworks/globalprotect/PanGPA start &
-          done
-          echo disconnecting from VPN
-          /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
-          echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
-          while ! curl --connect-timeout 5 --silent http://tc.dev.wixpress.com > /dev/null
-          do
-            echo VPN down, connecting...
-            /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
-            sleep 5
-          done
+            while [ -z "$(ps aux|grep PanGPA|grep -v grep)" ]
+            do
+              /opt/paloaltonetworks/globalprotect/PanGPA start &
+            done
+            echo disconnecting from VPN
+            /opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
+            echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
+            while ! curl --connect-timeout 5 --silent http://tc.dev.wixpress.com > /dev/null
+            do
+              echo VPN down, connecting...
+              /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
+              sleep 5
+            done
+          fi
+        elif [ "$2" = "stop" ]
+        then
+          stop_vpn
         fi
         ;;
     "keyboard")
@@ -310,6 +325,7 @@ case "$CMD" in
         screens "$@"
         ;;
     "net")
+        stop_vpn
         "$DOTFILES/rc.local.stop"
         "$DOTFILES/networks/rc.local.wifi.stop"
         "$DOTFILES/networks/vanilla"
