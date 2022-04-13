@@ -297,6 +297,9 @@ case "$CMD" in
         elif [ "$2" = "stop" ]
         then
           stop_vpn
+        else
+          echo "Error: unknown vpn command \"$2\""
+          exit 1
         fi
         ;;
     "keyboard")
