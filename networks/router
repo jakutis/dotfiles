@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+WIFI=wlp2s0b1
+ETH=enx9cebe8e75eab
+HOME=/home/jakutis
+
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+"../rc.local.stop"
+"./rc.local.wifi.stop"
+"./vanilla"
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+"../rc.local.start"
+"./rc.local.wifi.start"
+ifconfig "$ETH" 192.168.1.1/24
+iptables -P INPUT ACCEPT
+iptables -t nat -A POSTROUTING -o "$WIFI" -j MASQUERADE
+dhclient -v "$WIFI"
+touch ./router-dhcpd.lease
+dhcpd --no-pid -f -d -cf ./router-dhcpd.conf -lf ./router-dhcpd.lease
