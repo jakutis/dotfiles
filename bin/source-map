@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+const { SourceMapConsumer } = require('source-map')
+const { readFileSync } = require('fs')
+
+const sourceMapPath = process.argv[2]
+const [ line, column ] = process.argv[3].split(':').map(Number)
+
+const sourceMap = JSON.parse(readFileSync(sourceMapPath))
+const print = ({ consumer }) => {
+  const position = consumer.originalPositionFor({ line, column })
+  console.log({position})
+
+}
+const main = async () => {
+  await SourceMapConsumer.with(sourceMap, null, consumer => print({consumer}))
+}
+main()
