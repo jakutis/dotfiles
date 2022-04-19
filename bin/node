@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-
-. lang ensurebins node && node "$@"
+. lang ensurebins node && NODE_PATH="$(dirname "$(which node)")/../lib/node_modules:$NODE_PATH" node "$@"
