@@ -4,7 +4,6 @@ alias _calibre='export PATH="$HOME/opt/calibre/bin:$PATH";export LD_LIBRARY_PATH
 alias s='show'
 alias cd..='cd ..'
 alias md='source $HOME/bin/md'
-alias co='bash -c "REPO=\$1;BRANCH=\$2;mkdir --parents \"\$BRANCH\" && cd \"\$BRANCH\" && checkout \"\$REPO\" \"\$BRANCH\"" --'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias less='less -R'

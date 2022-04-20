@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+REPO="$1"
+BRANCH="$2"
+DIR="$(sanitize "$BRANCH")"
+
+mkdir --parents "$DIR" && cd "$DIR" && checkout "$REPO" "$BRANCH" "$@"
