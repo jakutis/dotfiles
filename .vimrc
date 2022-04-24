@@ -41,6 +41,15 @@ source $HOME/.ideavimrc
 
 packadd cfilter
 
+" press CTRL-d to repeat previous ":" command
+noremap <C-d> <Esc>:<Up><CR>
+
+" to find text without using regex engine, enter ":Find your text to be found"
+function! Find(needle)
+  call search('\V' . escape(a:needle, '\'))
+endfunction
+command! -nargs=* -bang Find call Find(<q-args>)
+
 " quick fix list
 noremap <C-u> <Esc>:cp<CR>
 noremap <C-i> <Esc>:cn<CR>
