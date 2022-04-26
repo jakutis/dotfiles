@@ -1,3 +1,4 @@
+alias findlinks='find -type l 2>/dev/null|while read P;do echo "$P -> $(readlink "$P" 2>/dev/null)";done'
 alias cdr='. cdr'
 alias cdp='. cdp'
 alias _calibre='export PATH="$HOME/opt/calibre/bin:$PATH";export LD_LIBRARY_PATH="$HOME/opt/calibre/lib"'
