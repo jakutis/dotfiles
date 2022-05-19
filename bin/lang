@@ -151,7 +151,7 @@ then
     then
       return
     fi
-    export PATH="$HOME/.opam/default/bin:$HOME/opt/opam/bin:$PATH"
+    export PATH="$HOME/.opam/main/bin:$HOME/opt/opam/bin:$PATH"
   elif [ "$LANG_LANG" = "java" ]
   then
     if [ -n "$(which java 2>/dev/null)" ]
@@ -345,6 +345,9 @@ then
   elif [ "$LANG_LANG" = "python" ]
   then
     ls "$HOME/.pyenv/versions"
+  elif [ "$LANG_LANG" = "ocaml" ]
+  then
+    cat "$HOME/.opam/config" | grep installed-switches | cut -c 21- | tr ' ' , | jq .[] -r
   elif [ "$LANG_LANG" = "rust" ]
   then
     ls ~/.rustup/toolchains/ -1|sed -e 's/-.*$//'|grep -v stable
@@ -362,7 +365,7 @@ then
     ls "$HOME/opt" | grep "^erlang-" | sed -e 's/^erlang-//'
   elif [ -z "$LANG_LANG" -o "$LANG_LANG" = "all" ]
   then
-    for L in ruby python node erlang r java rust
+    for L in ruby python node erlang r java rust ocaml
     do
       echo "# $L"
       "$SELF" installed_versions "$L"
@@ -470,7 +473,11 @@ then
   elif [ "$LANG_LANG" = "ocaml" ]
   then
     export PATH="$HOME/opt/opam/bin:$PATH"
-    [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null || exit 1
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(readlink "$HOME/.opam/main")"
+    fi
+    [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null && eval $(opam env --switch=$LANG_VERSION --set-switch) || exit 1
   elif [ "$LANG_LANG" = "php" ]
   then
     if [ -z "$LANG_VERSION" ]
@@ -514,11 +521,17 @@ then
     if [ "$LANG_LANG" = "node" ]
     then
       source "$HOME/.nvm/nvm.sh" && nvm alias default || exit 1
+    elif [ "$LANG_LANG" = "ocaml" ]
+    then
+      ls -l "$HOME/.opam/main" || exit 1
     fi
   else
     if [ "$LANG_LANG" = "node" ]
     then
       source "$HOME/.nvm/nvm.sh" && nvm alias default "$LANG_VERSION" || exit 1
+    elif [ "$LANG_LANG" = "ocaml" ]
+    then
+      cd "$HOME/.opam" && ln -nsf "$LANG_VERSION" main || exit 1
     fi
   fi
 elif [ "$LANG_COMMAND" = "install_packages" ]
