@@ -26,6 +26,12 @@ function custom_curl {
 
 function dav_exists {
   FILE="$1"
+  TRY="$2"
+  if [ -z "$TRY" ]
+  then
+    TRY="1"
+  fi
+
   CODE=$(custom_curl --write-out "%{http_code}" --request HEAD "$(full_url "$FILE")")
   if [ "$CODE" = "200" ]
   then
@@ -34,8 +40,14 @@ function dav_exists {
   then
     echo "no"
   else
-    echo "existence checking "$FILE" returned http status code: $CODE" 1>&2
-    exit 1
+    if [ "$TRY" = "3" ]
+    then
+      echo "existence checking "$FILE" returned http status code: $CODE" 1>&2
+      exit 1
+    else
+      echo "try #${TRY} failed, trying again"
+      dav_exists "$FILE" "$((TRY + 1))"
+    fi
   fi
 }
 
