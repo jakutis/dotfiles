@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 ARGS="$@"
-rg "$ARGS"
+rg -i "$ARGS"
