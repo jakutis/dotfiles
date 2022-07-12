@@ -31,6 +31,10 @@ function latest_version_kotlin {
   curl --verbose https://github.com/JetBrains/kotlin/releases/latest 2>&1 1>/dev/null|grep https://github.com/JetBrains/kotlin/releases/tag/|sed -e 's/.*tag\/v//'|sort --reverse --version-sort
 }
 
+function latest_version_haskell {
+  curl --silent https://www.haskell.org/ghc/download.html|grep download_ghc_|sed -e 's/^.*download_ghc_.*\.html">//'|sed -e 's/<\/a><\/li>//'|sort --reverse --version-sort
+}
+
 function latest_version_rust {
   curl --silent https://www.rust-lang.org/|grep download-link|sed -e 's/.*Version //'|sed -e 's/<.*//'|sort --reverse --version-sort
 }
@@ -106,6 +110,16 @@ function install_packages_rust {
   do
       echo "Installing $PACKAGE"
       cargo install $PACKAGE || exit 1
+  done
+}
+
+function install_packages_haskell {
+  LANG_VERSION="$1"
+  PACKAGES=$(cat "$HOME/.haskellpackages") || exit 1
+  for PACKAGE in $PACKAGES
+  do
+      echo "Installing $PACKAGE"
+      cabal install --installdir="$HOME/.ghcup/$LANG_VERSION/bin" "$PACKAGE" || exit 1
   done
 }
 
@@ -416,6 +430,14 @@ then
       exit 1
     fi
     export PATH="$LLVM_ROOT/bin:$PATH"
+  elif [ "$LANG_LANG" = "haskell" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(cat "$HOME/.haskellversion")"
+    fi
+    export PATH="$HOME/.ghcup/$LANG_VERSION/bin:$PATH"
+    export PATH="$HOME/.ghcup/ghc/$LANG_VERSION/bin:$PATH"
   elif [ "$LANG_LANG" = "java" ]
   then
     if [ -z "$LANG_VERSION" ]
@@ -650,6 +672,16 @@ then
     eval "$(pyenv init --path)" && eval "$(pyenv init -)" && pyenv install "$LANG_VERSION" && pyenv global "$LANG_VERSION" && pyenv shell "$(pyenv global)" || exit 1
 
     install_packages_python
+  elif [ "$LANG_LANG" = "haskell" ]
+  then
+    GHCUP="$HOME/.ghcup/$LANG_VERSION/bin"
+    export PATH="$GHCUP:$PATH"
+    if ! [ -e "$GHCUP/ghcup" ]
+    then
+      mkdir -p "$GHCUP" && curl "https://downloads.haskell.org/~ghcup/$(uname -m)-linux-ghcup" > "$GHCUP/ghcup" && chmod +x "$GHCUP/ghcup" && ghcup install cabal && ln -s "$HOME/.ghcup/bin/cabal" "$HOME/.ghcup/$LANG_VERSION/bin" && cabal update || exit 1
+    fi
+    ghcup install ghc "$LANG_VERSION" || exit 1
+    install_packages_haskell "$LANG_VERSION" || exit 1
   elif [ "$LANG_LANG" = "rust" ]
   then
     export PATH="$HOME/.cargo/bin:$PATH"
@@ -661,7 +693,7 @@ then
     fi
     rustup toolchain install "$LANG_VERSION" --allow-downgrade && rustup default "$LANG_VERSION" || exit 1
 
-    install_packages_rust
+    install_packages_rust || exit 1
   fi
   echo "install success"
 elif [ "$LANG_COMMAND" = "latest_version" ]
