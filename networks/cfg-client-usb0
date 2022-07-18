@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
+
+wvdial --config="$DOTFILES/networks/wvdial.conf" --no-syslog || echo "wvdial exit code $?"
+
+echo OK, modem ready, getting IP
+
+PUBIF="usb0" "$DOTFILES/networks/client"
