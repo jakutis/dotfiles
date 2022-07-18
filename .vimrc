@@ -59,6 +59,9 @@ set grepprg=rg\ --vimgrep\ -M\ 160\ -S
 " clipboard
 set clipboard=unnamed,unnamedplus
 
+" spelling checking
+set spell
+
 " master keys
 let mapleader = ","
 
