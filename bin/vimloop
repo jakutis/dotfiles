@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+FILES="$1"
+shift
+ARGS="$@"
+
+while read FILE <&3
+do
+  vim $ARGS "$FILE" || break
+done 3<"$FILES"
