@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 FILES="$1"
-shift
-ARGS="$@"
+ARGS="$2"
 
 while read FILE <&3
 do
-  vim $ARGS "$FILE" || break
+  eval vim $ARGS "$(printf %q "$FILE")" || break
 done 3<"$FILES"
