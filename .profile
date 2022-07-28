@@ -1,6 +1,6 @@
 umask 022
 
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/opt/MATLAB_Runtime/v910/runtime/glnxa64:$HOME/opt/MATLAB_Runtime/v910/bin/glnxa64:$HOME/opt/MATLAB_Runtime/v910/sys/os/glnxa64:$HOME/opt/MATLAB_Runtime/v910/extern/bin/glnxa64"
+#export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/opt/MATLAB_Runtime/v910/runtime/glnxa64:$HOME/opt/MATLAB_Runtime/v910/bin/glnxa64:$HOME/opt/MATLAB_Runtime/v910/sys/os/glnxa64:$HOME/opt/MATLAB_Runtime/v910/extern/bin/glnxa64"
 
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
