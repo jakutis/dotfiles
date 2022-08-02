@@ -27,7 +27,9 @@ else
   BRANCH="$DEFAULT_BRANCH"
 fi
 
-(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "$DEFAULT_BRANCH" ] && git fetch --all --prune --prune-tags && git rebase origin/$DEFAULT_BRANCH) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . || exit 1
+echo $DEFAULT_BRANCH
+
+(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "$DEFAULT_BRANCH" ] && git fetch --all --prune --prune-tags && git rebase origin/$DEFAULT_BRANCH) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . || (echo failed to fetch;exit 1)
 
 if [ -n "$(git branch --all|grep "^  remotes/origin/$BRANCH$")" ]
 then
