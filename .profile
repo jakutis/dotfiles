@@ -43,8 +43,14 @@ export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
 
 export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "$BASH_VERSION" ]
+then
     source "$HOME/.bashrc"
+fi
+
+if [ -e "$HOME/.profile.private" ]
+then
+    source "$HOME/.profile.private"
 fi
 
 cd "$HOME/Desktop"
