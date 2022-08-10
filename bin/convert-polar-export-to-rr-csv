@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+var a = JSON.parse(require('fs').readFileSync('/dev/stdin'))
+var b = a.exercises[0].samples.rr.map(a => a.duration.substr(2)).map(a => a.substr(0, a.length - 1)).map(Number).map(a => a*1000)
+var c = b.reduce((acc, rr) => {acc.since+= rr;acc.lines.push((acc.start + acc.since) + ',' + rr+','+acc.since);return acc}, {since:0,start:Date.parse(a.startTime),lines:[]})
+require('fs').writeFileSync('/dev/stdout', 'timestamp, rr, since_start\n'+c.lines.join('\n'))
