@@ -5,6 +5,7 @@ eslint
 eslint-plugin-react
 react-devtools
 serve
+http-server
 yarn
 lerna
 bs-platform
