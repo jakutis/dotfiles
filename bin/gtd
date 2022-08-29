@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+PROJECTS_DB="4fb88ae4-857a-4d78-a2f8-3ca9ec4297b2"
+
+COMMAND="$1"
+shift
+
+function call_api {
+  METHOD="$1"
+  URL="$2"
+  DATA="$3"
+  curl --silent -X "${METHOD}" "https://api.notion.com/v1${URL}" -H "Authorization: Bearer ${NOTION_API_KEY}" -H "Notion-Version: 2022-06-28" -H "Content-Type: application/json" --data "${DATA}"
+}
+
+if [ "$COMMAND" = "new_project" ]
+then
+  PROJECT_NAME="$(sanitize "$@")"
+  LAST_ID="$(call_api "POST" "/databases/$PROJECTS_DB/query" "{}"|jq ".results[].url" -r|cut -c 23-26|sort -n|tail -n 1|bc)"
+  NEXT_ID="$((LAST_ID + 1))"
+  PROJECT_ID="$(printf "%04d" "$NEXT_ID")"
+  PROJECT="$PROJECT_ID $PROJECT_NAME"
+  call_api "POST" "/pages" "{\"parent\":{\"database_id\":\"$PROJECTS_DB\"},\"properties\":{\"Name\":{\"title\":[{\"text\":{\"content\":\"$PROJECT\"}}]}}}" > /dev/null || exit 1
+
+  rm "$HOME/Desktop/Project"
+  echo "$PROJECT" > "$HOME/Desktop/Project"
+  mkdir -p "$HOME/Desktop/Projects/$PROJECT"
+  echo "$PROJECT"
+else
+  echo "Error: unknown command "$COMMAND""
+  exit 1
+fi
+
