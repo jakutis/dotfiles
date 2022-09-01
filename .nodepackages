@@ -1,4 +1,6 @@
 npm@6
+yarn
+pnpm
 markmap-lib
 tslint
 eslint
@@ -6,7 +8,6 @@ eslint-plugin-react
 react-devtools
 serve
 http-server
-yarn
 lerna
 bs-platform
 typescript
