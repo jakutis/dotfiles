@@ -26,11 +26,15 @@ function ticktock {
   INTERVAL="$2"
   while [ "$REMAINING" -gt "0" ]
   do
-    PREPEND="The time is $(iso-date)." APPEND="Minutes remaining: $(((REMAINING * INTERVAL) / 60)). " status
+    COMMAND=$(cat "$STATUS" | cut -f 4 -d ' ')
+    REMAINING_MINS=$(((REMAINING * INTERVAL) / 60))
+    rm -f "$STATUS" && echo "${REMAINING_MINS}mins left of ${COMMAND}" > "$STATUS"
+    PREPEND="The time is $(iso-date)." APPEND="Minutes remaining: $REMAINING_MINS. " status
     sleep $INTERVAL
     REMAINING=$((REMAINING - 1))
   done
   LAST="$(tail -n 1 "$LOG")"
+  rm "$STATUS"
   notify-send --icon="$DOTFILES/check64.png" --expire-time=1000000000 "${LAST} And you have now finished it! Woohoo!"
   beep
 }
@@ -51,6 +55,8 @@ function command {
     then
       play resume
     fi
+    REMAINING=$(((UNIT * INTERVALS) / 60))
+    rm -f "$STATUS" && echo "${REMAINING}mins left of ${COMMAND}" > "$STATUS"
     echo "At $(iso-date) you started a ${COMMAND}." >> "$LOG"
     ticktock $INTERVALS $UNIT
     if [ "$COMMAND" = "pomodoro" ]
@@ -64,6 +70,7 @@ function command {
 }
 
 LOG="$HOME/.pomodoro-log"
+STATUS="$HOME/.pomodoro-status"
 PIDFILE="$HOME/.pomodoro-pid"
 
 if [ "${EVENT:0:1}" = "p" ]
@@ -82,6 +89,7 @@ then
 
   kill -9 "$(cat "$PIDFILE")"
   rm "$PIDFILE"
+  rm "$STATUS"
 
   if [ "$(tail -n 1 "$LOG" | cut --delimiter=' ' --fields=7)" = "pomodoro." ]
   then
