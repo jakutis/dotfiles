@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+IMAGE="$1"
+if [ -z "$IMAGE" ]
+then
+  echo "Error: image argument is empty" 1>&2
+  exit 1
+fi
+
+curl --silent "https://registry.hub.docker.com/v2/repositories/$IMAGE/tags" | jq -r .results[].name
