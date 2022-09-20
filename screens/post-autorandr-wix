@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-LEFT="DP2-1"
-CENTER="DP2-3"
+LEFT="DP2-3"
+CENTER="DP2-1"
 RIGHT="eDP1"
 
 xrandr \
