@@ -1,0 +1,77 @@
+#!/usr/bin/env node
+
+const fs = require('fs/promises')
+const { existsSync } = require('fs');
+const {notDeepEqual} = require('assert');
+
+const url = 'http://10.11.99.1/documents/'
+
+const get = url => new Promise((resolve, reject) => {
+  require('http').get(url, (response) => {
+    if (response.statusCode !== 200) {
+      response.resume();
+      return reject(new Error('status not 200: ' + response.statusCode))
+    }
+    response.setEncoding('utf8');
+    let rawData = '';
+    response.on('data', (chunk) => { rawData += chunk; });
+    response.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        resolve(parsedData);
+      } catch (e) {
+        reject(e)
+      }
+    });
+  }).on('error', (e) => {
+    reject(e)
+  });
+})
+
+const list = async (item) => {
+  const r = await get(url + item)
+  return r.map(({ID, VissibleName, fileType}) => ({type: fileType, item: ID, title: VissibleName
+    .split('/').join('__')
+    .split('|').join('__')
+  }))
+}
+
+const download = async (fsFolder, targetFolder, folder, path) => {
+  await fs.mkdir(targetFolder, { recursive: true })
+  let skipped = []
+  for (const {type, item, title} of await list(folder)) {
+    const itemPath = path + '/' + title
+    const itemTargetPath = targetFolder + '/' + title
+    if (type === 'notebook') {
+      skipped = skipped.concat(itemPath)
+    } else if (type === undefined) {
+      console.log('download ' + itemPath)
+      skipped = skipped.concat(await download(fsFolder, itemTargetPath, item, itemPath))
+    } else {
+      console.log('download ' + itemPath)
+      if (!existsSync(itemTargetPath + '.' + type)) {
+        if (existsSync(fsFolder + '/' + item + '.' + type)) {
+          await fs.copyFile(fsFolder + '/' + item + '.' + type, itemTargetPath + '.' + type)
+        } else {
+          await fs.copyFile(fsFolder + '/' + item + '.' + 'pdf', itemTargetPath + '.' + 'pdf')
+        }
+      }
+    }
+  }
+  return skipped
+}
+
+const main = async () => {
+  const [ rootMount, targetFolder ] = process.argv.slice(2)
+  const sourceFolder = rootMount + '/home/root/.local/share/remarkable/xochitl'
+  if (!existsSync(sourceFolder)) {
+    throw new Error('first argument does not a path to remarkable sshfs mount')
+  }
+  if (!existsSync(targetFolder)) {
+    throw new Error('second argument must be an existing path to target folder')
+  }
+  const skipped = await download(sourceFolder, targetFolder, '', '')
+  console.log(`skipped these ${skipped.length}:\n${skipped.join('\n')}`)
+}
+
+main().catch(e => console.log(e.stack))
