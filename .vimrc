@@ -207,6 +207,9 @@ set laststatus=2
 set norelativenumber
 set number
 
+" do not break words when wrapping lines
+set linebreak
+
 " set current working directory to that of the file
 set autochdir
 autocmd BufEnter * lcd %:p:h
