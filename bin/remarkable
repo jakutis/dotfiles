@@ -49,22 +49,24 @@ function cmd_take {
 }
 
 function cmd_send {
-  SOURCE="$1"
-  if [ "$#" = "1" ]
-  then
-    DESTINATION="/"
-  else
-    DESTINATION="$2"
-  fi
-  if [ -d "$SOURCE" ]
-  then
-    cd "$SOURCE"
-    echo rmapi -ni mput "$DESTINATION"
-    rmapi -ni mput "$DESTINATION"
-  else
-    echo rmapi -ni put "$SOURCE" "$DESTINATION"
-    rmapi -ni put "$SOURCE" "$DESTINATION"
-  fi
+  DESTINATION="$1"
+  shift
+
+  while [ "$#" -gt "0" ]
+  do
+    SOURCE="$1"
+    shift
+
+    if [ -d "$SOURCE" ]
+    then
+      cd "$SOURCE"
+      echo rmapi -ni mput "$DESTINATION"
+      rmapi -ni mput "$DESTINATION"
+    else
+      echo rmapi -ni put "$SOURCE" "$DESTINATION"
+      rmapi -ni put "$SOURCE" "$DESTINATION"
+    fi
+  done
 }
 
 function cmd_rm {

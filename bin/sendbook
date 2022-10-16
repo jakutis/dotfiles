@@ -13,7 +13,7 @@ fi
 while [ -n "$1" ]
 do
   root send "$1"
-  remarkable send "$1" /Reading
+  remarkable send /Reading "$1"
   mkdir -p "$HOME/Dropbox/reads/books" && cp "$1" "$HOME/Dropbox/reads/books"
   shift
 done
