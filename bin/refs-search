@@ -30,7 +30,7 @@ QUERY="$2"
 
 if [ -z "$3" ]
 then
-    REFDIR="$HOME/etc/storage/books"
+    REFDIR="$HOME/etc/root/References/types/books/text"
     echo "Info: directory with references not specified, using ${REFDIR}." >&2
 else
     REFDIR="$(realpath "$3")"
@@ -38,7 +38,26 @@ fi
 
 cat "$REFLIST" | grep -v '^#' | while read REF
 do
-    echo "# $REF"
-    grep -i "$QUERY" "$REFDIR/${REF}.txt"
-    echo
+    FILE="$REFDIR/${REF}.txt"
+    RESULTS="$(rg --text --heading --line-number --color=always --sort=path --ignore-case "$QUERY" "$FILE")"
+    CODE="$?"
+    if [ "$CODE" = "2" ]
+    then
+      echo "Failed to read "$FILE""
+      exit 1
+    fi
+    if [ "$CODE" = "0" ]
+    then
+      echo "# $REF"
+      if [ "$ONLYCOUNT" = "yes" ]
+      then
+        echo "$RESULTS" | wc -l
+      else
+        echo "$RESULTS"
+      fi
+      echo
+    fi
 done
+
+echo 
+echo "Info: set env var ONLYCOUNT=yes to see only match count"
