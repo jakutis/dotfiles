@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+cat "$1" | while read LINE
+do
+  echo "$LINE" | grep '^#' >/dev/null
+  if [ "$?" = "0" ]
+  then
+    continue
+  fi
+  PAGE="$(echo "$LINE" | sed -e 's/ .*$//')"
+  FILE="$(echo "$LINE" | sed -e 's/^[0-9]* //')"
+  okular --page "$PAGE" "$HOME/etc/root/$FILE" &
+done
