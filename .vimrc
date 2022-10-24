@@ -49,10 +49,6 @@ function! Find(needle)
 endfunction
 command! -nargs=* -bang Find call Find(<q-args>)
 
-" quick fix list
-noremap <C-u> <Esc>:cp<CR>
-noremap <C-i> <Esc>:cn<CR>
-
 " vimgrep
 set grepprg=rg\ --vimgrep\ -M\ 160\ -S
 
