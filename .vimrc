@@ -208,7 +208,6 @@ set linebreak
 
 " set current working directory to that of the file
 set autochdir
-autocmd BufEnter * lcd %:p:h
 let g:rooter_manual_only = 1
 
 " folding
@@ -353,6 +352,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gs :CocCommand tsserver.goToSourceDefinition<CR>
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
