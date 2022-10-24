@@ -251,7 +251,6 @@ set shortmess+=c
 set signcolumn=yes
 
 " matching braces
-set showmatch
 set matchpairs=(:),{:},[:],<:>
 
 " indenting
