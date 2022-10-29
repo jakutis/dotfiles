@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cat "$1" | while read LINE
+cat "$@" | while read LINE
 do
   echo "$LINE" | grep '^#' >/dev/null
   if [ "$?" = "0" ]
