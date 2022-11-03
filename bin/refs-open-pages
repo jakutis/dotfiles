@@ -7,7 +7,12 @@ do
   then
     continue
   fi
-  PAGE="$(echo "$LINE" | sed -e 's/ .*$//')"
-  FILE="$(echo "$LINE" | sed -e 's/^[0-9]* //')"
-  okular --page "$PAGE" "$HOME/etc/root/$FILE" &
+  if [[ "$LINE" =~ ^https: ]]
+  then
+    www "$LINE"
+  else
+    PAGE="$(echo "$LINE" | sed -e 's/ .*$//')"
+    FILE="$(echo "$LINE" | sed -e 's/^[0-9]* //')"
+    okular --page "$PAGE" "$HOME/etc/root/$FILE" &
+  fi
 done
