@@ -211,7 +211,7 @@ set autochdir
 let g:rooter_manual_only = 1
 
 " folding
-set nofoldenable
+set foldlevel=999
 set foldmethod=indent
 
 " paste mode
