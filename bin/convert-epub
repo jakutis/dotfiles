@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+EXTENSION="${1##*.}"
+if [ "$EXTENSION" != "epub" ]
+then
+  echo "Error: file name extension is not epub" 1>&2
+  exit 1
+fi
+
+BASENAME="$(basename -- "$1" ".$EXTENSION")"
+if [ -e "$BASENAME.txt" ]
+then
+  echo "txt already exists"
+else
+  ebook-convert "$BASENAME.epub" "$BASENAME.txt"
+fi
+if [ -e "$BASENAME.pdf" ]
+then
+  echo "pdf already exists"
+else
+  ebook-convert "$BASENAME.epub" "$BASENAME.pdf"
+fi
