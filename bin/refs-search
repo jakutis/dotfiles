@@ -38,7 +38,10 @@ fi
 
 cat "$REFLIST" | grep -v '^#' | while read REF
 do
-    FILE="$REFDIR/${REF}.txt"
+    EXTENSION="${REF##*.}"
+    cd "$(dirname "$REFDIR/$REF")"
+    FILE="$(pwd)/$(basename "$REF" ".$EXTENSION").txt"
+    cd - 1>/dev/null
     RESULTS="$(rg --text --heading --line-number --color=always --sort=path --ignore-case "$QUERY" "$FILE")"
     CODE="$?"
     if [ "$CODE" = "2" ]
