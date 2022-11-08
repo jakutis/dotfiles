@@ -2,7 +2,7 @@
 
 if [ -z "$1" ] || [ ! -d "$HOME/Desktop/Projects/$1"* ]
 then
-  cd "$HOME/Desktop/Projects"
+  cd "$HOME/Desktop/Projects/$(cat "$HOME/Desktop/Project")"
 else
   cd "$HOME/Desktop/Projects/$1"*
 fi
