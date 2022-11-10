@@ -309,7 +309,7 @@ cabbrev SS SideSearch
 " itchyny/lightline.vim
 set noshowmode
 function! g:RootRelativeDir()
-  return trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . getcwd() . '"'))
+  return trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p:h') . '"'))
 endfunction
 let g:lightline = {
 \ 'colorscheme': 'gruvbox',
