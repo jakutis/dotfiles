@@ -308,8 +308,22 @@ cabbrev SS SideSearch
 
 " itchyny/lightline.vim
 set noshowmode
+function! g:RootRelativeDir()
+  return trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . getcwd() . '"'))
+endfunction
 let g:lightline = {
 \ 'colorscheme': 'gruvbox',
+\ 'active': {
+\   'left': [['mode', 'paste'], ['readonly', 'filename', 'modified', 'rootrelativedir']],
+\   'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+\ },
+\ 'inactive': {
+\   'left': [['filename', 'rootrelativedir']],
+\   'right': [['lineinfo'], ['percent']]
+\ },
+\ 'component': {
+\   'rootrelativedir': '%{g:RootRelativeDir()}',
+\ },
 \ }
 
 " ------------------------------------------------------------------------- CoC
