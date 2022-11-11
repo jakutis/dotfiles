@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 
 VIM_ARGS=""
-if [ -n "$1" ]
+if [ -f "$(pwd).vim" ]
 then
-    SESSION_NAME="$(echo $1 | md5sum | cut -f 1 -d ' ')"
-    if [ -e "$1" ]
-    then
-      VIM_ARGS=" -S $1"
-    fi
-else
-    SESSION_NAME="$(basename $(pwd) | tr '.' '-')-$(pwd | md5sum | cut -f 1 -d ' ')"
+  VIM_ARGS=" -S \"$(pwd).vim\""
 fi
+SESSION_NAME="$(basename $(pwd) | sanitize)-$(pwd | md5sum | cut -f 1 -d ' ')"
 shift
 
 if ! tty --silent
