@@ -132,6 +132,9 @@ function screens {
         if [ "$SCREENS" = "FIRST" ]
         then
           SCREENS="${CONNECTED[0]}"
+        elif [ "$SCREENS" = "ALL" ]
+        then
+          SCREENS="${CONNECTED[*]}"
         else
           SCREENS=""
           while [ -n "$1" ]
@@ -173,7 +176,7 @@ function screens {
         exit 1
     fi
 
-    "$DOTFILES/screens/$CFG" $SCREENS
+    PRIMARY="${CONNECTED[$PRIMARY]}" "$DOTFILES/screens/$CFG" $SCREENS
     set-background
     xset s off
     xset s noblank
