@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+RESOLUTION="$(xrandr --current | grep '*' | uniq | awk '{print $1}')"
+while [ -n "$1" ]
+do
+  if [ "$1" != "$PRIMARY" ]
+  then
+    xrandr --output "$1" --auto --rotate normal --scale-from "$RESOLUTION" --same-as "$PRIMARY"
+  fi
+  shift
+done
