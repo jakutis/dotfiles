@@ -40,6 +40,10 @@ source $HOME/.ideavimrc
 
 packadd cfilter
 
+function! g:RootRelativeFile()
+  return expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
+endfunction
+
 " press CTRL-d to repeat previous ":" command
 noremap <C-d> <Esc>:<Up><CR>
 
@@ -143,7 +147,6 @@ augroup END
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'VYTASROOT']
 function! g:FzfSearch()
   let l:relative_dir = trim(system('realpath "--relative-to=' . getcwd() . '" "' . FindRootDirectory() . '"'))
-  let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
 
   let l:fzf_options = join([
     \ '--keep-right --multi --preview-window noborder --prompt "> "',
@@ -151,7 +154,7 @@ function! g:FzfSearch()
     \ '--preview "bat --color always --style numbers,changes,snip {1}"',
     \ '--bind="ctrl-w:backward-kill-word,ctrl-u:clear-query"'], ' ')
   call fzf#vim#files('', {
-    \ 'source': printf('rg --files "%s" | proximity-sort "%s"', l:relative_dir, l:relative_dir . '/' . l:relative_file),
+    \ 'source': printf('rg --files "%s" | proximity-sort "%s"', l:relative_dir, l:relative_dir . '/' . g:RootRelativeFile()),
     \ 'options': l:fzf_options
     \})
 endfunction
@@ -308,21 +311,18 @@ cabbrev SS SideSearch
 
 " itchyny/lightline.vim
 set noshowmode
-function! g:RootRelativeDir()
-  return trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p:h') . '"'))
-endfunction
 let g:lightline = {
 \ 'colorscheme': 'gruvbox',
 \ 'active': {
-\   'left': [['mode', 'paste'], ['readonly', 'filename', 'modified', 'rootrelativedir']],
-\   'right': [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+\   'left': [['paste'], ['readonly', 'rootrelativefile', 'modified']],
+\   'right': [['lineinfo']]
 \ },
 \ 'inactive': {
-\   'left': [['filename', 'rootrelativedir']],
-\   'right': [['lineinfo'], ['percent']]
+\   'left': [['rootrelativefile', 'modified']],
+\   'right': [['lineinfo']]
 \ },
 \ 'component': {
-\   'rootrelativedir': '%{g:RootRelativeDir()}',
+\   'rootrelativefile': '%{g:RootRelativeFile()}',
 \ },
 \ }
 
