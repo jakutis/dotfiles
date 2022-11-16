@@ -41,7 +41,12 @@ source $HOME/.ideavimrc
 packadd cfilter
 
 function! g:RootRelativeFile()
-  return expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . FindRootDirectory() . '" "' . expand('%:p') . '"'))
+  let l:currentpath = expand('%:p')
+  let l:rootpath = FindRootDirectory()
+  if (l:currentpath[0:len(l:rootpath)-1] == l:rootpath)
+    return l:currentpath[len(l:rootpath)+1:len(l:currentpath)]
+  endif
+  return l:currentpath == '' ? '.' : 'ERROR BAD ROOT'
 endfunction
 
 " press CTRL-d to repeat previous ":" command
@@ -321,8 +326,8 @@ let g:lightline = {
 \   'left': [['rootrelativefile', 'modified']],
 \   'right': [['lineinfo']]
 \ },
-\ 'component': {
-\   'rootrelativefile': '%{g:RootRelativeFile()}',
+\ 'component_function': {
+\   'rootrelativefile': 'g:RootRelativeFile',
 \ },
 \ }
 
