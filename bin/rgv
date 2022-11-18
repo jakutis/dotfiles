@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 ARGS="$@"
-rg -i "$ARGS"
+rg --heading --line-number --color=auto --sort=path --ignore-case "$ARGS"
