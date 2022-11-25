@@ -46,7 +46,7 @@ function! g:RootRelativeFile()
   if (l:currentpath[0:len(l:rootpath)-1] == l:rootpath)
     return l:currentpath[len(l:rootpath)+1:len(l:currentpath)]
   endif
-  return l:currentpath == '' ? '.' : 'ERROR BAD ROOT'
+  return l:currentpath == '' ? '.' : l:currentpath
 endfunction
 
 " press CTRL-d to repeat previous ":" command
