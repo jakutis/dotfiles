@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-yt-dlp --ignore-errors --audio-quality 0 --audio-format best --extract-audio --restrict-filenames "$1"
+yt-dlp --ignore-errors --audio-quality 0 --audio-format best --extract-audio --restrict-filenames "$@"
