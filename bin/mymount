@@ -54,17 +54,16 @@ then
         then
             for BASE in mmcblk sd
             do
-                MOUNT="$(ls --sort=time /dev/${BASE}?|head -n 1)"
-                if [ -n "$MOUNT" ]
+                SUBMOUNT="$(ls --sort=time /dev/${BASE}?|head -n 1)"
+                if [ -n "$SUBMOUNT" ]
                 then
-                    MOUNT="$(ls --sort=none ${MOUNT}*|tail -n 1)"
+                    SUBMOUNT="$(ls --sort=none ${SUBMOUNT}*|tail -n 1)"
                     break
                 fi
             done
-            sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$MOUNT" "$DIR""
-        else
-            sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o loop,uid=$(id -u) \"$SUBMOUNT\" "$DIR""
         fi
+        echo "Device: $SUBMOUNT"
+        sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount -o uid=$(id -u) "$SUBMOUNT" "$DIR""
     else
         sudo bash -c "mkdir -p "$DIR" && chown $USER: "$DIR" && mount "$DIR""
     fi
