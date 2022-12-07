@@ -6,7 +6,7 @@ tslint
 eslint
 eslint-plugin-react
 react-devtools
-serve
+https-localhost
 http-server
 lerna
 bs-platform
