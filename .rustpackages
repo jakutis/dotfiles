@@ -3,7 +3,7 @@ ytop
 git-delta
 bat
 bandwhich
-ripgrep
+ripgrep --features pcre2
 hyperfine
 htmlq
 tidy-viewer
