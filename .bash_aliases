@@ -2,7 +2,7 @@ alias findlinks='find -type l 2>/dev/null|while read P;do echo "$P -> $(readlink
 alias cdr='. cdr'
 alias cdp='. cdp'
 alias _calibre='export PATH="$HOME/opt/calibre/bin:$PATH";export LD_LIBRARY_PATH="$HOME/opt/calibre/lib"'
-alias s='show'
+alias s='for A in $(seq 1 100);do echo;done'
 alias cd..='cd ..'
 alias md='source $HOME/bin/md'
 alias ls='ls --color=auto'
