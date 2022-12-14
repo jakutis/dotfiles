@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 
-cd "$(git rev-parse --show-toplevel)" && git add . && git commit --no-verify --message=wip
+MESSAGE="$1"
+if [ -z "$MESSAGE" ]
+then
+  MESSAGE=wip
+fi
+
+cd "$(git rev-parse --show-toplevel)" && git add . && git commit --no-verify "--message=$MESSAGE"
