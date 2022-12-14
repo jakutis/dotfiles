@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-MESSAGE="$1"
-if [ -z "$MESSAGE" ]
+if [ -n "$1" ]
 then
+  MESSAGE="wip: $1"
+else
   MESSAGE=wip
 fi
 
