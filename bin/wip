@@ -2,7 +2,7 @@
 
 if [ -n "$1" ]
 then
-  MESSAGE="wip: $1"
+  MESSAGE="wip: $@"
 else
   MESSAGE=wip
 fi
