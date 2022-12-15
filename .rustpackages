@@ -7,3 +7,4 @@ ripgrep --features pcre2
 hyperfine
 htmlq
 tidy-viewer
+sd
