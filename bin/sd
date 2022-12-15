@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+. lang ensurebins rust && "$(lang resolve_executable rust sd)" "$@"
