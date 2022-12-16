@@ -7,6 +7,151 @@ LANG_VERSION="$3"
 
 export PYENV_ROOT="$HOME/.pyenv"
 
+function lang_use {
+  LANG_LANG="$1"
+  LANG_VERSION="$2"
+  if [ "$LANG_LANG" = "node" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="default"
+    fi
+    source "$HOME/.nvm/nvm.sh" && nvm use "$LANG_VERSION" 1>/dev/null || exit 1
+  elif [ "$LANG_LANG" = "r" ]
+  then
+    R_HOME="$HOME/opt/r-$LANG_VERSION"
+    if [ ! -e "$R_HOME" ]
+    then
+      exit 1
+    fi
+    export TEXINPUTS="$TEXINPUTS:$R_HOME/lib/R/share/texmf/tex/latex"
+    export PATH="$R_HOME/bin:$PATH"
+  elif [ "$LANG_LANG" = "cuda" ]
+  then
+    export CUDA_HOME="$HOME/opt/cuda-$LANG_VERSION"
+    if [ ! -e "$CUDA_HOME" ]
+    then
+      exit 1
+    fi
+    export PATH="$CUDA_HOME/bin:$PATH"
+    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/lib"
+  elif [ "$LANG_LANG" = "rust" ]
+  then
+    export PATH="$HOME/.cargo/bin:$PATH"
+    if [ -n "$LANG_VERSION" ]
+    then
+      rustup default "$LANG_VERSION" || exit 1
+    fi
+  elif [ "$LANG_LANG" = "llvm" ]
+  then
+    export LLVM_ROOT="$HOME/opt/llvm-$LANG_VERSION"
+    if [ ! -e "$LLVM_ROOT" ]
+    then
+      exit 1
+    fi
+    export PATH="$LLVM_ROOT/bin:$PATH"
+  elif [ "$LANG_LANG" = "haskell" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(cat "$HOME/.haskellversion")"
+    fi
+    export PATH="$HOME/.ghcup/$LANG_VERSION/bin:$PATH"
+    export PATH="$HOME/.ghcup/ghc/$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "java" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(cat "$HOME/.javaversion")"
+    fi
+    export JAVA_HOME="$HOME/opt/jdk-$LANG_VERSION"
+    if [ ! -e "$JAVA_HOME" ]
+    then
+      exit 1
+    fi
+    export PATH="$JAVA_HOME/bin:$PATH"
+  elif [ "$LANG_LANG" = "perl" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="default"
+    fi
+    [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$LANG_VERSION" || exit 1
+  elif [ "$LANG_LANG" = "kotlin" ]
+  then
+    if [ ! -e "$HOME/opt/kotlin-$LANG_VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/kotlin-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "erlang" ]
+  then
+    if [ ! -e "$HOME/opt/erlang-$LANG_VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/erlang-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "ghc" ]
+  then
+    if [ ! -e "$HOME/opt/ghc-$LANG_VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/ghc-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "gcc" ]
+  then
+    if [ ! -e "$HOME/opt/gcc-$LANG_VERSION" ]
+    then
+      exit 1
+    fi
+    export PATH="$HOME/opt/gcc-$LANG_VERSION/bin:$PATH"
+  elif [ "$LANG_LANG" = "go" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="default"
+    fi
+    [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$LANG_VERSION" 1>/dev/null || exit 1
+  elif [ "$LANG_LANG" = "ocaml" ]
+  then
+    export PATH="$HOME/opt/opam/bin:$PATH"
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(readlink "$HOME/.opam/main")"
+    fi
+    [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null && eval $(opam env --switch=$LANG_VERSION --set-switch) || exit 1
+  elif [ "$LANG_LANG" = "php" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(cat "$HOME/.php")"
+    fi
+    [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$LANG_VERSION" || exit 1
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
+  elif [ "$LANG_LANG" = "brew" ]
+  then
+    eval $("$HOME/.linuxbrew/bin/brew" shellenv)
+  elif [ "$LANG_LANG" = "python" ]
+  then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="$(pyenv global)"
+    fi
+    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init --path)" && eval "$(pyenv init -)" && pyenv shell "$LANG_VERSION" || exit 1
+  elif [ "$LANG_LANG" = "ruby" ]
+  then
+    if [ -z "$LANG_VERSION" ]
+    then
+      LANG_VERSION="default"
+    fi
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$LANG_VERSION" 2>/dev/null || exit 1
+  else
+    echo unrecognized language: $LANG_LANG 1>&2
+    exit 1
+  fi
+}
+
 function latest_version_python {
   curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
 }
@@ -58,6 +203,35 @@ function install_packages_r {
       echo "Installing $PACKAGE"
       echo "install.packages(c(\"${PACKAGE}\"), repos=c(\"http://cran.us.r-project.org\", dependencies=TRUE))" | R --no-save || exit 1
   done
+}
+
+function find_up {
+  DIR="$PWD"
+  FILE="$1"
+  while true
+  do
+    if [ -e "$DIR/$FILE" ]
+    then
+      echo "$DIR/$FILE"
+      break
+    fi
+    if [ "$DIR" = "/" ]
+    then
+      break
+    fi
+    DIR="$(dirname "$DIR")"
+  done
+}
+
+function load_node_if_nvmrc {
+  PREV_NVMRC="$DOTFILES_LANG_NODE_NVMRC"
+  NVMRC="$(find_up .nvmrc)"
+  export DOTFILES_LANG_NODE_NVMRC="$NVMRC"
+  [ -z "$NVMRC" -a -z "$NVM_INC" ] && return
+  [ -z "$NVMRC" -a -n "$NVM_INC" ] && nvm deactivate && return
+  [ -n "$NVMRC" -a -z "$NVM_INC" ] && lang_use node && nvm use && return
+  [ -n "$NVMRC" -a -n "$NVM_INC" -a "$PREV_NVMRC" = "$NVMRC" ] && return
+  [ -n "$NVMRC" -a -n "$NVM_INC" -a "$PREV_NVMRC" != "$NVMRC" ] && nvm use && return
 }
 
 function install_packages_node {
@@ -390,146 +564,7 @@ then
   fi
 elif [ "$LANG_COMMAND" = "use" ]
 then
-  if [ "$LANG_LANG" = "node" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="default"
-    fi
-    source "$HOME/.nvm/nvm.sh" && nvm use "$LANG_VERSION" 1>/dev/null || exit 1
-  elif [ "$LANG_LANG" = "r" ]
-  then
-    R_HOME="$HOME/opt/r-$LANG_VERSION"
-    if [ ! -e "$R_HOME" ]
-    then
-      exit 1
-    fi
-    export TEXINPUTS="$TEXINPUTS:$R_HOME/lib/R/share/texmf/tex/latex"
-    export PATH="$R_HOME/bin:$PATH"
-  elif [ "$LANG_LANG" = "cuda" ]
-  then
-    export CUDA_HOME="$HOME/opt/cuda-$LANG_VERSION"
-    if [ ! -e "$CUDA_HOME" ]
-    then
-      exit 1
-    fi
-    export PATH="$CUDA_HOME/bin:$PATH"
-    export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$CUDA_HOME/lib"
-  elif [ "$LANG_LANG" = "rust" ]
-  then
-    export PATH="$HOME/.cargo/bin:$PATH"
-    if [ -n "$LANG_VERSION" ]
-    then
-      rustup default "$LANG_VERSION" || exit 1
-    fi
-  elif [ "$LANG_LANG" = "llvm" ]
-  then
-    export LLVM_ROOT="$HOME/opt/llvm-$LANG_VERSION"
-    if [ ! -e "$LLVM_ROOT" ]
-    then
-      exit 1
-    fi
-    export PATH="$LLVM_ROOT/bin:$PATH"
-  elif [ "$LANG_LANG" = "haskell" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="$(cat "$HOME/.haskellversion")"
-    fi
-    export PATH="$HOME/.ghcup/$LANG_VERSION/bin:$PATH"
-    export PATH="$HOME/.ghcup/ghc/$LANG_VERSION/bin:$PATH"
-  elif [ "$LANG_LANG" = "java" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="$(cat "$HOME/.javaversion")"
-    fi
-    export JAVA_HOME="$HOME/opt/jdk-$LANG_VERSION"
-    if [ ! -e "$JAVA_HOME" ]
-    then
-      exit 1
-    fi
-    export PATH="$JAVA_HOME/bin:$PATH"
-  elif [ "$LANG_LANG" = "perl" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="default"
-    fi
-    [[ -s "$PERLBREW_ROOT/etc/bashrc" ]] && source "$PERLBREW_ROOT/etc/bashrc" && perlbrew use "$LANG_VERSION" || exit 1
-  elif [ "$LANG_LANG" = "kotlin" ]
-  then
-    if [ ! -e "$HOME/opt/kotlin-$LANG_VERSION" ]
-    then
-      exit 1
-    fi
-    export PATH="$HOME/opt/kotlin-$LANG_VERSION/bin:$PATH"
-  elif [ "$LANG_LANG" = "erlang" ]
-  then
-    if [ ! -e "$HOME/opt/erlang-$LANG_VERSION" ]
-    then
-      exit 1
-    fi
-    export PATH="$HOME/opt/erlang-$LANG_VERSION/bin:$PATH"
-  elif [ "$LANG_LANG" = "ghc" ]
-  then
-    if [ ! -e "$HOME/opt/ghc-$LANG_VERSION" ]
-    then
-      exit 1
-    fi
-    export PATH="$HOME/opt/ghc-$LANG_VERSION/bin:$PATH"
-  elif [ "$LANG_LANG" = "gcc" ]
-  then
-    if [ ! -e "$HOME/opt/gcc-$LANG_VERSION" ]
-    then
-      exit 1
-    fi
-    export PATH="$HOME/opt/gcc-$LANG_VERSION/bin:$PATH"
-  elif [ "$LANG_LANG" = "go" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="default"
-    fi
-    [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$LANG_VERSION" 1>/dev/null || exit 1
-  elif [ "$LANG_LANG" = "ocaml" ]
-  then
-    export PATH="$HOME/opt/opam/bin:$PATH"
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="$(readlink "$HOME/.opam/main")"
-    fi
-    [[ -s "$HOME/.opam/opam-init/init.sh" ]] && source "$HOME/.opam/opam-init/init.sh" 1>/dev/null 2>/dev/null && eval $(opam env --switch=$LANG_VERSION --set-switch) || exit 1
-  elif [ "$LANG_LANG" = "php" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="$(cat "$HOME/.php")"
-    fi
-    [[ -s "$HOME/opt/php-version/php-version.sh" ]] && source "$HOME/opt/php-version/php-version.sh" && php-version "$LANG_VERSION" || exit 1
-    export PATH="$HOME/.composer/vendor/bin:$PATH"
-  elif [ "$LANG_LANG" = "brew" ]
-  then
-    eval $("$HOME/.linuxbrew/bin/brew" shellenv)
-  elif [ "$LANG_LANG" = "python" ]
-  then
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="$(pyenv global)"
-    fi
-    [[ -s "$PYENV_ROOT" ]] && eval "$(pyenv init --path)" && eval "$(pyenv init -)" && pyenv shell "$LANG_VERSION" || exit 1
-  elif [ "$LANG_LANG" = "ruby" ]
-  then
-    if [ -z "$LANG_VERSION" ]
-    then
-      LANG_VERSION="default"
-    fi
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && rvm "$LANG_VERSION" 2>/dev/null || exit 1
-  else
-    echo unrecognized language: $LANG_LANG 1>&2
-    exit 1
-  fi
+  lang_use "$LANG_LANG" "$LANG_VERSION"
 elif [ "$LANG_COMMAND" = "default" ]
 then
   if [ -z "$LANG_LANG" ]
@@ -721,6 +756,9 @@ then
   else
     latest_version "$LANG_LANG"
   fi
+elif [ "$LANG_COMMAND" = "autoload" ]
+then
+  load_node_if_nvmrc
 elif [ "$LANG_COMMAND" = "versions" ]
 then
   function check {
