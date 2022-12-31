@@ -7,20 +7,10 @@ export XDG_DATA_HOME="$USER_HOME/.local/share"
 export XDG_CONFIG_HOME="$USER_HOME/.config"
 DOTFILES_CONFIG="$XDG_CONFIG_HOME/dotfiles"
 
-if [ -n "$(cat /proc/acpi/wakeup | grep LID | grep enabled)" ]
-then
-  echo LID > /proc/acpi/wakeup
-fi
-
-if [ -n "$(cat /proc/acpi/wakeup | grep XHC | grep enabled)" ]
-then
-  echo XHC > /proc/acpi/wakeup
-fi
-
-if [ -n "$(cat /proc/acpi/wakeup | grep XHC1 | grep enabled)" ]
-then
-  echo XHC1 > /proc/acpi/wakeup
-fi
+cat /proc/acpi/wakeup | grep enabled | cut -f 1 | while read ITEM
+do
+  echo $ITEM > /proc/acpi/wakeup
+done
 
 if [ "$(cat /etc/hostname)" = "laptop" -o "$(cat /etc/hostname)" = "wix" ]
 then
