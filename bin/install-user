@@ -37,7 +37,7 @@ GHCV="8.8.4"
 ERLANGV="23"
 PYTHON2V="2.7.18"
 
-TMUXV="3.2a"
+TMUXV="3.3a"
 VIMV="$(curl --silent -H "Accept: application/vnd.github.v3+json" --fail  https://api.github.com/repos/vim/vim/tags|jq .[].name -r|cut -b 2-|sort -nr|head -n 1)" || exit 1
 
 OCRODJVUV="0.12"
