@@ -224,8 +224,8 @@ function find_up {
 }
 
 function load_node_if_nvmrc {
-  PREV_NVMRC="$DOTFILES_LANG_NODE_NVMRC"
-  NVMRC="$(find_up .nvmrc)"
+  local PREV_NVMRC="$DOTFILES_LANG_NODE_NVMRC"
+  local NVMRC="$(find_up .nvmrc)"
   export DOTFILES_LANG_NODE_NVMRC="$NVMRC"
   [ -z "$NVMRC" -a -z "$NVM_INC" ] && return
   [ -z "$NVMRC" -a -n "$NVM_INC" ] && nvm deactivate && return
