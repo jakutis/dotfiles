@@ -70,12 +70,10 @@ source /usr/share/doc/fzf/examples/key-bindings.bash
 
 if [ -n "$TMUX" ]
 then
-
   function cd {
     command cd "$@"
     . lang autoload
   }
-
   . lang autoload
 fi
 
