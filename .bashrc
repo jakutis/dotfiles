@@ -64,14 +64,19 @@ function marks {
     mkdir --parents "$MARKPATH"
     ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
 }
-function cd {
-  command cd "$@"
-  . lang autoload
-}
 
 source "$HOME/.bash_aliases"
 source /usr/share/doc/fzf/examples/key-bindings.bash
 
-. lang autoload
+if [ -n "$TMUX" ]
+then
+
+  function cd {
+    command cd "$@"
+    . lang autoload
+  }
+
+  . lang autoload
+fi
 
 stty -ixon
