@@ -10,8 +10,8 @@ shift
 
 if ! tty --silent
 then
-    urxvt -e bash -c "ide $SESSION_NAME"
-    exit
+  kitty bash -c "ide $SESSION_NAME"
+  exit
 fi
 
 NEW_ARGS=""
