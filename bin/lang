@@ -228,7 +228,8 @@ function load_node_if_nvmrc {
   local NVMRC="$(find_up .nvmrc)"
   export DOTFILES_LANG_NODE_NVMRC="$NVMRC"
   [ -z "$NVMRC" -a -z "$NVM_INC" ] && return
-  [ -z "$NVMRC" -a -n "$NVM_INC" ] && nvm deactivate && return
+  [ -z "$NVMRC" -a -n "$NVM_INC" -a "$PREV_NVMRC" = "$NVMRC" ] && return
+  [ -z "$NVMRC" -a -n "$NVM_INC" -a "$PREV_NVMRC" != "$NVMRC" ] && nvm deactivate && return
   [ -n "$NVMRC" -a -z "$NVM_INC" ] && lang_use node && nvm use && return
   [ -n "$NVMRC" -a -n "$NVM_INC" -a "$PREV_NVMRC" = "$NVMRC" ] && return
   [ -n "$NVMRC" -a -n "$NVM_INC" -a "$PREV_NVMRC" != "$NVMRC" ] && nvm use && return
