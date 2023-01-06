@@ -25,7 +25,6 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'easymotion/vim-easymotion'
 Plug 'mogelbrod/vim-jsonpath'
-Plug 'dense-analysis/ale'
 Plug 'ruanyl/vim-gh-line'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-rhubarb'
@@ -108,39 +107,6 @@ let g:LanguageClient_serverCommands = {
     \ 'ocaml': ['ocaml-language-server', '--stdio'],
     \ 'scala': ['metals-vim'],
     \ }
-
-" w0rp/ale
-let g:ale_fix_on_save = 0
-let g:ale_hover_cursor = 0
-let g:ale_completion_enabled = 1
-set completeopt=menu,menuone,preview,noselect,noinsert
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'javascriptreact': ['eslint'],
-\   'typescript': ['eslint', 'tslint'],
-\   'typescriptreact': ['eslint', 'tslint'],
-\}
-let g:ale_fixers = {
-\   'yaml': ['prettier'],
-\   'javascript': ['eslint'],
-\   'javascriptreact': ['eslint'],
-\   'typescript': ['eslint', 'tslint'],
-\   'typescriptreact': ['eslint', 'tslint'],
-\   'scala': ['scalafmt'],
-\   'json': ['jq'],
-\   'html': ['tidy'],
-\   'ocaml': ['ocamlformat'],
-\}
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_typescript_eslint_use_global = 1
-let g:ale_typescript_tslint_use_global = 1
-let g:ale_keep_list_window_open = 0
-noremap! <C-s> <Esc>:ALEFix<CR>
-nnoremap <C-s> <Esc>:ALEFix<CR>
-noremap! <leader>k <Esc>:ALEPrevious<CR>
-nnoremap <leader>k <Esc>:ALEPrevious<CR>
-noremap! <leader>j <Esc>:ALENext<CR>
-nnoremap <leader>j <Esc>:ALENext<CR>
 
 " close error window when closing buffer
 augroup CloseLoclistWindowGroup
@@ -333,6 +299,9 @@ let g:lightline = {
 
 " ------------------------------------------------------------------------- CoC
 let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver', 'coc-sh']
+
+noremap! <C-s> <Esc>:CocCommand eslint.executeAutofix<CR>
+nnoremap <C-s> <Esc>:CocCommand eslint.executeAutofix<CR>
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
