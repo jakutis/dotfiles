@@ -18,10 +18,10 @@ then
   LAST_ID="$(call_api "POST" "/databases/$PROJECTS_DB/query" "{}"|jq ".results[].url" -r|cut -c 23-26|sort -n|tail -n 1|bc)"
   NEXT_ID="$((LAST_ID + 1))"
   PROJECT_ID="$(printf "%04d" "$NEXT_ID")"
-  PROJECT="$PROJECT_ID $PROJECT_NAME"
+  PROJECT="${PROJECT_ID}_$PROJECT_NAME"
   call_api "POST" "/pages" "{\"parent\":{\"database_id\":\"$PROJECTS_DB\"},\"properties\":{\"Name\":{\"title\":[{\"text\":{\"content\":\"$PROJECT\"}}]}}}" > /dev/null || exit 1
 
-  rm "$HOME/Desktop/Project"
+  rm -rf "$HOME/Desktop/Project"
   echo "$PROJECT" > "$HOME/Desktop/Project"
   mkdir -p "$HOME/Desktop/Projects/$PROJECT"
   echo "$PROJECT"
