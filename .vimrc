@@ -300,6 +300,8 @@ let g:lightline = {
 " ------------------------------------------------------------------------- CoC
 let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver', 'coc-sh']
 
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
+
 noremap! <C-s> <Esc>:CocCommand eslint.executeAutofix<CR>
 nnoremap <C-s> <Esc>:CocCommand eslint.executeAutofix<CR>
 
