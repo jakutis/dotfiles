@@ -298,7 +298,7 @@ let g:lightline = {
 \ }
 
 " ------------------------------------------------------------------------- CoC
-let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver', 'coc-sh']
+let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver', 'coc-sh', 'coc-eslint', 'coc-prettier']
 
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
