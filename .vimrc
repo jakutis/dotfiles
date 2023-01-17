@@ -33,6 +33,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/goyo.vim'
+Plug 'meain/vim-printer'
 call plug#end()
 
 source $HOME/.ideavimrc
@@ -47,6 +48,11 @@ function! g:RootRelativeFile()
   endif
   return l:currentpath == '' ? '.' : l:currentpath
 endfunction
+
+" meain/vim-printer
+let g:vim_printer_items = {
+      \ 'javascript': 'console.log("JAKUTIS", "{$}=", {$})',
+      \ }
 
 " press CTRL-d to repeat previous ":" command
 noremap <C-d> <Esc>:<Up><CR>
