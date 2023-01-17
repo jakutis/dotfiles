@@ -1,9 +1,9 @@
 [Added Associations]
 application/epub+zip=ebook-viewer.desktop;
-application/pdf=org.kde.okular.desktop
-application/x-gzpdf=org.kde.okular.desktop
-application/x-bzpdf=org.kde.okular.desktop
-application/x-wwf=org.kde.okular.desktop
+application/pdf=org.gnome.Evince.desktop
+application/x-gzpdf=org.gnome.Evince.desktop
+application/x-bzpdf=org.gnome.Evince.desktop
+application/x-wwf=org.gnome.Evince.desktop
 application/vnd.ms-htmlhelp=xchm.desktop;
 application/vnd.oasis.opendocument.spreadsheet=libreoffice.desktop;
 application/x-mobipocket-ebook=ebook-viewer.desktop;
@@ -17,10 +17,10 @@ x-scheme-handler/https=www.desktop;
 x-scheme-handler/bjnb=bluejeans.desktop;
 
 [Default Applications]
-application/pdf=org.kde.okular.desktop
-application/x-gzpdf=org.kde.okular.desktop
-application/x-bzpdf=org.kde.okular.desktop
-application/x-wwf=org.kde.okular.desktop
+application/pdf=org.gnome.Evince.desktop
+application/x-gzpdf=org.gnome.Evince.desktop
+application/x-bzpdf=org.gnome.Evince.desktop
+application/x-wwf=org.gnome.Evince.desktop
 x-scheme-handler/bjnb=bluejeans.desktop;
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;

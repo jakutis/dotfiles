@@ -71,7 +71,7 @@ then
             "$EBOOKVIEWER" -- "$FILE"
             ;;
         "application/pdf" | "image/vnd.djvu" | "application/postscript")
-            okular -- "$FILE"
+            evince -- "$FILE"
             ;;
         "text/rtf" | "application/msword" | "application/vnd.oasis.opendocument.spreadsheet" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.wordprocessingml.documentapplication/zip" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "application/vnd.oasis.opendocument.text" | "application/vnd.openxmlformats-officedocument.presentationml.presentation" | "application/vnd.oasis.opendocument.presentation" )
             libreoffice -o "$FILE"
@@ -91,7 +91,7 @@ then
         "application/zip")
             if [ "$EXT" == "cbz" ]
             then
-                okular -- "$FILE"
+                evince -- "$FILE"
             elif [ "$EXT" == "epub" ]
             then
                 "$EBOOKVIEWER" -- "$FILE"
