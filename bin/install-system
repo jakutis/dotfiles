@@ -104,7 +104,7 @@ then
     fi
     if [ ! -e "/etc/apt/sources.list.d/spotify.list" ]
     then
-      wget --quiet --output-document=- https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | apt-key add - || exit 1
+      wget --quiet --output-document=- https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | apt-key add - || exit 1
       echo "deb [arch=$(dpkg --print-architecture)] http://repository.spotify.com stable non-free" >> /etc/apt/sources.list
     fi
 
