@@ -25,3 +25,4 @@ wanalyzer
 npm-fzf
 typescript-language-server
 csv-parse
+jscodeshift
