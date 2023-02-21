@@ -2,10 +2,8 @@
 
 LEFT="DP2-1"
 CENTER="DP2-3"
-RIGHT="eDP1"
 
-xrandr \
-  --output "$LEFT" --auto  --rotate normal \
-  --output "$CENTER" --auto --rotate normal --right-of "$LEFT" --preferred --primary \
-  --output "$RIGHT" --auto --rotate normal --right-of "$CENTER" \
-  || exit 1
+xrandr --output "$LEFT" --mode 1920x1200 --pos 1920x0 --rotate normal \
+  --output "$CENTER" --mode 1920x1200 --pos 0x0 --rotate normal --primary && \
+xrandr  --output "$LEFT" --mode 1920x1200 --pos 0x0 --rotate normal \
+  --output "$CENTER" --mode 1920x1200 --pos 1920x0 --rotate normal --primary || exit 1
