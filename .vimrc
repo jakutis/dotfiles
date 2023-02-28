@@ -34,6 +34,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/goyo.vim'
 Plug 'meain/vim-printer'
+Plug 'matze/vim-move'
 call plug#end()
 
 source $HOME/.ideavimrc
@@ -147,7 +148,7 @@ function! FzfRipgrep(query, fullscreen)
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 command! -nargs=* -bang Rg call FzfRipgrep(<q-args>, <bang>0)
-noremap <C-q> <Esc>:Rg<CR>
+noremap <C-d> <Esc>:Rg<CR>
 
 " morhetz/gruvbox
 set background=light
@@ -384,3 +385,10 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
+
+" 'matze/vim-move'
+let g:move_map_keys = 0
+nmap <C-w> <Plug>MoveLineUp
+nmap <C-s> <Plug>MoveLineDown
+vmap <C-q> <Plug>MoveBlockLeft
+vmap <C-e> <Plug>MoveBlockRight
