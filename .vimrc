@@ -309,8 +309,8 @@ let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-css', 'coc-tsserver'
 
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
-noremap! <C-s> <Esc>:CocCommand eslint.executeAutofix<CR>
-nnoremap <C-s> <Esc>:CocCommand eslint.executeAutofix<CR>
+noremap! <C-x> <Esc>:CocCommand eslint.executeAutofix<CR>
+nnoremap <C-x> <Esc>:CocCommand eslint.executeAutofix<CR>
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
