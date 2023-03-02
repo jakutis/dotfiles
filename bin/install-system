@@ -103,7 +103,7 @@ then
         wget --quiet --output-document=- https://apt.enpass.io/keys/enpass-linux.key | apt-key add - || exit 1
         echo "deb [arch=$(dpkg --print-architecture)] https://apt.enpass.io/ stable main" >> /etc/apt/sources.list
     fi
-    if [ ! -e "/etc/apt/sources.list.d/spotify.list" ]
+    if [ -z "$(grep spotify /etc/apt/sources.list)" ]
     then
       wget --quiet --output-document=- https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | apt-key add - || exit 1
       echo "deb [arch=$(dpkg --print-architecture)] http://repository.spotify.com stable non-free" >> /etc/apt/sources.list
