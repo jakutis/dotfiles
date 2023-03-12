@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 
-FLAGS="--no-default-browser-check --user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist --audio-buffer-size=4096"
+SCALE_FACTOR="$XDG_CONFIG_HOME/dotfiles/www-scale-factor"
+
+if [ ! -f "$SCALE_FACTOR" ]
+then
+  echo "Error: $SCALE_FACTOR does not exist"
+  exit 1
+fi
+
+FLAGS="--force-device-scale-factor=$(cat "$SCALE_FACTOR") --no-default-browser-check --user-data-dir="$HOME/.config/google-chrome" --enable-experimental-extension-apis --ignore-gpu-blacklist --audio-buffer-size=4096"
 
 for BIN in chrome google-chrome-stable google-chrome chromium-browser chromium
 do
