@@ -3,6 +3,12 @@
 REPO="$1"
 BRANCH="$2"
 
+if [ -z "$REPO" ]
+then
+  echo "Error: no repo specified in arguments" 1>&2
+  exit 1
+fi
+
 if [ -z "$BRANCH" ]
 then
   echo "Error: no branch specified in arguments" 1>&2
