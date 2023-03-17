@@ -5,6 +5,11 @@ BRANCH="$2"
 
 if [ ! -d "$HOME/repos/git/$REPO" ]
 then
+  if [ "${REPO%.git}" = "$REPO" ]
+  then
+    echo "Error: expected $REPO to be a git source specifier that ends with .git" 1>&2
+    exit 1
+  fi
   URL="$REPO"
   REPO="${REPO##*/}"
   REPO="${REPO%.git}"
