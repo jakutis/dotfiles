@@ -21,7 +21,7 @@ fi
 
 if [ -e "$REPO" ]
 then
-  echo "Cannot checkout, folder $REPO already exists"
+  echo "Cannot checkout, folder $REPO already exists" 1>&2
   exit 1
 fi
 
