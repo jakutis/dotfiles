@@ -11,4 +11,4 @@ fi
 
 DIR="$(sanitize "$BRANCH")"
 
-mkdir --parents "$DIR" && cd "$DIR" && checkout "$REPO" "$BRANCH" "$@"
+mkdir --parents "$DIR" && cd "$DIR" && checkout "$REPO" "$BRANCH"
