@@ -118,6 +118,7 @@ augroup CloseLoclistWindowGroup
 augroup END
 
 " junegunn/fzf
+let g:fzf_layout = { 'window': '-tabnew' }
 let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'VYTASROOT']
 function! g:FzfSearch()
   let l:relative_dir = trim(system('realpath "--relative-to=' . getcwd() . '" "' . FindRootDirectory() . '"'))
