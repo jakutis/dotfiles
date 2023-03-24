@@ -3,6 +3,8 @@
 cd "$HOME"
 
 DURATION_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/duration-until-screensaver")
+XRANDR_DPI=$(cat "$XDG_CONFIG_HOME/dotfiles/xrandr-dpi")
+
 export $(dbus-launch)
 xhost localhost
 xhost si:localuser:root
@@ -14,6 +16,7 @@ xset s default
 xset s "$DURATION_UNTIL_SCREENSAVER"
 xset +dpms
 xset dpms "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER"
+xrandr --dpi "$XRANDR_DPI"
 set-background
 
 ln -nsf "/sys/devices/platform/coretemp.0/hwmon/$(ls -1 "/sys/devices/platform/coretemp.0/hwmon"|head -n1)/temp1_input" "$HOME/.config/dotfiles/temperature"
