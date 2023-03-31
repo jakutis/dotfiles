@@ -39,7 +39,12 @@ export DSTAT_OPTS="--nocolor"
 
 export BROWSER="www"
 export EDITOR="vim"
-export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
+if [ "$(vim --version|head -n1|cut -f 1 -d ' ')" = "NVIM" ]
+then
+  export MANPAGER="vim +Man!"
+else
+  export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
+fi
 
 export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
