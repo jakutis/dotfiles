@@ -185,7 +185,7 @@ function latest_version_rust {
 }
 
 function latest_version_ruby {
-  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'|sort --reverse --version-sort|grep -v '^3'
+  curl --silent https://www.ruby-lang.org/en/downloads/|grep 'https://cache.ruby-lang.org/pub/ruby/[0-9]'|sed -e 's/.*Ruby //'|sed -e 's/<.*//'|sort --reverse --version-sort
 }
 
 function latest_version_r {
