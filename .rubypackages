@@ -1,6 +1,8 @@
 jekyll
 jekyll-sitemap
 jekyll-seo-tag
+jekyll-paginate
+pygments.rb
 compass
 bundle
 haml
