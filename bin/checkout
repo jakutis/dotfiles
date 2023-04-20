@@ -25,7 +25,7 @@ then
   exit 1
 fi
 
-DEFAULT_BRANCH="$(cd "$HOME/repos/git/$REPO" && git rev-parse --abbrev-ref origin/HEAD|cut -c 8-)"
+DEFAULT_BRANCH="$(cd "$HOME/repos/git/$REPO" && git symbolic-ref --short HEAD)"
 if [ -z "$BRANCH" ]
 then
   BRANCH="$DEFAULT_BRANCH"
