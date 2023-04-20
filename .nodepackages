@@ -26,3 +26,4 @@ npm-fzf
 typescript-language-server
 csv-parse
 jscodeshift
+@githubnext/github-copilot-cli
