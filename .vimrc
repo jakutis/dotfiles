@@ -1,3 +1,6 @@
+" master keys
+let mapleader = ","
+
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'ddrscott/vim-side-search'
@@ -8,7 +11,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'francoiscabrol/ranger.vim'
+Plug 'kevinhwang91/rnvimr'
 Plug 'chrisbra/csv.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
@@ -46,6 +49,11 @@ function! g:RootRelativeFile()
   return l:currentpath == '' ? '.' : l:currentpath
 endfunction
 
+" kevinhwang91/rnvimr
+let g:rnvimr_enable_picker = 1
+nnoremap <leader>o :RnvimrToggle<CR>
+nmap <leader>ref <Plug>(coc-references)
+
 " meain/vim-printer
 let g:vim_printer_items = {
       \ 'javascript': 'console.log("JAKUTIS", "{$}=", {$})',
@@ -68,9 +76,6 @@ set clipboard=unnamed,unnamedplus
 
 " spelling checking
 set nospell
-
-" master keys
-let mapleader = ","
 
 " automatically commit & push if saved a wiki file
 autocmd BufWritePost * silent! execute "!wiki-commit '%'"  | redraw!
