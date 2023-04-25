@@ -51,8 +51,7 @@ endfunction
 
 " kevinhwang91/rnvimr
 let g:rnvimr_enable_picker = 1
-nnoremap <leader>o :RnvimrToggle<CR>
-nmap <leader>ref <Plug>(coc-references)
+nnoremap <leader>r :RnvimrToggle<CR>
 
 " meain/vim-printer
 let g:vim_printer_items = {
