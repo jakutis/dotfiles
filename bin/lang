@@ -157,7 +157,7 @@ function latest_version_python {
 }
 
 function latest_version_node {
-  curl --silent https://nodejs.org/en/ | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
+  curl --silent 'https://nodejs.org/en' | grep 'https://nodejs.org/dist/v'|sed -e 's/.*https:\/\/nodejs.org\/dist\/v//'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
 }
 
 function latest_version_scala {
