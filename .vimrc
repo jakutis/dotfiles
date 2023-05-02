@@ -4,6 +4,7 @@ let mapleader = ","
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'ddrscott/vim-side-search'
+Plug 'CoderCookE/vim-chatgpt'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -37,6 +38,7 @@ Plug 'matze/vim-move'
 call plug#end()
 
 source $HOME/.ideavimrc
+source $HOME/.vim/private.vim
 
 packadd cfilter
 
