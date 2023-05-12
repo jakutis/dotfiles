@@ -23,6 +23,7 @@ ln -nsf "/sys/devices/platform/coretemp.0/hwmon/$(ls -1 "/sys/devices/platform/c
 nohup xautolock -time "$DURATION_UNTIL_SCREENSAVER" -detectsleep -locker lock-screen 1>/dev/null 2>&1 &
 parcellite &
 blueman-applet &
+flameshot &
 nohup bash -c 'while true; do sleep 5;[ -n "$(system battery|grep Charging)" ] && continue;A=$(system battery|grep Now|sed -e 's/Now://');[ "$((A))" -lt "$(cat ~/.config/dotfiles/battery_threshold)" ] && zenity --warning --text="Please connect charger, battery low" --no-wrap --timeout=5; done' 1>/dev/null 2>/dev/null &
 /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1 &
 dropbox start &
