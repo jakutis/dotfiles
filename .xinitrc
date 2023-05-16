@@ -9,7 +9,6 @@ export $(dbus-launch)
 xhost localhost
 xhost si:localuser:root
 xrdb -merge .Xresources
-pulseaudio --start
 xbindkeys
 xcompmgr &
 xset s default
