@@ -3,7 +3,10 @@
 REPO="$1"
 BRANCH="$2"
 
-if [ ! -d "$HOME/repos/git/$REPO" ]
+if [ -d "$REPO" ]
+then
+  FOLDER_NAME="$(basename "$REPO")"
+elif [ ! -d "$HOME/repos/git/$REPO" ]
 then
   if [ "${REPO%.git}" = "$REPO" ]
   then
@@ -13,19 +16,21 @@ then
   URL="$REPO"
   REPO="${REPO##*/}"
   REPO="${REPO%.git}"
-  if [ ! -d "$HOME/repos/git/$REPO" ]
+  FOLDER_NAME="$REPO"
+  REPO="$HOME/repos/git/$REPO"
+  if [ ! -d "$REPO" ]
   then
     (cd "$HOME/repos/git" && git clone "$URL")
   fi
 fi
 
-if [ -e "$REPO" ]
+if [ -e "$FOLDER_NAME" ]
 then
-  echo "Cannot checkout, folder $REPO already exists" 1>&2
+  echo "Cannot checkout, folder $FOLDER_NAME already exists" 1>&2
   exit 1
 fi
 
-DEFAULT_BRANCH="$(cd "$HOME/repos/git/$REPO" && git symbolic-ref --short HEAD)"
+DEFAULT_BRANCH="$(cd "$REPO" && git symbolic-ref --short HEAD)"
 if [ -z "$BRANCH" ]
 then
   BRANCH="$DEFAULT_BRANCH"
@@ -33,7 +38,7 @@ fi
 
 echo $DEFAULT_BRANCH
 
-(cd "$HOME/repos/git/$REPO" && [ "$(git branch --show-current)" = "$DEFAULT_BRANCH" ] && git fetch --all --prune --prune-tags && git rebase origin/$DEFAULT_BRANCH) && cp -r "$HOME/repos/git/$REPO" . && cd "$REPO" && git clean -ffxd . || (echo failed to fetch;exit 1)
+(cd "$REPO" && [ "$(git branch --show-current)" = "$DEFAULT_BRANCH" ] && git fetch --all --prune --prune-tags && git rebase origin/$DEFAULT_BRANCH) && cp -r "$REPO" "$FOLDER_NAME" && cd "$FOLDER_NAME" && git clean -ffxd . || (echo failed to fetch;exit 1)
 
 if [ -n "$(git branch --all|grep "^  remotes/origin/$BRANCH$")" ]
 then
