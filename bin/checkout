@@ -22,6 +22,9 @@ then
   then
     (cd "$HOME/repos/git" && git clone "$URL")
   fi
+else
+  FOLDER_NAME="$(basename "$REPO")"
+  REPO="$HOME/repos/git/$REPO"
 fi
 
 if [ -e "$FOLDER_NAME" ]
