@@ -4,6 +4,7 @@ let mapleader = ","
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'ddrscott/vim-side-search'
+Plug 'github/copilot.vim'
 Plug 'CoderCookE/vim-chatgpt'
 Plug 'reasonml-editor/vim-reason-plus'
 Plug 'autozimu/LanguageClient-neovim', {
