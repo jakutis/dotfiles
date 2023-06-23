@@ -325,6 +325,7 @@ case "$CMD" in
         [ -r "$BATTERY/current_now" ] && echo "Current now:    $(cat "$BATTERY/current_now")"
         [ -r "$BATTERY/power_now" ] && echo "Power now:      $(cat "$BATTERY/power_now")"
         [ -r "$BATTERY/voltage_now" ] && echo "Voltage now:    $(cat "$BATTERY/voltage_now")"
+        upower --dump|rg -i --no-line-number 'device|model|percentage'
         ;;
     "screens")
         shift
