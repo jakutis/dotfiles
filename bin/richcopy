@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+aha | xclip -selection clipboard -t text/html
