@@ -24,30 +24,35 @@ then
         "image/x-xcf")
             gimp -- "$FILE"
             ;;
-        "image/svg+xml" | "image/svg")
-            inkview -- "$FILE"
-            ;;
         "text/troff")
             man -- "$FILE"
             ;;
         "application/x-sharedlib" | "application/x-executable")
             readelf --all -- "$FILE" | less
             ;;
-        "text/html" | "text/x-pascal" | "text/x-java" | "text/plain" | "application/json" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822" | "text/x-shellscript" | "application/csv")
-            if [ "$EXT" == "markdown" -o "$EXT" == "md" ]
+        "text/html" | "text/x-pascal" | "text/x-java" | "text/plain" | "application/json" | "text/xml" | "text/x-c" | "text/x-python" | "text/x-c++" | "text/x-asm" | "message/rfc822" | "text/x-shellscript" | "application/csv" | "application/javascript" | "image/svg+xml" | "image/svg")
+            if [ "$EXT" = "markdown" -o "$EXT" = "md" ]
             then
                 glow --pager --style light -- "$FILE"
-            elif [ "$EXT" == "html" -o "$EXT" == "htm" ]
+            elif [ "$EXT" = "svg" -a -z "$LF_LEVEL" ]
+            then
+                inkview -- "$FILE"
+            elif [ "$EXT" = "html" -o "$EXT" = "htm" ]
             then
                 www -- "$FILE"
-            elif [ "$EXT" == "csv" ]
+            elif [ "$EXT" = "csv" ]
             then
                 cat "$FILE" | tidy-viewer --color 2
-            elif [ "$EXT" == "json" ]
+            elif [ "$EXT" = "json" ]
             then
                 cat -- "$FILE" | jq --color-output | less --RAW-CONTROL-CHARS
             else
-                bat -- "$FILE"
+                if [ -n "$LF_LEVEL" ]
+                then
+                    bat -f -- "$FILE"
+                else
+                    bat -- "$FILE"
+                fi
             fi
             ;;
         "audio/flac" | "audio/x-flac" | "video/x-msvideo" | "audio/ogg" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg" | "video/x-ms-asf" | "audio/x-m4a")

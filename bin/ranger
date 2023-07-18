@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-. lang ensurebins python && ranger "$@"
