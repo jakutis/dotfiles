@@ -820,6 +820,7 @@ fi
 
 mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
 ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
+mkdir -p "$XDG_CONFIG_HOME/nvim" && ln -nsf "$DOTFILES/.vimrc" "$XDG_CONFIG_HOME/nvim/init.vim" || exit 1
 ln -nsf "$DOTFILES/.ideavimrc" .ideavimrc || exit 1
 
 "$DOTFILES/bin/lang" install brew || exit 1
@@ -829,10 +830,16 @@ ln -nsf "$DOTFILES/.ideavimrc" .ideavimrc || exit 1
 "$DOTFILES/bin/lang" install python "$PYTHON2V" || exit 1
 "$DOTFILES/bin/lang" install ruby || exit 1
 
-if [ ! -e ".vim" ]
+if [ ! -e ".vim/autoload/plug.vim" ]
 then
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
   "$DOTFILES/bin/vim" +PlugUpdate +qall || exit 1
+fi
+
+if [ ! -e "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
+then
+  curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
+  "$DOTFILES/bin/nvim" +PlugUpdate +qall || exit 1
 fi
 
 if [ ! -e "opt/ocrodjvu-$OCRODJVUV" ]
