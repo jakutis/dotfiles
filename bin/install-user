@@ -938,7 +938,7 @@ then
 fi
 
 
-if [ ! -e "opt/libusbmuxd-$LIBUSBMUXDV" ]
+if [ "" = "false" -a ! -e "opt/libusbmuxd-$LIBUSBMUXDV" ]
 then
   ensure_git libusbmuxd https://github.com/libimobiledevice/libusbmuxd || exit 1
   (cd "repos/git/libusbmuxd" && git archive --format=tar --prefix=libusbmuxd-build/ "$LIBUSBMUXDV") | tar xf - || exit 1
@@ -947,11 +947,11 @@ then
   cd .bin && ln -nsf "../opt/libusbmuxd/bin/iproxy" && cd .. || exit 1
 fi
 
-if [ ! -e "opt/libimobiledevice-$LIBIMOBILEDEVICEV" ]
+if [ "" = "false" -a ! -e "opt/libimobiledevice-$LIBIMOBILEDEVICEV" ]
 then
   (
     "$DOTFILES/bin/lang" is_installed python || exit 1
-    . "$DOTFILES/bin/lang" use python 2.7.18 || exit 1
+    . "$DOTFILES/bin/lang" use python "$PYTHON2V" || exit 1
     ensure_git libimobiledevice https://github.com/libimobiledevice/libimobiledevice || exit 1
     (cd "repos/git/libimobiledevice" && git archive --format=tar --prefix=libimobiledevice-build/ "$LIBIMOBILEDEVICEV") | tar xf - || exit 1
     cd "libimobiledevice-build" && NOCONFIGURE=yes ./autogen.sh && PKG_CONFIG_PATH="$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib/pkgconfig:$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib/pkgconfig:$HOME/opt/usbmuxd-${USBMUXDV}/lib/pkgconfig:$HOME/opt/ifuse-${IFUSEV}/lib/pkgconfig" CFLAGS="-I$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/include -I$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/include -I$HOME/opt/usbmuxd-${USBMUXDV}/include -I$HOME/opt/ifuse-${IFUSEV}/include" LDFLAGS="-Wl,--rpath=$HOME/opt/libusbmuxd-${LIBUSBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/usbmuxd-${USBMUXDV}/lib,--enable-new-dtags -Wl,--rpath=$HOME/opt/ifuse-${IFUSEV}/lib,--enable-new-dtags" ./configure --prefix="$HOME/opt/libimobiledevice-${LIBIMOBILEDEVICEV}" && make && make install && cd .. && rm -r "libimobiledevice-build" || exit 1
@@ -960,7 +960,7 @@ then
   ) || exit 1
 fi
 
-if [ ! -e "opt/usbmuxd-$USBMUXDV" ]
+if [ "" = "false" -a ! -e "opt/usbmuxd-$USBMUXDV" ]
 then
   ensure_git usbmuxd https://github.com/libimobiledevice/usbmuxd || exit 1
   (cd "repos/git/usbmuxd" && git archive --format=tar --prefix=usbmuxd-build/ "$USBMUXDV") | tar xf - || exit 1
@@ -969,7 +969,7 @@ then
   cd .bin && ln -nsf "../opt/usbmuxd/sbin/usbmuxd" && cd .. || exit 1
 fi
 
-if [ ! -e "opt/ifuse-$IFUSEV" ]
+if [ "" = "false" -a ! -e "opt/ifuse-$IFUSEV" ]
 then
   ensure_git ifuse https://github.com/libimobiledevice/ifuse || exit 1
   (cd "repos/git/ifuse" && git archive --format=tar --prefix=ifuse-build/ "$IFUSEV") | tar xf - || exit 1
