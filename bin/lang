@@ -729,6 +729,8 @@ then
     if [ ! -e ".opam" ]
     then
       opam init --bare --no-setup || exit 1
+    else
+      opam update
     fi
     opam switch create "$LANG_VERSION" || exit 1
     . "$SELF" use ocaml "$LANG_VERSION" || exit 1
