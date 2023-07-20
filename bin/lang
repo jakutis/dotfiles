@@ -431,6 +431,7 @@ then
     if [ "$1" = "brew" ]
     then
       echo "Upgrading brew"
+      (cd "$HOME/.linuxbrew/Homebrew" && git checkout master) || return 1
       (. "$SELF" use brew && brew update && brew upgrade && echo Upgraded.) || return 1
       return 0
     fi
