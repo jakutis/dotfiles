@@ -25,8 +25,6 @@ NODEV="$(lang latest_version node)" || exit 1
 SCALAV="$(lang latest_version scala)" || exit 1
 SCALABASEV="$(echo "$SCALAV"|cut -d . -f 1-2)" || exit 1
 SBTV="1.3.13"
-OPAMV="2.1.2"
-OCAMLV="4.13.1"
 RTAG="R-4-0-2"
 RV="$(lang latest_version r)" || exit 1
 GOV="$(lang latest_version go)" || exit 1
@@ -791,31 +789,6 @@ then
     fi
 
     cabal update || exit 1
-fi
-
-if [ "$ENABLE_OCAML" = "yes" ]
-then
-    if ! [ -e "opt/opam-$OPAMV" ]
-    then
-        ensure_git opam https://github.com/ocaml/opam || exit 1
-        (cd "repos/git/opam" && git archive --format=tar --prefix=opam-build/ "$OPAMV") | tar xf - || exit 1
-        cd opam-build && ./configure --libdir="$HOME/opt/opam-$OPAMV/lib" --prefix="$HOME/opt/opam-$OPAMV" && make lib-ext && make || exit 1
-        make install
-        cd .. && rm -rf opam-build || exit 1
-        cd opt && ln -nsf "opam-$OPAMV" "opam" && cd .. || exit 1
-        cd .bin && ln -nsf "../opt/opam/bin/opam" && cd .. || exit 1
-        cd .bin && ln -nsf "../opt/opam/bin/opam-installer" && cd .. || exit 1
-        cd .bin && ln -nsf "../opt/opam/bin/opam-admin" && cd .. || exit 1
-    fi
-
-    if ! [ -e ".opam" ]
-    then
-        opam init || exit 1
-        opam switch create "$OCAMLV" && eval $(opam env) || exit 1
-    else
-        opam update || exit 1
-    fi
-    "$DOTFILES/bin/lang" install_packages ocaml || exit 1
 fi
 
 mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
