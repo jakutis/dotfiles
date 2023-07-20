@@ -576,10 +576,10 @@ then
   then
     if [ "$LANG_LANG" = "node" ]
     then
-      source "$HOME/.nvm/nvm.sh" && nvm alias default || exit 1
+      cat "$HOME/.nvm/alias/default" || exit 1
     elif [ "$LANG_LANG" = "ocaml" ]
     then
-      ls -l "$HOME/.opam/main" || exit 1
+      readlink "$HOME/.opam/main" || exit 1
     fi
   else
     if [ "$LANG_LANG" = "node" ]
