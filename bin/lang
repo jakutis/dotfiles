@@ -534,7 +534,7 @@ then
     ls "$HOME/.pyenv/versions"
   elif [ "$LANG_LANG" = "ocaml" ]
   then
-    cat "$HOME/.opam/config" | grep installed-switches | cut -c 21- | tr ' ' , | jq .[] -r
+    echo "[$( (cat "$HOME/.opam/config" 2>/dev/null || echo) | grep 'installed-switches:' | cut -c 21- | tr -d '[' | tr -d ']' | tr ' ' , )]" | jq .[] -r
   elif [ "$LANG_LANG" = "rust" ]
   then
     ls ~/.rustup/toolchains/ -1|sed -e 's/-.*$//'|grep -v stable
