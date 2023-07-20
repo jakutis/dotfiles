@@ -19,7 +19,7 @@ xrandr --dpi "$XRANDR_DPI"
 set-background
 
 ln -nsf "/sys/devices/platform/coretemp.0/hwmon/$(ls -1 "/sys/devices/platform/coretemp.0/hwmon"|head -n1)/temp1_input" "$HOME/.config/dotfiles/temperature"
-nohup xautolock -time "$DURATION_UNTIL_SCREENSAVER" -detectsleep -locker lock-screen 1>/dev/null 2>&1 &
+nohup xautolock -time "$(echo $DURATION_UNTIL_SCREENSAVER/60|bc)" -detectsleep -locker lock-screen 1>/dev/null 2>&1 &
 parcellite &
 blueman-applet &
 flameshot &
