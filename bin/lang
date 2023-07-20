@@ -114,7 +114,6 @@ function lang_use {
     [[ -s "$GVM_ROOT/scripts/gvm-default" ]] && source "$GVM_ROOT/scripts/gvm-default" && gvm use "$LANG_VERSION" 1>/dev/null || exit 1
   elif [ "$LANG_LANG" = "ocaml" ]
   then
-    export PATH="$HOME/opt/opam/bin:$PATH"
     if [ -z "$LANG_VERSION" ]
     then
       LANG_VERSION="$(readlink "$HOME/.opam/main")"
@@ -339,7 +338,7 @@ then
     then
       return
     fi
-    export PATH="$HOME/.opam/main/bin:$HOME/opt/opam/bin:$PATH"
+    export PATH="$HOME/.opam/main/bin:$PATH"
   elif [ "$LANG_LANG" = "java" ]
   then
     if [ -n "$(which java 2>/dev/null)" ]
@@ -717,6 +716,23 @@ then
     fi
     ghcup install ghc "$LANG_VERSION" || exit 1
     install_packages_haskell "$LANG_VERSION" || exit 1
+  elif [ "$LANG_LANG" = "ocaml" ]
+  then
+    cd "$HOME" || exit 1
+    if [ ! -e ".bin/opam" ]
+    then
+      mkdir ocaml-install && cd ocaml-install || exit 1
+      wget https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh && bash install.sh --download-only || exit 1
+      mv $(ls opam-*) "$HOME/.bin/opam" && chmod +x "$HOME/.bin/opam" || exit 1
+      cd "$HOME" && rm -rf ocaml-install || exit 1
+    fi
+    if [ ! -e ".opam" ]
+    then
+      opam init --bare --no-setup || exit 1
+    fi
+    opam switch create "$LANG_VERSION" || exit 1
+    . "$SELF" use ocaml "$LANG_VERSION" || exit 1
+    install_packages_ocaml || exit 1
   elif [ "$LANG_LANG" = "rust" ]
   then
     export PATH="$HOME/.cargo/bin:$PATH"
