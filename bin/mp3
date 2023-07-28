@@ -28,5 +28,5 @@ fi
 echo "$INPUT: Converting to wav"
 ffmpeg -loglevel quiet -nostats -y -i "$INPUT" -f wav "$WAV" </dev/null || exit 1
 echo "$INPUT: Converting to mp3"
-lame --silent -V0 "$WAV" "$OUTPUT" || exit 1
+lame --silent -b 320 "$WAV" "$OUTPUT" || exit 1
 echo "$INPUT: Done"
