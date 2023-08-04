@@ -75,6 +75,7 @@ then
 elif [ -n "$APTGET" ]
 then
     dpkg --add-architecture i386 || exit 1
+    "$APTGET" remove unattended-upgrades || exit 1
     "$APTGET" install -y lsb-release apt-transport-https wget gnupg || exit 1
     mkdir -p /etc/apt/keyrings || exit 1
 
