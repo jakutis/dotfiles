@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+BRANCH=$1
+MAIN=master
+REMOTE=origin
+
+if [ -z "$BRANCH" ]
+then
+  echo "Error: please provide an argument that contains the target branch" 1>&2
+  exit 1
+fi
+
+git fetch --all && \
+  git checkout $MAIN yarn.lock && \
+  git commit --allow-empty -am yarn.lock && \
+  git rebase -i $MAIN && \
+  git rebase $REMOTE/$MAIN && \
+  git checkout $MAIN && \
+  git rebase $REMOTE/$MAIN && \
+  git checkout $BRANCH && \
+  yarn && \
+  git commit --allow-empty -am yarn.lock && \
+  git rebase -i $MAIN && \
+  git push -fu $REMOTE $BRANCH
