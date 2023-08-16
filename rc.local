@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+sysctl -p
+
 rm -f /.on_drm_change
 
 USER_HOME=/home/jakutis
