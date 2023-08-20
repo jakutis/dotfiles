@@ -37,6 +37,7 @@ PYTHON2V="2.7.18"
 
 TMUXV="3.3a"
 VIMV="$(curl --silent -H "Accept: application/vnd.github.v3+json" --fail  https://api.github.com/repos/vim/vim/tags|jq .[].name -r|cut -b 2-|sort -nr|head -n 1)" || exit 1
+NEOVIMV="$(curl --silent -H "Accept: application/vnd.github.v3+json" --fail  https://api.github.com/repos/neovim/neovim/tags|jq .[].name -r|cut -b 2-|sort -nr|head -n 1)" || exit 1
 
 OCRODJVUV="0.12"
 BASH3V="3.2.57"
@@ -1308,6 +1309,8 @@ fi
 
 if [ ! -e "opt/vim-$VIMV" ]
 then
+  "$DOTFILES/bin/lang" is_installed rust || exit 1
+  . "$DOTFILES/bin/lang" use rust || exit 1
   "$DOTFILES/bin/lang" is_installed python || exit 1
   . "$DOTFILES/bin/lang" use python || exit 1
   "$DOTFILES/bin/lang" is_installed ruby || exit 1
@@ -1319,6 +1322,23 @@ then
   cd vim-build && ./configure --prefix="$HOME/opt/vim-$VIMV" --enable-fail-if-missing --with-features=huge --with-x --enable-largefile --disable-fontset --enable-cscope --enable-gui=yes --enable-python3interp=dynamic --enable-rubyinterp=dynamic --enable-multibyte --disable-netbeans --disable-darwin --enable-luainterp=no --enable-perlinterp=no --enable-tclinterp=no --enable-pythoninterp=no --enable-mzschemeinterp=no && make && make install && cd .. || exit 1
   rm -rf vim-build || exit 1
   cd opt && ln -nsf "vim-$VIMV" vim && cd .. || exit 1
+fi
+
+if [ ! -e "opt/neovim-$NEOVIMV" ]
+then
+  "$DOTFILES/bin/lang" is_installed rust || exit 1
+  . "$DOTFILES/bin/lang" use rust || exit 1
+  "$DOTFILES/bin/lang" is_installed python || exit 1
+  . "$DOTFILES/bin/lang" use python || exit 1
+  "$DOTFILES/bin/lang" is_installed ruby || exit 1
+  . "$DOTFILES/bin/lang" use ruby || exit 1
+  "$DOTFILES/bin/lang" is_installed node || exit 1
+  . "$DOTFILES/bin/lang" use node || exit 1
+  ensure_git neovim https://github.com/neovim/neovim || exit 1
+  (cd "repos/git/neovim" && git archive --format=tar --prefix=neovim-build/ "v${NEOVIMV}") | tar xf - || exit 1
+  cd neovim-build && make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/opt/neovim-$NEOVIMV" && make install && cd .. || exit 1
+  rm -rf neovim-build || exit 1
+  cd opt && ln -nsf "neovim-$NEOVIMV" neovim && cd .. || exit 1
 fi
 
 systemctl --user mask tracker-store.service tracker-miner-fs.service tracker-miner-rss.service tracker-extract.service tracker-miner-apps.service tracker-writeback.service
