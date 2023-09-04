@@ -1,1 +1,3 @@
 set previewer show
+cmd open $vim $fx
+map <enter> open

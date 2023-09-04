@@ -36,6 +36,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/goyo.vim'
 Plug 'meain/vim-printer'
 Plug 'matze/vim-move'
+Plug 'ptzz/lf.vim'
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 source $HOME/.ideavimrc
@@ -55,6 +57,10 @@ endfunction
 " kevinhwang91/rnvimr
 let g:rnvimr_enable_picker = 1
 nnoremap <leader>r :RnvimrToggle<CR>
+
+" ptzz/lf.vim
+let g:lf_replace_netrw = 1
+let g:lf_open_new_tab = 0
 
 " meain/vim-printer
 let g:vim_printer_items = {
