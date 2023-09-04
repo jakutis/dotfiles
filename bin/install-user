@@ -256,7 +256,7 @@ function ensure_git_dir {
     then
         git clone "$URL" "$REPO" || exit 1
     else
-        pushd . && cd "$REPO" && git fetch --all --tags && popd || exit 1
+        pushd . && cd "$REPO" && git fetch --all --tags --force && popd || exit 1
     fi
 }
 
