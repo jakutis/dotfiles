@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for SRV in ejabberd pcscd uuidd ModemManager mysql apache3 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd ocserv epmd iio-sensor-proxy unattended-upgrades packagekit
+for SRV in apt-daily ejabberd pcscd uuidd ModemManager mysql apache3 dnsmasq smbd haproxy minissdpd minidlna avahi-daemon nmbd ocserv epmd iio-sensor-proxy unattended-upgrades packagekit
 do
   STATUS="$(systemctl is-enabled $SRV)"
   if [ "$STATUS" != "disabled" -a -n "$STATUS" ]
