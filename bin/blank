@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
-DURATION_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/duration-until-screensaver")
-
 sleep 1
-xset s default
-xset s "$DURATION_UNTIL_SCREENSAVER"
+configure-screensaver
 xset s activate
-
-xset +dpms
-xset dpms "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER"
-
 xautolock -enable

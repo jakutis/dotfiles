@@ -11,10 +11,7 @@ xhost si:localuser:root
 xrdb -merge .Xresources
 xbindkeys
 xcompmgr &
-xset s default
-xset s "$DURATION_UNTIL_SCREENSAVER"
-xset +dpms
-xset dpms "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER" "$DURATION_UNTIL_SCREENSAVER"
+configure-screensaver
 xrandr --dpi "$XRANDR_DPI"
 set-background
 
