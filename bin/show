@@ -59,7 +59,7 @@ then
             $MEDIAPLAYER -- "$FILE"
             ;;
         "image/heic" | "image/webp" | "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png" | "image/vnd.microsoft.icon")
-            eog -- "$FILE"
+            gthumb -- "$FILE"
             ;;
         "application/x-font-ttf" | "application/font-sfnt")
             display -- "$FILE"
