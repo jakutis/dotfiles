@@ -235,8 +235,6 @@ function load_node_if_nvmrc {
 }
 
 function install_packages_node {
-  npm install -g npm || exit 1
-
   PACKAGES=$(cat "$HOME/.nodepackages") || exit 1
   for PACKAGE in $PACKAGES
   do
