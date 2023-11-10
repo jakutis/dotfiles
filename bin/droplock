@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+git reset yarn.lock && git checkout yarn.lock && git rebase --continue
