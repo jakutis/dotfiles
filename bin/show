@@ -58,7 +58,7 @@ then
         "audio/flac" | "audio/x-flac" | "video/x-msvideo" | "audio/ogg" | "audio/mpeg" | "video/mp4" | "video/x-flv" | "audio/x-wav" | "video/quicktime" | "video/x-matroska" | "audio/x-hx-aac-adts" | "video/webm" | "video/ogg" | "video/x-ms-asf" | "audio/x-m4a")
             $MEDIAPLAYER -- "$FILE"
             ;;
-        "image/heic" | "image/webp" | "image/gif" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png" | "image/vnd.microsoft.icon")
+        "image/heic" | "image/webp" | "image/gif" | "image/bmp" | "image/jpeg" | "image/vnd.adobe.photoshop" | "image/tiff" | "image/png" | "image/vnd.microsoft.icon")
             gthumb -- "$FILE"
             ;;
         "application/x-font-ttf" | "application/font-sfnt")
