@@ -12,7 +12,14 @@ set +H
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 export PROMPT_DIRTRIM=4
 function my_set_prompt {
-  echo "$? $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+  CODE="$?"
+  if [ "$CODE" = "0" ]
+  then
+    echo -e "\e[32m$(date -u +"%Y-%m-%dT%H:%M:%SZ")\e[0m"
+  else
+    echo -e "\e[31m$(date -u +"%Y-%m-%dT%H:%M:%SZ") Error: $CODE\e[0m"
+  fi
+
   BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   if [ "$?" = "0" ]
   then
