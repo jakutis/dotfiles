@@ -12,6 +12,7 @@ set +H
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 export PROMPT_DIRTRIM=4
 function my_set_prompt {
+  echo "$? $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
   BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
   if [ "$?" = "0" ]
   then
