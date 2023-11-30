@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+TITLE="$(basename "$(pwd)")"
+tmux rename-window $TITLE
