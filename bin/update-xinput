@@ -5,6 +5,12 @@ MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 
 xinput set-button-map "ThinkPad USB Laser Mouse" 1 2 3 4 5 0 0 0 0
 xinput set-button-map "ThinkPad Bluetooth Laser Mouse" 1 2 3 4 5 0 0 0 0
+TRACKPOINT=$(find /sys/devices/platform/i8042 -name name 2>/dev/null | xargs grep -Fl TrackPoint | sed 's/\/input\/input[0-9]*\/name$//')
+if [ -n "$TRACKPOINT" ]
+then
+  echo 100 > "$TRACKPOINT/speed"
+  echo 150 > "$TRACKPOINT/sensitivity"
+fi
 
 xset s noblank
 xset s noexpose

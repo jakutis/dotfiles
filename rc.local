@@ -8,6 +8,11 @@ USER_HOME=/home/jakutis
 export XDG_DATA_HOME="$USER_HOME/.local/share"
 export XDG_CONFIG_HOME="$USER_HOME/.config"
 DOTFILES_CONFIG="$XDG_CONFIG_HOME/dotfiles"
+TRACKPOINT=$(find /sys/devices/platform/i8042 -name name 2>/dev/null | xargs grep -Fl TrackPoint | sed 's/\/input\/input[0-9]*\/name$//')
+if [ -n "$TRACKPOINT" ]
+then
+  chmod a+w "$TRACKPOINT"/*
+fi
 
 cat /proc/acpi/wakeup | grep enabled | cut -f 1 | while read ITEM
 do
