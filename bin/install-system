@@ -122,7 +122,7 @@ then
     then
       "$APTGET" install -y spotify-client || exit 1
     fi
-    "$APTGET" build-dep --assume-yes vim || exit 1
+    "$APTGET" build-dep --assume-yes vim wine64 || exit 1
 
     ZOOMV=$(curl -f https://zoom.us/client/latest/zoom_amd64.deb -I|grep -Fi location:|sed -e 's/^.*prod\/\(.*\)\/.*$/\1/') || exit 1
     if [ "$(dpkg-query --show --showformat '${Version}' zoom)" != "$ZOOMV" ]
