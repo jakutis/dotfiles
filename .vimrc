@@ -59,8 +59,10 @@ let g:rnvimr_enable_picker = 1
 nnoremap <leader>r :RnvimrToggle<CR>
 
 " ptzz/lf.vim
-let g:lf_replace_netrw = 1
+let g:lf_replace_netrw = 0
 let g:lf_open_new_tab = 0
+let g:lf_map_keys = 0
+map <leader>f :Lf<CR>
 
 " meain/vim-printer
 let g:vim_printer_items = {
