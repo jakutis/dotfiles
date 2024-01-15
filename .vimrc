@@ -84,8 +84,8 @@ set grepprg=rg\ --vimgrep\ -M\ 160\ -S
 " clipboard
 set clipboard=unnamed,unnamedplus
 
-" spelling checking
-set nospell
+" spelling
+set spell spelllang=en_us
 
 " automatically commit & push if saved a wiki file
 autocmd BufWritePost * silent! execute "!wiki-commit '%'"  | redraw!
