@@ -21,7 +21,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
 Plug 'airblade/vim-rooter'
 Plug 'sheerun/vim-polyglot'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'easymotion/vim-easymotion'
@@ -63,6 +63,9 @@ let g:lf_replace_netrw = 0
 let g:lf_open_new_tab = 0
 let g:lf_map_keys = 0
 map <leader>f :Lf<CR>
+
+" iamcco/markdown-preview.nvim
+noremap <C-m> :MarkdownPreviewToggle<CR>
 
 " meain/vim-printer
 let g:vim_printer_items = {
