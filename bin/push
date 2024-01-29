@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-SUBJECT=$1
-BODY=$2
+BRANCH="$1"
 
-if [ -z "$BODY" ]
-then
-  BODY="you received a push notification"
-fi
-
-curl --silent "https://api.simplepush.io/send/$(cat ~/etc/simplepush)/$SUBJECT/$BODY" > /dev/null
+git checkout -b "$BRANCH" && git commit -am "$BRANCH" && git push origin "$BRANCH" -u && gh pr create --draft --title "$BRANCH" --body "$BRANCH"
