@@ -2,4 +2,4 @@
 
 BRANCH="$1"
 
-git checkout -b "$BRANCH" && git commit -am "$BRANCH" && git push origin "$BRANCH" -u && gh pr create --draft --title "$BRANCH" --body "$BRANCH"
+git checkout -b "$BRANCH" && git commit --all "--message=$BRANCH" && git push origin "$BRANCH" --set-upstream && gh pr create --title "$BRANCH" --body "$BRANCH"
