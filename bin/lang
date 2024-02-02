@@ -6,6 +6,7 @@ LANG_LANG="$2"
 LANG_VERSION="$3"
 
 export PYENV_ROOT="$HOME/.pyenv"
+LINUXBREW="/home/linuxbrew/.linuxbrew"
 
 function lang_use {
   LANG_LANG="$1"
@@ -129,7 +130,7 @@ function lang_use {
     export PATH="$HOME/.composer/vendor/bin:$PATH"
   elif [ "$LANG_LANG" = "brew" ]
   then
-    eval $("$HOME/.linuxbrew/bin/brew" shellenv)
+    eval $("$LINUXBREW/bin/brew" shellenv)
   elif [ "$LANG_LANG" = "python" ]
   then
     export PATH="$PYENV_ROOT/bin:$PATH"
@@ -359,7 +360,7 @@ then
     then
       return
     fi
-    export PATH="$HOME/.linuxbrew/bin:$PATH"
+    export PATH="$LINUXBREW/bin:$PATH"
   elif [ "$LANG_LANG" = "rust" ]
   then
     if [ -n "$(which cargo 2>/dev/null)" ]
@@ -429,7 +430,7 @@ then
     if [ "$1" = "brew" ]
     then
       echo "Upgrading brew"
-      (. "$SELF" use brew && brew update && (cd "$HOME/.linuxbrew/Homebrew" && git checkout master) && brew upgrade && echo Upgraded.) || return 1
+      (. "$SELF" use brew && brew update && brew upgrade && "$SELF" install_packages brew && echo Upgraded.) || return 1
       return 0
     fi
     LATEST_INSTALLED="$("$SELF" installed_versions "$1")"
@@ -636,14 +637,12 @@ then
     install_packages_node
   elif [ "$LANG_LANG" = "brew" ]
   then
-    if ! [ -e "$HOME/.linuxbrew/Homebrew" ]
+    if ! [ -e "$LINUXBREW/Homebrew" ]
     then
-        git clone https://github.com/Homebrew/brew "$HOME/.linuxbrew/Homebrew" || exit 1
-    else
-        cd "$HOME/.linuxbrew/Homebrew" && git pull --rebase && cd - || exit 1
+        sudo mkdir --parents "$LINUXBREW" && sudo chown "$(id -u):$(id -g)" "$LINUXBREW" && git clone https://github.com/Homebrew/brew "$LINUXBREW/Homebrew" || exit 1
     fi
-    mkdir -p "$HOME/.linuxbrew/bin"
-    ln -nsf "$HOME/.linuxbrew/Homebrew/bin/brew" "$HOME/.linuxbrew/bin/brew"
+    mkdir -p "$LINUXBREW/bin"
+    ln -nsf "$LINUXBREW/Homebrew/bin/brew" "$LINUXBREW/bin/brew"
   elif [ "$LANG_LANG" = "java" ]
   then
     TAR="jdk-${LANG_VERSION}_linux-x64_bin.tar.gz"
