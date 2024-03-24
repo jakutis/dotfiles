@@ -85,10 +85,11 @@ then
         wget --quiet --output-document=- https://www.virtualbox.org/download/oracle_vbox_2016.asc | apt-key add - || exit 1
         echo "deb [arch=$(dpkg --print-architecture)] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
     fi
-    if [ -z "$(grep apt.kubernetes.io /etc/apt/sources.list)" ]
+
+    if [ -z "$(grep pkgs.k8s.io /etc/apt/sources.list)" ]
     then
-        curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" >> /etc/apt/sources.list
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /" | tee -a /etc/apt/sources.list
     fi
     if [ -z "$(grep chrome /etc/apt/sources.list)" ]
     then
