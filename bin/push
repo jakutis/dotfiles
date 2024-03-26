@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-BRANCH="$1"
+TITLE="$@"
+BRANCH="$(sanitize "$TITLE")"
 
 if [ "$(git rev-parse --abbrev-ref HEAD)" != "$BRANCH" ]
 then
   git checkout -b "$BRANCH" || exit 1
 fi
 
-git commit --all "--message=$BRANCH" && git push origin "$BRANCH" --set-upstream && gh pr create --title "$BRANCH" --body "$BRANCH"
+git commit --all "--message=$TITLE" && git push origin "$BRANCH" --set-upstream && gh pr create --title "$TITLE" --body "$TITLE"
