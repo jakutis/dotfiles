@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$BRANCH" == "master" ]
+then
+  exit
+fi
+
+git checkout master && git branch -D "$BRANCH"
