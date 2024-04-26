@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+exit
+
 LOCKFILE="/.on_drm_change"
 if [ -e "$LOCKFILE" ]
 then
