@@ -10,7 +10,7 @@ MOUNT="$1"
 if [[ "$MOUNT" =~ : ]]
 then
     SUBMOUNT="${MOUNT#*:}"
-    MOUNT="${MOUNT%:*}"
+    MOUNT="${MOUNT%%:*}"
 fi
 
 DIR="/mnt/$MOUNT"
