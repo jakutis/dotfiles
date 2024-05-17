@@ -6,6 +6,7 @@ alias _calibre='export PATH="$HOME/opt/calibre/bin:$PATH";export LD_LIBRARY_PATH
 alias s='for A in $(seq 1 100);do echo;done'
 alias cd..='cd ..'
 alias md='source $HOME/bin/md'
+alias td='source $HOME/bin/td'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias less='less -R'
