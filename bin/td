@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+DIR="$1"
+tmux rename-window "$(basename "$DIR")" && cd "$1"
