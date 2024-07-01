@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-exit
-
 LOCKFILE="/.on_drm_change"
 if [ -e "$LOCKFILE" ]
 then
@@ -15,4 +13,4 @@ function cleanup {
 trap cleanup EXIT
 touch "$LOCKFILE"
 sleep 1
-su --login --command='DISPLAY=:0 autorandr --change' jakutis
+su --login --command='export DISPLAY=:0;if [ "$(autorandr --detected)" = "laptop" ]; then autorandr --change; fi' jakutis
