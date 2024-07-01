@@ -1307,7 +1307,7 @@ then
     ./configure --prefix="$HOME/opt/bash-$BASH3V" && make && make install && cd ../.. && rm -rf bash3-build || exit 1
 fi
 
-if [ ! -e "opt/vim-$VIMV" ]
+if [ "$ENABLE_VIM" = "yes" -a ! -e "opt/vim-$VIMV" ]
 then
   "$DOTFILES/bin/lang" is_installed rust || exit 1
   . "$DOTFILES/bin/lang" use rust || exit 1
