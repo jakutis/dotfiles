@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <branch to squash from>"
+  exit 1
+fi
+
+git reset $(git merge-base "$1" $(git branch --show-current))
