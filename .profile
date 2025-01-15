@@ -47,7 +47,7 @@ else
   export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
 fi
 
-export PATH="$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/.bin:$HOME/bin:/snap/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if [ -n "$BASH_VERSION" ]
 then
