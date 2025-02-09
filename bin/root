@@ -21,7 +21,7 @@ contains_element () {
 }
 
 function custom_curl {
-  curl --header "Connection: close" --no-keepalive --fail-early --silent --anyauth --fail --header "Authorization: $AUTHORIZATION" "$@" || exit 1
+  curl --connect-timeout 15 --header "Connection: close" --no-keepalive --fail-early --silent --anyauth --fail --header "Authorization: $AUTHORIZATION" "$@" || exit 1
 }
 
 function dav_exists {
