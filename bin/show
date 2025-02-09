@@ -72,7 +72,7 @@ then
                 transmissioncli --info -- "$FILE"
             fi
             ;;
-        "application/epub+zip" | "application/x-ms-reader")
+        "application/epub+zip" | "application/x-ms-reader" | "application/x-mobipocket-ebook")
             "$EBOOKVIEWER" -- "$FILE"
             ;;
         "application/pdf" | "image/vnd.djvu" | "application/postscript")
