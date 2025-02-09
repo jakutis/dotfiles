@@ -53,16 +53,34 @@ function dav_exists {
 
 function dav_delete {
   FILE="$1"
+  TRY="$2"
+  if [ -z "$TRY" ]
+  then
+    TRY="1"
+  fi
+
   CODE=$(custom_curl --write-out "%{http_code}" --request DELETE "$(full_url "$FILE")")
   if [ "$CODE" != "200" -a "$CODE" != "201" -a "$CODE" != "204" ]
   then
-    echo "removing "$FILE" returned http status code: $CODE" 1>&2
-    exit 1
+    if [ "$TRY" = "3" ]
+    then
+      echo "removing "$FILE" returned http status code: $CODE" 1>&2
+      exit 1
+    else
+      echo "try #${TRY} failed, trying again"
+      dav_delete "$FILE" "$((TRY + 1))"
+    fi
   fi
 }
 
 function dav_mkdir {
   FILE="$1"
+  TRY="$2"
+  if [ -z "$TRY" ]
+  then
+    TRY="1"
+  fi
+
   CODE=$(custom_curl --write-out "%{http_code}" --request MKCOL "$(full_url "$FILE")")
   if [ "${CODE:0:1}" = "4" ]
   then
@@ -71,19 +89,37 @@ function dav_mkdir {
     (dav_mkdir "$FILE") || (echo "creating directory "$FILE" returned http status code: $CODE" 1>&2 && false) || exit 1
   elif [ "$CODE" != "200" -a "$CODE" != "201" ]
   then
-    echo "creating directory "$FILE" returned http status code: $CODE" 1>&2
-    exit 1
+    if [ "$TRY" = "3" ]
+    then
+      echo "creating directory "$FILE" returned http status code: $CODE" 1>&2
+      exit 1
+    else
+      echo "try #${TRY} failed, trying again"
+      dav_mkdir "$FILE" "$((TRY + 1))"
+    fi
   fi
 }
 
 function dav_move {
   SOURCE="$1"
   DESTINATION="$2"
+  TRY="$3"
+  if [ -z "$TRY" ]
+  then
+    TRY="1"
+  fi
+
   CODE=$(custom_curl --write-out "%{http_code}" --request MOVE --header "Destination: $(full_url "$DESTINATION")" "$(full_url "$SOURCE")")
   if [ "$CODE" != "201" ]
   then
-    echo "moving \"$SOURCE\" to \"$DESTINATION\" returned http status code: $CODE" 1>&2
-    exit 1
+    if [ "$TRY" = "3" ]
+    then
+      echo "moving \"$SOURCE\" to \"$DESTINATION\" returned http status code: $CODE" 1>&2
+      exit 1
+    else
+      echo "try #${TRY} failed, trying again"
+      dav_move "$SOURCE" "$DESTINATION" "$((TRY + 1))"
+    fi
   fi
 }
 
