@@ -42,7 +42,7 @@ export BROWSER="www"
 export EDITOR="vim"
 if [ "$(vim --version|head -n1|cut -f 1 -d ' ')" = "NVIM" ]
 then
-  export MANPAGER="vim +Man!"
+  export MANPAGER="nvim +Man!"
 else
   export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
 fi
