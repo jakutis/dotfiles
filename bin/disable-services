@@ -5,6 +5,7 @@ do
   STATUS="$(systemctl is-enabled $SRV)"
   if [ "$STATUS" != "disabled" -a -n "$STATUS" ]
   then
+    echo "Disabling $SRV"
     systemctl disable $SRV && systemctl stop $SRV
   fi
 done
