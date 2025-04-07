@@ -78,22 +78,6 @@
 "play next"
   XF86AudioNext
 
-# Pomodoro long break
-"pomodoro l"
-  Mod4 + y
-
-# Pomodoro short break
-"pomodoro s"
-  Mod4 + u
-
-# Pomodoro
-"pomodoro p"
-  Mod4 + o
-
-# Pomodoro interruption
-"pomodoro i"
-  Mod4 + i
-
 # Mirror all screens
 "system screens mirror ALL"
   Mod4 + F10
