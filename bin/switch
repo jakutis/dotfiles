@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-update-screens && update-xinput
+system screens post-autorandr-$(autorandr --detected|head -n1) && set-background && update-xinput
