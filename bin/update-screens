@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-autorandr --change && TURN_OFF=no system screens post-autorandr-$(autorandr --current) && set-background
