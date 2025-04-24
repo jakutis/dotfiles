@@ -75,6 +75,10 @@ function marks {
 
 source "$HOME/.bash_aliases"
 source /usr/share/doc/fzf/examples/key-bindings.bash
+if [ -e "$HOME/.astra/astra.sh" ]
+then
+  source "$HOME/.astra/astra.sh"
+fi
 
 if [ -n "$TMUX" ]
 then
