@@ -326,7 +326,8 @@ elif [ "$LANG_COMMAND" = "ensurebins" ]
 then
   if [ "$LANG_LANG" = "node" ]
   then
-    if [ -n "$(which npm 2>/dev/null)" ]
+    NPM="$(which npm 2>/dev/null)"
+    if [ "${NPM:0:${#HOME}}" = "$HOME" ]
     then
       return
     fi
