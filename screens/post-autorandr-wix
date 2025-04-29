@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
-LEFT="eDP-1"
-CENTER="DP-2-3"
-RIGHT="DP-2-1"
+LEFT="DP-2-3"
+CENTER="DP-2-1"
+RIGHT="eDP-1"
 
-xrandr  --output "$LEFT" --mode 1920x1080 --pos 1920x0 --rotate normal \
-  --output "$CENTER" --mode 1920x1200 --pos 0x0 --rotate normal --primary \
-  --output "$RIGHT" --mode 1920x1200 --pos 3840x0 --rotate normal || exit 1
-xrandr  --output "$LEFT" --mode 1920x1080 --pos 0x0 --rotate normal \
-  --output "$CENTER" --mode 1920x1200 --pos 1920x0 --rotate normal --primary \
-  --output "$RIGHT" --mode 1920x1200 --pos 3840x0 --rotate normal || exit 1
+LEFT_HEIGHT=1200
+CENTER_HEIGHT=1200
+RIGHT_HEIGHT=1080
+
+xrandr  --output "$LEFT" --mode "1920x$LEFT_HEIGHT" --pos 1920x0 --rotate normal \
+  --output "$CENTER" --mode "1920x$CENTER_HEIGHT" --pos 0x0 --rotate normal --primary \
+  --output "$RIGHT" --mode "1920x$RIGHT_HEIGHT" --pos 3840x0 --rotate normal || exit 1
+xrandr  --output "$LEFT" --mode "1920x$LEFT_HEIGHT" --pos 0x0 --rotate normal \
+  --output "$CENTER" --mode "1920x$CENTER_HEIGHT" --pos 1920x0 --rotate normal --primary \
+  --output "$RIGHT" --mode "1920x$RIGHT_HEIGHT" --pos 3840x0 --rotate normal || exit 1
