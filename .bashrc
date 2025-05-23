@@ -74,6 +74,12 @@ function marks {
 }
 
 source "$HOME/.bash_aliases"
+
+if [ -n "$CURSOR_TRACE_ID" ]
+then
+  . lang use node && nvm use
+fi
+
 source /usr/share/doc/fzf/examples/key-bindings.bash
 if [ -e "$HOME/.astra/astra.sh" ]
 then
