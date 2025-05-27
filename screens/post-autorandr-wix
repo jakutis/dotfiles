@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-LEFT="DP-2-3"
-CENTER="DP-2-1"
+LEFT="DP-3-3"
+CENTER="DP-3-1"
 RIGHT="eDP-1"
 
 LEFT_HEIGHT=1200
