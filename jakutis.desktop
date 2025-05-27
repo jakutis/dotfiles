@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=jakutis' session
+Comment=start jakutis' desktop session
+Type=Application
+Exec=/etc/X11/Xsession
+TryExec=/etc/X11/Xsession
+X-LightDM-DesktopName=jakutis
+DesktopNames=jakutis

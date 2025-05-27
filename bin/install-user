@@ -34,10 +34,11 @@ PHPVS=("7.4.8")
 GHCV="8.8.4"
 ERLANGV="23"
 PYTHON2V="2.7.18"
+PYTHON3V="3.13.3"
 
-TMUXV="3.4"
-VIMV="9.1.0697" || exit 1
-NEOVIMV="0.10.1" || exit 1
+TMUXV="3.5a"
+VIMV="9.1.1407" || exit 1
+NEOVIMV="0.11.1" || exit 1
 
 OCRODJVUV="0.12"
 BASH3V="3.2.57"
@@ -285,7 +286,7 @@ fi
 
 if [ ! -e ".fonts/JoyPixels.ttf" ]
 then
-  mkdir -p .fonts joypixels-build && cd joypixels-build && (curl -L https://www.archlinux.org/packages/community/any/ttf-joypixels/download/|zstd -d|tar xvf -) && mv ./usr/share/fonts/joypixels/JoyPixels.ttf ../.fonts && cd .. && rm -rf joypixels-build || exit 1
+  mkdir -p .fonts joypixels-build && cd joypixels-build && wget https://cdn.joypixels.com/arch-linux/font/8.0.0/joypixels-android.ttf && mv joypixels-android.ttf ../.fonts/JoyPixels.ttf && cd .. && rm -rf joypixels-build || exit 1
 fi
 
 if [ "$ENABLE_SERF" = "yes" -a ! -e "opt/serf-$SERFV" ]
@@ -796,25 +797,22 @@ mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
 ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 mkdir -p "$XDG_CONFIG_HOME/nvim" && ln -nsf "$DOTFILES/.vimrc" "$XDG_CONFIG_HOME/nvim/init.vim" || exit 1
 ln -nsf "$DOTFILES/.ideavimrc" .ideavimrc || exit 1
+if [ ! -e ".vim/autoload/plug.vim" ]
+then
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
+fi
+if [ ! -e "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
+then
+  curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
+fi
+touch .vim/private.vim
 
 "$DOTFILES/bin/lang" install brew || exit 1
 "$DOTFILES/bin/lang" install node || exit 1
 "$DOTFILES/bin/lang" install rust || exit 1
-"$DOTFILES/bin/lang" install python || exit 1
 "$DOTFILES/bin/lang" install python "$PYTHON2V" || exit 1
+"$DOTFILES/bin/lang" install python "$PYTHON3V" || exit 1
 "$DOTFILES/bin/lang" install ruby || exit 1
-
-if [ ! -e ".vim/autoload/plug.vim" ]
-then
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
-  "$DOTFILES/bin/vim" +PlugUpdate +qall || exit 1
-fi
-
-if [ ! -e "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
-then
-  curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
-  "$DOTFILES/bin/nvim" +PlugUpdate +qall || exit 1
-fi
 
 if [ ! -e "opt/ocrodjvu-$OCRODJVUV" ]
 then

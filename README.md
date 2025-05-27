@@ -7,13 +7,13 @@
 5. install Google Chrome
 6. configure `$HOME/.config/dotfiles`:
    - `battery`
-   - `battery_threshold`
    - `brightness`
    - `dotfiles`
    - `eth`
    - `keyboard`
    - `machine`
    - `wlan`
+   - `www-scale-factor` ("1" by default)
 
 # What actions need to be done by hand?
 

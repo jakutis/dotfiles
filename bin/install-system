@@ -76,14 +76,13 @@ elif [ -n "$APTGET" ]
 then
     dpkg --add-architecture i386 || exit 1
     "$APTGET" remove unattended-upgrades || exit 1
-    "$APTGET" install -y lsb-release apt-transport-https wget gnupg || exit 1
+    "$APTGET" install -y lsb-release apt-transport-https wget curl gnupg || exit 1
     mkdir -p /etc/apt/keyrings || exit 1
 
     if [ -z "$(grep virtualbox /etc/apt/sources.list)" ]
     then
-        wget --quiet --output-document=- https://www.virtualbox.org/download/oracle_vbox.asc | apt-key add - || exit 1
-        wget --quiet --output-document=- https://www.virtualbox.org/download/oracle_vbox_2016.asc | apt-key add - || exit 1
-        echo "deb [arch=$(dpkg --print-architecture)] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
+        wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor || exit 1
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
     fi
 
     if [ -z "$(grep mozilla.org /etc/apt/sources.list)" ]
@@ -99,37 +98,38 @@ Pin-Priority: 1000
 
     if [ -z "$(grep pkgs.k8s.io /etc/apt/sources.list)" ]
     then
-        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /" | tee -a /etc/apt/sources.list
+        K8S_VERSION="v1.33"
+        curl -fsSL "https://pkgs.k8s.io/core:/stable:/$K8S_VERSION/deb/Release.key" | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/$K8S_VERSION/deb/ /" | tee -a /etc/apt/sources.list
     fi
     if [ -z "$(grep chrome /etc/apt/sources.list)" ]
     then
-        echo "deb [arch=$(dpkg --print-architecture)] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list
+        echo "deb [arch=$(dpkg --print-architecture)] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list
     fi
     if [ -z "$(grep docker /etc/apt/sources.list)" ]
     then
-        wget --quiet --output-document=- https://download.docker.com/linux/debian/gpg | apt-key add - || exit 1
-        echo "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/$(lsb_release -s -i|tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" >> /etc/apt/sources.list
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" >> /etc/apt/sources.list
     fi
     if [ -z "$(grep enpass /etc/apt/sources.list)" ]
     then
-        wget --quiet --output-document=- https://apt.enpass.io/keys/enpass-linux.key | apt-key add - || exit 1
+        wget --quiet --output-document=/etc/apt/trusted.gpg.d/enpass.asc https://apt.enpass.io/keys/enpass-linux.key || exit 1
         echo "deb [arch=$(dpkg --print-architecture)] https://apt.enpass.io/ stable main" >> /etc/apt/sources.list
     fi
     if [ -z "$(grep github /etc/apt/sources.list)" ]
     then
-        wget --quiet --output-document=- https://cli.github.com/packages/githubcli-archive-keyring.gpg | apt-key add - || exit 1
-        echo "deb [arch=$(dpkg --print-architecture)] https://cli.github.com/packages stable main" >> /etc/apt/sources.list
+        wget --quiet --output-document=/etc/apt/keyrings/githubcli-archive-keyring.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg || exit 1
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" >> /etc/apt/sources.list
     fi
     if [ -z "$(grep spotify /etc/apt/sources.list)" ]
     then
-      wget --quiet --output-document=- https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | apt-key add - || exit 1
-      echo "deb [arch=$(dpkg --print-architecture)] http://repository.spotify.com stable non-free" >> /etc/apt/sources.list
+      curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+      echo "deb [arch=$(dpkg --print-architecture)] https://repository.spotify.com stable non-free" >> /etc/apt/sources.list
     fi
 
     "$APTGET" update && "$APTGET" upgrade -y || exit 1
 
-    "$APTGET" install -y qpdf schroot debootstrap winetricks winbind wine64 python3-tk tk-dev zbarcam-gtk mkchromecast unrar krb5-user jmtpfs playerctl mercurial darcs libev-dev aha pandoc uuid dhcpdump fd-find nmap flameshot aptitude libreoffice arandr gcc nethogs xdm thunar git sudo pulseaudio jq libevent-dev libncurses5-dev libssl-dev bison libgdbm-dev libffi-dev libsqlite3-dev libyaml-dev sqlite3 libreadline-dev libplist-dev i3 xinput libdjvulibre-dev parcellite libplist++-dev clang libusb-1.0-0-dev libfuse-dev xbindkeys fzf vlc pavucontrol lm-sensors blueman xautolock polkit-kde-agent-1 meld gnumeric vokoscreen ffmpeg gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly xcompmgr pwgen feh gthumb heif-gdk-pixbuf guvcview alsa-utils pv oathtool pdftk tree docker-ce-cli docker-ce whois detox ncal exfatprogs exfat-fuse p7zip-full zip graphicsmagick-imagemagick-compat inkscape gimp mediainfo lame xmlstarlet calibre dstat iotop libbz2-dev moreutils transmission-cli curl xorg elinks net-tools google-chrome-stable htop akregator zenity firmware-sof-signed git-lfs fwupd kitty gnome-clocks cmake djvulibre-bin docbook-xsl libmagickcore-dev libmagickwand-dev libmagick++-dev ocaml ocaml-findlib ncdu snapd apt-file libxml2-utils mc hdparm bc android-sdk-platform-tools-common dnsutils telnet sbsigntool libnotify-bin xsel xclip tidy kubectl pdfgrep enpass audacious evince xsltproc gh heif-thumbnailer ffmpegthumbnailer firefox || exit 1
+    "$APTGET" install -y qpdf schroot debootstrap winetricks winbind wine64 python3-tk tk-dev zbarcam-gtk mkchromecast unrar krb5-user jmtpfs playerctl mercurial libev-dev aha pandoc uuid dhcpdump fd-find nmap flameshot aptitude libreoffice arandr gcc nethogs xdm thunar git sudo pulseaudio jq libevent-dev libncurses5-dev libssl-dev bison libgdbm-dev libffi-dev libsqlite3-dev libyaml-dev sqlite3 libreadline-dev libplist-dev i3 xinput libdjvulibre-dev parcellite libplist++-dev clang libusb-1.0-0-dev libfuse-dev xbindkeys fzf vlc pavucontrol lm-sensors blueman xautolock polkit-kde-agent-1 meld gnumeric vokoscreen ffmpeg gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly xcompmgr pwgen feh gthumb heif-gdk-pixbuf guvcview alsa-utils pv oathtool pdftk tree docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin whois detox ncal exfatprogs exfat-fuse p7zip-full zip graphicsmagick-imagemagick-compat inkscape gimp mediainfo lame xmlstarlet calibre dstat iotop libbz2-dev moreutils transmission-cli curl xorg elinks net-tools google-chrome-stable htop akregator zenity firmware-sof-signed git-lfs fwupd kitty gnome-clocks cmake djvulibre-bin docbook-xsl libmagickcore-dev libmagickwand-dev libmagick++-dev ocaml ocaml-findlib ncdu snapd apt-file libxml2-utils mc hdparm bc android-sdk-platform-tools-common dnsutils telnet sbsigntool libnotify-bin xsel xclip tidy kubectl pdfgrep enpass audacious evince xsltproc gh heif-thumbnailer ffmpegthumbnailer firefox libxcb-xtest0 libncurses5-dev pkg-config ninja-build virtualbox-7.1 || exit 1
     if [ "$MACHINE" != "wix" ]
     then
       "$APTGET" install -y spotify-client || exit 1
@@ -159,6 +159,8 @@ ln -nsf /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 gpasswd -a "$MAIN_USER" sudo
 gpasswd -a "$MAIN_USER" docker
 
+mkdir -p "/usr/local/share/xsessions" || exit 1
+cp "$DOTFILES/jakutis.desktop" "/usr/local/share/xsessions" || exit 1
 ln -nsf "$DOTFILES/modprobe.conf" "/etc/modprobe.d/jakutis.conf" || exit 1
 ln -nsf "$DOTFILES/rc.local" "/etc/rc.local" || exit 1
 echo 'ACTION=="add", SUBSYSTEM=="block", RUN+="'$MAIN_HOME'/bin/udevmount"' > "/etc/udev/rules.d/10-jakutis.rules" || exit 1
