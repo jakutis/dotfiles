@@ -40,14 +40,15 @@ export GTK_THEME="Adwaita:dark"
 
 export BROWSER="www"
 export EDITOR="vim"
+
+export PATH="$HOME/.bin:$HOME/bin:/snap/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 if [ "$(vim --version|head -n1|cut -f 1 -d ' ')" = "NVIM" ]
 then
   export MANPAGER="nvim +Man!"
 else
   export MANPAGER="vim -c 'set nonumber' -c MANPAGER -"
 fi
-
-export PATH="$HOME/.bin:$HOME/bin:/snap/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if [ -n "$BASH_VERSION" ]
 then
