@@ -159,6 +159,14 @@ ln -nsf /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 gpasswd -a "$MAIN_USER" sudo
 gpasswd -a "$MAIN_USER" docker
 
+WPA_DIR="/var/run/wpa_supplicant"
+WPA_GROUP="netdev"
+WPA_CONF="/etc/wpa_supplicant.conf"
+if [ ! -e "$WPA_CONF" ]
+then
+    mkdir -p "$WPA_DIR" && chgrp "$WPA_GROUP" "$WPA_DIR" && echo "ctrl_interface=DIR=$WPA_DIR GROUP=$WPA_GROUP" > "$WPA_CONF"
+fi
+
 mkdir -p "/usr/local/share/xsessions" || exit 1
 cp "$DOTFILES/jakutis.desktop" "/usr/local/share/xsessions" || exit 1
 ln -nsf "$DOTFILES/modprobe.conf" "/etc/modprobe.d/jakutis.conf" || exit 1
