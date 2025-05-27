@@ -9,3 +9,5 @@ do
     systemctl disable $SRV && systemctl stop $SRV
   fi
 done
+
+exit 0
