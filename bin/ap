@@ -66,4 +66,4 @@ iptables -t nat -A POSTROUTING -o "${WIFI}_sta" -j MASQUERADE || exit 1
 ip addr add "${BRIDGE_IP}/24" dev "${BRIDGE}:0" || exit 1
 ip addr add "${BRIDGE_IP2}/24" dev "${BRIDGE}:1" || exit 1
 wpa_supplicant -P "$(pwd)/wpa_supplicant.pid" -B "-i${WIFI}_sta" "-c${WPA_SUPPLICANT_CONF}" || exit 1
-dhclient -d "${WIFI}_sta" || exit 1
+dhcpcd "${WIFI}_sta" || exit 1

@@ -19,4 +19,4 @@ else
     ifconfig "$PUBIF" hw ether "$PUBMAC"
 fi
 
-dhclient -v "$PUBIF"
+dhcpcd "$PUBIF"

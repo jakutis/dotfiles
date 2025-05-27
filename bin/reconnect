@@ -22,6 +22,6 @@ fi
 if [ -n "$IF" ]
 then
   sudo wpa_cli "-i${IF}" reconfigure
-  sudo killall -9 dhclient
-  sudo dhclient -v "$IF"
+  sudo killall -9 dhcpcd
+  sudo dhcpcd "$IF"
 fi

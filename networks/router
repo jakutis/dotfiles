@@ -16,6 +16,6 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 ifconfig "$ETH" 192.168.1.1/24
 iptables -P INPUT ACCEPT
 iptables -t nat -A POSTROUTING -o "$WIFI" -j MASQUERADE
-dhclient -v "$WIFI"
+dhcpcd "$WIFI"
 touch ./router-dhcpd.lease
 dhcpd --no-pid -f -d -cf ./router-dhcpd.conf -lf ./router-dhcpd.lease
