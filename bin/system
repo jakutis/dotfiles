@@ -294,8 +294,10 @@ case "$CMD" in
             do
               echo VPN down, connecting...
               /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
+              echo Verifying...
               sleep 15
             done
+            echo VPN up!
           fi
         elif [ "$2" = "stop" ]
         then
