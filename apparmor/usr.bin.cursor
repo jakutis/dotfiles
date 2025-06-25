@@ -1,0 +1,7 @@
+# Allow this binary to create an unprivileged user-namespace
+abi <abi/4.0>,
+include <tunables/global>
+
+profile /home/jakutis/Applications/Cursor.AppImage flags=(attach_disconnected, complain) {
+    userns,
+}

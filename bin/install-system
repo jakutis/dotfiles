@@ -172,3 +172,5 @@ echo 'ACTION=="change", SUBSYSTEM=="drm", RUN+="'$MAIN_HOME'/bin/on_drm_change"'
 ln -nsf "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
 ln -nsf "$DOTFILES/bin/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
 "$DOTFILES/bin/disable-services" || exit 1
+
+ln -nsf "$DOTFILES/apparmor/usr.bin.cursor" "/etc/apparmor.d"
