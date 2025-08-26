@@ -289,7 +289,7 @@ case "$CMD" in
             done
             echo disconnecting from VPN
             #/opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
-            echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
+            #echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
             while ! curl --connect-timeout 15 --silent https://bo.wix.com > /dev/null
             do
               echo VPN down, connecting...
