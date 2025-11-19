@@ -79,6 +79,12 @@ then
     "$APTGET" install -y lsb-release apt-transport-https wget curl gnupg || exit 1
     mkdir -p /etc/apt/keyrings || exit 1
 
+    if [ -z "$(grep antigravity /etc/apt/sources.list)" ]
+    then
+        curl -sS https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/antigravity.gpg
+        echo "deb [signed-by=/etc/apt/trusted.gpg.d/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" >> /etc/apt/sources.list
+    fi
+
     if [ -z "$(grep virtualbox /etc/apt/sources.list)" ]
     then
         wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor || exit 1
@@ -129,7 +135,7 @@ Pin-Priority: 1000
 
     "$APTGET" update && "$APTGET" upgrade -y || exit 1
 
-    "$APTGET" install -y qpdf schroot debootstrap winetricks winbind wine64 python3-tk tk-dev zbarcam-gtk mkchromecast unrar krb5-user jmtpfs playerctl mercurial libev-dev aha pandoc uuid dhcpdump fd-find nmap flameshot aptitude libreoffice arandr gcc nethogs xdm thunar git sudo pulseaudio jq libevent-dev libncurses5-dev libssl-dev bison libgdbm-dev libffi-dev libsqlite3-dev libyaml-dev sqlite3 libreadline-dev libplist-dev i3 xinput libdjvulibre-dev parcellite libplist++-dev clang libusb-1.0-0-dev libfuse-dev xbindkeys fzf vlc pavucontrol lm-sensors blueman xautolock polkit-kde-agent-1 meld gnumeric vokoscreen ffmpeg gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly xcompmgr pwgen feh gthumb heif-gdk-pixbuf guvcview alsa-utils pv oathtool pdftk tree docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin whois detox ncal exfatprogs exfat-fuse p7zip-full zip graphicsmagick-imagemagick-compat inkscape gimp mediainfo lame xmlstarlet calibre dstat iotop libbz2-dev moreutils transmission-cli curl xorg elinks net-tools google-chrome-stable htop akregator zenity firmware-sof-signed git-lfs fwupd kitty gnome-clocks cmake djvulibre-bin docbook-xsl libmagickcore-dev libmagickwand-dev libmagick++-dev ocaml ocaml-findlib ncdu snapd apt-file libxml2-utils mc hdparm bc android-sdk-platform-tools-common dnsutils telnet sbsigntool libnotify-bin xsel xclip tidy kubectl pdfgrep enpass audacious evince xsltproc gh heif-thumbnailer ffmpegthumbnailer firefox libxcb-xtest0 libncurses5-dev pkg-config ninja-build virtualbox-7.1 dkms spotify-client libavif16 || exit 1
+    "$APTGET" install -y qpdf schroot debootstrap winetricks winbind wine64 python3-tk tk-dev zbarcam-gtk mkchromecast unrar krb5-user jmtpfs playerctl mercurial libev-dev aha pandoc uuid dhcpdump fd-find nmap flameshot aptitude libreoffice arandr gcc nethogs xdm thunar git sudo pulseaudio jq libevent-dev libncurses5-dev libssl-dev bison libgdbm-dev libffi-dev libsqlite3-dev libyaml-dev sqlite3 libreadline-dev libplist-dev i3 xinput libdjvulibre-dev parcellite libplist++-dev clang libusb-1.0-0-dev libfuse-dev xbindkeys fzf vlc pavucontrol lm-sensors blueman xautolock polkit-kde-agent-1 meld gnumeric vokoscreen ffmpeg gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly xcompmgr pwgen feh gthumb heif-gdk-pixbuf guvcview alsa-utils pv oathtool pdftk tree docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin whois detox ncal exfatprogs exfat-fuse p7zip-full zip graphicsmagick-imagemagick-compat inkscape gimp mediainfo lame xmlstarlet calibre dstat iotop libbz2-dev moreutils transmission-cli curl xorg elinks net-tools google-chrome-stable htop akregator zenity firmware-sof-signed git-lfs fwupd kitty gnome-clocks cmake djvulibre-bin docbook-xsl libmagickcore-dev libmagickwand-dev libmagick++-dev ocaml ocaml-findlib ncdu snapd apt-file libxml2-utils mc hdparm bc android-sdk-platform-tools-common dnsutils telnet sbsigntool libnotify-bin xsel xclip tidy kubectl pdfgrep enpass audacious evince xsltproc gh heif-thumbnailer ffmpegthumbnailer firefox libxcb-xtest0 libncurses5-dev pkg-config ninja-build virtualbox-7.1 dkms spotify-client libavif16 antigravity || exit 1
     "$APTGET" build-dep --assume-yes vim wine64 || exit 1
 
     ZOOMV=$(curl -f https://zoom.us/client/latest/zoom_amd64.deb -I|grep -Fi location:|sed -e 's/^.*prod\/\(.*\)\/.*$/\1/') || exit 1
