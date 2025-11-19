@@ -82,7 +82,7 @@ then
     if [ -z "$(grep antigravity /etc/apt/sources.list)" ]
     then
         curl -sS https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/antigravity.gpg
-        echo "deb [signed-by=/etc/apt/trusted.gpg.d/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" >> /etc/apt/sources.list
+        echo "deb [signed-by=/etc/apt/trusted.gpg.d/antigravity.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" >> /etc/apt/sources.list
     fi
 
     if [ -z "$(grep virtualbox /etc/apt/sources.list)" ]
