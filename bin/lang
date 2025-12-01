@@ -153,7 +153,7 @@ function lang_use {
 }
 
 function latest_version_python {
-  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|sort --reverse --version-sort|uniq || true
+  curl --silent https://www.python.org/downloads/ | grep 'https://www.python.org/ftp/python/'|sed -e 's/.*https:\/\/www\.python\.org\/ftp\/python\///'|sed -e 's/\/.*//'|grep '^[[:digit:]]'|sort --reverse --version-sort|uniq || true
 }
 
 function latest_version_node {
