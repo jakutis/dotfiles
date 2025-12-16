@@ -91,7 +91,7 @@
     helper = cache
 
 [log]
-    date = local
+    date = iso-local
 
 [init]
     defaultBranch = main
