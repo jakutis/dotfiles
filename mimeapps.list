@@ -18,6 +18,7 @@ text/plain=leafpad.desktop;
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
 x-scheme-handler/bjnb=bluejeans.desktop;
+x-scheme-handler/cursor=cursor.desktop;
 
 [Default Applications]
 application/pdf=org.gnome.Evince.desktop
@@ -28,3 +29,4 @@ x-scheme-handler/bjnb=bluejeans.desktop;
 x-scheme-handler/http=www.desktop;
 x-scheme-handler/https=www.desktop;
 x-scheme-handler/slack=slack.desktop;
+x-scheme-handler/cursor=cursor.desktop;

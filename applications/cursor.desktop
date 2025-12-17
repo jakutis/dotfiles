@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Open in Cursor
+Exec=cursor --open-url %U
+Terminal=false
+Type=Application
+Categories=Utility;Development
+MimeType=x-scheme-handler/cursor;
+StartupWMClass=Cursor
+Comment=Cursor is an AI-first coding environment.
+X-AppImage-Version=latest
