@@ -46,6 +46,7 @@ export PATH="$HOME/.nvm/versions/node/v$(cat "$HOME/.nvm/alias/default")/bin:$PA
 export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
 export JAVA_HOME="$HOME/opt/jdk-$(cat "$HOME/.javaversion")"
 export PATH="$JAVA_HOME/bin:$PATH"
+export PATH="$HOME/.pyenv/versions/$(cat "$HOME/.pyenv/version")/bin:$PATH"
 
 if [ "$(vim --version|head -n1|cut -f 1 -d ' ')" = "NVIM" ]
 then
