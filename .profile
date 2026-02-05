@@ -37,6 +37,7 @@ export VAGRANT_INSTALLER_ENV="1"
 export ACLOCAL_PATH="/usr/share/aclocal"
 export DSTAT_OPTS="--nocolor"
 export GTK_THEME="Adwaita:dark"
+export DOCKER_REPO_CACHE="$HOME/.cache/bazel/docker"
 
 export BROWSER="www"
 export EDITOR="vim"
