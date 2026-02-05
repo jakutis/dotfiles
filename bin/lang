@@ -476,8 +476,6 @@ then
     IGNORE_NOT_INSTALLED=yes upgrade ruby || exit 1
     IGNORE_NOT_INSTALLED=yes upgrade r || exit 1
     IGNORE_NOT_INSTALLED=yes upgrade node || exit 1
-    IGNORE_NOT_INSTALLED=yes upgrade python || exit 1
-    IGNORE_NOT_INSTALLED=yes upgrade java || exit 1
   else
     upgrade "$LANG_LANG" || exit 1
   fi
