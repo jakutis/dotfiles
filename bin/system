@@ -274,6 +274,7 @@ case "$CMD" in
             sudo iptables -A INPUT -i gpd0 -j ACCEPT
             echo stopping gpd
             sudo systemctl stop gpd
+            stop_vpn
             echo stopping PanGPA
             while [ -n "$(ps aux|grep PanGPA|grep -v grep)" ]
             do
