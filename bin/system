@@ -291,9 +291,9 @@ case "$CMD" in
             echo disconnecting from VPN
             #/opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
             #echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
-            while ! curl --connect-timeout 15 --silent https://bo.wix.com > /dev/null
+            while ! curl --connect-timeout 15 --silent https://wix-bo.com/ > /dev/null
             do
-              echo VPN down, connecting...
+              echo VPN down, connecting to $GW...
               /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
               echo Verifying...
               sleep 15
