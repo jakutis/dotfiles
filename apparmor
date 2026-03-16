@@ -7,7 +7,3 @@ profile /home/jakutis/opt/idea/bin/idea flags=(unconfined) {
 
   include if exists <local/chrome>
 }
-
-profile /home/jakutis/Applications/Cursor.AppImage flags=(attach_disconnected, complain) {
-    userns,
-}
