@@ -129,7 +129,7 @@ Pin-Priority: 1000
     fi
     if [ -z "$(grep spotify /etc/apt/sources.list)" ]
     then
-      curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+      curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.gpg | gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
       echo "deb [arch=$(dpkg --print-architecture)] https://repository.spotify.com stable non-free" >> /etc/apt/sources.list
     fi
 
