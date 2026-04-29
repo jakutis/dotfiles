@@ -6,10 +6,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'ddrscott/vim-side-search'
 Plug 'github/copilot.vim'
 Plug 'reasonml-editor/vim-reason-plus'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'kevinhwang91/rnvimr'
