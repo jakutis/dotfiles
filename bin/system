@@ -28,7 +28,7 @@ function stop_vpn {
   then
     sudo echo
     timeout 10 /opt/paloaltonetworks/globalprotect/globalprotect disconnect
-    systemctl stop gpd
+    sudo systemctl stop gpd
     sudo killall -9 PanGpHip
     sudo killall -9 PanGPS
     sudo killall -9 PanGPA
