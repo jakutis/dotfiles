@@ -99,6 +99,7 @@ then
     fi
     if [ -z "$(grep chrome /etc/apt/sources.list)" ]
     then
+        curl -fsSL https://dl.google.com/linux/linux_signing_key.pub -o /etc/apt/trusted.gpg.d/google.asc
         echo "deb [arch=$(dpkg --print-architecture)] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list
     fi
     if [ -z "$(grep docker /etc/apt/sources.list)" ]
