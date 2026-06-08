@@ -91,17 +91,6 @@ then
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
     fi
 
-    if [ -z "$(grep mozilla.org /etc/apt/sources.list)" ]
-    then
-        wget --quiet --output-document=- https://packages.mozilla.org/apt/repo-signing-key.gpg > /etc/apt/keyrings/packages.mozilla.org.asc
-        echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | tee -a /etc/apt/sources.list
-        echo '
-Package: *
-Pin: origin packages.mozilla.org
-Pin-Priority: 1000
-' > /etc/apt/preferences.d/mozilla 
-    fi
-
     if [ -z "$(grep pkgs.k8s.io /etc/apt/sources.list)" ]
     then
         K8S_VERSION="v1.33"
