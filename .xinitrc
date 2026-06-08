@@ -14,6 +14,7 @@ xcompmgr &
 configure-screensaver
 xrandr --dpi "$XRANDR_DPI"
 set-background
+update-xinput
 
 ln -nsf "/sys/devices/platform/coretemp.0/hwmon/$(ls -1 "/sys/devices/platform/coretemp.0/hwmon"|head -n1)/temp1_input" "$HOME/.config/dotfiles/temperature"
 nohup xautolock -time "$(echo $DURATION_UNTIL_SCREENSAVER/60|bc)" -detectsleep -locker lock-screen 1>/dev/null 2>&1 &
