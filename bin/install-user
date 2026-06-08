@@ -657,7 +657,7 @@ then
     rm -rf "libevent-$LIBEVENTV-stable"
 fi
 
-if [ ! -e "opt/tmux-$TMUXV" ]
+if [ "$ENABLE_TMUX" = "yes" -a ! -e "opt/tmux-$TMUXV" ]
 then
     curl -L "https://github.com/tmux/tmux/releases/download/${TMUXV}/tmux-${TMUXV}.tar.gz" | tar zxf -
     cd "tmux-$TMUXV"
