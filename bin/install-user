@@ -38,7 +38,7 @@ PYTHON3V="3.13.3"
 
 TMUXV="3.5a"
 VIMV="9.1.1407" || exit 1
-NEOVIMV="0.11.1" || exit 1
+NEOVIMV="0.12.2" || exit 1
 
 OCRODJVUV="0.12"
 BASH3V="3.2.57"
