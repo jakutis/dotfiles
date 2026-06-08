@@ -1,12 +1,10 @@
 openai
 wheel
 csv2md
-psrecord
 matplotlib
 cython
 lxml
 six
-jsbeautifier
 pygments
 fusepy
 reportlab
@@ -14,7 +12,6 @@ brownie
 icalendar
 msgpack
 pynvim
-csvkit
 grip
 autorandr
 yt-dlp
