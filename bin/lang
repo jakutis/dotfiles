@@ -276,8 +276,6 @@ function install_packages_python {
 }
 
 function install_packages_rust {
-  cargo install --force cargo || exit 1
-
   cat "$HOME/.rustpackages" | while read PACKAGE
   do
       echo "Installing $PACKAGE"
