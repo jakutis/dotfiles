@@ -15,8 +15,8 @@ image/x-ms-bmp=org.gnome.eog.desktop;
 inode/directory=kde4-kfmclient_dir.desktop;
 text/csv=libreoffice-2.desktop;
 text/plain=leafpad.desktop;
-x-scheme-handler/http=www.desktop;
-x-scheme-handler/https=www.desktop;
+x-scheme-handler/http=firefox_firefox.desktop
+x-scheme-handler/https=firefox_firefox.desktop
 x-scheme-handler/bjnb=bluejeans.desktop;
 
 [Default Applications]
@@ -25,6 +25,9 @@ application/x-gzpdf=org.gnome.Evince.desktop
 application/x-bzpdf=org.gnome.Evince.desktop
 application/x-wwf=org.gnome.Evince.desktop
 x-scheme-handler/bjnb=bluejeans.desktop;
-x-scheme-handler/http=www.desktop;
-x-scheme-handler/https=www.desktop;
+x-scheme-handler/http=firefox_firefox.desktop
+x-scheme-handler/https=firefox_firefox.desktop
 x-scheme-handler/slack=slack.desktop;
+text/html=firefox_firefox.desktop
+x-scheme-handler/about=firefox_firefox.desktop
+x-scheme-handler/unknown=firefox_firefox.desktop

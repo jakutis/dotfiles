@@ -39,7 +39,7 @@ then
                 inkview -- "$FILE"
             elif [ "$EXT" = "html" -o "$EXT" = "htm" ]
             then
-                www -- "$FILE"
+                firefox -- "$FILE"
             elif [ "$EXT" = "csv" ]
             then
                 cat "$FILE" | tidy-viewer --color 2
