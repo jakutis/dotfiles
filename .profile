@@ -39,7 +39,7 @@ export DSTAT_OPTS="--nocolor"
 export GTK_THEME="Adwaita:dark"
 export DOCKER_REPO_CACHE="$HOME/.cache/bazel/docker"
 
-export BROWSER="www"
+export BROWSER="firefox"
 export EDITOR="vim"
 
 export PATH="$HOME/.local/bin:$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
