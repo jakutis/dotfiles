@@ -17,7 +17,7 @@ fi
 
 DOTFILES="$(cat "$XDG_CONFIG_HOME/dotfiles/dotfiles")"
 MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
-DURATION_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/duration-until-screensaver")
+SECONDS_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/seconds-until-screensaver")
 
 function help {
     echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard vpn"
@@ -186,7 +186,7 @@ function screens {
     set-background
     xset s off
     xset s noblank
-    xset s "$DURATION_UNTIL_SCREENSAVER"
+    xset s "$SECONDS_UNTIL_SCREENSAVER"
 }
 
 function brightness {
