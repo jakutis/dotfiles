@@ -25,6 +25,7 @@ nohup bash -c 'while true; do sleep 5;[ -n "$(system battery|grep Charging)" ] &
 /usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1 &
 dropbox start &
 podcasts &
+nm-applet &
 
 cd Desktop
 i3
