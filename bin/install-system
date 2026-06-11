@@ -108,6 +108,10 @@ then
     mkdir -p "$WPA_DIR" && chgrp "$WPA_GROUP" "$WPA_DIR" && echo "ctrl_interface=DIR=$WPA_DIR GROUP=$WPA_GROUP" > "$WPA_CONF"
 fi
 
+ufw default deny incoming
+ufw default allow outgoing
+ufw enable
+
 mkdir -p "/usr/local/share/xsessions" || exit 1
 cp "$DOTFILES/jakutis.desktop" "/usr/local/share/xsessions" || exit 1
 ln -nsf "$DOTFILES/modprobe.conf" "/etc/modprobe.d/jakutis.conf" || exit 1
