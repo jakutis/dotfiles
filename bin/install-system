@@ -169,4 +169,3 @@ cp "$DOTFILES/sysctl.conf" "/etc/sysctl.d/99-jakutis.conf" || exit 1
 cp "$DOTFILES/limits.conf" "/etc/security/limits.d/99-jakutis.conf" || exit 1
 cp "$DOTFILES/apparmor" "/etc/apparmor.d/jakutis" || exit 1
 ln -nsf "$DOTFILES/bin/scrub-md" "/etc/cron.monthly/scrub-md" || exit 1
-"$DOTFILES/bin/disable-services" || exit 1
