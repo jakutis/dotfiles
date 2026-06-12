@@ -24,6 +24,7 @@ application/pdf=org.gnome.Evince.desktop
 application/x-gzpdf=org.gnome.Evince.desktop
 application/x-bzpdf=org.gnome.Evince.desktop
 application/x-wwf=org.gnome.Evince.desktop
+x-scheme-handler/antigravity=antigravity.desktop
 x-scheme-handler/bjnb=bluejeans.desktop;
 x-scheme-handler/http=firefox_firefox.desktop
 x-scheme-handler/https=firefox_firefox.desktop
