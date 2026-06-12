@@ -112,17 +112,6 @@ autocmd FileType ocaml execute "set rtp+=" . substitute(system('opam config var 
 "let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 "execute "set rtp+=" . g:opamshare . "/merlin/vim"
 
-" advised by https://github.com/autozimu/LanguageClient-neovim
-let g:LanguageClient_serverCommands = {
-    \ 'typescript': ['typescript-language-server', '--stdio'],
-    \ 'typescriptreact': ['typescript-language-server', '--stdio'],
-    \ 'javascript': ['typescript-language-server', '--stdio'],
-    \ 'javascriptreact': ['typescript-language-server', '--stdio'],
-    \ 'reason': ['ocaml-language-server', '--stdio'],
-    \ 'ocaml': ['ocaml-language-server', '--stdio'],
-    \ 'scala': ['metals-vim'],
-    \ }
-
 " close error window when closing buffer
 augroup CloseLoclistWindowGroup
   autocmd!
