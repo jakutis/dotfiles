@@ -2,7 +2,7 @@
 
 if [ "$1" = "full" ]
 then
-  flameshot full -p "$HOME/Downloads"
+  flameshot full
   exit
 fi
 
@@ -11,4 +11,4 @@ then
   sleep "$1"
 fi
 
-flameshot gui -p "$HOME/Downloads"
+flameshot gui
