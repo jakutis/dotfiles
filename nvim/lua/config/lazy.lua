@@ -18,6 +18,8 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
+    { 'osyo-manga/vim-anzu' },
+    { 'sainnhe/everforest'},
     {
       "jakutis/claude-commit.nvim",
       ft = "gitcommit",

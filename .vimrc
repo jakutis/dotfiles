@@ -1,34 +1,29 @@
-" junegunn/vim-plug
-call plug#begin('~/.vim/plugged')
-Plug 'ddrscott/vim-side-search'
-Plug 'github/copilot.vim'
-Plug 'reasonml-editor/vim-reason-plus'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'kevinhwang91/rnvimr'
-Plug 'chrisbra/csv.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'posva/vim-vue'
-Plug 'airblade/vim-rooter'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'easymotion/vim-easymotion'
-Plug 'mogelbrod/vim-jsonpath'
-Plug 'ruanyl/vim-gh-line'
-Plug 'morhetz/gruvbox'
-Plug 'tpope/vim-rhubarb'
-Plug 'bogado/file-line'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'osyo-manga/vim-anzu'
-Plug 'junegunn/goyo.vim'
-Plug 'meain/vim-printer'
-Plug 'matze/vim-move'
-Plug 'ptzz/lf.vim'
-Plug 'voldikss/vim-floaterm'
-call plug#end()
+" move to nvim/lua/config/lazy.lua on demand
+" Plug 'ddrscott/vim-side-search'
+" Plug 'reasonml-editor/vim-reason-plus'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" Plug 'kevinhwang91/rnvimr'
+" Plug 'chrisbra/csv.vim'
+" Plug 'itchyny/lightline.vim'
+" Plug 'tpope/vim-fugitive'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'posva/vim-vue'
+" Plug 'airblade/vim-rooter'
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'easymotion/vim-easymotion'
+" Plug 'mogelbrod/vim-jsonpath'
+" Plug 'ruanyl/vim-gh-line'
+" Plug 'tpope/vim-rhubarb'
+" Plug 'bogado/file-line'
+" Plug 'editorconfig/editorconfig-vim'
+" Plug 'junegunn/goyo.vim'
+" Plug 'meain/vim-printer'
+" Plug 'matze/vim-move'
+" Plug 'ptzz/lf.vim'
+" Plug 'voldikss/vim-floaterm'
 
 source $HOME/.ideavimrc
 source $HOME/.vim/private.vim
@@ -144,10 +139,8 @@ endfunction
 command! -nargs=* -bang Rg call FzfRipgrep(<q-args>, <bang>0)
 noremap <C-d> <Esc>:Rg<CR>
 
-" morhetz/gruvbox
+" colors
 set background=light
-let g:gruvbox_contrast_light='hard'
-colorscheme gruvbox
 
 " show an 80 column marker
 set colorcolumn=80

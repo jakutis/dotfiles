@@ -1,4 +1,6 @@
 {
   "claude-commit.nvim": { "branch": "master", "commit": "6c840aec296cd716c7d1d75c634ac2203de31019" },
-  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" }
+  "everforest": { "branch": "master", "commit": "85a86eb62409e3ec88713bff3d1b9d7374e112e4" },
+  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "vim-anzu": { "branch": "master", "commit": "45566dffd29612a763239abadd3ab2cd78bd5638" }
 }

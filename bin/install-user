@@ -797,14 +797,6 @@ mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
 ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
 ln -nsf "$DOTFILES/nvim" "$XDG_CONFIG_HOME/nvim" || exit 1
 ln -nsf "$DOTFILES/.ideavimrc" .ideavimrc || exit 1
-if [ ! -e ".vim/autoload/plug.vim" ]
-then
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
-fi
-if [ ! -e "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
-then
-  curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim || exit 1
-fi
 touch .vim/private.vim
 
 "$DOTFILES/bin/lang" install brew || exit 1
