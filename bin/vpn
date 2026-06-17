@@ -1,7 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-ln -s ~/.GlobalProtect/GP_HTML ~/GP_HTML
-trap 'rm ~/GP_HTML' EXIT
-
-/usr/bin/vpn "$@"

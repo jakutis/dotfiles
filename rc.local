@@ -19,7 +19,7 @@ do
   echo $ITEM > /proc/acpi/wakeup
 done
 
-if [ "$(cat /etc/hostname)" = "laptop" -o "$(cat /etc/hostname)" = "wix" ]
+if [ "$(cat /etc/hostname)" = "laptop" ]
 then
   chmod a+w "$DOTFILES_CONFIG/brightness/brightness"
   chmod a+w "$DOTFILES_CONFIG/keyboard/brightness"

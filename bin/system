@@ -2,7 +2,7 @@
 
 CMD="$1"
 
-if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "vpn" ]) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ]) && ! ([ "$CMD" = "lock" ])
+if ! ([ "$(id -u)" = "0" ]) && ! ( ([ "$CMD" = "brightness" ]) && ([ -w "$XDG_CONFIG_HOME/dotfiles/brightness/brightness" ]) ) && ! ([ "$CMD" = "screens" ]) && ! ([ "$CMD" = "battery" ]) && ! ([ "$CMD" = "poweroff" ]) && ! ([ "$CMD" = "suspend" ]) && ! ([ "$CMD" = "keyboard" ]) && ! ([ "$CMD" = "lock" ])
 then
   ARGS="$@"
   if tty --silent
@@ -20,22 +20,7 @@ MACHINE="$(cat "$XDG_CONFIG_HOME/dotfiles/machine")"
 SECONDS_UNTIL_SCREENSAVER=$(cat "$XDG_CONFIG_HOME/dotfiles/seconds-until-screensaver")
 
 function help {
-    echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard vpn"
-}
-
-function stop_vpn {
-  if [ "$(hostname)" = "wix" ]
-  then
-    sudo echo
-    timeout 10 /opt/paloaltonetworks/globalprotect/globalprotect disconnect
-    sudo systemctl stop gpd
-    sudo killall -9 PanGpHip
-    sudo killall -9 PanGPS
-    sudo killall -9 PanGPA
-    sudo killall -9 PanGpHip
-    sudo killall -9 PanGPS
-    sudo killall -9 PanGPA
-  fi
+    echo "Available commands: help lock suspend poweroff shutdown reboot restart net screens battery brightness fan keyboard"
 }
 
 function fan {
@@ -261,59 +246,6 @@ then
 fi
 
 case "$CMD" in
-    "vpn")
-        if [ "$2" = "start" ]
-        then
-          if [ "$(hostname)" = "wix" ]
-          then
-            GW="$3"
-            if [ -z "$GW" ]
-            then
-              GW="vpn.wixpress.com"
-            fi
-            while ! curl --connect-timeout 5 --silent https://8.8.8.8 > /dev/null
-            do
-              echo still offline
-              sleep 1
-            done
-            echo setting up iptables
-            sudo iptables -A INPUT -i gpd0 -j ACCEPT
-            echo stopping gpd
-            sudo systemctl stop gpd
-            stop_vpn
-            echo stopping PanGPA
-            while [ -n "$(ps aux|grep PanGPA|grep -v grep)" ]
-            do
-              sudo killall -9 PanGPA
-            done
-            echo starting gpd
-            sudo systemctl start gpd
-            echo starting PanGPA
-            sleep 1
-            while [ -z "$(ps aux|grep PanGPA|grep -v grep)" ]
-            do
-              /opt/paloaltonetworks/globalprotect/PanGPA start &
-            done
-            echo disconnecting from VPN
-            #/opt/paloaltonetworks/globalprotect/globalprotect disconnect >/dev/null
-            #echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
-            while ! curl --connect-timeout 15 --silent https://wix-bo.com/ > /dev/null
-            do
-              echo VPN down, connecting to $GW...
-              /opt/paloaltonetworks/globalprotect/globalprotect connect -p "$GW" -u jakutis
-              echo Verifying...
-              sleep 15
-            done
-            echo VPN up!
-          fi
-        elif [ "$2" = "stop" ]
-        then
-          stop_vpn
-        else
-          echo "Error: unknown vpn command \"$2\""
-          exit 1
-        fi
-        ;;
     "keyboard")
         brightness "$XDG_CONFIG_HOME/dotfiles/keyboard" "$2"
         ;;
@@ -341,7 +273,6 @@ case "$CMD" in
         screens "$@"
         ;;
     "net")
-        stop_vpn
         "$DOTFILES/rc.local.stop"
         "$DOTFILES/networks/rc.local.wifi.stop"
         "$DOTFILES/networks/vanilla"

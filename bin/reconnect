@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-system vpn stop
-
 if [ -e "$XDG_CONFIG_HOME/dotfiles/eth" ]
 then
   IF="$(ls "$XDG_CONFIG_HOME/dotfiles/eth")"
