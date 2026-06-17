@@ -795,7 +795,7 @@ fi
 
 mkdir --parents .vimtmp .vimbackup .vimsession .vimundo || exit 1
 ln -nsf "$DOTFILES/.vimrc" .vimrc || exit 1
-mkdir -p "$XDG_CONFIG_HOME/nvim" && ln -nsf "$DOTFILES/.vimrc" "$XDG_CONFIG_HOME/nvim/init.vim" || exit 1
+ln -nsf "$DOTFILES/nvim" "$XDG_CONFIG_HOME/nvim" || exit 1
 ln -nsf "$DOTFILES/.ideavimrc" .ideavimrc || exit 1
 if [ ! -e ".vim/autoload/plug.vim" ]
 then
