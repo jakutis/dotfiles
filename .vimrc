@@ -1,6 +1,3 @@
-" master keys
-let mapleader = ","
-
 " junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'ddrscott/vim-side-search'
@@ -15,7 +12,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
 Plug 'airblade/vim-rooter'
-Plug 'sheerun/vim-polyglot'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
