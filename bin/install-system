@@ -67,7 +67,7 @@ then
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" >> /etc/apt/sources.list
 fi
-if [ -z "$(grep enpass /etc/apt/sources.list)" ]
+if [ -z "$(grep enpass /etc/apt/sources.list)" -a ! -f /etc/apt/sources.list.d/enpass.sources ]
 then
     wget --quiet --output-document=/etc/apt/trusted.gpg.d/enpass.asc https://apt.enpass.io/keys/enpass-linux.key || exit 1
     echo "deb [arch=$(dpkg --print-architecture)] https://apt.enpass.io/ stable main" >> /etc/apt/sources.list
