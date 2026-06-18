@@ -1,8 +1,6 @@
 " move to nvim/lua/config/lazy.lua on demand
 " Plug 'ddrscott/vim-side-search'
 " Plug 'reasonml-editor/vim-reason-plus'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
 " Plug 'kevinhwang91/rnvimr'
 " Plug 'chrisbra/csv.vim'
 " Plug 'itchyny/lightline.vim'
@@ -108,36 +106,6 @@ augroup CloseLoclistWindowGroup
   autocmd!
   autocmd QuitPre * if empty(&buftype) | lclose | endif
 augroup END
-
-" junegunn/fzf
-let g:fzf_layout = { 'window': '-tabnew' }
-let g:rooter_patterns = ['.git', '_darcs', '.hg', '.bzr', '.svn', 'VYTASROOT']
-function! g:FzfSearch()
-  let l:relative_dir = trim(system('realpath "--relative-to=' . getcwd() . '" "' . FindRootDirectory() . '"'))
-
-  let l:fzf_options = join([
-    \ '--keep-right --multi --preview-window noborder --prompt "> "',
-    \ '--tiebreak=index',
-    \ '--preview "bat --color always --style numbers,changes,snip {1}"',
-    \ '--bind="ctrl-w:backward-kill-word,ctrl-u:clear-query"'], ' ')
-  call fzf#vim#files('', {
-    \ 'source': printf('rg --files "%s" | proximity-sort "%s"', l:relative_dir, l:relative_dir . '/' . g:RootRelativeFile()),
-    \ 'options': l:fzf_options
-    \})
-endfunction
-noremap <C-p> :call g:FzfSearch()<CR>
-function! FzfRipgrep(query, fullscreen)
-  let l:root_dir = FindRootDirectory() 
-  let l:relative_file = expand('%:p') == '' ? '.' : trim(system('realpath "--relative-to=' . l:root_dir . '" "' . expand('%:p') . '"'))
-
-  let command_fmt = 'cd "' . l:root_dir . '" && rg --column --line-number --no-heading --color=always --smart-case -- %s | cut -d ":" -f 1-2 || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'dir': l:root_dir, 'options': ['--keep-right', '--multi', '--preview-window', 'noborder', '--prompt', '> ', '--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-command! -nargs=* -bang Rg call FzfRipgrep(<q-args>, <bang>0)
-noremap <C-d> <Esc>:Rg<CR>
 
 " colors
 set background=light

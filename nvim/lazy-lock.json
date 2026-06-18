@@ -2,5 +2,9 @@
   "claude-commit.nvim": { "branch": "master", "commit": "6c840aec296cd716c7d1d75c634ac2203de31019" },
   "everforest": { "branch": "master", "commit": "85a86eb62409e3ec88713bff3d1b9d7374e112e4" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "nvim-web-devicons": { "branch": "master", "commit": "dfbfaa967a6f7ec50789bead7ef87e336c1fa63c" },
+  "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
+  "telescope-fzf-native.nvim": { "branch": "main", "commit": "b25b749b9db64d375d782094e2b9dce53ad53a40" },
+  "telescope.nvim": { "branch": "master", "commit": "5255aa27c422de944791318024167ad5d40aad20" },
   "vim-anzu": { "branch": "master", "commit": "45566dffd29612a763239abadd3ab2cd78bd5638" }
 }

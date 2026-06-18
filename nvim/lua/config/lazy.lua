@@ -21,6 +21,14 @@ require("lazy").setup({
     { 'osyo-manga/vim-anzu' },
     { 'sainnhe/everforest'},
     {
+      'nvim-telescope/telescope.nvim', version = '*',
+      dependencies = {
+          'nvim-lua/plenary.nvim',
+          { "nvim-tree/nvim-web-devicons", opts = {} },
+          { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      }
+    },
+    {
       "jakutis/claude-commit.nvim",
       ft = "gitcommit",
       config = function()
