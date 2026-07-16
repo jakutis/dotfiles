@@ -6,5 +6,5 @@ if [ "$FEATURE" = "git" ]
 then
   cd "$HOME/repos/git" && kitty
 else
-  cd "$HOME/Desktop" && kitty bash -c 'tmux;bash'
+  cd "$HOME/Desktop/0_Inbox" && kitty bash -c 'tmux;bash'
 fi
