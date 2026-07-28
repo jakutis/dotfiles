@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+#
+# cdw - Change directory to the git worktree of a specified branch.
+#
+# Usage:
+#   cdw <branch>
+#   cdw -l | --list
+#   cdw -h | --help
+#
+# Alias / Function setup:
+#   To change directory in your interactive shell, source cdw or define an alias:
+#     alias cdw='. /path/to/cdw'
+#     # OR as a shell function:
+#     cdw() { . /path/to/cdw "$@"; }
+#     # OR via command substitution:
+#     alias cdw='cd "$(/path/to/cdw "$@")"'
+#
+
+show_usage() {
+  cat <<'EOF'
+usage: cdw <branch>
+       cdw -l | --list
+
+Change current working directory to the worktree corresponding to <branch>.
+
+Options:
+  -l, --list     List all available worktrees and their branches
+  -h, --help     Show this help message
+
+Alias / Function setup:
+  To change directory in your interactive shell, source cdw or define an alias:
+    alias cdw='. /path/to/cdw'
+    # OR:
+    cdw() { . /path/to/cdw "$@"; }
+    # OR:
+    alias cdw='cd "$(/path/to/cdw "$@")"'
+EOF
+}
+
+list_worktrees() {
+  echo "Available worktrees:"
+  git worktree list --porcelain | awk '
+    /^worktree / { wt = substr($0, 10) }
+    /^branch / {
+      br = substr($0, 8)
+      sub(/^refs\/heads\//, "", br)
+      printf "  %-32s %s\n", br, wt
+      wt = ""
+    }
+    /^detached/ {
+      printf "  %-32s %s\n", "(detached)", wt
+      wt = ""
+    }
+  '
+}
+
+case "$1" in
+  -h|--help)
+    show_usage
+    return 0 2>/dev/null || exit 0
+    ;;
+  -l|--list)
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      echo "cdw: error: not a git repository (or any of the parent directories)" >&2
+      return 1 2>/dev/null || exit 1
+    fi
+    list_worktrees
+    return 0 2>/dev/null || exit 0
+    ;;
+esac
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "cdw: error: not a git repository (or any of the parent directories)" >&2
+  return 1 2>/dev/null || exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+  target="$(git symbolic-ref --short refs/remotes/origin/HEAD)"
+else
+  target="$1"
+fi
+
+target="${target#refs/heads/}"
+target="${target#refs/remotes/}"
+target="${target#origin/}"
+
+# 1. Try exact branch match
+wt="$(git worktree list --porcelain | awk -v target="$target" '
+  /^worktree / { wt = substr($0, 10) }
+  /^branch / {
+    br = substr($0, 8)
+    sub(/^refs\/heads\//, "", br)
+    if (br == target) {
+      print wt
+      exit 0
+    }
+  }
+')"
+
+# 2. If no exact match, try unique prefix match
+if [ -z "$wt" ]; then
+  matches="$(git worktree list --porcelain | awk -v target="$target" '
+    /^worktree / { wt = substr($0, 10) }
+    /^branch / {
+      br = substr($0, 8)
+      sub(/^refs\/heads\//, "", br)
+      if (substr(br, 1, length(target)) == target) {
+        print br "\t" wt
+      }
+    }
+  ')"
+  count="$(printf '%s\n' "$matches" | grep -c . || true)"
+  if [ "$count" -eq 1 ]; then
+    wt="${matches#*	}"
+  elif [ "$count" -gt 1 ]; then
+    echo "cdw: error: branch '$target' is ambiguous, matching multiple worktrees:" >&2
+    printf '%s\n' "$matches" | awk -F'\t' '{ printf "  %-32s %s\n", $1, $2 }' >&2
+    return 1 2>/dev/null || exit 1
+  fi
+fi
+
+if [ -z "$wt" ]; then
+  echo "cdw: error: no worktree found for branch '$target'" >&2
+  echo "" >&2
+  list_worktrees >&2
+  return 1 2>/dev/null || exit 1
+fi
+
+if [ "${BASH_SOURCE[0]}" != "$0" ]; then
+  # Sourced into interactive shell
+  cd "$wt" || return 1
+  echo "$wt"
+else
+  # Executed as child process
+  cd "$wt" || exit 1
+  echo "$wt"
+  if [ -t 1 ]; then
+    echo "cdw: note: to change directory in your current shell, source cdw or define an alias:" >&2
+    echo "  alias cdw='. $(builtin pwd -P 2>/dev/null || pwd)/cdw'" >&2
+  fi
+fi
