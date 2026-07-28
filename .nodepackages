@@ -1,8 +1,9 @@
-@fission-ai/openspec
-@openai/codex
-bun
 opencode-ai
+@github/copilot
 @earendil-works/pi-coding-agent
+@openai/codex
+@fission-ai/openspec
+bun
 @ccusage/codex
 ccusage
 @anthropic-ai/sandbox-runtime
@@ -32,4 +33,3 @@ wanalyzer
 typescript-language-server
 csv-parse
 jscodeshift
-@github/copilot

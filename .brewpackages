@@ -1,5 +1,5 @@
-pandoc
 claude-code@latest
+pandoc
 watchman
 mkcert
 fnm
