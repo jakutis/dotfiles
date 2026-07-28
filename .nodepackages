@@ -32,4 +32,4 @@ wanalyzer
 typescript-language-server
 csv-parse
 jscodeshift
-@githubnext/github-copilot-cli
+@github/copilot
