@@ -64,7 +64,7 @@ alias gadd='git add'
 alias ghistory='git history'
 alias glg='git lg'
 alias gwa='f() { unset -f f; local D="$(readlink -f "$(git rev-parse --git-common-dir)/..")-worktrees/$1"; git worktree add -b "$1" "$D" && . cdw "$1"; }; f'
-alias gwr='f() { unset -f f; local MD="$(readlink -f "$(git rev-parse --git-common-dir)/..")";local D="$MD-worktrees/$1"; git worktree remove "$D"; cd "$MD"; }; f'
+alias gwr='f() { unset -f f; local MD="$(readlink -f "$(git rev-parse --git-common-dir)/..")";local D="$MD-worktrees/$1"; git worktree remove "$D" && cd "$MD" && git branch -d "$1"; }; f'
 alias gwl="cdw -l"
 
 alias m='(A=$(mktemp --dry-run);mkfifo $A;matlab -logfile >(tail -n +11|tee $A >/dev/null) -nodisplay > /dev/null;cat $A;rm -rf $A)'
