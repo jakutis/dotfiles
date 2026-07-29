@@ -8,6 +8,7 @@
 [delta]
     syntax-theme = Solarized (light)
     line-numbers = true
+    max-line-length = 0
 
 [interactive]
     diffFilter = delta --color-only
