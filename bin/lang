@@ -282,8 +282,16 @@ function install_packages_python {
   PACKAGES=$(cat "$HOME/.pythonpackages") || exit 1
   for PACKAGE in $PACKAGES
   do
-      echo "Installing $PACKAGE"
-      pip install $PACKAGE || exit 1
+      echo "Installing with pip: $PACKAGE"
+      pip install "$PACKAGE" || exit 1
+  done
+  pip install uv || exit 1
+
+  PACKAGES=$(cat "$HOME/.uvpackages") || exit 1
+  for PACKAGE in $PACKAGES
+  do
+      echo "Installing with uv: $PACKAGE"
+      uv tool install "$PACKAGE" || exit 1
   done
 }
 
