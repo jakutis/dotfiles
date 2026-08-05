@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-. lang ensurebins rust && sudo "$(lang resolve_executable rust bandwhich)" "$@"

@@ -44,6 +44,7 @@ export BROWSER="firefox"
 export EDITOR="vim"
 
 export PATH="$HOME/.local/bin:$HOME/.bin:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/opt/go/bin:$PATH"
 export GOPATH="$(go env GOROOT)/gopath"
 export PATH="$GOPATH/bin:$PATH"

@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-. lang ensurebins rust && . lang ensurebins node && . lang ensurebins python && . lang ensurebins ruby && "$HOME/opt/neovim/bin/nvim" "$@"
